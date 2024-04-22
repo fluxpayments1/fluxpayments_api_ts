@@ -20,12 +20,12 @@
  * SOFTWARE.
  */
 
-import { FluxBaseObject } from "./FluxBaseObject";
 import { SecurityHandlerBase } from "../ajax/security";
 import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
-import { Address } from "./Address";
+import Address from "./Address";
+import { FluxTypeFactory } from "./FluxTypeBase";
 
-export class PaymentMethod extends FluxBaseObject {
+export class PaymentMethod extends FluxTypeFactory {
     public serialize() {
         return {
             objectType: this.objectType,
@@ -41,7 +41,7 @@ export class PaymentMethod extends FluxBaseObject {
     }
     address: Address
     id: number;
-    uniqueid: string;
+    uniqueId: string;
     metadata: string;
     activeStatus: any;
     token: string;
@@ -95,7 +95,7 @@ export class PaymentMethod extends FluxBaseObject {
     }
 
     private static async getSecHandle () {
-        let fc: FluxBrw = await FluxBaseObject.getFrontendConn() as FluxBrw
+        let fc: FluxBrw = await FluxTypeFactory.getFrontendConn() as FluxBrw
 
         return fc.securityHandle;
     }
@@ -116,7 +116,7 @@ export class PaymentMethod extends FluxBaseObject {
 
 
     public async refresh(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: PaymentMethod[] = await (ftb || await FluxBaseObject.getTokenConn()).getPaymentMethodById(this.id);
+        let accs: PaymentMethod[] = await (ftb || await FluxTypeFactory.getTokenConn()).getPaymentMethodById(this.id);
 
         if (accs.length !== 1) throw new Error("couldn't refresh the PaymentMethod");
 
@@ -124,7 +124,7 @@ export class PaymentMethod extends FluxBaseObject {
     }
 
     public async merge(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: PaymentMethod[] = await (ftb || await FluxBaseObject.getTokenConn()).updatePaymentMethod(this);
+        let accs: PaymentMethod[] = await (ftb || await FluxTypeFactory.getTokenConn()).updatePaymentMethod(this);
 
         if (accs.length !== 1) throw new Error("couldn't persist the PaymentMethod");
 
@@ -132,12 +132,12 @@ export class PaymentMethod extends FluxBaseObject {
     }
 
     public async delete(ftb?: FluxTokenBackend): Promise<void> {
-        await (ftb || await FluxBaseObject.getTokenConn()).deletePaymentMethod({ id: this.id, email: this.email, objectType: this.objectType });
+        await (ftb || await FluxTypeFactory.getTokenConn()).deletePaymentMethod({ id: this.id, email: this.email, objectType: this.objectType });
         Object.assign(this, {});
     }
 
     public async persist(ftb?: FluxTokenBackend): Promise<void> {
-        let accs = await (ftb || await FluxBaseObject.getTokenConn()).createPaymentMethod(this);
+        let accs = await (ftb || await FluxTypeFactory.getTokenConn()).createPaymentMethod(this);
         if (accs.length !== 1) throw new Error("couldn't persist the PaymentMethod");
         this.id = accs[0].id;
     }

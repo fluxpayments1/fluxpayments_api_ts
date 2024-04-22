@@ -21,12 +21,12 @@
  */
 
 import { DumpId } from "./DumpId";
-import { FluxBaseObject } from "./FluxBaseObject";
+import { FluxTypeBase } from "./FluxBaseObject";
 
 import { IProduct } from "./IProduct";
 
 
-export class ProductDump extends FluxBaseObject {
+export class ProductDump extends FluxTypeBase {
     protected objectType: string = "product_dump";
     public serialize() {
         throw new Error("Method not implemented.");

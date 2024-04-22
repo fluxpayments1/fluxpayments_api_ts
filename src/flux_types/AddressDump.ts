@@ -21,11 +21,11 @@
  */
 
 import { DumpId } from "./DumpId";
-import { FluxBaseObject } from "./FluxBaseObject";
+import { FluxTypeBase } from "./FluxBaseObject";
 import { IAddress } from "./IAddress";
 
 
-export class AddressDump extends FluxBaseObject {
+export class AddressDump extends FluxTypeBase {
     protected objectType: string = "address_dump";
     public serialize() {
         throw new Error("Method not implemented.");

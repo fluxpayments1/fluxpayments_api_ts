@@ -20,12 +20,12 @@
  * SOFTWARE.
  */
 
-import { FluxBaseObject } from "../../flux_types/FluxBaseObject";
+import { FluxTypeBase } from "../../flux_types/FluxBaseObject";
 import { ResponseBodyBase } from "./ResponseBodyBase";
 
-export class GenericGetterResponse<T extends FluxBaseObject> extends ResponseBodyBase {
+export class GenericGetterResponse<T extends FluxTypeBase> extends ResponseBodyBase {
     _objects: T[];
-    type: new (fbo: FluxBaseObject) => T;
+    type: new (fbo: FluxTypeBase) => T;
     get objects() {
         return this._objects;
     }

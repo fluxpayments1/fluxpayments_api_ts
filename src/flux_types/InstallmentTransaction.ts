@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 
-import { FluxBaseObject } from "./FluxBaseObject";
+import { FluxTypeBase } from "./FluxBaseObject";
 import _cloneDeep from 'lodash/cloneDeep';
 
-export class InstallmentTransaction extends FluxBaseObject {
+export class InstallmentTransaction extends FluxTypeBase {
 
     public serialize() {
         return {
@@ -55,7 +55,7 @@ export class InstallmentTransaction extends FluxBaseObject {
     }
 
     public async refresh(): Promise<void> {
-        let accs: InstallmentTransaction[] = await (await FluxBaseObject.getTokenConn()).getInstallmentTransactionById(this.id);
+        let accs: InstallmentTransaction[] = await (await FluxTypeBase.getTokenConn()).getInstallmentTransactionById(this.id);
 
         if (accs.length !== 1) throw new Error("couldn't refresh the InstallmentTransaction");
 
@@ -63,7 +63,7 @@ export class InstallmentTransaction extends FluxBaseObject {
     }
 
     public async merge(): Promise<void> {
-        let accs: InstallmentTransaction[] = await (await FluxBaseObject.getTokenConn()).updateInstallmentTransaction(this);
+        let accs: InstallmentTransaction[] = await (await FluxTypeBase.getTokenConn()).updateInstallmentTransaction(this);
 
         if (accs.length !== 1) throw new Error("couldn't persist the InstallmentTransaction");
 
@@ -71,12 +71,12 @@ export class InstallmentTransaction extends FluxBaseObject {
     }
 
     public async delete(): Promise<void> {
-        await (await FluxBaseObject.getTokenConn()).deleteInstallmentTransaction({ id: this.id, objectType: this.objectType });
+        await (await FluxTypeBase.getTokenConn()).deleteInstallmentTransaction({ id: this.id, objectType: this.objectType });
         Object.assign(this, {});
     }
 
     public async persist(): Promise<void> {
-        let accs = await (await FluxBaseObject.getTokenConn()).createInstallmentTransaction(this);
+        let accs = await (await FluxTypeBase.getTokenConn()).createInstallmentTransaction(this);
         if (accs.length !== 1) throw new Error("couldn't persist the InstallmentTransaction");
         this.id = accs[0].id;
     }

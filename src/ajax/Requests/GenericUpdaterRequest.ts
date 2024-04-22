@@ -21,9 +21,9 @@
  */
 
 import { RequestBodyBase } from "./RequestBodyBase";
-import { FluxBaseObject } from "../../flux_types/FluxBaseObject";
+import { FluxTypeBase } from "../../flux_types/FluxBaseObject";
 
-export class GenericUpdaterRequest<T extends FluxBaseObject> extends RequestBodyBase {
+export class GenericUpdaterRequest<T extends FluxTypeBase> extends RequestBodyBase {
 
     constructor() {
         super();

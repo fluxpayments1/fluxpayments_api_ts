@@ -20,9 +20,9 @@
  * SOFTWARE.
  */
 import { ResponseBodyBase } from "./ResponseBodyBase";
-import { FluxBaseObject } from "../../flux_types/FluxBaseObject";
+import { FluxTypeBase } from "../../flux_types/FluxBaseObject";
 
-export class GenericUpdaterResponse<T extends FluxBaseObject> extends ResponseBodyBase {
+export class GenericUpdaterResponse<T extends FluxTypeBase> extends ResponseBodyBase {
     type: new (fbo) => T
     _updatedObjects: T[];
 

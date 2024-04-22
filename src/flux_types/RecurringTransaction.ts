@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 
-import { FluxBaseObject } from "./FluxBaseObject";
+import { FluxTypeBase } from "./FluxBaseObject";
 import _cloneDeep from 'lodash/cloneDeep';
 
-export class RecurringTransaction extends FluxBaseObject {
+export class RecurringTransaction extends FluxTypeBase {
 
     public serialize() {
         return {
@@ -59,7 +59,7 @@ export class RecurringTransaction extends FluxBaseObject {
     }
 
     public async refresh(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: RecurringTransaction[] = await (ftb || await FluxBaseObject.getTokenConn()).getRecurringTransactionById(this.id);
+        let accs: RecurringTransaction[] = await (ftb || await FluxTypeBase.getTokenConn()).getRecurringTransactionById(this.id);
 
         if (accs.length !== 1) throw new Error("couldn't refresh the RecurringTransaction");
 
@@ -67,7 +67,7 @@ export class RecurringTransaction extends FluxBaseObject {
     }
 
     public async merge(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: RecurringTransaction[] = await (ftb || await FluxBaseObject.getTokenConn()).updateRecurringTransaction(this);
+        let accs: RecurringTransaction[] = await (ftb || await FluxTypeBase.getTokenConn()).updateRecurringTransaction(this);
 
         if (accs.length !== 1) throw new Error("couldn't persist the RecurringTransaction");
 
@@ -75,12 +75,12 @@ export class RecurringTransaction extends FluxBaseObject {
     }
 
     public async delete(ftb?: FluxTokenBackend): Promise<void> {
-        await (ftb || await FluxBaseObject.getTokenConn()).deleteRecurringTransaction({ id: this.id, objectType: this.objectType });
+        await (ftb || await FluxTypeBase.getTokenConn()).deleteRecurringTransaction({ id: this.id, objectType: this.objectType });
         Object.assign(this, {});
     }
 
     public async persist(ftb?: FluxTokenBackend): Promise<void> {
-        let accs = await (ftb || await FluxBaseObject.getTokenConn()).createRecurringTransaction(this);
+        let accs = await (ftb || await FluxTypeBase.getTokenConn()).createRecurringTransaction(this);
         if (accs.length !== 1) throw new Error("couldn't persist the RecurringTransaction");
         this.id = accs[0].id;
     }

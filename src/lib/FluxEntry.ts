@@ -22,7 +22,6 @@
 
 import { MerchantEndpointsSecurityHandle, SecurityHandlerBase } from "../ajax/security";
 import { Flux } from "./Flux";
-import { FluxBackend } from "./FluxBackend";
 import { FluxSockets, FluxWebsockets } from "./FluxSockets";
 
 /**
@@ -39,7 +38,7 @@ export async function fluxSocket(publicKey: string, privateKey: string, username
     return new Promise<FluxSockets>(async (resolve, reject) => {
         try {
 
-            let fma = FluxBackend.getInstance();
+            let fma = Flux.getInstance();
             let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
             passphrase = SecurityHandlerBase.sha256(passphrase, exchangedKey);
 
@@ -67,7 +66,7 @@ export async function flux(publicKey: string, privateKey: string, username: stri
     return new Promise<Flux>(async (resolve, reject) => {
         try {
 
-            let fma = FluxBackend.getInstance();
+            let fma = Flux.getInstance();
             let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
             passphrase = SecurityHandlerBase.sha256(passphrase, exchangedKey);
 
@@ -83,7 +82,7 @@ export async function flux(publicKey: string, privateKey: string, username: stri
 }
 
 export function fluxGetter() {
-    let fi = FluxBackend.getInstance()
+    let fi = Flux.getInstance()
 
     if (!fi.isAuthenticated) throw new Error("no flux connection established, please authenticate by invoking flux with your credentials")
 

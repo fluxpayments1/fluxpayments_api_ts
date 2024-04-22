@@ -24,7 +24,7 @@ export { ProductQuery } from "./ProductQuery";
 export { Product } from "./Product";
 export { PaginationSupport } from "./PaginationSupport";
 export { FluxIdentifier } from "./FluxIdentifier";
-export { Address } from './Address'
+export { default as Address } from './Address'
 export { AddressQuery } from './AddressQuery'
 export { AdditionalSearchOptions } from './AdditionalSearchOptions'
 export { PaymentMethod } from './PaymentMethod'

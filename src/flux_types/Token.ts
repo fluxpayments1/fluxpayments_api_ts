@@ -19,12 +19,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FluxBaseObject } from "./FluxBaseObject";
+import { FluxTypeBase } from "./FluxBaseObject";
 import { FluxIdentifier } from "./FluxIdentifier";
 import _cloneDeep from 'lodash/cloneDeep';
 import { IToken } from "./IToken";
 
-export class Token extends FluxBaseObject {
+export class Token extends FluxTypeBase {
 
     public serialize() {
         return {
@@ -112,7 +112,7 @@ export class Token extends FluxBaseObject {
      * @returns The persisted instance
      */
     public async merge(): Promise<void> {
-        let accs: Token[] = await (await FluxBaseObject.getTokenConn()).updateToken(this);
+        let accs: Token[] = await (await FluxTypeBase.getTokenConn()).updateToken(this);
         if (accs.length !== 1) throw new Error("couldn't persist the Token");
 
         Object.assign(this, accs[0])
@@ -125,7 +125,7 @@ export class Token extends FluxBaseObject {
      * made to the context.
      */
     public async refresh(): Promise<void> {
-        let accs: Token[] = await (await FluxBaseObject.getTokenConn()).getTokenById(this.getId())
+        let accs: Token[] = await (await FluxTypeBase.getTokenConn()).getTokenById(this.getId())
 
         if (accs.length !== 1) throw new Error("couldn't refresh the Token");
 
@@ -139,7 +139,7 @@ export class Token extends FluxBaseObject {
      * We can reverse this.
      */
     public async delete(): Promise<void> {
-        let rmAcc = await (await FluxBaseObject.getTokenConn()).deleteToken({ id: this.id, uniqueId: this.uniqueId, objectType: this.objectType })
+        let rmAcc = await (await FluxTypeBase.getTokenConn()).deleteToken({ id: this.id, uniqueId: this.uniqueId, objectType: this.objectType })
         Object.assign(this, {})
     }
 
@@ -147,7 +147,7 @@ export class Token extends FluxBaseObject {
      * Saves the context to the flux system.
      */
     public async persist(): Promise<void> {
-        let accs = await (await FluxBaseObject.getTokenConn()).createToken(this)
+        let accs = await (await FluxTypeBase.getTokenConn()).createToken(this)
         this.setId(accs[0]);
     }
 
@@ -178,7 +178,7 @@ export class Token extends FluxBaseObject {
      * @returns 
      */
     public static async createInstanceSafe(token: Partial<IToken>): Promise<Token> {
-        let fi = (await FluxBaseObject.getTokenConn())
+        let fi = (await FluxTypeBase.getTokenConn())
 
         let tok: Token = new Token(token)
         let createdTok = await fi.createTokenInstanceSafe(tok)
@@ -226,7 +226,7 @@ export class Token extends FluxBaseObject {
      * @returns 
      */
     public static async updateObjects(tok: IToken | IToken[]): Promise<Token[]> {
-        let fi = await FluxBaseObject.getTokenConn()
+        let fi = await FluxTypeBase.getTokenConn()
 
         if (Array.isArray(tok)) {
             let toks = tok.map(e => Token.createInstanceLazy(e))
@@ -242,7 +242,7 @@ export class Token extends FluxBaseObject {
      * @returns 
      */
     public static async deleteObjects(tok: IToken | IToken[]): Promise<FluxIdentifier[]> {
-        let fi = await FluxBaseObject.getTokenConn()
+        let fi = await FluxTypeBase.getTokenConn()
         let toks;
         if (Array.isArray(tok)) {
             toks = tok.map(e => Token.createInstanceLazy(e))
@@ -261,7 +261,7 @@ export class Token extends FluxBaseObject {
      * @returns 
      */
     public static async createObjects(tok: IToken | IToken[]): Promise<FluxIdentifier[]> {
-        let fi = await FluxBaseObject.getTokenConn()
+        let fi = await FluxTypeBase.getTokenConn()
 
         if (Array.isArray(tok)) {
             let accs = tok.map(e => Token.createInstanceLazy(e))
@@ -278,7 +278,7 @@ export class Token extends FluxBaseObject {
      * @returns 
      */
     public static async getObjectsById(tok: IToken | IToken[]): Promise<Token[]> {
-        let fi = await FluxBaseObject.getTokenConn()
+        let fi = await FluxTypeBase.getTokenConn()
 
         if (Array.isArray(tok)) {
             let toks = tok.map(e => Token.createInstanceLazy(e).getId())

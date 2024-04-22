@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 
-import { FluxBaseObject } from "./FluxBaseObject";
+import { FluxTypeBase } from "./FluxBaseObject";
 import _cloneDeep from 'lodash/cloneDeep';
 
-export class OneTimePaymentLink extends FluxBaseObject {
+export class OneTimePaymentLink extends FluxTypeBase {
 
     public serialize() {
         return {
@@ -53,7 +53,7 @@ export class OneTimePaymentLink extends FluxBaseObject {
     }
 
     public async refresh(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: OneTimePaymentLink[] = await (ftb || await FluxBaseObject.getTokenConn()).getOneTimePaymentLinkById(this.id);
+        let accs: OneTimePaymentLink[] = await (ftb || await FluxTypeBase.getTokenConn()).getOneTimePaymentLinkById(this.id);
 
         if (accs.length !== 1) throw new Error("couldn't refresh the OneTimePaymentLink");
 
@@ -61,7 +61,7 @@ export class OneTimePaymentLink extends FluxBaseObject {
     }
 
     public async merge(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: OneTimePaymentLink[] = await (ftb || await FluxBaseObject.getTokenConn()).updateOneTimePaymentLink(this);
+        let accs: OneTimePaymentLink[] = await (ftb || await FluxTypeBase.getTokenConn()).updateOneTimePaymentLink(this);
 
         if (accs.length !== 1) throw new Error("couldn't persist the OneTimePaymentLink");
 
@@ -69,12 +69,12 @@ export class OneTimePaymentLink extends FluxBaseObject {
     }
 
     public async delete(ftb?: FluxTokenBackend): Promise<void> {
-        await (ftb || await FluxBaseObject.getTokenConn()).deleteOneTimePaymentLink({ id: this.id, objectType: this.objectType });
+        await (ftb || await FluxTypeBase.getTokenConn()).deleteOneTimePaymentLink({ id: this.id, objectType: this.objectType });
         Object.assign(this, {});
     }
 
     public async persist(ftb?: FluxTokenBackend): Promise<void> {
-        let accs = await (ftb || await FluxBaseObject.getTokenConn()).createOneTimePaymentLink(this);
+        let accs = await (ftb || await FluxTypeBase.getTokenConn()).createOneTimePaymentLink(this);
         if (accs.length !== 1) throw new Error("couldn't persist the OneTimePaymentLink");
         this.id = accs[0].id;
     }

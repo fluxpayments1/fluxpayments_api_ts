@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { Address } from "./Address";
+import Address from "./Address";
 import { IAddress } from "./IAddress";
 
 export interface ICard {

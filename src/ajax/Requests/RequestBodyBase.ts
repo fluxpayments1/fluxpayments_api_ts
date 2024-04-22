@@ -23,7 +23,7 @@
 import { Product } from "../../flux_types/Product";
 import { RequestBody } from "./RequestBody";
 import { Account } from "../../flux_types/Account";
-import { Address } from "../../flux_types/Address";
+import Address from "../../flux_types/Address";
 import { ProductQuery } from "../../flux_types/ProductQuery";
 import { AccountQuery } from "../../flux_types/AccountQuery";
 import { AddressQuery } from "../../flux_types/AddressQuery";

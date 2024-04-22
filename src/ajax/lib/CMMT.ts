@@ -32,7 +32,7 @@ import { json } from "stream/consumers";
 import * as https from 'https'
 
 import * as env from '../../env.json';
-import { FluxBaseObject } from "../../flux_types/FluxBaseObject";
+import { FluxTypeBase } from "../../flux_types/FluxBaseObject";
 
 export class CMMT {
     private static readonly BASE_URL: string = env.API_CONNECTION_ENDPOINT
@@ -173,7 +173,7 @@ export class CMMT {
         });
     }
 
-    public static fetchGeneric<U extends RequestBody, V extends ResponseBody, W extends FluxBaseObject>(
+    public static fetchGeneric<U extends RequestBody, V extends ResponseBody, W extends FluxTypeBase>(
         req: new () => U,
         res: new (t?: any) => V,
         type: new (fbo?: any) => W,

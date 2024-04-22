@@ -22,11 +22,11 @@
 
 import { AccountUserType } from "./AccountUserType";
 import { DumpId } from "./DumpId";
-import { FluxBaseObject } from "./FluxBaseObject";
+import { FluxTypeBase } from "./FluxBaseObject";
 import { IAccount } from "./IAccount";
 
 
-export class AccountDump extends FluxBaseObject{
+export class AccountDump extends FluxTypeBase{
     protected objectType: string = "account_dump";
     public serialize() {
         throw new Error("Method not implemented.");

@@ -20,16 +20,17 @@
  * SOFTWARE.
  */
 
-import { FluxBaseObject } from "./FluxBaseObject";
+import { FluxTypeFactory } from "./FluxTypeFactory";
 import { FluxIdentifier } from "./FluxIdentifier";
 import _cloneDeep from 'lodash/cloneDeep';
-import { AccountAddress, AccountAddressQuery, AccountQuery, AccountUserType, IAccountQuery, PaymentMethod } from ".";
+import { AccountUserType, PaymentMethod } from ".";
 import { IAccount } from "./IAccount";
-import { Address } from "./Address";
-import { Flux } from "../lib/Flux";
+import Address from "./Address";
+import { AccountAddress } from "./AccountAddress";
+import { AccountAddressQuery } from "./AccountAddressQuery";
 
-
-export class Account extends FluxBaseObject {
+export class Account extends FluxTypeFactory {
+    public obName: string = "Account"
     public serialize() {
         return {
             id: this.id,
@@ -45,7 +46,7 @@ export class Account extends FluxBaseObject {
             defaultShippingAddressUniqueId: this.defaultShippingAddressUniqueId,
             defaultPaymentMethodId: this.defaultPaymentMethodId,
             defaultPaymentMethodUniqueId: this.defaultPaymentMethodUniqueId,
-            objectType : "account"
+            objectType : this.objectType
         }
     }
 
@@ -65,14 +66,6 @@ export class Account extends FluxBaseObject {
     private defaultPaymentMethodUniqueId: string;
     protected objectType: string = "account";
 
-    // private getBackendConn?() {
-    //     let fi = FluxBackend.getInstance()
-
-    //     if (!fi) throw new Error("no flux connection established")
-
-    //     return fi;
-    // }
-
     /**'
      * Gets the addresses of the current context.
      * 
@@ -81,18 +74,10 @@ export class Account extends FluxBaseObject {
      * 
      */
     async getAddressses(): Promise<Address[]> {
-        let fi = (await FluxBaseObject.getBackendConn())
-
-        let accountAddresses: AccountAddress[] = await fi.getAccountAddresses(AccountAddressQuery.createQuery({
-            accountId: this.id,
-            accountUniqueId: this.uniqueId,
-        }))
-
+        let accountAddresses: AccountAddress[] = await FluxTypeFactory.getObjectsById<AccountAddress>(this.getId(), AccountAddress, "AccountAddress");
         if (accountAddresses.length === 0) return [];
-
         let accAddFI: FluxIdentifier[] = accountAddresses.map(i => new FluxIdentifier(i.addressUniqueId, i.addressId, "address"));
-
-        return await fi.getAddressesById(accAddFI)
+        return await FluxTypeFactory.getObjectsById<Address>(accAddFI, Address, "Address");
     }
 
     /** 
@@ -101,30 +86,25 @@ export class Account extends FluxBaseObject {
      * Automatically merges the addresses into the 
      * account, no need to call merge.
      * 
-     * @param address An address or list of addresses which are already 
-     * persisted / merged to the flux system. This function will not
-     * merge an address and will not error out on an unmerged address.
-     * It will error out an instance not yet persisted.
+     * @param address An address or list of addresses
      * 
      */
     async addAddress(address: Address | Address[]): Promise<void> {
 
-        if (!address) return;
+        if (!address) throw new Error("address wasn't defined or null");
 
         let adArr = Array.isArray(address) ? address : [address];
 
-        let fiAdd: AccountAddress[] = adArr.map(i => {
+        let accAdd: AccountAddress[] = adArr.map(i => {
             return new AccountAddress({
                 accountId: this.id,
                 accountUniqueId: this.uniqueId,
-                addressId: i.id,
-                addressUniqueId: i.uniqueId
+                address: i
             })
         })
 
-        let fi = (await FluxBaseObject.getBackendConn())
 
-        await fi.createAccountAddress(fiAdd)
+        await FluxTypeFactory.createObjects<AccountAddress>(accAdd, AccountAddress, "AccountAddressInstanceSafe");
 
     }
 
@@ -162,14 +142,11 @@ export class Account extends FluxBaseObject {
             accountId: this.id,
             accountUniqueId: this.uniqueId
         })
-        let fi = (await FluxBaseObject.getBackendConn())
 
-        let accAddToDelete: AccountAddress[] = await fi.getAccountAddresses(fiAdd)
-
-
+        let accAddToDelete: AccountAddress[] = await FluxTypeFactory.queryObjects<AccountAddress, AccountAddressQuery>(fiAdd, AccountAddress, "AccountAddress");
 
         let fiAccAdd = accAddToDelete.filter((e) => adMapId.has(e.addressId) || adMapUniqueId.has(e.addressUniqueId)).map(e => e.getId())
-        await fi.deleteAccountAddress(fiAccAdd)
+        await FluxTypeFactory.deleteObjects(fiAccAdd, "AccountAddress")
         return adArr
     }
 
@@ -198,9 +175,7 @@ export class Account extends FluxBaseObject {
         thisClone.uniqueId = this.uniqueId
         thisClone.defaultShippingAddressId = ob.id;
         thisClone.defaultShippingAddressUniqueId = ob.uniqueId
-        let fi = (await FluxBaseObject.getBackendConn())
-
-        await fi.updateAccount(thisClone)
+        await FluxTypeFactory.updateObjects(thisClone, this.obType, this.obName)
         this.defaultShippingAddressId = ob.id;
         this.defaultShippingAddressUniqueId = ob.uniqueId
 
@@ -219,8 +194,7 @@ export class Account extends FluxBaseObject {
 
         let fi: FluxIdentifier = { id: this.defaultShippingAddressId, uniqueId: this.defaultShippingAddressUniqueId, objectType: "address" }
 
-        let i = (await FluxBaseObject.getBackendConn())
-        let shippingAddress: Address[] = await i.getAddresses(fi);
+        let shippingAddress: Address[] = await FluxTypeFactory.getObjectsById<Address>(fi, Address, "Address")
 
         if (shippingAddress.length === 0) return undefined;
 
@@ -242,9 +216,8 @@ export class Account extends FluxBaseObject {
         thisClone.defaultPaymentMethodId = ob.id;
         thisClone.defaultPaymentMethodUniqueId = ob.uniqueId
 
-        let fi : Flux = (await FluxBaseObject.getBackendConn())
 
-        await fi.updateAccount(thisClone)
+        await FluxTypeFactory.updateObjects(thisClone, Account, "Account")
         this.defaultPaymentMethodId = ob.id;
         this.defaultPaymentMethodUniqueId = ob.uniqueId
 
@@ -252,157 +225,17 @@ export class Account extends FluxBaseObject {
 
 
     public async getDefaultPaymentMethod () : Promise<PaymentMethod> {
-        let fi : Flux = await FluxBaseObject.getBackendConn();
         let fluxId = new FluxIdentifier(this.defaultPaymentMethodUniqueId, this.defaultPaymentMethodId, "payment_method")
-        let paymentMethods : PaymentMethod[] = await fi.getPaymentMethodById(fluxId);
+        let paymentMethods : PaymentMethod[] = await FluxTypeFactory.getObjectsById<PaymentMethod>(fluxId, PaymentMethod, "PaymentMethod");
 
         if (paymentMethods.length === 0) return undefined;
 
         return paymentMethods[0];
-
-
-    }
-
-    /**
-     * Merges the instance context to the
-     * flux system. 
-     * 
-     * Any updated public fields on the context will
-     * be merged to the flux system.
-     * 
-     * @returns The persisted instance
-     */
-    public async merge(): Promise<void> {
-        let accs: Account[] = await (await FluxBaseObject.getBackendConn()).updateAccount(this);
-        if (accs.length !== 1) throw new Error("couldn't persist the account");
-
-        Object.assign(this, accs[0])
-
-    }
-
-
-    public async refresh(): Promise<void> {
-        let accs: Account[] = await (await FluxBaseObject.getBackendConn()).getAccountsById(this.getId())
-
-        if (accs.length !== 1) throw new Error("couldn't refresh the account");
-
-        Object.assign(this, accs[0])
-
-    }
-
-    public async delete(): Promise<void> {
-        let rmAcc = await (await FluxBaseObject.getBackendConn()).deleteAccount({ id: this.id, uniqueId: this.uniqueId, objectType: this.objectType })
-        Object.assign(this, {})
-    }
-
-    public async persist(): Promise<void> {
-        let accs = await (await FluxBaseObject.getBackendConn()).createAccount(this)
-        this.setId(accs[0]);
     }
 
     constructor(account?: Partial<IAccount>) {
-        super(account);
+        super(account, Account, "Account");
         Object.assign(this, account);
 
     }
-    /**
-     * Instantiates a new account and
-     * persists the account to the flux system.
-     * 
-     * If the account is already persisted, it will
-     * load the context of that account.
-     * 
-     * This WILL override any changes you've made to an
-     * account. If you need to make changes, create the
-     * instance, update the public fields, then merge() your 
-     * changes.
-     * 
-     * @param acc Account
-     * @returns 
-     */
-    public static async createInstanceSafe(acc: Partial<IAccount>): Promise<Account> {
-        let fi = (await FluxBaseObject.getBackendConn())
-
-        let account: Account = new Account(acc)
-
-        let accs = await fi.getAccountsById(account.getId())
-        let persisted = (accs).length === 1;
-
-        if (!persisted) {
-            account.setId((await fi.createAccount(account))[0])
-            return account;
-        }
-        return accs[0]
-
-
-    }
-
-    /**
-     * Instantiates a new account and doesn't synchronize its 
-     * context with the flux system.
-     * 
-     * Assumes that the FluxIdentifier has already been persisted in the
-     * flux system.
-     * 
-     * If you have latency sensitive operations and are confident that the object
-     * is persisted, use this method.
-     * 
-     * @param acc 
-     * @returns 
-     */
-    public static createInstanceLazy(acc?: Partial<IAccount>): Account {
-        let account: Account = new Account(acc)
-        return account;
-    }
-
-
-
-    public static async updateObjects(acc: IAccount | IAccount[]) : Promise<Account[]> {
-        let fi = await FluxBaseObject.getBackendConn() as Flux;
-    
-        if (Array.isArray(acc)) {
-            let accs = acc.map(e => Account.createInstanceLazy(e))
-            return await fi.updateAccount(accs)
-        } 
-        return await fi.updateAccount(Account.createInstanceLazy(acc))
-    }
-
-    public static async deleteObjects(fii: FluxIdentifier | FluxIdentifier[]) : Promise<FluxIdentifier[]> {
-        let fi = await FluxBaseObject.getBackendConn() as Flux;
-        return await fi.deleteAccount(fii)
-    }
-
-
-    public static async createObjects(acc: IAccount | IAccount[]) : Promise<FluxIdentifier[]> {
-        let fi = await FluxBaseObject.getBackendConn() as Flux;
-    
-        if (Array.isArray(acc)) {
-            let accs = acc.map(e => Account.createInstanceLazy(e))
-            return await fi.createAccount(accs)
-        } 
-        return await fi.createAccount(Account.createInstanceLazy(acc))
-    }
-
-    public static async getObjectsById(acc: FluxIdentifier | FluxIdentifier[]) : Promise<Account[]> {
-        let fi = await FluxBaseObject.getBackendConn() as Flux;
-
-        return await fi.getAccountsById(acc)
-    }
-
-    public static async generateAccountSession (arg: Account | IAccount): Promise<string> {
-        let conn = await FluxBaseObject.getBackendConn() as Flux
-
-        return conn.createSession({
-            id: arg.id,
-            uniqueId: arg.uniqueId
-        }) 
-    }
-
-    public async generateAccountSession () : Promise<string> {
-        let conn = await FluxBaseObject.getBackendConn() as Flux
-
-        return conn.createSession(this.getId()) 
-
-    }
-
 }
