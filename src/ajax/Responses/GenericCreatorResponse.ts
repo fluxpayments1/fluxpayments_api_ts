@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FluxIdentifier } from "../../flux_types/FluxIdentifier";
-import { ResponseBodyBase } from "./ResponseBodyBase";
+import { FluxIdentifier } from "../../flux_types/";
+import { ResponseBodyBase } from "./";
 
 export class GenericCreatorResponse extends ResponseBodyBase {
 

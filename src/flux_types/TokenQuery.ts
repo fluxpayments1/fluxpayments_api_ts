@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import { BaseQuery } from "./BaseQuery";
-import { IToken } from "./IToken";
+import { BaseQuery, IToken } from "./";
 
 export class TokenQuery extends BaseQuery {
     public serialize() {

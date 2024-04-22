@@ -22,17 +22,15 @@
 
 import { SecurityHandler } from "../../ajax/security";
 import { AjaxRequestHandle } from "./AjaxRequestHandle";
-import { from, map, mergeMap, Observable, timeout } from "rxjs";
 import { RequestBody } from "../../ajax/Requests";
 import { ResponseBody, ResponseBodyBase } from "../../ajax/Responses";
 import { AxiosRequestConfig, Axios, HttpStatusCode } from "axios";
 import cloneDeep from 'lodash/cloneDeep';
 import { WebSocket } from 'ws'
-import { json } from "stream/consumers";
 import * as https from 'https'
 
 import * as env from '../../env.json';
-import { FluxTypeBase } from "../../flux_types/FluxBaseObject";
+import { FluxType } from "../../flux_types/FluxType";
 
 export class CMMT {
     private static readonly BASE_URL: string = env.API_CONNECTION_ENDPOINT
@@ -173,7 +171,7 @@ export class CMMT {
         });
     }
 
-    public static fetchGeneric<U extends RequestBody, V extends ResponseBody, W extends FluxTypeBase>(
+    public static fetchGeneric<U extends RequestBody, V extends ResponseBody, W extends FluxType>(
         req: new () => U,
         res: new (t?: any) => V,
         type: new (fbo?: any) => W,

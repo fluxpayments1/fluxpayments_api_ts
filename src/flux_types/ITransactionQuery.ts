@@ -20,7 +20,6 @@
  * SOFTWARE.
  */
 
-import { ITransaction } from "./ITransaction";
-import { ISearchOptions } from "./ISearchOptions";
+import { ITransaction, ISearchOptions } from "./";
 
 export type ITransactionQuery = Partial<ITransaction> & Partial<ISearchOptions>;

@@ -20,13 +20,8 @@
  * SOFTWARE.
  */
 
-import { AccountUserType } from "./AccountUserType";
-import { BaseQuery } from "./BaseQuery";
-import { IAccountQuery } from "./IAccountQuery";
+import { AccountUserType, BaseQuery, IAccountQuery } from "./";
 
-/**
- * This is an object that is used to query for products.
- */
 export class AccountQuery extends BaseQuery {
 
     public serialize() {

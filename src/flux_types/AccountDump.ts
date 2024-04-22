@@ -20,29 +20,16 @@
  * SOFTWARE.
  */
 
-import { AccountUserType } from "./AccountUserType";
-import { DumpId } from "./DumpId";
-import { FluxTypeBase } from "./FluxBaseObject";
-import { IAccount } from "./IAccount";
+import { AccountUserType , DumpId, FluxType, IAccount} from "./";
 
 
-export class AccountDump extends FluxTypeBase{
-    protected objectType: string = "account_dump";
+export class AccountDump extends FluxType{
+    public obName: string = "AccountDump";
     public serialize() {
         throw new Error("Method not implemented.");
     }
-    public delete(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public merge(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public persist(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public refresh(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
+    protected objectType: string = "account_dump";
+
     public dumpId: DumpId
     public firstName: string;
     public middleName: string;
@@ -66,7 +53,7 @@ export class AccountDump extends FluxTypeBase{
     }
 
     public constructor (accDump?: any) {
-        super(accDump);
+        super(accDump, AccountDump);
         Object.assign(this, accDump)
     }
 

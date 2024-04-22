@@ -20,18 +20,11 @@
  * SOFTWARE.
  */
 
-import { ICard } from "./ICard";
-import { PaymentMethod } from "./PaymentMethod";
+import { ICard, PaymentMethod} from "./";
 
 export class Card extends PaymentMethod {
     public constructor (c : Partial<ICard>) {
         super(c)
         this.payType = "CARD"
-    }
-
-    public static async createInstanceSafe(pt?: ICard): Promise<Card> {
-        let instance: Card = new Card(pt);
-        let retVal = await PaymentMethod.createInstanceSafeDbCall(instance, pt)
-        return retVal;
     }
 }

@@ -20,27 +20,13 @@
  * SOFTWARE.
  */
 
-import { DumpId } from "./DumpId";
-import { FluxTypeBase } from "./FluxBaseObject";
-
-import { IProduct } from "./IProduct";
+import { DumpId, FluxType, IProduct } from "./";
 
 
-export class ProductDump extends FluxTypeBase {
+export class ProductDump extends FluxType {
+    public obName: string = "ProductDump";
     protected objectType: string = "product_dump";
     public serialize() {
-        throw new Error("Method not implemented.");
-    }
-    public delete(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public merge(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public persist(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public refresh(): Promise<void> {
         throw new Error("Method not implemented.");
     }
     public dumpId: DumpId;
@@ -79,7 +65,7 @@ export class ProductDump extends FluxTypeBase {
     }
 
     public constructor(prodDump?: any) {
-        super(prodDump);
+        super(prodDump, ProductDump);
         Object.assign(this, prodDump)
     }
 

@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { AccountUserType } from "./AccountUserType"
+import { AccountUserType } from "./"
 
 export interface IAccount {
     id?: number

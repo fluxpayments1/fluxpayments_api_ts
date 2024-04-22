@@ -20,7 +20,6 @@
  * SOFTWARE.
  */
 
-import { IPaymentMethod } from "./IPaymentMethod";
-import { ISearchOptions } from "./ISearchOptions";
+import { IPaymentMethod, ISearchOptions } from "./";
 
 export type IPaymentMethodQuery = Partial<IPaymentMethod> & Partial<ISearchOptions>;

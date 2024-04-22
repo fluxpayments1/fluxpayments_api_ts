@@ -23,10 +23,10 @@
 import { MerchantEndpointsSecurityHandle } from '../ajax/security';
 import { WebSocket } from 'ws'
 import { CMMT } from '../ajax/lib';
-import { EmissionData } from '../flux_types/EmissionData';
-import { AddSubscriptionRequest } from '../ajax/Requests/Websockets/AddSubscriptionRequest';
-import { AddSubscriptionResponse } from '../ajax/Responses/Websockets/AddSubscriptionResponse';
-import { GenAuthDataSecurityHandle } from '../ajax/security/GenAuthDataSecurityHandle';
+import { EmissionData } from '../flux_types/';
+import { AddSubscriptionRequest } from '../ajax/Requests/';
+import { AddSubscriptionResponse } from '../ajax/Responses/';
+import { GenAuthDataSecurityHandle } from '../ajax/security/';
 import { EventEmitter } from 'events';
 
 export enum Subscription {

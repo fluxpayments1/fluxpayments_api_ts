@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import Address from "./Address";
-import { IAddress } from "./IAddress";
+import { Address, IAddress } from "./";
 
 export interface ICard {
     id?: number,
@@ -37,13 +36,3 @@ export interface ICard {
     cardNumber: string,
     cvv: string,
 }
-/**
- * Create instance safe we
- * 
- * we want the card to have the ability to add
- * an address not just a reference to an address.
- * 
- * I think this is more clean cut to the client
- * 
- * 
- */

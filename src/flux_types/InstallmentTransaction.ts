@@ -20,10 +20,11 @@
  * SOFTWARE.
  */
 
-import { FluxTypeBase } from "./FluxBaseObject";
+import { FluxType } from "./";
 import _cloneDeep from 'lodash/cloneDeep';
 
-export class InstallmentTransaction extends FluxTypeBase {
+export class InstallmentTransaction extends FluxType {
+    public obName: string = "InstallmentTransaction";
 
     public serialize() {
         return {
@@ -50,36 +51,7 @@ export class InstallmentTransaction extends FluxTypeBase {
     protected objectType: string = "installment_transaction";
 
     public constructor(installmentTransaction?: Partial<InstallmentTransaction>) {
-        super(installmentTransaction);
+        super(installmentTransaction, InstallmentTransaction);
         Object.assign(this, installmentTransaction)
     }
-
-    public async refresh(): Promise<void> {
-        let accs: InstallmentTransaction[] = await (await FluxTypeBase.getTokenConn()).getInstallmentTransactionById(this.id);
-
-        if (accs.length !== 1) throw new Error("couldn't refresh the InstallmentTransaction");
-
-        Object.assign(this, accs[0]);
-    }
-
-    public async merge(): Promise<void> {
-        let accs: InstallmentTransaction[] = await (await FluxTypeBase.getTokenConn()).updateInstallmentTransaction(this);
-
-        if (accs.length !== 1) throw new Error("couldn't persist the InstallmentTransaction");
-
-        Object.assign(this, accs[0]);
-    }
-
-    public async delete(): Promise<void> {
-        await (await FluxTypeBase.getTokenConn()).deleteInstallmentTransaction({ id: this.id, objectType: this.objectType });
-        Object.assign(this, {});
-    }
-
-    public async persist(): Promise<void> {
-        let accs = await (await FluxTypeBase.getTokenConn()).createInstallmentTransaction(this);
-        if (accs.length !== 1) throw new Error("couldn't persist the InstallmentTransaction");
-        this.id = accs[0].id;
-    }
-
-    // Additional static or instance methods can be added here as needed, similar to the Token class.
 }

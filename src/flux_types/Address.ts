@@ -21,10 +21,9 @@
  */
 
 
-import { IAddress } from "./IAddress";
-import { FluxTypeFactory } from "./FluxTypeFactory";
+import { IAddress, FluxType } from "./";
 
-export default class Address extends FluxTypeFactory {
+export class Address extends FluxType {
     public obName: string;
     public serialize() {
         return {
@@ -51,7 +50,7 @@ export default class Address extends FluxTypeFactory {
     protected objectType = "address"
 
     constructor(add?: Partial<IAddress>) {
-        super(add, Address, "Address")
+        super(add, Address)
         Object.assign(this, add);
     }
 

@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { FluxIdentifier } from "../../flux_types/FluxIdentifier";
+import { FluxIdentifier } from "../../flux_types/";
 import { RequestBodyBase } from ".";
 
 export class ChngProdInvCntRequest extends RequestBodyBase{

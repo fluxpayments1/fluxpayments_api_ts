@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import { AdditionalSearchOptions } from "./AdditionalSearchOptions";
-import { PaginationSupport } from "./PaginationSupport";
+import { AdditionalSearchOptions, PaginationSupport } from "./";
 
 export abstract class BaseQuery {
     pagination : PaginationSupport;

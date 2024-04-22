@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import { BaseQuery } from "./BaseQuery";
-import { IInstallmentTransactionQuery } from "./IInstallmentTransactionQuery";
+import { BaseQuery, IInstallmentTransactionQuery } from "./";
 
 /**
  * This is an object that is used to query for installment_transactions.

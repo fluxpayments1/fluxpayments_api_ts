@@ -22,7 +22,6 @@
 
 
 
-import { IInstallmentTransaction } from "./IInstallmentTransaction";
-import { ISearchOptions } from "./ISearchOptions";
+import { IInstallmentTransaction, ISearchOptions} from "./";
 
 export type IInstallmentTransactionQuery = Partial<IInstallmentTransaction> & Partial<ISearchOptions>;

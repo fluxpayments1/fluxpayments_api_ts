@@ -20,10 +20,11 @@
  * SOFTWARE.
  */
 
-import { FluxTypeBase } from "./FluxBaseObject";
+import { FluxType } from "./";
 import _cloneDeep from 'lodash/cloneDeep';
 
-export class OneTimePaymentLink extends FluxTypeBase {
+export class OneTimePaymentLink extends FluxType {
+    public obName: string = "OneTimePaymentLink";
 
     public serialize() {
         return {
@@ -48,36 +49,7 @@ export class OneTimePaymentLink extends FluxTypeBase {
     protected objectType: string = "one_time_payment_link";
 
     public constructor(oneTimePaymentLink?: Partial<OneTimePaymentLink>) {
-        super(oneTimePaymentLink);
+        super(oneTimePaymentLink, OneTimePaymentLink);
         Object.assign(this, oneTimePaymentLink)
     }
-
-    public async refresh(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: OneTimePaymentLink[] = await (ftb || await FluxTypeBase.getTokenConn()).getOneTimePaymentLinkById(this.id);
-
-        if (accs.length !== 1) throw new Error("couldn't refresh the OneTimePaymentLink");
-
-        Object.assign(this, accs[0]);
-    }
-
-    public async merge(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: OneTimePaymentLink[] = await (ftb || await FluxTypeBase.getTokenConn()).updateOneTimePaymentLink(this);
-
-        if (accs.length !== 1) throw new Error("couldn't persist the OneTimePaymentLink");
-
-        Object.assign(this, accs[0]);
-    }
-
-    public async delete(ftb?: FluxTokenBackend): Promise<void> {
-        await (ftb || await FluxTypeBase.getTokenConn()).deleteOneTimePaymentLink({ id: this.id, objectType: this.objectType });
-        Object.assign(this, {});
-    }
-
-    public async persist(ftb?: FluxTokenBackend): Promise<void> {
-        let accs = await (ftb || await FluxTypeBase.getTokenConn()).createOneTimePaymentLink(this);
-        if (accs.length !== 1) throw new Error("couldn't persist the OneTimePaymentLink");
-        this.id = accs[0].id;
-    }
-
-    // Additional static or instance methods can be added here as needed, similar to the Token class.
 }

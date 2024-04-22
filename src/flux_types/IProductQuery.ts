@@ -20,7 +20,6 @@
  * SOFTWARE.
  */
 
-import { IProduct } from "./IProduct";
-import { ISearchOptions } from "./ISearchOptions";
+import { IProduct, ISearchOptions } from "./";
 
 export type IProductQuery = Partial<IProduct> & Partial<ISearchOptions>

@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import { BaseQuery } from "./BaseQuery";
-import { IProductQuery } from "./IProductQuery";
+import { BaseQuery, IProductQuery } from "./";
 
 /**
  * This is an object that is used to query for products.

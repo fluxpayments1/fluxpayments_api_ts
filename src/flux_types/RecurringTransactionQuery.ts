@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import { BaseQuery } from "./BaseQuery";
-import { IRecurringTransactionQuery } from "./IRecurringTransactionQuery";
+import { BaseQuery, IRecurringTransactionQuery } from "./";
 
 export class RecurringTransactionQuery extends BaseQuery {
     public serialize() {
@@ -54,10 +53,8 @@ export class RecurringTransactionQuery extends BaseQuery {
     public constructor(tokQ?: IRecurringTransactionQuery) {
         super();
         Object.assign(this, tokQ);
-        // Add additional constructor logic here if needed
     }
 
-    // Additional methods like getToken and parseToken can be added here
 
     public static createQuery(ipq: IRecurringTransactionQuery) {
         return new RecurringTransactionQuery(ipq);

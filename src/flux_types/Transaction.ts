@@ -20,30 +20,10 @@
  * SOFTWARE.
  */
 
-import { FluxTypeBase } from "./FluxBaseObject";
-import { IProduct } from "./IProduct";
-import { FluxIdentifier } from "./FluxIdentifier";
-import { ITransaction } from "./ITransaction";
-import { Account, Address, PaymentMethod, Product } from ".";
-import { IAccount } from "./IAccount";
-import { IAddress } from "./IAddress";
-import { AccountDump } from "./AccountDump";
-import { AddressDump } from "./AddressDump";
+import { ProductDump, Account, Address, PaymentMethod, Product, ITransaction, FluxIdentifier, IProduct, FluxType, IAccount, IAddress, AccountDump, AddressDump } from ".";
 
-export class Transaction extends FluxTypeBase {
-    public delete(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public merge(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public persist(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-
-    public refresh(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
+export class Transaction extends FluxType {
+    public obName: string = "Transaction";
 
 
     inventoryOnlyOrder: boolean;
@@ -74,9 +54,8 @@ export class Transaction extends FluxTypeBase {
      * @returns The account used at the time of the transaction
      */
     public async getAccount () : Promise<IAccount>{
-        
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let accountDump = (await fi.getAccountDumpById(new FluxIdentifier(undefined, this.accountDumpId, "account_dump")))
+        let fi = new FluxIdentifier(undefined, this.accountDumpId, "account_dump")
+        let accountDump = await FluxType.getObjectsById(fi, AccountDump, "AccountDump")
 
         if (accountDump.length === 0) throw new Error("could not find account associated with the transaction");
 
@@ -93,9 +72,9 @@ export class Transaction extends FluxTypeBase {
      * 
      * @returns 
      */
-    public async getFluxAccount () : Promise<Account> {
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let account = (await fi.getAccountsById(new FluxIdentifier(undefined, this.accountId, "account")))
+    public async getCurrentAccount () : Promise<Account> {
+        let fi = new FluxIdentifier(undefined, this.accountId, "account")
+        let account = await FluxType.getObjectsById(fi, Account, "Account")
 
         if (account.length === 0) throw new Error("could not find account associated with the transaction");
 
@@ -109,8 +88,8 @@ export class Transaction extends FluxTypeBase {
      * 
      */
     public async getPaymentMethod () : Promise<PaymentMethod> {
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let paymentMethods: PaymentMethod[] = (await fi.getPaymentMethodById(new FluxIdentifier(this.paymentMethodUniqueId, this.paymentMethodId, "payment_method")))
+        let fi = new FluxIdentifier(undefined, this.paymentMethodId, "payment_method")
+        let paymentMethods = await FluxType.getObjectsById(fi, PaymentMethod, "PaymentMethod")
 
         if (paymentMethods.length === 0) throw new Error("could not find payment method associated with the transaction");
 
@@ -118,6 +97,7 @@ export class Transaction extends FluxTypeBase {
 
         return paymentMethod
     }
+    
     /**
      * Fetches the shipping address that was used
      * at the time of purchase
@@ -125,8 +105,8 @@ export class Transaction extends FluxTypeBase {
      * @returns The shipping address used at the time of the transaction
      */
     public async getShippingAddress () : Promise<IAddress> {
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let addressDump = (await fi.getAddressDumpById(new FluxIdentifier(undefined, this.shippingAddressDumpId, "address_dump")))
+        let fi = new FluxIdentifier(undefined, this.shippingAddressDumpId, "address_dump")
+        let addressDump = await FluxType.getObjectsById(fi, AddressDump, "AddressDump")
 
         if (addressDump.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -143,9 +123,9 @@ export class Transaction extends FluxTypeBase {
      * 
      * @returns 
      */
-    public async getFluxShippingAddress () : Promise<Address> {
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let addresses = (await fi.getAddressesById(new FluxIdentifier(undefined, this.shippingAddressId, "address")))
+    public async getCurrentShippingAddress () : Promise<Address> {
+        let fi = new FluxIdentifier(undefined, this.shippingAddressId, "address")
+        let addresses = await FluxType.getObjectsById(fi, Address, "Address")
 
         if (addresses.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -153,6 +133,7 @@ export class Transaction extends FluxTypeBase {
 
         return add;
     }
+    
     /**
      * Fetches the payment method address that was used
      * at the time of purchase
@@ -160,8 +141,8 @@ export class Transaction extends FluxTypeBase {
      * @returns The payment method address used at the time of the transaction
      */
     public async getPaymentMethodAddress () : Promise<IAddress> {
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let addressDump = (await fi.getAddressDumpById(new FluxIdentifier(undefined, this.paymentMethodAddressDumpId, "address_dump")))
+        let fi = new FluxIdentifier(undefined, this.paymentMethodAddressDumpId, "address_dump")
+        let addressDump = await FluxType.getObjectsById(fi, AddressDump, "AddressDump")
 
         if (addressDump.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -169,6 +150,7 @@ export class Transaction extends FluxTypeBase {
 
         return add.getInterface()
     }
+
     /**
      * Fetches the payment method address as it exists in 
      * the flux system currently. This may
@@ -177,13 +159,13 @@ export class Transaction extends FluxTypeBase {
      * 
      * @returns 
      */
-    public async getFluxPaymentMethodAddress () : Promise<Address> {
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let addresses = (await fi.getAddressesById(new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")))
+    public async getCurrentPaymentMethodAddress () : Promise<Address> {
+        let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
+        let addressDump = await FluxType.getObjectsById(fi, Address, "address")
 
-        if (addresses.length === 0) throw new Error("could not find address associated with the transaction");
+        if (addressDump.length === 0) throw new Error("could not find address associated with the transaction");
 
-        let add : Address = addresses[0]
+        let add : Address = addressDump[0]
 
         return add
     }
@@ -195,8 +177,8 @@ export class Transaction extends FluxTypeBase {
      * @returns The products used at the time of the transaction
      */
     public async getProducts () : Promise<IProduct[]> {
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let prods = (await fi.getTransactionProductDump(this.getId()))
+        let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
+        let prods = await FluxType.getObjectsById(this.getId(), ProductDump, "TransactionProductDump")
 
         if (prods.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -211,8 +193,9 @@ export class Transaction extends FluxTypeBase {
      * @returns 
      */
     public async getFluxProducts () : Promise<Product[]> {
-        let fi : Flux = await FluxTypeBase.getBackendConn()
-        let prods = (await fi.getTransactionProduct(this.getId()))
+        let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
+        let prods = await FluxType.getObjectsById(this.getId(), Product, "TransactionProductDump")
+
 
         if (prods.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -222,7 +205,7 @@ export class Transaction extends FluxTypeBase {
     
 
     constructor(transaction?: Partial<ITransaction>) {
-        super(transaction);
+        super(transaction, Transaction);
         Object.assign(this, transaction);
 
         if (!transaction) return;
@@ -246,16 +229,6 @@ export class Transaction extends FluxTypeBase {
 
     }
 
-    public static async createInstanceSafe(txn : Partial<ITransaction>) : Promise<Transaction> {
-        let txnInstance : Transaction = new Transaction(txn);
-        let conn = await FluxTypeBase.getBackendConn() as Flux;
-        let txnRes = await conn.createTransactionInstanceSafe(txnInstance, txnInstance.products);
-
-        if (txnRes.length === 1) return txnRes[0]
-
-        throw new Error("couldn't create transaction")
-
-    }
 
     public serialize() {
         return {
@@ -273,5 +246,4 @@ export class Transaction extends FluxTypeBase {
         };
     }
 
-    // Place methods for persisting, merging, deleting, or refreshing the transaction here
 }

@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { SecurityHandlerBase } from "./SecurityHandlerBase";
+import { SecurityHandlerBase } from "./";
 
 export class GenAuthDataSecurityHandle extends SecurityHandlerBase {
     public async encodeRequest(request: string) : Promise<string> {

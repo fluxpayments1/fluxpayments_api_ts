@@ -20,28 +20,15 @@
  * SOFTWARE.
  */
 
-import { DumpId } from "./DumpId";
-import { FluxTypeBase } from "./FluxBaseObject";
-import { IAddress } from "./IAddress";
+import { DumpId, FluxType, IAddress} from "./";
 
-
-export class AddressDump extends FluxTypeBase {
-    protected objectType: string = "address_dump";
+export class AddressDump extends FluxType {
     public serialize() {
         throw new Error("Method not implemented.");
     }
-    public delete(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public merge(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public persist(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
-    public refresh(): Promise<void> {
-        throw new Error("Method not implemented.");
-    }
+    public obName: string = "AddressDump";
+    protected objectType: string = "address_dump";
+
     public dumpId: DumpId
     public metadata: string;
     public streetAddress: string;
@@ -64,7 +51,7 @@ export class AddressDump extends FluxTypeBase {
     }
 
     public constructor(addDump?: any) {
-        super(addDump);
+        super(addDump, AddressDump);
         Object.assign(this, addDump)
     }
 

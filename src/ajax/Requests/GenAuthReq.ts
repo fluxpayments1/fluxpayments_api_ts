@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { RequestBodyBase } from "./RequestBodyBase";
+import { RequestBodyBase } from "./";
 
 export class GenAuthReq extends RequestBodyBase {
     _customerPublicKey: string;

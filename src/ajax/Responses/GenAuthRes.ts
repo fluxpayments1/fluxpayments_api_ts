@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import {  ResponseBodyBase } from "./ResponseBodyBase";
+import {  ResponseBodyBase } from "./";
 
 export class GenAuthRes extends ResponseBodyBase {
     public _publicKey: string;

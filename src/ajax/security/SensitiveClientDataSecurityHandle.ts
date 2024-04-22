@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { SecurityHandlerBase } from "./SecurityHandlerBase";
+import { SecurityHandlerBase } from "./";
 
 export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
 

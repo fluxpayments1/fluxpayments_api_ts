@@ -20,10 +20,11 @@
  * SOFTWARE.
  */
 
-import { FluxTypeBase } from "./FluxBaseObject";
+import { FluxType } from "./";
 import _cloneDeep from 'lodash/cloneDeep';
 
-export class RecurringTransaction extends FluxTypeBase {
+export class RecurringTransaction extends FluxType {
+    public obName: string = "RecurringTransaction";
 
     public serialize() {
         return {
@@ -54,37 +55,8 @@ export class RecurringTransaction extends FluxTypeBase {
     protected objectType: string = "recurring_transaction";
 
     public constructor(recurringTransaction?: Partial<RecurringTransaction>) {
-        super(recurringTransaction);
+        super(recurringTransaction, RecurringTransaction);
         Object.assign(this, recurringTransaction)
     }
 
-    public async refresh(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: RecurringTransaction[] = await (ftb || await FluxTypeBase.getTokenConn()).getRecurringTransactionById(this.id);
-
-        if (accs.length !== 1) throw new Error("couldn't refresh the RecurringTransaction");
-
-        Object.assign(this, accs[0]);
-    }
-
-    public async merge(ftb?: FluxTokenBackend): Promise<void> {
-        let accs: RecurringTransaction[] = await (ftb || await FluxTypeBase.getTokenConn()).updateRecurringTransaction(this);
-
-        if (accs.length !== 1) throw new Error("couldn't persist the RecurringTransaction");
-
-        Object.assign(this, accs[0]);
-    }
-
-    public async delete(ftb?: FluxTokenBackend): Promise<void> {
-        await (ftb || await FluxTypeBase.getTokenConn()).deleteRecurringTransaction({ id: this.id, objectType: this.objectType });
-        Object.assign(this, {});
-    }
-
-    public async persist(ftb?: FluxTokenBackend): Promise<void> {
-        let accs = await (ftb || await FluxTypeBase.getTokenConn()).createRecurringTransaction(this);
-        if (accs.length !== 1) throw new Error("couldn't persist the RecurringTransaction");
-        this.id = accs[0].id;
-    }
-
-
-    // Additional static or instance methods can be added here as needed, similar to the Token class.
 }

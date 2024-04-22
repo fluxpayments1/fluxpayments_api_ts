@@ -21,12 +21,11 @@
  * SOFTWARE.
  */
 
-import { Flux } from "../lib/Flux";
-import { FluxTypeBase } from "./FluxBaseObject";
-import { IProduct } from "./IProduct";
-import { FluxIdentifier } from "./FluxIdentifier";
+import { Flux } from "../lib/";
+import { FluxType, IProduct } from "./";
 
-export class Product extends FluxTypeBase {
+export class Product extends FluxType {
+    public obName: string = "Product";
     public serialize() {
         return {
             uniqueId: this.uniqueId,
@@ -48,8 +47,6 @@ export class Product extends FluxTypeBase {
             orderQuantity: this.orderQuantity
         }
     }
-    static ftb: FluxTokenBackend;
-    static lookupPage: string;
     currency: string;
     orderQuantity: number;
     uniqueId: string;
@@ -69,92 +66,12 @@ export class Product extends FluxTypeBase {
     protected objectType: string = "product";
 
     constructor(prod?: Partial<IProduct>) {
-        super(prod)
+        super(prod, Product)
         Object.assign(this, prod);
     }
 
-    public async delete(): Promise<void> {
-        let rmAcc = await (await FluxTypeBase.getBackendConn()).deleteProduct({ id: this.id, uniqueId: this.uniqueId, objectType: this.objectType })
-        Object.assign(this, {})
-    }
-    public async merge(): Promise<void> {
-        let prods: Product[] = await (await FluxTypeBase.getBackendConn() as Flux).updateProduct(this);
-        if (prods.length !== 1) throw new Error("couldn't persist the account");
-
-        Object.assign(this, prods[0])
-    }
-    public async persist(): Promise<void> {
-        let prod = await (await FluxTypeBase.getBackendConn()).createProduct(this)
-        this.setId(prod[0]);
-    }
-    public async refresh(): Promise<void> {
-        let prods: Product[] = await (await FluxTypeBase.getBackendConn() as Flux).getProductsById(this.getId())
-
-        if (prods.length !== 1) throw new Error("couldn't refresh the account");
-
-        Object.assign(this, prods[0])
-    }
-
-    public static createInstanceLazy(acc?: Partial<IProduct>): Product {
-        let product: Product = new Product(acc)
-        return product;
-    }
-
-    public static async createInstanceSafe(acc: Partial<IProduct>): Promise<Product> {
-        let fi: Flux = (await FluxTypeBase.getBackendConn())
-
-        let product: Product = new Product(acc)
-
-        let prods = await fi.getProductsById(product.getId())
-        let persisted = (prods).length === 1;
-
-        if (!persisted) {
-            product.setId((await fi.createProduct(product))[0])
-            return product;
-        }
-
-        prods[0].orderQuantity = acc.orderQuantity
-
-        return prods[0]
-
-
-    }
-
-
-    public static async updateObjects(acc: IProduct | IProduct[]): Promise<Product[]> {
-        let fi = await FluxTypeBase.getBackendConn() as Flux;
-
-        if (Array.isArray(acc)) {
-            let accs = acc.map(e => Product.createInstanceLazy(e))
-            return await fi.updateProduct(accs)
-        }
-        return await fi.updateProduct(Product.createInstanceLazy(acc))
-    }
-
-    public static async deleteObjects(fii: FluxIdentifier | FluxIdentifier[]): Promise<FluxIdentifier[]> {
-        let fi = await FluxTypeBase.getBackendConn() as Flux;
-        return await fi.deleteProduct(fii)
-    }
-
-
-    public static async createObjects(acc: IProduct | IProduct[]): Promise<FluxIdentifier[]> {
-        let fi = await FluxTypeBase.getBackendConn() as Flux;
-
-        if (Array.isArray(acc)) {
-            let accs = acc.map(e => Product.createInstanceLazy(e))
-            return await fi.createProduct(accs)
-        }
-        return await fi.createProduct(Product.createInstanceLazy(acc))
-    }
-
-    public static async getObjectsById(acc: FluxIdentifier | FluxIdentifier[]): Promise<Product[]> {
-        let fi = await FluxTypeBase.getBackendConn() as Flux;
-
-        return await fi.getProductsById(acc)
-    }
-
     public async incrementInventoryCount(quantity: number): Promise<Product> {
-        let fi = await FluxTypeBase.getBackendConn() as Flux;
+        let fi = await FluxType.getBackendConn() as Flux;
         let prod = await fi.updateProductQuantity(1, quantity, this.getId());
 
         if (!prod || prod.length !== 1) throw new Error("couldnt increment inventory count")
@@ -166,7 +83,7 @@ export class Product extends FluxTypeBase {
     }
 
     public async decrementInventoryCount(quantity: number): Promise<Product> {
-        let fi = await FluxTypeBase.getBackendConn() as Flux;
+        let fi = await FluxType.getBackendConn() as Flux;
         let prod = await fi.updateProductQuantity(-1, quantity, this.getId());
 
         if (!prod || prod.length !== 1) throw new Error("couldnt decrement inventory count")

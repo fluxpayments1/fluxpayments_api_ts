@@ -22,19 +22,11 @@
 
 
 import { CMMT } from "../ajax/lib";
-
-import { CreateSessionRequest, GenAuthReq, GenericCreatorRequest, GenericGetByIdRequest, GenericGetterRequest } from "../ajax/Requests";
-import { CreateSessionResponse, GenAuthRes, GenericCreatorResponse, GenericDeleterResponse, GenericGetterResponse } from "../ajax/Responses";
-
-import { FluxIdentifier } from "../flux_types/FluxIdentifier";
-import { MerchantEndpointsSecurityHandle } from "../ajax/security";
-import { IFlux } from "./IFlux";
-import { GenAuthDataSecurityHandle } from "../ajax/security/GenAuthDataSecurityHandle";
-import { GenericUpdaterRequest } from "../ajax/Requests/GenericUpdaterRequest";
-import { GenericDeleterRequest } from "../ajax/Requests/GenericDeleterRequest";
-import { FluxTypeFactory } from "../flux_types/FluxTypeBase";
-import { BaseQuery } from "../flux_types/BaseQuery";
-import { GenericUpdaterResponse } from "../ajax/Responses/GenericUpdaterResponse";
+import { CreateSessionRequest, GenAuthReq, ChngProdInvCntRequest,GenericUpdaterRequest, GenericDeleterRequest, GenericCreatorRequest, GenericGetByIdRequest, GenericGetterRequest } from "../ajax/Requests";
+import { CreateSessionResponse, GenAuthRes, GenericCreatorResponse, GenericDeleterResponse,GenericUpdaterResponse, GenericGetterResponse, UpdateProductResponse } from "../ajax/Responses";
+import { MerchantEndpointsSecurityHandle, GenAuthDataSecurityHandle } from "../ajax/security";
+import { IFlux } from "./";
+import { Product, FluxType, BaseQuery, FluxIdentifier} from "../flux_types/";
 
 export class Flux implements IFlux {
     private _isAuthenticated: boolean = false;
@@ -97,7 +89,7 @@ export class Flux implements IFlux {
     }
 
 
-    async createObjectGeneric<T extends FluxTypeFactory>(
+    async createObjectGeneric<T extends FluxType>(
         ob: T | T[],
         obName: string
     ): Promise<FluxIdentifier[]> {
@@ -111,7 +103,7 @@ export class Flux implements IFlux {
         );
     }
 
-    async createObjectGenericSafe<T extends FluxTypeFactory>(
+    async createObjectGenericSafe<T extends FluxType>(
         ob: T | T[],
         obName: string
     ): Promise<T[]> {
@@ -126,7 +118,7 @@ export class Flux implements IFlux {
     }
 
 
-    public async getObjects<T extends FluxTypeFactory, U extends BaseQuery>(
+    public async getObjects<T extends FluxType, U extends BaseQuery>(
         query: U,
         obType: new (o?: any) => T,
         obName: string
@@ -156,7 +148,7 @@ export class Flux implements IFlux {
         );
     }
 
-    public async getObjectsById<T extends FluxTypeFactory>(
+    public async getObjectsById<T extends FluxType>(
         fi: FluxIdentifier | FluxIdentifier[],
         obType: new (o?: any) => T,
         obName: string
@@ -172,8 +164,7 @@ export class Flux implements IFlux {
         )
     }
 
-
-    public async updateObjects<T extends FluxTypeFactory>(
+    public async updateObjects<T extends FluxType>(
         ob: T | T[],
         obType: new (o?: any) => T,
         obName: string
@@ -189,6 +180,17 @@ export class Flux implements IFlux {
         );
     }
 
-
+    public async updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier) : Promise<Product[]> {
+        return CMMT.fetch<Product[], ChngProdInvCntRequest, UpdateProductResponse>(
+            ChngProdInvCntRequest,
+            UpdateProductResponse,
+            "updateProductQuantity",
+            "POST",
+            this._securityHandle,
+            multiplier,
+            quantity,
+            fi
+        )  
+    }
 }
 

@@ -1,3 +1,4 @@
+
 /*
  * Copyright (c) 2024 Flux Payment Solutions Company
  *
@@ -19,14 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-export interface IPaymentMethod {
-    id?: number;
-    uniqueid?: string;
-    metadata?: string;
-    token?: string;
-    payType?: any;
-    addressId?: number;
-    firstName?: string;
-    lastName?: string;
-    objectType?: string;
-}
+
+import { IBankAccount, ICard } from "./";
+
+export type IPaymentMethod = Partial<ICard> & Partial<IBankAccount>;

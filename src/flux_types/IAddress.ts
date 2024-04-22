@@ -29,5 +29,5 @@ export interface IAddress {
     country?: string;
     zipCode?: string;
     addressState?: string;
-    city?: string; 
+    city?: string;
 }

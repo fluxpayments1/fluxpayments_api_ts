@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { SecurityHandler } from "./SecurityHandler";
+import { SecurityHandler } from "./";
 import * as crypto from 'crypto';
 import { promisify } from "util";
 

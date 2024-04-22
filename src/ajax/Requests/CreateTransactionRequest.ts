@@ -21,8 +21,7 @@
  */
 
 import { RequestBodyBase } from ".";
-import { Transaction } from "../../flux_types/Transaction";
-import { Product } from "../../flux_types/Product";
+import { Transaction, Product } from "../../flux_types/";
 
 export class CreateTransactionRequest extends RequestBodyBase {
     private _prod: any[];

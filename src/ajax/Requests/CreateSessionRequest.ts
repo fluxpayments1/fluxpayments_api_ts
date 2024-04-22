@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 import { Account, FluxIdentifier } from "../../flux_types";
-import { RequestBodyBase } from "./RequestBodyBase";
+import { RequestBodyBase } from "./";
 
 export class CreateSessionRequest extends RequestBodyBase{
     _account : FluxIdentifier

@@ -21,8 +21,7 @@
  */
 
 import { MerchantEndpointsSecurityHandle, SecurityHandlerBase } from "../ajax/security";
-import { Flux } from "./Flux";
-import { FluxSockets, FluxWebsockets } from "./FluxSockets";
+import { Flux, FluxSockets, FluxWebsockets  } from "./";
 
 /**
  * Initializes a connection to the flux websocket.

@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import { IBankAccount } from "./IBankAccount";
-import { PaymentMethod } from "./PaymentMethod";
+import { IBankAccount, PaymentMethod } from "./";
 
 export class BankAccount extends PaymentMethod {
     public constructor (c : Partial<IBankAccount>) {
@@ -29,9 +28,4 @@ export class BankAccount extends PaymentMethod {
         this.payType = "BANK_ACCOUNT"
     }
 
-    public static async createInstanceSafe(pt?: IBankAccount): Promise<BankAccount> {
-        let instance: BankAccount = new BankAccount(pt);
-        this.createInstanceSafeDbCall(instance, pt)
-        return instance;
-    }
 }

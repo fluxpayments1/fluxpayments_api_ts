@@ -20,16 +20,11 @@
  * SOFTWARE.
  */
 
-import { FluxTypeFactory } from "./FluxTypeFactory";
-import { FluxIdentifier } from "./FluxIdentifier";
+import { FluxType, FluxIdentifier, AccountUserType, PaymentMethod, IAccount, Address, AccountAddress, AccountAddressQuery } from "./";
 import _cloneDeep from 'lodash/cloneDeep';
-import { AccountUserType, PaymentMethod } from ".";
-import { IAccount } from "./IAccount";
-import Address from "./Address";
-import { AccountAddress } from "./AccountAddress";
-import { AccountAddressQuery } from "./AccountAddressQuery";
 
-export class Account extends FluxTypeFactory {
+
+export class Account extends FluxType {
     public obName: string = "Account"
     public serialize() {
         return {
@@ -74,10 +69,10 @@ export class Account extends FluxTypeFactory {
      * 
      */
     async getAddressses(): Promise<Address[]> {
-        let accountAddresses: AccountAddress[] = await FluxTypeFactory.getObjectsById<AccountAddress>(this.getId(), AccountAddress, "AccountAddress");
+        let accountAddresses: AccountAddress[] = await FluxType.getObjectsById<AccountAddress>(this.getId(), AccountAddress, "AccountAddress");
         if (accountAddresses.length === 0) return [];
         let accAddFI: FluxIdentifier[] = accountAddresses.map(i => new FluxIdentifier(i.addressUniqueId, i.addressId, "address"));
-        return await FluxTypeFactory.getObjectsById<Address>(accAddFI, Address, "Address");
+        return await FluxType.getObjectsById<Address>(accAddFI, Address, "Address");
     }
 
     /** 
@@ -104,7 +99,7 @@ export class Account extends FluxTypeFactory {
         })
 
 
-        await FluxTypeFactory.createObjects<AccountAddress>(accAdd, AccountAddress, "AccountAddressInstanceSafe");
+        await FluxType.createObjects<AccountAddress>(accAdd, AccountAddress, "AccountAddressInstanceSafe");
 
     }
 
@@ -143,10 +138,10 @@ export class Account extends FluxTypeFactory {
             accountUniqueId: this.uniqueId
         })
 
-        let accAddToDelete: AccountAddress[] = await FluxTypeFactory.queryObjects<AccountAddress, AccountAddressQuery>(fiAdd, AccountAddress, "AccountAddress");
+        let accAddToDelete: AccountAddress[] = await FluxType.queryObjects<AccountAddress, AccountAddressQuery>(fiAdd, AccountAddress, "AccountAddress");
 
         let fiAccAdd = accAddToDelete.filter((e) => adMapId.has(e.addressId) || adMapUniqueId.has(e.addressUniqueId)).map(e => e.getId())
-        await FluxTypeFactory.deleteObjects(fiAccAdd, "AccountAddress")
+        await FluxType.deleteObjects(fiAccAdd, "AccountAddress")
         return adArr
     }
 
@@ -175,7 +170,7 @@ export class Account extends FluxTypeFactory {
         thisClone.uniqueId = this.uniqueId
         thisClone.defaultShippingAddressId = ob.id;
         thisClone.defaultShippingAddressUniqueId = ob.uniqueId
-        await FluxTypeFactory.updateObjects(thisClone, this.obType, this.obName)
+        await FluxType.updateObjects(thisClone, this.obType, this.obName)
         this.defaultShippingAddressId = ob.id;
         this.defaultShippingAddressUniqueId = ob.uniqueId
 
@@ -194,7 +189,7 @@ export class Account extends FluxTypeFactory {
 
         let fi: FluxIdentifier = { id: this.defaultShippingAddressId, uniqueId: this.defaultShippingAddressUniqueId, objectType: "address" }
 
-        let shippingAddress: Address[] = await FluxTypeFactory.getObjectsById<Address>(fi, Address, "Address")
+        let shippingAddress: Address[] = await FluxType.getObjectsById<Address>(fi, Address, "Address")
 
         if (shippingAddress.length === 0) return undefined;
 
@@ -217,7 +212,7 @@ export class Account extends FluxTypeFactory {
         thisClone.defaultPaymentMethodUniqueId = ob.uniqueId
 
 
-        await FluxTypeFactory.updateObjects(thisClone, Account, "Account")
+        await FluxType.updateObjects(thisClone, Account, "Account")
         this.defaultPaymentMethodId = ob.id;
         this.defaultPaymentMethodUniqueId = ob.uniqueId
 
@@ -226,7 +221,7 @@ export class Account extends FluxTypeFactory {
 
     public async getDefaultPaymentMethod () : Promise<PaymentMethod> {
         let fluxId = new FluxIdentifier(this.defaultPaymentMethodUniqueId, this.defaultPaymentMethodId, "payment_method")
-        let paymentMethods : PaymentMethod[] = await FluxTypeFactory.getObjectsById<PaymentMethod>(fluxId, PaymentMethod, "PaymentMethod");
+        let paymentMethods : PaymentMethod[] = await FluxType.getObjectsById<PaymentMethod>(fluxId, PaymentMethod, "PaymentMethod");
 
         if (paymentMethods.length === 0) return undefined;
 
@@ -234,7 +229,7 @@ export class Account extends FluxTypeFactory {
     }
 
     constructor(account?: Partial<IAccount>) {
-        super(account, Account, "Account");
+        super(account, Account);
         Object.assign(this, account);
 
     }

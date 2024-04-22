@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 
-import { RequestBodyBase } from "./RequestBodyBase";
-import { FluxTypeBase } from "../../flux_types/FluxBaseObject";
+import { RequestBodyBase } from "./";
+import { FluxType } from "../../flux_types/";
 
-export class GenericUpdaterRequest<T extends FluxTypeBase> extends RequestBodyBase {
+export class GenericUpdaterRequest<T extends FluxType> extends RequestBodyBase {
 
     constructor() {
         super();

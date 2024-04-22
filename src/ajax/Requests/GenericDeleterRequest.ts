@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Product, FluxIdentifier } from "../../flux_types";
-import { RequestBodyBase } from "./RequestBodyBase";
+import { FluxIdentifier } from "../../flux_types";
+import { RequestBodyBase } from "./";
 
 export class GenericDeleterRequest extends RequestBodyBase {
     constructor() {

@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import Address from "./Address";
-import { IAddress } from "./IAddress";
+import { Address, IAddress } from "./";
 
 export interface IBankAccount {
     lastFour: string,
@@ -32,5 +31,5 @@ export interface IBankAccount {
     id: number,
     uniqueId: string,
     metadata: string,
-    address : Address | IAddress
+    address: Address | IAddress
 }

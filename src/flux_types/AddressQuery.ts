@@ -20,8 +20,7 @@
  * SOFTWARE.
  */
 
-import { BaseQuery } from "./BaseQuery";
-import { IAddressQuery } from "./IAddressQuery";
+import { BaseQuery, IAddressQuery } from "./";
 
 export class AddressQuery extends BaseQuery {
 

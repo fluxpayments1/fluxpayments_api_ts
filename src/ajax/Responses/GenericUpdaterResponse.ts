@@ -19,10 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ResponseBodyBase } from "./ResponseBodyBase";
-import { FluxTypeBase } from "../../flux_types/FluxBaseObject";
+import { ResponseBodyBase } from "./";
+import { FluxType } from "../../flux_types/";
 
-export class GenericUpdaterResponse<T extends FluxTypeBase> extends ResponseBodyBase {
+export class GenericUpdaterResponse<T extends FluxType> extends ResponseBodyBase {
     type: new (fbo) => T
     _updatedObjects: T[];
 

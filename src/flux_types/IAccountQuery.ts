@@ -20,7 +20,6 @@
  * SOFTWARE.
  */
 
-import { IAccount } from "./IAccount";
-import { ISearchOptions } from "./ISearchOptions";
+import { IAccount, ISearchOptions } from "./";
 
 export type IAccountQuery = Partial<IAccount> & Partial<ISearchOptions>
