@@ -1,0 +1,38 @@
+{
+    "compilerOptions": {
+        "target": "es6",                             
+        "module": "commonjs",                       
+        "lib": ["es2017", "dom"],                   
+        "allowJs": true,                             
+        "checkJs": false,                           
+        "declaration": true,
+        "sourceMap": true,                           
+        "outDir": "./dist",  
+        "declarationDir": "./types",  
+        "resolveJsonModule": true,                     
+        "rootDir": ".", 
+        "baseUrl":".",
+        "paths": {
+        },           
+        "strict": true,                             
+        "noImplicitAny": false,                      
+        "strictNullChecks": false,                  
+        "strictFunctionTypes": false,                 
+        "strictBindCallApply": true,                 
+        "strictPropertyInitialization": false,       
+        "noImplicitThis": true,                     
+
+        "noUnusedLocals": false,                    
+        "noUnusedParameters": false,                
+        "noImplicitReturns": true,                  
+        "noFallthroughCasesInSwitch": true,         
+
+        "moduleResolution": "node",                   
+        "esModuleInterop": true,                     
+
+        "experimentalDecorators": true,              
+        "emitDecoratorMetadata": true
+    },
+    // "include": ["./polyfills.ts"],
+    "exclude": ["./types", "./dist", "./dist_web"]
+}
