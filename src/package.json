@@ -1,0 +1,17 @@
+{
+    "name": "fluxpayments",
+    "version": "1.0.42",
+    "description": "Api for merchants to connect to flux payments",
+    "main": "./dist/lib/index.js",
+    "types": "./types/lib/index.d.ts",
+    "author": "Flux Payment Solutions Company",
+    "license": "ISC",
+    "dependencies": {
+    },
+    "scripts": {
+      "prepublishOnly": "cd src && tsc --declaration"
+    },
+    "devDependencies": {
+    }
+  }
+  
