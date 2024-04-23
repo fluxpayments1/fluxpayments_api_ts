@@ -233,4 +233,21 @@ export class Account extends FluxType {
         Object.assign(this, account);
 
     }
+
+
+    public static async generateSession (arg: Account | IAccount): Promise<string> {
+        let conn = await FluxType.getBackendConn()
+
+        return conn.createSession({
+            id: arg.id,
+            uniqueId: arg.uniqueId
+        }) 
+    }
+
+    public async generateAccountSession () : Promise<string> {
+        let conn = await FluxType.getBackendConn()
+
+        return conn.createSession(this.getId()) 
+
+    }
 }
