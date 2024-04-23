@@ -1,4 +1,5 @@
-import { BaseQuery, ITransactionQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { ITransactionQuery } from "./ITransactionQuery";
 export declare class TransactionQuery extends BaseQuery {
     serialize(): {
         id: number;

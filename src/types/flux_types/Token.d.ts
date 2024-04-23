@@ -1,5 +1,6 @@
-import { FluxType, IToken } from "./";
-export declare class Token extends FluxType {
+import { FluxType } from './FluxType';
+import { IToken } from './IToken';
+export declare class Token extends FluxType implements IToken {
     obName: string;
     serialize(): {
         id: number;
@@ -8,7 +9,7 @@ export declare class Token extends FluxType {
         payload: string;
         objectType: string;
     };
-    private payload;
+    payload: string;
     token: string;
     currency: string;
     id: number;
@@ -30,4 +31,6 @@ export declare class Token extends FluxType {
     getToken(): string;
     parseToken(tokenString: string): number;
     constructor(token?: Partial<IToken>);
+    static createInstanceLazy(acc: Partial<IToken>): Promise<Token>;
+    static createInstanceSafe(acc: Partial<IToken>): Promise<Token>;
 }

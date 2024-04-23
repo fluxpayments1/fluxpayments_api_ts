@@ -1,6 +1,6 @@
 import { MerchantEndpointsSecurityHandle } from "../ajax/security";
-import { IFlux } from "./";
-import { Product, FluxType, BaseQuery, FluxIdentifier } from "../flux_types/";
+import { FluxIdentifier, FluxType, BaseQuery, Product } from "../flux_types";
+import { IFlux } from "./IFlux";
 export declare class Flux implements IFlux {
     private _isAuthenticated;
     private _securityHandle;
@@ -20,11 +20,11 @@ export declare class Flux implements IFlux {
      * @returns a session id
      */
     createSession(id: FluxIdentifier): Promise<string>;
-    createObjectGeneric<T extends FluxType>(ob: T | T[], obName: string): Promise<FluxIdentifier[]>;
-    createObjectGenericSafe<T extends FluxType>(ob: T | T[], obName: string): Promise<T[]>;
-    getObjects<T extends FluxType, U extends BaseQuery>(query: U, obType: new (o?: any) => T, obName: string): Promise<T[]>;
-    deleteObjects(ids: FluxIdentifier | FluxIdentifier[], obName: string): Promise<FluxIdentifier[]>;
-    getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T, obName: string): Promise<T[]>;
-    updateObjects<T extends FluxType>(ob: T | T[], obType: new (o?: any) => T, obName: string): Promise<T[]>;
+    createObjectGeneric<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]>;
+    createObjectGenericSafe<T extends FluxType>(ob: T | T[]): Promise<T[]>;
+    getObjects<T extends FluxType, U extends BaseQuery>(query: U, obType: new (o?: any) => T): Promise<T[]>;
+    deleteObjects<T extends FluxType>(ids: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<FluxIdentifier[]>;
+    getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]>;
+    updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]>;
     updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier): Promise<Product[]>;
 }

@@ -1,4 +1,4 @@
-import { RequestBodyBase } from "./";
+import { RequestBodyBase } from "./RequestBodyBase";
 export declare class GenAuthReq extends RequestBodyBase {
     _customerPublicKey: string;
     _additionalInformation: string;

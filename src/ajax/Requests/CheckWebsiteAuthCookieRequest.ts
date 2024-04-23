@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { RequestBodyBase } from "./";
+import { RequestBodyBase } from "./RequestBodyBase";
 
 export class CheckWebsiteAuthCookieRequest extends RequestBodyBase {
 

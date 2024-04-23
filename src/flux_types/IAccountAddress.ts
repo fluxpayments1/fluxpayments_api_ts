@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { Address } from "./";
+import { Address } from "./Address";
 
 export interface IAccountAddress {
     id?: number,

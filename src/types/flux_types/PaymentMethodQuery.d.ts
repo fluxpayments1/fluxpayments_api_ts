@@ -1,4 +1,5 @@
-import { BaseQuery, IPaymentMethodQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
 export declare class PaymentMethodQuery extends BaseQuery {
     serialize(): {
         id: number;

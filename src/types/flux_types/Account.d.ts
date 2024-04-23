@@ -1,5 +1,10 @@
-import { FluxType, FluxIdentifier, AccountUserType, PaymentMethod, IAccount, Address } from "./";
-export declare class Account extends FluxType {
+import { AccountUserType } from './AccountUserType';
+import { Address } from './Address';
+import { FluxIdentifier } from './FluxIdentifier';
+import { FluxType } from './FluxType';
+import { IAccount } from './IAccount';
+import { PaymentMethod } from './PaymentMethod';
+export declare class Account extends FluxType implements IAccount {
     obName: string;
     serialize(): {
         id: number;
@@ -85,4 +90,8 @@ export declare class Account extends FluxType {
     setDefaultPaymentMethod(ob: PaymentMethod | FluxIdentifier): Promise<void>;
     getDefaultPaymentMethod(): Promise<PaymentMethod>;
     constructor(account?: Partial<IAccount>);
+    static generateSession(arg: Account | IAccount): Promise<string>;
+    generateAccountSession(): Promise<string>;
+    static createInstanceLazy(acc: Partial<IAccount>): Promise<Account>;
+    static createInstanceSafe(acc: Partial<IAccount>): Promise<Account>;
 }

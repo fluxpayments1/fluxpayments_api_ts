@@ -1,5 +1,5 @@
-import { FluxIdentifier } from "../../flux_types/";
-import { ResponseBodyBase } from "./";
+import { FluxIdentifier } from "../../flux_types/FluxIdentifier";
+import { ResponseBodyBase } from "./ResponseBodyBase";
 export declare class GenericCreatorResponse extends ResponseBodyBase {
     _createdObjects: FluxIdentifier[];
     get createdObjects(): FluxIdentifier[];

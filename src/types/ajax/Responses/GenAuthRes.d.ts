@@ -1,4 +1,4 @@
-import { ResponseBodyBase } from "./";
+import { ResponseBodyBase } from "./ResponseBodyBase";
 export declare class GenAuthRes extends ResponseBodyBase {
     _publicKey: string;
     get publicKey(): string;

@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 
-import { SecurityHandler } from "../../ajax/security";
+import { SecurityHandler } from "../../ajax/security/SecurityHandler";
 import { AjaxRequestHandle } from "./AjaxRequestHandle";
-import { RequestBody } from "../../ajax/Requests";
-import { ResponseBody, ResponseBodyBase } from "../../ajax/Responses";
+import { RequestBody } from "../../ajax/Requests/RequestBody";
+import { ResponseBody } from "../../ajax/Responses/ResponseBody";
 import { AxiosRequestConfig, Axios, HttpStatusCode } from "axios";
 import cloneDeep from 'lodash/cloneDeep';
 import { WebSocket } from 'ws'

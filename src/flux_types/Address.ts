@@ -21,7 +21,8 @@
  */
 
 
-import { IAddress, FluxType } from "./";
+import { IAddress } from "./IAddress";
+import { FluxType } from "./FluxType";
 
 export class Address extends FluxType {
     public obName: string;
@@ -54,7 +55,15 @@ export class Address extends FluxType {
         Object.assign(this, add);
     }
 
+    public static async createInstanceLazy(acc: Partial<IAddress>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
 
+    public static async createInstanceSafe(acc: Partial<IAddress>) {
+        return await FluxType.instantiateInstance(acc, this)
+    }
+
+    
 
 
 

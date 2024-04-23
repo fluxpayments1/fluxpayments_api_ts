@@ -1,4 +1,4 @@
-import { AccountUserType } from "./";
+import { AccountUserType } from "./AccountUserType";
 export interface IAccount {
     id?: number;
     uniqueId?: string;

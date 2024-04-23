@@ -1,5 +1,6 @@
-import { FluxType } from "./";
-export declare class InstallmentTransaction extends FluxType {
+import { FluxType } from './FluxType';
+import { IInstallmentTransaction } from './IInstallmentTransaction';
+export declare class InstallmentTransaction extends FluxType implements IInstallmentTransaction {
     obName: string;
     serialize(): {
         id: number;
@@ -22,4 +23,6 @@ export declare class InstallmentTransaction extends FluxType {
     status: any;
     protected objectType: string;
     constructor(installmentTransaction?: Partial<InstallmentTransaction>);
+    static createInstanceLazy(acc: Partial<IInstallmentTransaction>): Promise<InstallmentTransaction>;
+    static createInstanceSafe(acc: Partial<IInstallmentTransaction>): Promise<InstallmentTransaction>;
 }

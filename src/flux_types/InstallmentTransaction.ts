@@ -20,10 +20,11 @@
  * SOFTWARE.
  */
 
-import { FluxType } from "./";
 import _cloneDeep from 'lodash/cloneDeep';
+import { FluxType } from './FluxType';
+import { IInstallmentTransaction } from './IInstallmentTransaction';
 
-export class InstallmentTransaction extends FluxType {
+export class InstallmentTransaction extends FluxType implements IInstallmentTransaction {
     public obName: string = "InstallmentTransaction";
 
     public serialize() {
@@ -53,5 +54,13 @@ export class InstallmentTransaction extends FluxType {
     public constructor(installmentTransaction?: Partial<InstallmentTransaction>) {
         super(installmentTransaction, InstallmentTransaction);
         Object.assign(this, installmentTransaction)
+    }
+
+    public static async createInstanceLazy(acc: Partial<IInstallmentTransaction>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IInstallmentTransaction>) {
+        return await FluxType.instantiateInstance(acc, this)
     }
 }

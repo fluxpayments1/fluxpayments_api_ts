@@ -19,10 +19,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { FluxType, IToken } from "./";
 import _cloneDeep from 'lodash/cloneDeep';
+import { FluxType } from './FluxType';
+import { IToken } from './IToken';
 
-export class Token extends FluxType {
+export class Token extends FluxType implements IToken {
     public obName: string = "Token";
 
     public serialize() {
@@ -35,7 +36,7 @@ export class Token extends FluxType {
         }
     }
 
-    private payload: string
+    payload: string
     token: string
     currency: string;
     id: number;
@@ -63,7 +64,7 @@ export class Token extends FluxType {
 
         t.payload = payload
 
-        const updated = await FluxType.updateObjects<Token>(t, Token, this.obName)
+        const updated = await FluxType.updateObjects<Token>(t)
 
         if (updated && updated.length === 1) {
             this.payload = payload
@@ -115,6 +116,14 @@ export class Token extends FluxType {
         }
 
         Object.assign(this, token);
+    }
+
+    public static async createInstanceLazy(acc: Partial<IToken>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IToken>) {
+        return await FluxType.instantiateInstance(acc, this)
     }
 
 }

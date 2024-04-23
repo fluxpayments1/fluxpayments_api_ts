@@ -1,5 +1,7 @@
-import { Address, FluxType, IPaymentMethod } from "./";
-export declare class PaymentMethod extends FluxType {
+import { Address } from "./Address";
+import { FluxType } from "./FluxType";
+import { IPaymentMethod } from "./IPaymentMethod";
+export declare class PaymentMethod extends FluxType implements IPaymentMethod {
     obName: string;
     serialize(): {
         objectType: string;
@@ -30,4 +32,6 @@ export declare class PaymentMethod extends FluxType {
     private aesNonce;
     protected objectType: string;
     constructor(c?: Partial<IPaymentMethod>);
+    static createInstanceLazy(acc: Partial<IPaymentMethod>): Promise<PaymentMethod>;
+    static createInstanceSafe(acc: Partial<IPaymentMethod>): Promise<PaymentMethod>;
 }

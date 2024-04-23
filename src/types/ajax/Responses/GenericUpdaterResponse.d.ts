@@ -1,5 +1,5 @@
-import { ResponseBodyBase } from "./";
-import { FluxType } from "../../flux_types/";
+import { ResponseBodyBase } from "./ResponseBodyBase";
+import { FluxType } from "../../flux_types/FluxType";
 export declare class GenericUpdaterResponse<T extends FluxType> extends ResponseBodyBase {
     type: new (fbo: any) => T;
     _updatedObjects: T[];

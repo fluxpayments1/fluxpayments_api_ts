@@ -21,10 +21,12 @@
  * SOFTWARE.
  */
 
-import { Flux } from "../lib/";
-import { FluxType, IProduct } from "./";
+import { Flux } from "lib/Flux";
+import { FluxType } from "./FluxType";
+import { IProduct } from "./IProduct";
 
-export class Product extends FluxType {
+
+export class Product extends FluxType implements IProduct {
     public obName: string = "Product";
     public serialize() {
         return {
@@ -91,6 +93,14 @@ export class Product extends FluxType {
         Object.assign(this, prod[0]);
 
         return this
+    }
+
+    public static async createInstanceLazy(acc: Partial<IProduct>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IProduct>) {
+        return await FluxType.instantiateInstance(acc, this)
     }
 
 

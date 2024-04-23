@@ -1,4 +1,4 @@
-import { SecurityHandlerBase } from "./";
+import { SecurityHandlerBase } from "./SecurityHandlerBase";
 export declare class GeneralSecurityHandle extends SecurityHandlerBase {
     private _publickey;
     get publicKey(): string;

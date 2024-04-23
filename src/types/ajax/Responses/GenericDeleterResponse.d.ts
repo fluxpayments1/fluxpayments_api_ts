@@ -1,5 +1,5 @@
-import { FluxIdentifier } from "../../flux_types/";
-import { ResponseBodyBase } from "./";
+import { FluxIdentifier } from "../../flux_types/FluxIdentifier";
+import { ResponseBodyBase } from "./ResponseBodyBase";
 export declare class GenericDeleterResponse extends ResponseBodyBase {
     constructor();
     private _deletedObjIdList;

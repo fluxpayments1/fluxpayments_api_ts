@@ -1,4 +1,7 @@
-import { Account, Address, PaymentMethod, Product } from ".";
+import { Account } from "./Account";
+import { Address } from "./Address";
+import { PaymentMethod } from "./PaymentMethod";
+import { Product } from "./Product";
 export interface ITransaction {
     account: Account;
     paymentMethod: PaymentMethod;

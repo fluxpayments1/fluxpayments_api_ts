@@ -20,10 +20,13 @@
  * SOFTWARE.
  */
 
-import { DumpId, FluxType, IProduct } from "./";
+import { DumpId } from "./DumpId";
+import { FluxType } from "./FluxType";
+import { IProduct } from "./IProduct";
 
 
-export class ProductDump extends FluxType {
+
+export class ProductDump extends FluxType implements IProduct {
     public obName: string = "ProductDump";
     protected objectType: string = "product_dump";
     public serialize() {
@@ -67,6 +70,13 @@ export class ProductDump extends FluxType {
     public constructor(prodDump?: any) {
         super(prodDump, ProductDump);
         Object.assign(this, prodDump)
+    }
+    public static async createInstanceLazy(acc: Partial<IProduct>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IProduct>) {
+        return await FluxType.instantiateInstance(acc, this)
     }
 
 

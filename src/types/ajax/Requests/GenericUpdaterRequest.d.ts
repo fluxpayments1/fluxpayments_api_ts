@@ -1,5 +1,5 @@
-import { RequestBodyBase } from "./";
-import { FluxType } from "../../flux_types/";
+import { RequestBodyBase } from "./RequestBodyBase";
+import { FluxType } from "../../flux_types/FluxType";
 export declare class GenericUpdaterRequest<T extends FluxType> extends RequestBodyBase {
     constructor();
     private _updatedObjects;

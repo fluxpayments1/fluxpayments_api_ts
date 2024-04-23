@@ -1,4 +1,4 @@
-import { ResponseBody } from "./";
+import { ResponseBody } from "./ResponseBody";
 export declare abstract class ResponseBodyBase implements ResponseBody {
     _status: number;
     _metadata: any;

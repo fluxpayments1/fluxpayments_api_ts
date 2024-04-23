@@ -1,4 +1,4 @@
-import { SecurityHandler } from "./";
+import { SecurityHandler } from "./SecurityHandler";
 export declare abstract class SecurityHandlerBase implements SecurityHandler {
     abstract decodeResponse(response: string): Promise<string>;
     abstract encodeRequest(request: string, headers: Map<string, string>): Promise<string>;

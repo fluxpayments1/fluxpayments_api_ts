@@ -20,9 +20,9 @@
  * SOFTWARE.
  */
 
-import { SecurityHandler } from "../../ajax/security";
-import { RequestBody } from "../../ajax/Requests";
-import { ResponseBody } from "../../ajax/Responses";
+import { SecurityHandler } from "../../ajax/security/SecurityHandler";
+import { RequestBody } from "../../ajax/Requests/RequestBody";
+import { ResponseBody } from "../../ajax/Responses/ResponseBody";
 
 export interface ARH {
     method: string,

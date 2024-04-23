@@ -20,11 +20,19 @@
  * SOFTWARE.
  */
 
-import { ICard, PaymentMethod} from "./";
+import { ICard } from "./ICard";
+import { PaymentMethod } from "./PaymentMethod";
 
-export class Card extends PaymentMethod {
+
+export class Card extends PaymentMethod implements ICard {
     public constructor (c : Partial<ICard>) {
         super(c)
         this.payType = "CARD"
     }
+    accountSession: string;
+    lastFour?: string;
+    expMonth: string;
+    expYear: string;
+    cardNumber: string;
+    cvv: string;
 }

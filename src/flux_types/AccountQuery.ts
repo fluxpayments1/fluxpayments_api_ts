@@ -20,10 +20,13 @@
  * SOFTWARE.
  */
 
-import { AccountUserType, BaseQuery, IAccountQuery } from "./";
+import { Account } from "./Account";
+import { AccountUserType } from "./AccountUserType";
+import { BaseQuery } from "./BaseQuery";
+import { IAccountQuery } from "./IAccountQuery";
+
 
 export class AccountQuery extends BaseQuery {
-
     public serialize() {
         return {
             id: this.id,
@@ -60,6 +63,7 @@ export class AccountQuery extends BaseQuery {
 
     constructor(accQ?: IAccountQuery){
         super();
+        this.attachedObject = Account
         Object.assign(this, accQ);
     }
 

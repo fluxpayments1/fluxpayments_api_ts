@@ -1,4 +1,4 @@
-import { FluxType, FluxIdentifier, BaseQuery } from "flux_types/";
+import { FluxIdentifier, FluxType, BaseQuery } from "flux_types";
 export interface IFlux {
     getGeneralAuthorizationAccess(customerPublicKey: string): Promise<string>;
     createSession(id: FluxIdentifier): Promise<string>;

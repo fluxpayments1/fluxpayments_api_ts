@@ -1,4 +1,4 @@
-import { RequestBodyBase } from "./";
+import { RequestBodyBase } from "./RequestBodyBase";
 export declare class GenericGetByIdRequest extends RequestBodyBase {
     constructor();
     private _fluxIdentifiers;

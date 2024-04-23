@@ -20,10 +20,13 @@
  * SOFTWARE.
  */
 
+import { Address } from "./Address";
+import { FluxType } from "./FluxType";
+import { IAccountAddress } from "./IAccountAddress";
 
-import { IAccountAddress, FluxType, Address } from "./";
 
-export class AccountAddress extends FluxType {
+
+export class AccountAddress extends FluxType implements IAccountAddress {
     public obName: string = "AccountAddress"
     public serialize() {
         return {
@@ -54,7 +57,13 @@ export class AccountAddress extends FluxType {
         Object.assign(this, add);
     }
 
+    public static async createInstanceLazy(acc: Partial<IAccountAddress>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
 
+    public static async createInstanceSafe(acc: Partial<IAccountAddress>) {
+        return await FluxType.instantiateInstance(acc, this)
+    }
 
     
 }

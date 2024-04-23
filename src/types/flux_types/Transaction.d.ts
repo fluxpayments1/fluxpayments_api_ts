@@ -1,6 +1,16 @@
-import { Account, Address, PaymentMethod, Product, ITransaction, IProduct, FluxType, IAccount, IAddress } from ".";
-export declare class Transaction extends FluxType {
+import { Account } from "./Account";
+import { Address } from "./Address";
+import { FluxType } from "./FluxType";
+import { IAccount } from "./IAccount";
+import { IAddress } from "./IAddress";
+import { IProduct } from "./IProduct";
+import { ITransaction } from "./ITransaction";
+import { PaymentMethod } from "./PaymentMethod";
+import { Product } from "./Product";
+export declare class Transaction extends FluxType implements ITransaction {
     obName: string;
+    static createInstanceLazy(acc: Partial<ITransaction>): Promise<Transaction>;
+    static createInstanceSafe(acc: Partial<ITransaction>): Promise<Transaction>;
     inventoryOnlyOrder: boolean;
     account: Account;
     shippingAddressDumpId: number;

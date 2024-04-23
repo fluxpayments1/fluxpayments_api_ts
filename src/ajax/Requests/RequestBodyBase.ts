@@ -19,9 +19,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { Product } from "../../flux_types/Product";
+import { Account } from "../../flux_types/Account";
+import { Address } from "../../flux_types/Address";
+import { ProductQuery } from "../../flux_types/ProductQuery";
+import { AccountQuery } from "../../flux_types/AccountQuery";
+import { AddressQuery } from "../../flux_types/AddressQuery";
 
-import {Address, Account, Product, AccountQuery, ProductQuery, AddressQuery} from "../../flux_types/";
-import { RequestBody } from "./";
+import { RequestBody } from "./RequestBody";
 
 export abstract class RequestBodyBase implements RequestBody {
     public abstract loadClientData(...args: any) : void

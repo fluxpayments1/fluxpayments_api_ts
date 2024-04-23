@@ -20,10 +20,11 @@
  * SOFTWARE.
  */
 
-import { FluxType } from "./";
 import _cloneDeep from 'lodash/cloneDeep';
+import { FluxType } from './FluxType';
+import { IRecurringTransaction } from './IRecurringTransaction';
 
-export class RecurringTransaction extends FluxType {
+export class RecurringTransaction extends FluxType implements IRecurringTransaction {
     public obName: string = "RecurringTransaction";
 
     public serialize() {
@@ -57,6 +58,14 @@ export class RecurringTransaction extends FluxType {
     public constructor(recurringTransaction?: Partial<RecurringTransaction>) {
         super(recurringTransaction, RecurringTransaction);
         Object.assign(this, recurringTransaction)
+    }
+
+    public static async createInstanceLazy(acc: Partial<IRecurringTransaction>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IRecurringTransaction>) {
+        return await FluxType.instantiateInstance(acc, this)
     }
 
 }

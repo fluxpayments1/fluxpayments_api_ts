@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ResponseBodyBase } from "./";
+import { ResponseBodyBase } from "./ResponseBodyBase";
 
 export class CreateSessionResponse extends ResponseBodyBase{
     

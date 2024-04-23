@@ -1,5 +1,6 @@
-import { FluxType } from "./";
-export declare class RecurringTransaction extends FluxType {
+import { FluxType } from './FluxType';
+import { IRecurringTransaction } from './IRecurringTransaction';
+export declare class RecurringTransaction extends FluxType implements IRecurringTransaction {
     obName: string;
     serialize(): {
         id: number;
@@ -26,4 +27,6 @@ export declare class RecurringTransaction extends FluxType {
     status: any;
     protected objectType: string;
     constructor(recurringTransaction?: Partial<RecurringTransaction>);
+    static createInstanceLazy(acc: Partial<IRecurringTransaction>): Promise<RecurringTransaction>;
+    static createInstanceSafe(acc: Partial<IRecurringTransaction>): Promise<RecurringTransaction>;
 }

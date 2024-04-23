@@ -20,9 +20,12 @@
  * SOFTWARE.
  */
 
+import { Flux } from "lib";
+import { BaseQuery } from "./BaseQuery";
+import { FluxIdentifier } from "./FluxIdentifier";
 
-import { Flux } from "../lib/";
-import { BaseQuery, FluxIdentifier } from "./";
+
+
 
 let fluxGetter;
 let loadingPromise: Promise<void>;
@@ -44,7 +47,7 @@ async function loadFluxGetter() {
 export abstract class FluxType {
   public dataTableMetadata;
   uniqueId: string
-  protected obType: new (o?: any) => FluxType;
+  public obType: new (o?: any) => FluxType;
   public abstract obName: string
   protected abstract objectType: string;
 
@@ -64,14 +67,14 @@ export abstract class FluxType {
     this.uniqueId = fi.uniqueId
   }
 
-  public static createInstanceLazy<U, T extends FluxType>(ob: Partial<U>, obType: new (o?: Partial<U>) => T): T {
+  protected static async instantiateLazyInstance<U, T extends FluxType>(ob: Partial<U>, obType: new (o?: Partial<U>) => T): Promise<T> {
     let object = new obType(ob);
     return object
   }
 
-  public static async createInstanceSafe<U, T extends FluxType>(ob: Partial<U>, obType: new (o?: Partial<U>) => T): Promise<T> {
+  protected static async instantiateInstance<U, T extends FluxType>(ob: Partial<U>, obType: new (o?: Partial<U>) => T): Promise<T> {
     let object = new obType(ob);
-    let obs = await FluxType.createObjectsGenericSafe(object, obType, object.obName)
+    let obs = await FluxType.createObjectsSafe(object)
     return obs[0]
   }
 
@@ -87,7 +90,7 @@ export abstract class FluxType {
 
   public async delete(): Promise<void> {
     let f: Flux = await FluxType.getBackendConn()
-    f.deleteObjects(this.getId(), this.obName)
+    f.deleteObjects(this.getId(), this.obType)
     Object.keys(this).forEach(e => {
       this[e] = undefined
     })
@@ -95,53 +98,56 @@ export abstract class FluxType {
   };
 
   public async merge(): Promise<void> {
-    let obs = await FluxType.updateObjects(this, this.obType, this.obName)
+    let t = this.obType
+    let f: Flux = await FluxType.getBackendConn()
+    let obs = await f.updateObjects(this)    
     if (obs.length !== 1) throw new Error("couldn't persist the object");
     Object.assign(this, obs[0])
   };
 
   public async persist(): Promise<void> {
-    let obs = await FluxType.createObjects(this, this.obType, this.obName)
+    let obs = await FluxType.createObjects(this)
     this.setId(obs[0]);
   };
 
   public async refresh(): Promise<void> {
-    let obs = await FluxType.getObjectsById(this.getId(), this.obType, this.obName)
+    let obs = await FluxType.getObjectsById(this.getId(), this.obType)
     if (obs.length !== 1) throw new Error("couldn't refresh the object");
     Object.assign(this, obs[0])
   };
 
-  protected static async getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T, obName: string): Promise<T[]> {
-    let obs = await FluxType.getObjectsById<T>(fi, obType, obName)
+  public static async getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]> {
+    let f: Flux = await FluxType.getBackendConn()
+    let obs = await f.getObjectsById(fi, obType)
     return obs;
   }
 
-  protected static async queryObjects<T extends FluxType, U extends BaseQuery>(q: U, obType: new (o?: any) => T, obName: string): Promise<T[]> {
+  public static async queryObjects<T extends FluxType, U extends BaseQuery>(q: U, obType: new (o?: any) => T): Promise<T[]> {
     let f: Flux = await FluxType.getBackendConn()
-    let obs = await f.getObjects<T, U>(q, obType, obName)
+    let obs = await f.getObjects<T, U>(q, obType)
     return obs;
   }
 
-  protected static async deleteObjects(fi: FluxIdentifier | FluxIdentifier[], obName: string): Promise<void> {
+  public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<FluxIdentifier[]> {
     let f: Flux = await FluxType.getBackendConn()
-    await f.deleteObjects(fi, obName)
+    return await f.deleteObjects(fi, this)
   }
 
-  protected static async updateObjects<T extends FluxType>(ob: T | T[], obType: new (o?: any) => T, obName: string): Promise<T[]> {
+  public static async updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]> {
     let f: Flux = await FluxType.getBackendConn()
-    let obs = await f.updateObjects<T>(ob, obType, obName)
+    let obs = await f.updateObjects<T>(ob)
     return obs;
   }
 
-  protected static async createObjects<T extends FluxType>(ob: T | T[], obType: new (o?: any) => T, obName: string): Promise<FluxIdentifier[]> {
+  public static async createObjects<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]> {
     let f: Flux = await FluxType.getBackendConn()
-    let obs: FluxIdentifier[] = await f.createObjectGeneric<T>(ob, obName)
+    let obs: FluxIdentifier[] = await f.createObjectGeneric<T>(ob)
     return obs;
   }
 
-  protected static async createObjectsGenericSafe<T extends FluxType>(ob: T | T[], obType: new (o?: any) => T, obName: string): Promise<T[]> {
+  public static async createObjectsSafe<T extends FluxType>( ob: T | T[]): Promise<T[]> {
     let f: Flux = await FluxType.getBackendConn()
-    let obs: T[] = await f.createObjectGenericSafe<T>(ob, obName)
+    let obs: T[] = await f.createObjectGenericSafe<T>(ob)
     return obs;
   }
 

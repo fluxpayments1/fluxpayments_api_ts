@@ -20,10 +20,11 @@
  * SOFTWARE.
  */
 
-import { FluxType } from "./";
 import _cloneDeep from 'lodash/cloneDeep';
+import { FluxType } from './FluxType';
+import { IOneTimePaymentLink } from './IOneTimePaymentLink';
 
-export class OneTimePaymentLink extends FluxType {
+export class OneTimePaymentLink extends FluxType implements IOneTimePaymentLink {
     public obName: string = "OneTimePaymentLink";
 
     public serialize() {
@@ -51,5 +52,13 @@ export class OneTimePaymentLink extends FluxType {
     public constructor(oneTimePaymentLink?: Partial<OneTimePaymentLink>) {
         super(oneTimePaymentLink, OneTimePaymentLink);
         Object.assign(this, oneTimePaymentLink)
+    }
+
+    public static async createInstanceLazy(acc: Partial<IOneTimePaymentLink>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IOneTimePaymentLink>) {
+        return await FluxType.instantiateInstance(acc, this)
     }
 }

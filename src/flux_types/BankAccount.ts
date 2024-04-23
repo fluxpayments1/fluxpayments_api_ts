@@ -20,12 +20,18 @@
  * SOFTWARE.
  */
 
-import { IBankAccount, PaymentMethod } from "./";
+import { IBankAccount } from "./IBankAccount";
+import { PaymentMethod } from "./PaymentMethod";
 
-export class BankAccount extends PaymentMethod {
+export class BankAccount extends PaymentMethod implements IBankAccount {
     public constructor (c : Partial<IBankAccount>) {
         super(c)
         this.payType = "BANK_ACCOUNT"
     }
+    lastFour: string;
+    bankName: string;
+    routingNumber: string;
+    bankBrand: string;
+    accountNumber: string;
 
 }

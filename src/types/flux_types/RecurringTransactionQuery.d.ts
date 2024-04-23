@@ -1,4 +1,5 @@
-import { BaseQuery, IRecurringTransactionQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { IRecurringTransactionQuery } from "./IRecurringTransactionQuery";
 export declare class RecurringTransactionQuery extends BaseQuery {
     serialize(): {
         id: number;

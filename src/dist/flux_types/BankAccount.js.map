@@ -1,0 +1,1 @@
+{"version":3,"file":"BankAccount.js","sourceRoot":"","sources":["../../flux_types/BankAccount.ts"],"names":[],"mappings":";AAAA;;;;;;;;;;;;;;;;;;;;GAoBG;;;AAGH,mDAAgD;AAEhD,MAAa,WAAY,SAAQ,6BAAa;IAC1C,YAAoB,CAAyB;QACzC,KAAK,CAAC,CAAC,CAAC,CAAA;QACR,IAAI,CAAC,OAAO,GAAG,cAAc,CAAA;IACjC,CAAC;CAOJ;AAXD,kCAWC"}

@@ -1,4 +1,4 @@
-import { ResponseBodyBase } from "./";
+import { ResponseBodyBase } from "./ResponseBodyBase";
 export declare class CreateSessionResponse extends ResponseBodyBase {
     _sessionId: String;
     get sessionId(): String;

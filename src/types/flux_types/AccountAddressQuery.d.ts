@@ -1,4 +1,5 @@
-import { BaseQuery, IAccountAddressQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { IAccountAddressQuery } from "./IAccountAddressQuery";
 /**
  * This is an object that is used to query for products.
  */

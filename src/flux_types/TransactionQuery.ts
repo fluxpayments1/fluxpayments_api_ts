@@ -20,7 +20,9 @@
  * SOFTWARE.
  */
 
-import { BaseQuery, ITransactionQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { ITransactionQuery } from "./ITransactionQuery";
+
 
 export class TransactionQuery extends BaseQuery {
     public serialize() {

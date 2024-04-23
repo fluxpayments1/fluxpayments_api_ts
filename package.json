@@ -7,7 +7,9 @@
     "author": "Flux Payment Solutions Company",
     "license": "ISC",
     "scripts": {
-      "prepublishOnly": "cd src && tsc --declaration"
+      "prepublishOnly": "cd src && tsc --declaration",
+      "test": "mocha './src/dist/tests/**/*.spec.js'"
+
     },
     "devDependencies": {
       "@babel/cli": "^7.22.9",

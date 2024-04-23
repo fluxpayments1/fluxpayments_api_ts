@@ -20,10 +20,13 @@
  * SOFTWARE.
  */
 
-import {Address, FluxType, IPaymentMethod} from "./";
+import { Address } from "./Address";
+import { FluxType } from "./FluxType";
+import { IPaymentMethod } from "./IPaymentMethod";
 
 
-export class PaymentMethod extends FluxType {
+
+export class PaymentMethod extends FluxType implements IPaymentMethod {
     public obName: string = "PaymentMethod";
     public serialize() {
         return {
@@ -66,5 +69,12 @@ export class PaymentMethod extends FluxType {
         this.metadata = c.metadata
         this.address = new Address(c.address)
 
+    }
+    public static async createInstanceLazy(acc: Partial<IPaymentMethod>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IPaymentMethod>) {
+        return await FluxType.instantiateInstance(acc, this)
     }
 }

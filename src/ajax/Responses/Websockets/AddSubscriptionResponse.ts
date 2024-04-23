@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { ResponseBodyBase } from "../";
+import { ResponseBodyBase } from "../ResponseBodyBase";
 
 export class AddSubscriptionResponse extends ResponseBodyBase {
     public getClientReturnValue() {

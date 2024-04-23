@@ -1,4 +1,5 @@
-import { BaseQuery, IProductQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { IProductQuery } from "./IProductQuery";
 /**
  * This is an object that is used to query for products.
  */

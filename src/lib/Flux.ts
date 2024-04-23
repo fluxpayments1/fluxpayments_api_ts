@@ -20,13 +20,15 @@
  * SOFTWARE.
  */
 
-
+import { GenAuthReq, CreateSessionRequest, GenericCreatorRequest, GenericGetterRequest, GenericDeleterRequest, GenericGetByIdRequest, GenericUpdaterRequest, ChngProdInvCntRequest } from "../ajax/Requests";
+import { GenAuthRes, CreateSessionResponse, GenericCreatorResponse, GenericGetterResponse, GenericDeleterResponse, GenericUpdaterResponse, UpdateProductResponse } from "../ajax/Responses";
 import { CMMT } from "../ajax/lib";
-import { CreateSessionRequest, GenAuthReq, ChngProdInvCntRequest,GenericUpdaterRequest, GenericDeleterRequest, GenericCreatorRequest, GenericGetByIdRequest, GenericGetterRequest } from "../ajax/Requests";
-import { CreateSessionResponse, GenAuthRes, GenericCreatorResponse, GenericDeleterResponse,GenericUpdaterResponse, GenericGetterResponse, UpdateProductResponse } from "../ajax/Responses";
 import { MerchantEndpointsSecurityHandle, GenAuthDataSecurityHandle } from "../ajax/security";
-import { IFlux } from "./";
-import { Product, FluxType, BaseQuery, FluxIdentifier} from "../flux_types/";
+import { FluxIdentifier, FluxType, BaseQuery, Product } from "../flux_types";
+import { IFlux } from "./IFlux";
+
+
+
 
 export class Flux implements IFlux {
     private _isAuthenticated: boolean = false;
@@ -90,9 +92,12 @@ export class Flux implements IFlux {
 
 
     async createObjectGeneric<T extends FluxType>(
-        ob: T | T[],
-        obName: string
+        ob: T | T[]
     ): Promise<FluxIdentifier[]> {
+        let obName
+        if (Array.isArray(ob)) obName = ob[0].obName
+        else obName = ob.obName
+
         return CMMT.fetch<FluxIdentifier[], GenericCreatorRequest, GenericCreatorResponse>(
             GenericCreatorRequest,
             GenericCreatorResponse,
@@ -104,9 +109,13 @@ export class Flux implements IFlux {
     }
 
     async createObjectGenericSafe<T extends FluxType>(
-        ob: T | T[],
-        obName: string
+        ob: T | T[]
     ): Promise<T[]> {
+
+        let obName
+        if (Array.isArray(ob)) obName = ob[0].obName
+        else obName = ob.obName
+
         return CMMT.fetch<T[], GenericCreatorRequest, GenericCreatorResponse>(
             GenericCreatorRequest,
             GenericCreatorResponse,
@@ -120,24 +129,25 @@ export class Flux implements IFlux {
 
     public async getObjects<T extends FluxType, U extends BaseQuery>(
         query: U,
-        obType: new (o?: any) => T,
-        obName: string
+        obType: new (o?: any) => T
     ): Promise<T[]> {
+        let name = new obType().obName
         return CMMT.fetchGeneric<GenericGetterRequest<U>, GenericGetterResponse<T>, T>(
             GenericGetterRequest<U>,
             GenericGetterResponse<T>,
             obType,
-            `get${obName}`,
+            `get${name}`,
             "POST",
             this._securityHandle,
             query
         );
     }
 
-    public async deleteObjects(
+    public async deleteObjects<T extends FluxType>(
         ids: FluxIdentifier | FluxIdentifier[],
-        obName: string
+        obType: new (o?: any) => T
     ): Promise<FluxIdentifier[]> {
+        let obName = new obType().obName
         return CMMT.fetch<FluxIdentifier[], GenericDeleterRequest, GenericDeleterResponse>(
             GenericDeleterRequest,
             GenericDeleterResponse,
@@ -150,9 +160,9 @@ export class Flux implements IFlux {
 
     public async getObjectsById<T extends FluxType>(
         fi: FluxIdentifier | FluxIdentifier[],
-        obType: new (o?: any) => T,
-        obName: string
+        obType: new (o?: any) => T
     ): Promise<T[]> {
+        let obName = new obType().obName
         return CMMT.fetchGeneric<GenericGetByIdRequest, GenericGetterResponse<T>, T>(
             GenericGetByIdRequest,
             GenericGetterResponse<T>,
@@ -166,9 +176,17 @@ export class Flux implements IFlux {
 
     public async updateObjects<T extends FluxType>(
         ob: T | T[],
-        obType: new (o?: any) => T,
-        obName: string
     ): Promise<T[]> {
+        let obType
+        let obName
+        if (Array.isArray(ob)) {
+            obName = ob[0].obName
+            obType = ob[0].obType
+        }
+        else {
+            obName = ob.obName
+            obType = ob.obType
+        }
         return CMMT.fetchGeneric<GenericUpdaterRequest<T>, GenericUpdaterResponse<T>, T>(
             GenericUpdaterRequest<T>,
             GenericUpdaterResponse<T>,

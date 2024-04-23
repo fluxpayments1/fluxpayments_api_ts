@@ -20,7 +20,9 @@
  * SOFTWARE.
  */
 
-import { BaseQuery, IPaymentMethodQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
+
 
 export class PaymentMethodQuery extends BaseQuery {
     public serialize() {

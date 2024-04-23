@@ -19,8 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Account, FluxIdentifier } from "../../flux_types";
-import { RequestBodyBase } from "./";
+
+import { FluxIdentifier } from "flux_types/FluxIdentifier"
+import { RequestBodyBase } from "./RequestBodyBase"
+
 
 export class CreateSessionRequest extends RequestBodyBase{
     _account : FluxIdentifier

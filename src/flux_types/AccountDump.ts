@@ -20,10 +20,13 @@
  * SOFTWARE.
  */
 
-import { AccountUserType , DumpId, FluxType, IAccount} from "./";
+import { AccountUserType } from "./AccountUserType";
+import { DumpId } from "./DumpId";
+import { FluxType } from "./FluxType";
+import { IAccount } from "./IAccount";
 
 
-export class AccountDump extends FluxType{
+export class AccountDump extends FluxType implements IAccount {
     public obName: string = "AccountDump";
     public serialize() {
         throw new Error("Method not implemented.");
@@ -39,7 +42,7 @@ export class AccountDump extends FluxType{
     public accountUserType: AccountUserType;
     public creationTime: Date;
 
-    public getInterface () : IAccount {
+    public getInterface(): IAccount {
         return {
             id: this.dumpId.refId,
             uniqueId: this.uniqueId,
@@ -52,10 +55,18 @@ export class AccountDump extends FluxType{
         } as IAccount
     }
 
-    public constructor (accDump?: any) {
+    public constructor(accDump?: any) {
         super(accDump, AccountDump);
         Object.assign(this, accDump)
     }
 
-  
+    public static async createInstanceLazy(acc: Partial<IAccount>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IAccount>) {
+        return await FluxType.instantiateInstance(acc, this)
+    }
+
+
 }

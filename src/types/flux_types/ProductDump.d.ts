@@ -1,5 +1,7 @@
-import { DumpId, FluxType, IProduct } from "./";
-export declare class ProductDump extends FluxType {
+import { DumpId } from "./DumpId";
+import { FluxType } from "./FluxType";
+import { IProduct } from "./IProduct";
+export declare class ProductDump extends FluxType implements IProduct {
     obName: string;
     protected objectType: string;
     serialize(): void;
@@ -19,4 +21,6 @@ export declare class ProductDump extends FluxType {
     orderQuantity: number;
     getInterface(): IProduct;
     constructor(prodDump?: any);
+    static createInstanceLazy(acc: Partial<IProduct>): Promise<ProductDump>;
+    static createInstanceSafe(acc: Partial<IProduct>): Promise<ProductDump>;
 }

@@ -20,9 +20,12 @@
  * SOFTWARE.
  */
 
-import { AdditionalSearchOptions, PaginationSupport } from "./";
+import { AdditionalSearchOptions } from "./AdditionalSearchOptions";
+import { FluxType } from "./FluxType";
+import { PaginationSupport } from "./PaginationSupport";
 
 export abstract class BaseQuery {
+    attachedObject: typeof FluxType
     pagination : PaginationSupport;
     additionalSearchOptions: AdditionalSearchOptions[];
     lookupPage: string | undefined;

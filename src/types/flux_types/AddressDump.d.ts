@@ -1,5 +1,7 @@
-import { DumpId, FluxType, IAddress } from "./";
-export declare class AddressDump extends FluxType {
+import { DumpId } from "./DumpId";
+import { FluxType } from "./FluxType";
+import { IAddress } from "./IAddress";
+export declare class AddressDump extends FluxType implements IAddress {
     serialize(): void;
     obName: string;
     protected objectType: string;
@@ -12,4 +14,6 @@ export declare class AddressDump extends FluxType {
     city: string;
     getInterface(): IAddress;
     constructor(addDump?: any);
+    static createInstanceLazy(acc: Partial<IAddress>): Promise<AddressDump>;
+    static createInstanceSafe(acc: Partial<IAddress>): Promise<AddressDump>;
 }

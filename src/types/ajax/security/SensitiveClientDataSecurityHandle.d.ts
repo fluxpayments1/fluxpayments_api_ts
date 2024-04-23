@@ -1,4 +1,4 @@
-import { SecurityHandlerBase } from "./";
+import { SecurityHandlerBase } from "./SecurityHandlerBase";
 export declare class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
     private static nonceKeyMap;
     encodeRequest(request: string, headers: Map<string, string>): Promise<string>;

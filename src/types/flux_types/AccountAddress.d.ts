@@ -1,5 +1,7 @@
-import { IAccountAddress, FluxType, Address } from "./";
-export declare class AccountAddress extends FluxType {
+import { Address } from "./Address";
+import { FluxType } from "./FluxType";
+import { IAccountAddress } from "./IAccountAddress";
+export declare class AccountAddress extends FluxType implements IAccountAddress {
     obName: string;
     serialize(): {
         uniqueId: string;
@@ -22,4 +24,6 @@ export declare class AccountAddress extends FluxType {
     address: Address;
     protected objectType: string;
     constructor(add?: Partial<IAccountAddress>);
+    static createInstanceLazy(acc: Partial<IAccountAddress>): Promise<AccountAddress>;
+    static createInstanceSafe(acc: Partial<IAccountAddress>): Promise<AccountAddress>;
 }

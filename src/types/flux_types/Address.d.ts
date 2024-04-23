@@ -1,4 +1,5 @@
-import { IAddress, FluxType } from "./";
+import { IAddress } from "./IAddress";
+import { FluxType } from "./FluxType";
 export declare class Address extends FluxType {
     obName: string;
     serialize(): {
@@ -22,4 +23,6 @@ export declare class Address extends FluxType {
     city: string;
     protected objectType: string;
     constructor(add?: Partial<IAddress>);
+    static createInstanceLazy(acc: Partial<IAddress>): Promise<Address>;
+    static createInstanceSafe(acc: Partial<IAddress>): Promise<Address>;
 }

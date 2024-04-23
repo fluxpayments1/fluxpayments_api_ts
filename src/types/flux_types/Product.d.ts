@@ -1,5 +1,6 @@
-import { FluxType, IProduct } from "./";
-export declare class Product extends FluxType {
+import { FluxType } from "./FluxType";
+import { IProduct } from "./IProduct";
+export declare class Product extends FluxType implements IProduct {
     obName: string;
     serialize(): {
         uniqueId: string;
@@ -40,4 +41,6 @@ export declare class Product extends FluxType {
     constructor(prod?: Partial<IProduct>);
     incrementInventoryCount(quantity: number): Promise<Product>;
     decrementInventoryCount(quantity: number): Promise<Product>;
+    static createInstanceLazy(acc: Partial<IProduct>): Promise<Product>;
+    static createInstanceSafe(acc: Partial<IProduct>): Promise<Product>;
 }

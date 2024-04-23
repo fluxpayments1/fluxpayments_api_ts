@@ -20,7 +20,9 @@
  * SOFTWARE.
  */
 
-import { BaseQuery, IRecurringTransactionQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { IRecurringTransactionQuery } from "./IRecurringTransactionQuery";
+
 
 export class RecurringTransactionQuery extends BaseQuery {
     public serialize() {

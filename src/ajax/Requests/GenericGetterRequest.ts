@@ -20,8 +20,11 @@
  * SOFTWARE.
  */
 
-import { AdditionalSearchOptions, BaseQuery, PaginationSupport } from "../../flux_types/";
-import { RequestBodyBase } from "./";
+import { BaseQuery } from "flux_types/BaseQuery";
+import { RequestBodyBase } from "./RequestBodyBase";
+import { AdditionalSearchOptions } from "../../flux_types/AdditionalSearchOptions";
+import { PaginationSupport } from "../../flux_types/PaginationSupport";
+
 
 export class GenericGetterRequest<T extends BaseQuery> extends RequestBodyBase {
     _queryObj: T;

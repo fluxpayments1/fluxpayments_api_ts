@@ -1,4 +1,5 @@
-import { Flux, FluxSockets } from "./";
+import { Flux } from "./Flux";
+import { FluxSockets } from "./FluxSockets";
 /**
  * Initializes a connection to the flux websocket.
  *

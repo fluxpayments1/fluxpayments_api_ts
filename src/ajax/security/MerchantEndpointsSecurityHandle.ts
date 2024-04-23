@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { SecurityHandlerBase } from "./";
+import { SecurityHandlerBase } from "./SecurityHandlerBase";
 
 export class MerchantEndpointsSecurityHandle extends SecurityHandlerBase {
     public async encodeRequest(request: string, headers: Map<string, string>) : Promise<string> {

@@ -1,4 +1,4 @@
-import { SecurityHandlerBase } from "./";
+import { SecurityHandlerBase } from "./SecurityHandlerBase";
 export declare class GenAuthDataSecurityHandle extends SecurityHandlerBase {
     encodeRequest(request: string): Promise<string>;
     constructor();

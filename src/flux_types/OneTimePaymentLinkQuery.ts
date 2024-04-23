@@ -20,7 +20,9 @@
  * SOFTWARE.
  */
 
-import { BaseQuery, IOneTimePaymentLinkQuery } from "./";
+import { BaseQuery } from "./BaseQuery";
+import { IOneTimePaymentLinkQuery } from "./IOneTimePaymentLinkQuery";
+
 
 /**
  * This is an object that is used to query for one_time_payment_links.

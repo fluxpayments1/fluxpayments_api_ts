@@ -20,9 +20,12 @@
  * SOFTWARE.
  */
 
-import { DumpId, FluxType, IAddress} from "./";
+import { DumpId } from "./DumpId";
+import { FluxType } from "./FluxType";
+import { IAddress } from "./IAddress";
 
-export class AddressDump extends FluxType {
+
+export class AddressDump extends FluxType implements IAddress {
     public serialize() {
         throw new Error("Method not implemented.");
     }
@@ -53,6 +56,14 @@ export class AddressDump extends FluxType {
     public constructor(addDump?: any) {
         super(addDump, AddressDump);
         Object.assign(this, addDump)
+    }
+
+    public static async createInstanceLazy(acc: Partial<IAddress>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<IAddress>) {
+        return await FluxType.instantiateInstance(acc, this)
     }
 
 

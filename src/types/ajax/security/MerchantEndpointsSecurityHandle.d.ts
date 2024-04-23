@@ -1,4 +1,4 @@
-import { SecurityHandlerBase } from "./";
+import { SecurityHandlerBase } from "./SecurityHandlerBase";
 export declare class MerchantEndpointsSecurityHandle extends SecurityHandlerBase {
     encodeRequest(request: string, headers: Map<string, string>): Promise<string>;
     private static _nonceMap;

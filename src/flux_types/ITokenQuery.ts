@@ -20,7 +20,9 @@
  * SOFTWARE.
  */
 
+import { ISearchOptions } from "./ISearchOptions";
+import { IToken } from "./IToken";
 
-import { IToken, ISearchOptions } from "./";
+
 
 export type ITokenQuery = Partial<IToken> & Partial<ISearchOptions>

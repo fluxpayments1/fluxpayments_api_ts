@@ -20,8 +20,10 @@
  * SOFTWARE.
  */
 
+import { BaseQuery } from "./BaseQuery";
+import { IAccountAddressQuery } from "./IAccountAddressQuery";
 
-import { BaseQuery, IAccountAddressQuery } from "./";
+
 
 /**
  * This is an object that is used to query for products.

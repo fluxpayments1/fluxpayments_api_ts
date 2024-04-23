@@ -1,0 +1,1 @@
+{"version":3,"file":"AuthCookieRequest.js","sourceRoot":"","sources":["../../../ajax/Requests/AuthCookieRequest.ts"],"names":[],"mappings":";;;AAAA;;;;;;;;;;;;;;;;;;;;GAoBG;AACH,uDAAoD;AAEpD,MAAa,gBAAiB,SAAQ,iCAAe;IAEjD;QACI,KAAK,EAAE,CAAC;IACZ,CAAC;IAIM,cAAc,CAAC,EAAE;QACpB,IAAI,CAAC,SAAS,GAAG,EAAE,CAAA;IACvB,CAAC;CACJ;AAXD,4CAWC"}

@@ -1,4 +1,4 @@
-import { RequestBodyBase } from "../";
+import { RequestBodyBase } from "../RequestBodyBase";
 import { Subscription } from "../../../lib/FluxSockets";
 export declare class AddSubscriptionRequest extends RequestBodyBase {
     _addedSubscriptions: Subscription[];

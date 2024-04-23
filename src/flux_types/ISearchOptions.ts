@@ -20,8 +20,10 @@
  * SOFTWARE.
  */
 
+import { AdditionalSearchOptions } from "./AdditionalSearchOptions";
+import { PaginationSupport } from "./PaginationSupport";
 
-import { AdditionalSearchOptions, PaginationSupport } from ".";
+
 
 export interface ISearchOptions {
     pagination: PaginationSupport;

@@ -19,8 +19,8 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ResponseBodyBase } from "./";
-import { FluxType } from "../../flux_types/";
+import { ResponseBodyBase } from "./ResponseBodyBase";
+import { FluxType } from "../../flux_types/FluxType";
 
 export class GenericUpdaterResponse<T extends FluxType> extends ResponseBodyBase {
     type: new (fbo) => T
