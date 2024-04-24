@@ -110,7 +110,7 @@ class FluxType {
     delete() {
         return __awaiter(this, void 0, void 0, function* () {
             let f = yield FluxType.getBackendConn();
-            f.deleteObjects(this.getId(), this.obType);
+            yield f.deleteObjects(this.getId(), this.obType);
             Object.keys(this).forEach(e => {
                 this[e] = undefined;
             });
@@ -138,17 +138,24 @@ class FluxType {
     ;
     refresh() {
         return __awaiter(this, void 0, void 0, function* () {
-            let obs = yield FluxType.getObjectsById(this.getId(), this.obType);
+            let obs = yield FluxType.getObjectsByIdInternal(this.getId(), this.obType);
             if (obs.length !== 1)
                 throw new Error("couldn't refresh the object");
             Object.assign(this, obs[0]);
         });
     }
     ;
-    static getObjectsById(fi, obType) {
+    static getObjectsByIdInternal(fi, obType) {
         return __awaiter(this, void 0, void 0, function* () {
             let f = yield FluxType.getBackendConn();
             let obs = yield f.getObjectsById(fi, obType);
+            return obs;
+        });
+    }
+    static getObjectsById(fi) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let f = yield FluxType.getBackendConn();
+            let obs = yield f.getObjectsById(fi, (new this().obType));
             return obs;
         });
     }

@@ -74,7 +74,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getAccount () : Promise<IAccount>{
         let fi = new FluxIdentifier(undefined, this.accountDumpId, "account_dump")
-        let accountDump = await FluxType.getObjectsById(fi, AccountDump)
+        let accountDump = await AccountDump.getObjectsById(fi)
 
         if (accountDump.length === 0) throw new Error("could not find account associated with the transaction");
 
@@ -93,7 +93,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getCurrentAccount () : Promise<Account> {
         let fi = new FluxIdentifier(undefined, this.accountId, "account")
-        let account = await FluxType.getObjectsById(fi, Account)
+        let account = await Account.getObjectsById(fi)
 
         if (account.length === 0) throw new Error("could not find account associated with the transaction");
 
@@ -108,7 +108,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getPaymentMethod () : Promise<PaymentMethod> {
         let fi = new FluxIdentifier(undefined, this.paymentMethodId, "payment_method")
-        let paymentMethods = await FluxType.getObjectsById(fi, PaymentMethod)
+        let paymentMethods = await PaymentMethod.getObjectsById(fi)
 
         if (paymentMethods.length === 0) throw new Error("could not find payment method associated with the transaction");
 
@@ -125,7 +125,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getShippingAddress () : Promise<IAddress> {
         let fi = new FluxIdentifier(undefined, this.shippingAddressDumpId, "address_dump")
-        let addressDump = await FluxType.getObjectsById(fi, AddressDump)
+        let addressDump = await AddressDump.getObjectsById(fi)
 
         if (addressDump.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -144,7 +144,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getCurrentShippingAddress () : Promise<Address> {
         let fi = new FluxIdentifier(undefined, this.shippingAddressId, "address")
-        let addresses = await FluxType.getObjectsById(fi, Address)
+        let addresses = await Address.getObjectsById(fi)
 
         if (addresses.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -161,7 +161,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getPaymentMethodAddress () : Promise<IAddress> {
         let fi = new FluxIdentifier(undefined, this.paymentMethodAddressDumpId, "address_dump")
-        let addressDump = await FluxType.getObjectsById(fi, AddressDump)
+        let addressDump = await AddressDump.getObjectsById(fi)
 
         if (addressDump.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -180,7 +180,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getCurrentPaymentMethodAddress () : Promise<Address> {
         let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
-        let addressDump = await FluxType.getObjectsById(fi, Address)
+        let addressDump = await Address.getObjectsById(fi)
 
         if (addressDump.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -197,7 +197,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getProducts () : Promise<IProduct[]> {
         let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
-        let prods = await FluxType.getObjectsById(this.getId(), ProductDump)
+        let prods = await ProductDump.getObjectsById(this.getId())
 
         if (prods.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -213,7 +213,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public async getFluxProducts () : Promise<Product[]> {
         let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
-        let prods = await FluxType.getObjectsById(this.getId(), Product)
+        let prods = await Product.getObjectsById(this.getId())
 
 
         if (prods.length === 0) throw new Error("could not find address associated with the transaction");

@@ -47,13 +47,13 @@ async function loadFluxGetter() {
 export abstract class FluxType {
   public dataTableMetadata;
   uniqueId: string
-  public obType: new (o?: any) => FluxType;
+  public obType: new (o?: any) => this;
   public abstract obName: string
   protected abstract objectType: string;
 
   getObjectType() { return this.objectType }
 
-  constructor(fbo: any, t: new (o?: any) => FluxType) {
+  constructor(fbo: any, t: new (o?: any) => any) {
     this.obType = t;
   }
 
@@ -90,7 +90,7 @@ export abstract class FluxType {
 
   public async delete(): Promise<void> {
     let f: Flux = await FluxType.getBackendConn()
-    f.deleteObjects(this.getId(), this.obType)
+    await f.deleteObjects(this.getId(), this.obType)
     Object.keys(this).forEach(e => {
       this[e] = undefined
     })
@@ -111,16 +111,23 @@ export abstract class FluxType {
   };
 
   public async refresh(): Promise<void> {
-    let obs = await FluxType.getObjectsById(this.getId(), this.obType)
+    let obs = await FluxType.getObjectsByIdInternal(this.getId(), this.obType)
     if (obs.length !== 1) throw new Error("couldn't refresh the object");
     Object.assign(this, obs[0])
   };
 
-  public static async getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]> {
+  protected static async getObjectsByIdInternal<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]> {
     let f: Flux = await FluxType.getBackendConn()
     let obs = await f.getObjectsById(fi, obType)
     return obs;
   }
+
+  public static async getObjectsById<T extends FluxType>(this: new () => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<T[]> {
+    let f: Flux = await FluxType.getBackendConn()
+    let obs = await f.getObjectsById<T>(fi, (new this().obType))
+    return obs;
+  }
+
 
   public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]> {
     let f: Flux = await FluxType.getBackendConn()

@@ -60,7 +60,7 @@ class Transaction extends FluxType_1.FluxType {
     getAccount() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.accountDumpId, "account_dump");
-            let accountDump = yield FluxType_1.FluxType.getObjectsById(fi, AccountDump_1.AccountDump);
+            let accountDump = yield AccountDump_1.AccountDump.getObjectsById(fi);
             if (accountDump.length === 0)
                 throw new Error("could not find account associated with the transaction");
             let acc = accountDump[0];
@@ -78,7 +78,7 @@ class Transaction extends FluxType_1.FluxType {
     getCurrentAccount() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.accountId, "account");
-            let account = yield FluxType_1.FluxType.getObjectsById(fi, Account_1.Account);
+            let account = yield Account_1.Account.getObjectsById(fi);
             if (account.length === 0)
                 throw new Error("could not find account associated with the transaction");
             let acc = account[0];
@@ -93,7 +93,7 @@ class Transaction extends FluxType_1.FluxType {
     getPaymentMethod() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.paymentMethodId, "payment_method");
-            let paymentMethods = yield FluxType_1.FluxType.getObjectsById(fi, PaymentMethod_1.PaymentMethod);
+            let paymentMethods = yield PaymentMethod_1.PaymentMethod.getObjectsById(fi);
             if (paymentMethods.length === 0)
                 throw new Error("could not find payment method associated with the transaction");
             let paymentMethod = paymentMethods[0];
@@ -109,7 +109,7 @@ class Transaction extends FluxType_1.FluxType {
     getShippingAddress() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.shippingAddressDumpId, "address_dump");
-            let addressDump = yield FluxType_1.FluxType.getObjectsById(fi, AddressDump_1.AddressDump);
+            let addressDump = yield AddressDump_1.AddressDump.getObjectsById(fi);
             if (addressDump.length === 0)
                 throw new Error("could not find address associated with the transaction");
             let add = addressDump[0];
@@ -128,7 +128,7 @@ class Transaction extends FluxType_1.FluxType {
     getCurrentShippingAddress() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.shippingAddressId, "address");
-            let addresses = yield FluxType_1.FluxType.getObjectsById(fi, Address_1.Address);
+            let addresses = yield Address_1.Address.getObjectsById(fi);
             if (addresses.length === 0)
                 throw new Error("could not find address associated with the transaction");
             let add = addresses[0];
@@ -144,7 +144,7 @@ class Transaction extends FluxType_1.FluxType {
     getPaymentMethodAddress() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.paymentMethodAddressDumpId, "address_dump");
-            let addressDump = yield FluxType_1.FluxType.getObjectsById(fi, AddressDump_1.AddressDump);
+            let addressDump = yield AddressDump_1.AddressDump.getObjectsById(fi);
             if (addressDump.length === 0)
                 throw new Error("could not find address associated with the transaction");
             let add = addressDump[0];
@@ -162,7 +162,7 @@ class Transaction extends FluxType_1.FluxType {
     getCurrentPaymentMethodAddress() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.paymentMethodAddressId, "address");
-            let addressDump = yield FluxType_1.FluxType.getObjectsById(fi, Address_1.Address);
+            let addressDump = yield Address_1.Address.getObjectsById(fi);
             if (addressDump.length === 0)
                 throw new Error("could not find address associated with the transaction");
             let add = addressDump[0];
@@ -178,7 +178,7 @@ class Transaction extends FluxType_1.FluxType {
     getProducts() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.paymentMethodAddressId, "address");
-            let prods = yield FluxType_1.FluxType.getObjectsById(this.getId(), ProductDump_1.ProductDump);
+            let prods = yield ProductDump_1.ProductDump.getObjectsById(this.getId());
             if (prods.length === 0)
                 throw new Error("could not find address associated with the transaction");
             return prods.map(e => e.getInterface());
@@ -195,7 +195,7 @@ class Transaction extends FluxType_1.FluxType {
     getFluxProducts() {
         return __awaiter(this, void 0, void 0, function* () {
             let fi = new FluxIdentifier_1.FluxIdentifier(undefined, this.paymentMethodAddressId, "address");
-            let prods = yield FluxType_1.FluxType.getObjectsById(this.getId(), Product_1.Product);
+            let prods = yield Product_1.Product.getObjectsById(this.getId());
             if (prods.length === 0)
                 throw new Error("could not find address associated with the transaction");
             return prods;

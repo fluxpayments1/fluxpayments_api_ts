@@ -84,7 +84,7 @@ export class Account extends FluxType implements IAccount {
         );
         if (accountAddresses.length === 0) return [];
         let accAddFI: FluxIdentifier[] = accountAddresses.map(i => new FluxIdentifier(i.addressUniqueId, i.addressId, "address"));
-        return await FluxType.getObjectsById<Address>(accAddFI, Address);
+        return await Address.getObjectsById(accAddFI);
     }
 
     /** 
@@ -202,7 +202,7 @@ export class Account extends FluxType implements IAccount {
 
         let fi: FluxIdentifier = { id: this.defaultShippingAddressId, uniqueId: this.defaultShippingAddressUniqueId, objectType: "address" }
 
-        let shippingAddress: Address[] = await FluxType.getObjectsById<Address>(fi, Address)
+        let shippingAddress: Address[] = await Address.getObjectsById<Address>(fi)
 
         if (shippingAddress.length === 0) return undefined;
 
@@ -234,7 +234,7 @@ export class Account extends FluxType implements IAccount {
 
     public async getDefaultPaymentMethod () : Promise<PaymentMethod> {
         let fluxId = new FluxIdentifier(this.defaultPaymentMethodUniqueId, this.defaultPaymentMethodId, "payment_method")
-        let paymentMethods : PaymentMethod[] = await FluxType.getObjectsById<PaymentMethod>(fluxId, PaymentMethod);
+        let paymentMethods : PaymentMethod[] = await PaymentMethod.getObjectsById(fluxId);
 
         if (paymentMethods.length === 0) return undefined;
 

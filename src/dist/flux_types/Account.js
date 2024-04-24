@@ -76,7 +76,7 @@ class Account extends FluxType_1.FluxType {
             if (accountAddresses.length === 0)
                 return [];
             let accAddFI = accountAddresses.map(i => new FluxIdentifier_1.FluxIdentifier(i.addressUniqueId, i.addressId, "address"));
-            return yield FluxType_1.FluxType.getObjectsById(accAddFI, Address_1.Address);
+            return yield Address_1.Address.getObjectsById(accAddFI);
         });
     }
     /**
@@ -179,7 +179,7 @@ class Account extends FluxType_1.FluxType {
             if (!this.defaultShippingAddressId && !this.defaultShippingAddressUniqueId)
                 return undefined;
             let fi = { id: this.defaultShippingAddressId, uniqueId: this.defaultShippingAddressUniqueId, objectType: "address" };
-            let shippingAddress = yield FluxType_1.FluxType.getObjectsById(fi, Address_1.Address);
+            let shippingAddress = yield Address_1.Address.getObjectsById(fi);
             if (shippingAddress.length === 0)
                 return undefined;
             return shippingAddress[0];
@@ -205,7 +205,7 @@ class Account extends FluxType_1.FluxType {
     getDefaultPaymentMethod() {
         return __awaiter(this, void 0, void 0, function* () {
             let fluxId = new FluxIdentifier_1.FluxIdentifier(this.defaultPaymentMethodUniqueId, this.defaultPaymentMethodId, "payment_method");
-            let paymentMethods = yield FluxType_1.FluxType.getObjectsById(fluxId, PaymentMethod_1.PaymentMethod);
+            let paymentMethods = yield PaymentMethod_1.PaymentMethod.getObjectsById(fluxId);
             if (paymentMethods.length === 0)
                 return undefined;
             return paymentMethods[0];

@@ -55,8 +55,10 @@ let fluxWebSocket;
         chai_1.assert.exists(accountIdentifier[0].id);
     }));
     (0, mocha_1.it)("should be able to update the account name to something different", () => __awaiter(this, void 0, void 0, function* () {
+        let reloadAccount;
         try {
-            updatedAccount = yield Account_1.Account.createObjectsSafe(new Account_1.Account(Object.assign(Object.assign({}, account), { firstName: "John" })));
+            updatedAccount = yield Account_1.Account.updateObjects(new Account_1.Account(Object.assign(Object.assign({}, account), { firstName: "John" })));
+            reloadAccount = yield Account_1.Account.getObjectsById(updatedAccount[0].getId());
         }
         catch (e) {
             console.error(e.message);
@@ -76,7 +78,8 @@ let fluxWebSocket;
         catch (e) {
             console.error(e.message);
         }
-        chai_1.assert.lengthOf(yield Account_1.Account.queryObjects(new flux_types_1.AccountQuery({})), 1);
+        let x = yield Account_1.Account.queryObjects(new flux_types_1.AccountQuery({}));
+        chai_1.assert.lengthOf(x, 1);
     }));
 });
 (0, mocha_1.describe)("Pagination and additional functionalities tests for Account", function () {
@@ -176,7 +179,7 @@ let fluxWebSocket;
             orderbyInvalidColumnForAccountShouldFail = true;
         }
         let accIds = searchedAccountsPage2.map(e => e.getId());
-        accIdSearch3Results = yield flux_types_1.FluxType.getObjectsById(accIds, Account_1.Account);
+        accIdSearch3Results = yield Account_1.Account.getObjectsById(accIds);
         yield Account_1.Account.deleteObjects(accounts.map(e => e.getId()).filter(e => e.id !== 1));
     }));
     (0, mocha_1.it)("should have created 53 accounts", () => {

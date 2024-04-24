@@ -4,11 +4,11 @@ import { FluxIdentifier } from "./FluxIdentifier";
 export declare abstract class FluxType {
     dataTableMetadata: any;
     uniqueId: string;
-    obType: new (o?: any) => FluxType;
+    obType: new (o?: any) => this;
     abstract obName: string;
     protected abstract objectType: string;
     getObjectType(): string;
-    constructor(fbo: any, t: new (o?: any) => FluxType);
+    constructor(fbo: any, t: new (o?: any) => any);
     id: number;
     getId(): FluxIdentifier;
     setId(fi: FluxIdentifier): void;
@@ -20,7 +20,8 @@ export declare abstract class FluxType {
     merge(): Promise<void>;
     persist(): Promise<void>;
     refresh(): Promise<void>;
-    static getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]>;
+    protected static getObjectsByIdInternal<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]>;
+    static getObjectsById<T extends FluxType>(this: new () => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<T[]>;
     static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]>;
     static deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<FluxIdentifier[]>;
     static updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]>;

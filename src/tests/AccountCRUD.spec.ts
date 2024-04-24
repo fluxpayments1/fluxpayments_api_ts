@@ -56,9 +56,10 @@ describe("Flux Account CRUD Tests", function () {
     })
 
     it("should be able to update the account name to something different", async () => {
-
+        let reloadAccount
         try {
-            updatedAccount = await Account.createObjectsSafe(new Account({ ...account, firstName: "John" }))
+            updatedAccount = await Account.updateObjects(new Account({ ...account, firstName: "John" }))
+            reloadAccount = await Account.getObjectsById(updatedAccount[0].getId())
         } catch (e: any) {
             console.error(e.message);
         }
@@ -80,7 +81,8 @@ describe("Flux Account CRUD Tests", function () {
             console.error(e.message);
         }
 
-        assert.lengthOf(await Account.queryObjects(new AccountQuery({})), 1);
+        let x = await Account.queryObjects(new AccountQuery({}))
+        assert.lengthOf(x, 1);
 
     })
 })
@@ -189,7 +191,7 @@ describe("Pagination and additional functionalities tests for Account", function
 
         let accIds = searchedAccountsPage2.map(e => e.getId());
 
-        accIdSearch3Results = await FluxType.getObjectsById(accIds, Account);
+        accIdSearch3Results = await Account.getObjectsById(accIds);
 
         await Account.deleteObjects(accounts.map(e => e.getId()).filter(e => e.id !== 1));
     });
