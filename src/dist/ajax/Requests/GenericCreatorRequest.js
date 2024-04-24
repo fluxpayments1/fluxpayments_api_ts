@@ -22,8 +22,8 @@ exports.GenericCreatorRequest = void 0;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const _1 = require("./");
-class GenericCreatorRequest extends _1.RequestBodyBase {
+const RequestBodyBase_1 = require("./RequestBodyBase");
+class GenericCreatorRequest extends RequestBodyBase_1.RequestBodyBase {
     constructor() {
         super();
     }

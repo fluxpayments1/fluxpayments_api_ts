@@ -26,7 +26,7 @@ import { BaseQuery } from "./BaseQuery";
 import { IAccountQuery } from "./IAccountQuery";
 
 
-export class AccountQuery extends BaseQuery {
+export class AccountQuery extends BaseQuery<Account> {
     public serialize() {
         return {
             id: this.id,
@@ -62,7 +62,7 @@ export class AccountQuery extends BaseQuery {
     protected objectType: string = "account";
 
     constructor(accQ?: IAccountQuery){
-        super();
+        super(Account);
         this.attachedObject = Account
         Object.assign(this, accQ);
     }

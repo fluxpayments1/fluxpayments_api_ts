@@ -37,7 +37,6 @@ export class AccountAddress extends FluxType implements IAccountAddress {
             accountUniqueId: this.accountUniqueId,
             addressId: this.addressId,
             addressUniqueId: this.addressUniqueId,
-            address: this.address,
             objectType: "account_address"
         }    
     }
@@ -49,7 +48,6 @@ export class AccountAddress extends FluxType implements IAccountAddress {
     accountUniqueId: string;
     addressId: number;
     addressUniqueId: string;
-    address: Address
     protected objectType: string = "account_address"
 
     public constructor(add?: Partial<IAccountAddress>) {

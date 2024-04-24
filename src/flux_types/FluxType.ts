@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { Flux } from "lib";
+import { Flux } from "../lib/Flux";
 import { BaseQuery } from "./BaseQuery";
 import { FluxIdentifier } from "./FluxIdentifier";
 
@@ -122,15 +122,15 @@ export abstract class FluxType {
     return obs;
   }
 
-  public static async queryObjects<T extends FluxType, U extends BaseQuery>(q: U, obType: new (o?: any) => T): Promise<T[]> {
+  public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]> {
     let f: Flux = await FluxType.getBackendConn()
-    let obs = await f.getObjects<T, U>(q, obType)
+    let obs = await f.getObjects<T, U>(q)
     return obs;
   }
 
   public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<FluxIdentifier[]> {
     let f: Flux = await FluxType.getBackendConn()
-    return await f.deleteObjects(fi, this)
+    return await f.deleteObjects<T>(fi, this)
   }
 
   public static async updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]> {

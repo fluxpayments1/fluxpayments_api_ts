@@ -76,7 +76,7 @@ let fluxWebSocket;
         catch (e) {
             console.error(e.message);
         }
-        chai_1.assert.lengthOf(yield Account_1.Account.queryObjects(new flux_types_1.AccountQuery({}), Account_1.Account), 1);
+        chai_1.assert.lengthOf(yield Account_1.Account.queryObjects(new flux_types_1.AccountQuery({})), 1);
     }));
 });
 (0, mocha_1.describe)("Pagination and additional functionalities tests for Account", function () {
@@ -121,7 +121,7 @@ let fluxWebSocket;
                     pageNumber: 0,
                     itemsPerPage: 50
                 }
-            }), Account_1.Account);
+            }));
         }
         catch (e) {
             searchedAccountsPage0 = true;
@@ -132,19 +132,19 @@ let fluxWebSocket;
                 pageNumber: 1,
                 itemsPerPage: 50
             }
-        }), Account_1.Account);
+        }));
         searchedAccountsPage2 = yield Account_1.Account.queryObjects(new flux_types_1.AccountQuery({
             pagination: {
                 pageNumber: 2,
                 itemsPerPage: 50
             }
-        }), Account_1.Account);
+        }));
         searchedAccountsPage3 = yield Account_1.Account.queryObjects(new flux_types_1.AccountQuery({
             pagination: {
                 pageNumber: 3,
                 itemsPerPage: 50
             }
-        }), Account_1.Account);
+        }));
         orderedAccountsByEmail = yield Account_1.Account.queryObjects(new flux_types_1.AccountQuery({
             pagination: {
                 pageNumber: 1,
@@ -156,7 +156,7 @@ let fluxWebSocket;
                     order: "ASCENDING"
                 }
             ]
-        }), Account_1.Account);
+        }));
         try {
             yield Account_1.Account.queryObjects(new flux_types_1.AccountQuery({
                 pagination: {
@@ -169,7 +169,7 @@ let fluxWebSocket;
                         order: "ASCENDING"
                     }
                 ]
-            }), Account_1.Account);
+            }));
         }
         catch (e) {
             console.log(e.message);

@@ -1,9 +1,10 @@
 import { BaseQuery } from "./BaseQuery";
 import { IProductQuery } from "./IProductQuery";
+import { Product } from "./Product";
 /**
  * This is an object that is used to query for products.
  */
-export declare class ProductQuery extends BaseQuery {
+export declare class ProductQuery extends BaseQuery<Product> {
     serialize(): {
         id: number;
         uniqueId: number;

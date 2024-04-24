@@ -1,4 +1,4 @@
-import { Flux } from "lib";
+import { Flux } from "../lib/Flux";
 import { BaseQuery } from "./BaseQuery";
 import { FluxIdentifier } from "./FluxIdentifier";
 export declare abstract class FluxType {
@@ -21,7 +21,7 @@ export declare abstract class FluxType {
     persist(): Promise<void>;
     refresh(): Promise<void>;
     static getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]>;
-    static queryObjects<T extends FluxType, U extends BaseQuery>(q: U, obType: new (o?: any) => T): Promise<T[]>;
+    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]>;
     static deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<FluxIdentifier[]>;
     static updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]>;
     static createObjects<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]>;

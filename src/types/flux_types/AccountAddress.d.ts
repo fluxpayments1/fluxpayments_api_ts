@@ -1,4 +1,3 @@
-import { Address } from "./Address";
 import { FluxType } from "./FluxType";
 import { IAccountAddress } from "./IAccountAddress";
 export declare class AccountAddress extends FluxType implements IAccountAddress {
@@ -11,7 +10,6 @@ export declare class AccountAddress extends FluxType implements IAccountAddress 
         accountUniqueId: string;
         addressId: number;
         addressUniqueId: string;
-        address: Address;
         objectType: string;
     };
     uniqueId: string;
@@ -21,7 +19,6 @@ export declare class AccountAddress extends FluxType implements IAccountAddress 
     accountUniqueId: string;
     addressId: number;
     addressUniqueId: string;
-    address: Address;
     protected objectType: string;
     constructor(add?: Partial<IAccountAddress>);
     static createInstanceLazy(acc: Partial<IAccountAddress>): Promise<AccountAddress>;

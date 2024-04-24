@@ -22,6 +22,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccountAddressQuery = void 0;
+const AccountAddress_1 = require("./AccountAddress");
 const BaseQuery_1 = require("./BaseQuery");
 /**
  * This is an object that is used to query for products.
@@ -41,7 +42,7 @@ class AccountAddressQuery extends BaseQuery_1.BaseQuery {
         };
     }
     constructor(accQ) {
-        super();
+        super(AccountAddress_1.AccountAddress);
         this.objectType = "account_address";
         Object.assign(this, accQ);
     }

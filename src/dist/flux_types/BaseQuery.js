@@ -23,6 +23,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BaseQuery = void 0;
 class BaseQuery {
+    constructor(attObject) {
+        this.attachedObject = attObject;
+    }
 }
 exports.BaseQuery = BaseQuery;
 //# sourceMappingURL=BaseQuery.js.map

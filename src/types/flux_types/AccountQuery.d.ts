@@ -1,7 +1,8 @@
+import { Account } from "./Account";
 import { AccountUserType } from "./AccountUserType";
 import { BaseQuery } from "./BaseQuery";
 import { IAccountQuery } from "./IAccountQuery";
-export declare class AccountQuery extends BaseQuery {
+export declare class AccountQuery extends BaseQuery<Account> {
     serialize(): {
         id: number;
         uniqueId: string;

@@ -22,9 +22,10 @@
 
 import { BaseQuery } from "./BaseQuery";
 import { IRecurringTransactionQuery } from "./IRecurringTransactionQuery";
+import { RecurringTransaction } from "./RecurringTransaction";
 
 
-export class RecurringTransactionQuery extends BaseQuery {
+export class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> {
     public serialize() {
         return {
             id: this.id,
@@ -53,7 +54,7 @@ export class RecurringTransactionQuery extends BaseQuery {
     protected objectType: string = "recurring_transaction";
 
     public constructor(tokQ?: IRecurringTransactionQuery) {
-        super();
+        super(RecurringTransaction);
         Object.assign(this, tokQ);
     }
 

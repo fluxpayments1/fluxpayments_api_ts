@@ -25,7 +25,7 @@ import { IAddress } from "./IAddress";
 import { FluxType } from "./FluxType";
 
 export class Address extends FluxType {
-    public obName: string;
+    public obName: string = "Address";
     public serialize() {
         return {
             uniqueId: this.uniqueId,

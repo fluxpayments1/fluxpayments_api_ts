@@ -23,6 +23,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.InstallmentTransactionQuery = void 0;
 const BaseQuery_1 = require("./BaseQuery");
+const InstallmentTransaction_1 = require("./InstallmentTransaction");
 /**
  * This is an object that is used to query for installment_transactions.
  */
@@ -41,7 +42,7 @@ class InstallmentTransactionQuery extends BaseQuery_1.BaseQuery {
         };
     }
     constructor(tokQ) {
-        super();
+        super(InstallmentTransaction_1.InstallmentTransaction);
         this.objectType = "installment_transaction";
         Object.assign(this, tokQ);
         // Add additional constructor logic here if needed

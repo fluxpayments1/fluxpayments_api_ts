@@ -1,6 +1,7 @@
 import { BaseQuery } from "./BaseQuery";
 import { IToken } from "./IToken";
-export declare class TokenQuery extends BaseQuery {
+import { Token } from "./Token";
+export declare class TokenQuery extends BaseQuery<Token> {
     serialize(): {
         id: number;
         uniqueId: number;

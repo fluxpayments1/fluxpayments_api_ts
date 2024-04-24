@@ -22,7 +22,7 @@ export declare class Flux implements IFlux {
     createSession(id: FluxIdentifier): Promise<string>;
     createObjectGeneric<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]>;
     createObjectGenericSafe<T extends FluxType>(ob: T | T[]): Promise<T[]>;
-    getObjects<T extends FluxType, U extends BaseQuery>(query: U, obType: new (o?: any) => T): Promise<T[]>;
+    getObjects<T extends FluxType, U extends BaseQuery<T>>(query: U): Promise<T[]>;
     deleteObjects<T extends FluxType>(ids: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<FluxIdentifier[]>;
     getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]>;
     updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]>;

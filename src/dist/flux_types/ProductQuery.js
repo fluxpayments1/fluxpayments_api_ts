@@ -23,6 +23,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProductQuery = void 0;
 const BaseQuery_1 = require("./BaseQuery");
+const Product_1 = require("./Product");
 /**
  * This is an object that is used to query for products.
  */
@@ -42,7 +43,7 @@ class ProductQuery extends BaseQuery_1.BaseQuery {
         };
     }
     constructor(productQuery) {
-        super();
+        super(Product_1.Product);
         this.objectType = "product";
         Object.assign(this, productQuery);
     }

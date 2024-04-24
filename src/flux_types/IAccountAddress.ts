@@ -29,5 +29,4 @@ export interface IAccountAddress {
     accountUniqueId?: string,
     addressId?: number,
     addressUniqueId?: string,
-    address?: Address
 }

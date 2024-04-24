@@ -56,6 +56,8 @@ export abstract class ResponseBodyBase implements ResponseBody {
          * Follow convention an use the underscore. Otherwise
          * this framework will not work.
          */
+
+
         let jsonObj = JSON.parse(json);
         for (let key in jsonObj) {
             this["_".concat(key)] = jsonObj[key];

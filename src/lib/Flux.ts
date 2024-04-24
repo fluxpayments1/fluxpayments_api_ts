@@ -113,12 +113,20 @@ export class Flux implements IFlux {
     ): Promise<T[]> {
 
         let obName
-        if (Array.isArray(ob)) obName = ob[0].obName
-        else obName = ob.obName
+        let obType
+        if (Array.isArray(ob)) {
+            obName = ob[0].obName
+            obType = ob[0].obType
+        }
+        else {
+            obName = ob.obName
+            obType = ob.obType
+        }
 
-        return CMMT.fetch<T[], GenericCreatorRequest, GenericCreatorResponse>(
+        return CMMT.fetchGeneric< GenericCreatorRequest, GenericGetterResponse<T>, T>(
             GenericCreatorRequest,
-            GenericCreatorResponse,
+            GenericGetterResponse<T>,
+            obType,
             `create${obName}InstanceSafe`,
             "POST",
             this._securityHandle,
@@ -127,13 +135,13 @@ export class Flux implements IFlux {
     }
 
 
-    public async getObjects<T extends FluxType, U extends BaseQuery>(
+    public async getObjects<T extends FluxType, U extends BaseQuery<T>>(
         query: U,
-        obType: new (o?: any) => T
     ): Promise<T[]> {
+        let obType = query.attachedObject
         let name = new obType().obName
-        return CMMT.fetchGeneric<GenericGetterRequest<U>, GenericGetterResponse<T>, T>(
-            GenericGetterRequest<U>,
+        return CMMT.fetchGeneric<GenericGetterRequest<T, U>, GenericGetterResponse<T>, T>(
+            GenericGetterRequest<T, U>,
             GenericGetterResponse<T>,
             obType,
             `get${name}`,
@@ -198,7 +206,7 @@ export class Flux implements IFlux {
         );
     }
 
-    public async updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier) : Promise<Product[]> {
+    public async updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier): Promise<Product[]> {
         return CMMT.fetch<Product[], ChngProdInvCntRequest, UpdateProductResponse>(
             ChngProdInvCntRequest,
             UpdateProductResponse,
@@ -208,7 +216,7 @@ export class Flux implements IFlux {
             multiplier,
             quantity,
             fi
-        )  
+        )
     }
 }
 

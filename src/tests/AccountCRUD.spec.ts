@@ -80,7 +80,7 @@ describe("Flux Account CRUD Tests", function () {
             console.error(e.message);
         }
 
-        assert.lengthOf(await Account.queryObjects(new AccountQuery({}), Account), 1);
+        assert.lengthOf(await Account.queryObjects(new AccountQuery({})), 1);
 
     })
 })
@@ -129,7 +129,7 @@ describe("Pagination and additional functionalities tests for Account", function
                     pageNumber: 0,
                     itemsPerPage: 50
                 }
-            }), Account);
+            }));
         } catch (e: any) {
             searchedAccountsPage0 = true;
             console.log(e.message);
@@ -140,21 +140,21 @@ describe("Pagination and additional functionalities tests for Account", function
                 pageNumber: 1,
                 itemsPerPage: 50
             }
-        }), Account);
+        }));
 
         searchedAccountsPage2 = await  Account.queryObjects(new AccountQuery({
             pagination: {
                 pageNumber: 2,
                 itemsPerPage: 50
             }
-        }), Account);
+        }));
 
         searchedAccountsPage3 = await  Account.queryObjects(new AccountQuery({
             pagination: {
                 pageNumber: 3,
                 itemsPerPage: 50
             }
-        }), Account);
+        }));
 
         orderedAccountsByEmail = await  Account.queryObjects(new AccountQuery({
             pagination: {
@@ -167,7 +167,7 @@ describe("Pagination and additional functionalities tests for Account", function
                     order: "ASCENDING"
                 }
             ]
-        }), Account);
+        }));
 
         try {
             await  Account.queryObjects(new AccountQuery({
@@ -181,7 +181,7 @@ describe("Pagination and additional functionalities tests for Account", function
                         order: "ASCENDING"
                     }
                 ]
-            }), Account);
+            }));
         } catch (e: any) {
             console.log(e.message);
             orderbyInvalidColumnForAccountShouldFail = true;

@@ -1,6 +1,7 @@
 import { BaseQuery } from "./BaseQuery";
 import { IRecurringTransactionQuery } from "./IRecurringTransactionQuery";
-export declare class RecurringTransactionQuery extends BaseQuery {
+import { RecurringTransaction } from "./RecurringTransaction";
+export declare class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> {
     serialize(): {
         id: number;
         metadata: string;

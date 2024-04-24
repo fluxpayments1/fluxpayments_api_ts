@@ -110,13 +110,13 @@ const AddressQuery_1 = require("../flux_types/AddressQuery");
         try {
             accountAddresses = yield fluxObj.getObjects(new flux_types_1.AccountAddressQuery({
                 accountUniqueId: account.uniqueId
-            }), flux_types_1.AccountAddress);
+            }));
             chai_1.assert.isDefined(accountAddresses);
             chai_1.assert.lengthOf(accountAddresses, 1);
             chai_1.assert.equal(accountAddresses[0].accountUniqueId, account.uniqueId);
-            secondAccountAddresses = yield fluxObj.getObjects(new flux_types_1.AccountAddressQuery({
+            secondAccountAddresses = yield flux_types_1.FluxType.queryObjects(new flux_types_1.AccountAddressQuery({
                 accountUniqueId: secondAccount.uniqueId
-            }), flux_types_1.AccountAddress);
+            }));
             chai_1.assert.isDefined(secondAccountAddresses);
             chai_1.assert.lengthOf(secondAccountAddresses, 1);
             chai_1.assert.equal(secondAccountAddresses[0].accountUniqueId, secondAccount.uniqueId);
@@ -139,10 +139,10 @@ const AddressQuery_1 = require("../flux_types/AddressQuery");
             }
             let fa = yield Account_1.Account.createInstanceSafe(account);
             let sa = yield Account_1.Account.createInstanceSafe(secondAccount);
-            chai_1.assert.lengthOf(yield flux_types_1.AccountAddress.queryObjects(new flux_types_1.AccountAddressQuery({}), flux_types_1.AccountAddress), 0);
+            chai_1.assert.lengthOf(yield flux_types_1.AccountAddress.queryObjects(new flux_types_1.AccountAddressQuery({})), 0);
             let addresses;
             try {
-                addresses = yield flux_types_1.AccountAddress.queryObjects(new AddressQuery_1.AddressQuery({}), flux_types_1.Address);
+                addresses = yield flux_types_1.AccountAddress.queryObjects(new AddressQuery_1.AddressQuery({}));
             }
             catch (e) {
                 console.log(e.message);

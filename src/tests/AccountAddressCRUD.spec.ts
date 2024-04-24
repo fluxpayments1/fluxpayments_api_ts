@@ -1,4 +1,4 @@
-import { FluxIdentifier, Address, AccountQuery, AccountAddress, AccountAddressQuery, AccountUserType } from "../flux_types";
+import { FluxIdentifier, Address, AccountQuery, AccountAddress, AccountAddressQuery, AccountUserType, FluxType } from "../flux_types";
 import { Flux, flux } from "../lib";
 import { describe, it, before } from "mocha";
 import { assert } from "chai";
@@ -122,15 +122,15 @@ describe("Flux AccountAddress CRUD Tests", function () {
         try {
             accountAddresses = await fluxObj.getObjects(new AccountAddressQuery({
                 accountUniqueId: account.uniqueId
-            }), AccountAddress)
+            }))
 
             assert.isDefined(accountAddresses)
             assert.lengthOf(accountAddresses, 1)
             assert.equal(accountAddresses[0].accountUniqueId, account.uniqueId)
 
-            secondAccountAddresses = await fluxObj.getObjects(new AccountAddressQuery({
+            secondAccountAddresses = await FluxType.queryObjects(new AccountAddressQuery({
                 accountUniqueId: secondAccount.uniqueId
-            }), AccountAddress)
+            }))
 
             assert.isDefined(secondAccountAddresses)
             assert.lengthOf(secondAccountAddresses, 1)
@@ -155,10 +155,10 @@ describe("Flux AccountAddress CRUD Tests", function () {
             let fa = await Account.createInstanceSafe(account)
             let sa = await Account.createInstanceSafe(secondAccount)
     
-            assert.lengthOf(await AccountAddress.queryObjects(new AccountAddressQuery({}), AccountAddress), 0);
+            assert.lengthOf(await AccountAddress.queryObjects(new AccountAddressQuery({})), 0);
             let addresses : Address[]
             try {
-                addresses = await AccountAddress.queryObjects(new AddressQuery ({}), Address)
+                addresses = await AccountAddress.queryObjects(new AddressQuery ({}))
             } catch (e: any) {
                 console.log(e.message)
                 assert.fail(e.message)

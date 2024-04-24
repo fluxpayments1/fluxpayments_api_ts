@@ -45,7 +45,7 @@ class AccountQuery extends BaseQuery_1.BaseQuery {
         };
     }
     constructor(accQ) {
-        super();
+        super(Account_1.Account);
         this.objectType = "account";
         this.attachedObject = Account_1.Account;
         Object.assign(this, accQ);

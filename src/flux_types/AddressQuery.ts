@@ -20,10 +20,11 @@
  * SOFTWARE.
  */
 
+import { Address } from "./Address";
 import { BaseQuery } from "./BaseQuery";
 import { IAddressQuery } from "./IAddressQuery";
 
-export class AddressQuery extends BaseQuery {
+export class AddressQuery extends BaseQuery<Address> {
 
     public serialize() {
         return {
@@ -51,7 +52,7 @@ export class AddressQuery extends BaseQuery {
     protected objectType: string = "address"
 
     constructor(addressQuery?: IAddressQuery){
-        super();
+        super(Address);
         Object.assign(this, addressQuery);
     }
 

@@ -112,8 +112,8 @@ describe("Account specific tests", function () {
         yield Promise.all(removalPromises);
         yield acc.delete();
         yield acc2.delete();
-        let addSearch = yield fluxObj.getObjects(AddressQuery_1.AddressQuery.createQuery({}), Address_1.Address);
-        let accSearch = yield fluxObj.getObjects(AccountQuery_1.AccountQuery.createQuery({}), index_1.Account);
+        let addSearch = yield fluxObj.getObjects(AddressQuery_1.AddressQuery.createQuery({}));
+        let accSearch = yield fluxObj.getObjects(AccountQuery_1.AccountQuery.createQuery({}));
         it("should clean up resources properly", () => {
             chai_1.assert.lengthOf(accSearch, 0);
             chai_1.assert.lengthOf(addSearch, 0);

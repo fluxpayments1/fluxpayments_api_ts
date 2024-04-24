@@ -23,6 +23,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RecurringTransactionQuery = void 0;
 const BaseQuery_1 = require("./BaseQuery");
+const RecurringTransaction_1 = require("./RecurringTransaction");
 class RecurringTransactionQuery extends BaseQuery_1.BaseQuery {
     serialize() {
         return {
@@ -40,7 +41,7 @@ class RecurringTransactionQuery extends BaseQuery_1.BaseQuery {
         };
     }
     constructor(tokQ) {
-        super();
+        super(RecurringTransaction_1.RecurringTransaction);
         this.objectType = "recurring_transaction";
         Object.assign(this, tokQ);
     }

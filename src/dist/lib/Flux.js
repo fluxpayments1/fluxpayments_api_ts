@@ -87,15 +87,21 @@ class Flux {
     createObjectGenericSafe(ob) {
         return __awaiter(this, void 0, void 0, function* () {
             let obName;
-            if (Array.isArray(ob))
+            let obType;
+            if (Array.isArray(ob)) {
                 obName = ob[0].obName;
-            else
+                obType = ob[0].obType;
+            }
+            else {
                 obName = ob.obName;
-            return lib_1.CMMT.fetch(Requests_1.GenericCreatorRequest, Responses_1.GenericCreatorResponse, `create${obName}InstanceSafe`, "POST", this._securityHandle, ob);
+                obType = ob.obType;
+            }
+            return lib_1.CMMT.fetchGeneric(Requests_1.GenericCreatorRequest, (Responses_1.GenericGetterResponse), obType, `create${obName}InstanceSafe`, "POST", this._securityHandle, ob);
         });
     }
-    getObjects(query, obType) {
+    getObjects(query) {
         return __awaiter(this, void 0, void 0, function* () {
+            let obType = query.attachedObject;
             let name = new obType().obName;
             return lib_1.CMMT.fetchGeneric((Requests_1.GenericGetterRequest), (Responses_1.GenericGetterResponse), obType, `get${name}`, "POST", this._securityHandle, query);
         });

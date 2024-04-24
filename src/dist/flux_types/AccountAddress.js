@@ -42,7 +42,6 @@ class AccountAddress extends FluxType_1.FluxType {
             accountUniqueId: this.accountUniqueId,
             addressId: this.addressId,
             addressUniqueId: this.addressUniqueId,
-            address: this.address,
             objectType: "account_address"
         };
     }

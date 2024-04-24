@@ -23,6 +23,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TransactionQuery = void 0;
 const BaseQuery_1 = require("./BaseQuery");
+const Transaction_1 = require("./Transaction");
 class TransactionQuery extends BaseQuery_1.BaseQuery {
     serialize() {
         return {
@@ -61,7 +62,7 @@ class TransactionQuery extends BaseQuery_1.BaseQuery {
         };
     }
     constructor(tokQ) {
-        super();
+        super(Transaction_1.Transaction);
         this.objectType = "transaction";
         Object.assign(this, tokQ);
         // Add additional constructor logic here if needed

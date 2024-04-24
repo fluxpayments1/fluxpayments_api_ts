@@ -76,7 +76,12 @@ export class Account extends FluxType implements IAccount {
      * 
      */
     async getAddressses(): Promise<Address[]> {
-        let accountAddresses: AccountAddress[] = await FluxType.getObjectsById<AccountAddress>(this.getId(), AccountAddress);
+        let accountAddresses: AccountAddress[] = await FluxType.queryObjects(
+            AccountAddressQuery.createQuery({
+                accountId: this.id,
+                accountUniqueId: this.uniqueId
+            })
+        );
         if (accountAddresses.length === 0) return [];
         let accAddFI: FluxIdentifier[] = accountAddresses.map(i => new FluxIdentifier(i.addressUniqueId, i.addressId, "address"));
         return await FluxType.getObjectsById<Address>(accAddFI, Address);
@@ -101,7 +106,8 @@ export class Account extends FluxType implements IAccount {
             return new AccountAddress({
                 accountId: this.id,
                 accountUniqueId: this.uniqueId,
-                address: i
+                addressId: i.id,
+                addressUniqueId: i.uniqueId
             })
         })
 
@@ -145,7 +151,7 @@ export class Account extends FluxType implements IAccount {
             accountUniqueId: this.uniqueId
         })
 
-        let accAddToDelete: AccountAddress[] = await FluxType.queryObjects<AccountAddress, AccountAddressQuery>(fiAdd, AccountAddress);
+        let accAddToDelete: AccountAddress[] = await FluxType.queryObjects<AccountAddress, AccountAddressQuery>(fiAdd);
 
         let fiAccAdd = accAddToDelete.filter((e) => adMapId.has(e.addressId) || adMapUniqueId.has(e.addressUniqueId)).map(e => e.getId())
         await AccountAddress.deleteObjects(fiAccAdd)

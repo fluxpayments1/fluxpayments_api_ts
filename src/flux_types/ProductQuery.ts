@@ -22,10 +22,11 @@
 
 import { BaseQuery } from "./BaseQuery";
 import { IProductQuery } from "./IProductQuery";
+import { Product } from "./Product";
 /**
  * This is an object that is used to query for products.
  */
-export class ProductQuery extends BaseQuery {
+export class ProductQuery extends BaseQuery<Product> {
     public serialize() {
         return {
             id: this.id,
@@ -51,7 +52,7 @@ export class ProductQuery extends BaseQuery {
     protected objectType: string = "product";
 
     constructor(productQuery?: IProductQuery) {
-        super();
+        super(Product);
         Object.assign(this, productQuery);
     }
 

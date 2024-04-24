@@ -69,7 +69,10 @@ class Account extends FluxType_1.FluxType {
      */
     getAddressses() {
         return __awaiter(this, void 0, void 0, function* () {
-            let accountAddresses = yield FluxType_1.FluxType.getObjectsById(this.getId(), AccountAddress_1.AccountAddress);
+            let accountAddresses = yield FluxType_1.FluxType.queryObjects(AccountAddressQuery_1.AccountAddressQuery.createQuery({
+                accountId: this.id,
+                accountUniqueId: this.uniqueId
+            }));
             if (accountAddresses.length === 0)
                 return [];
             let accAddFI = accountAddresses.map(i => new FluxIdentifier_1.FluxIdentifier(i.addressUniqueId, i.addressId, "address"));
@@ -94,7 +97,8 @@ class Account extends FluxType_1.FluxType {
                 return new AccountAddress_1.AccountAddress({
                     accountId: this.id,
                     accountUniqueId: this.uniqueId,
-                    address: i
+                    addressId: i.id,
+                    addressUniqueId: i.uniqueId
                 });
             });
             yield FluxType_1.FluxType.createObjectsSafe(accAdd);
@@ -130,7 +134,7 @@ class Account extends FluxType_1.FluxType {
                 accountId: this.id,
                 accountUniqueId: this.uniqueId
             });
-            let accAddToDelete = yield FluxType_1.FluxType.queryObjects(fiAdd, AccountAddress_1.AccountAddress);
+            let accAddToDelete = yield FluxType_1.FluxType.queryObjects(fiAdd);
             let fiAccAdd = accAddToDelete.filter((e) => adMapId.has(e.addressId) || adMapUniqueId.has(e.addressUniqueId)).map(e => e.getId());
             yield AccountAddress_1.AccountAddress.deleteObjects(fiAccAdd);
             return adArr;

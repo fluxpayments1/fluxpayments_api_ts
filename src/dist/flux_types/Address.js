@@ -48,6 +48,7 @@ class Address extends FluxType_1.FluxType {
     }
     constructor(add) {
         super(add, Address);
+        this.obName = "Address";
         this.objectType = "address";
         Object.assign(this, add);
     }

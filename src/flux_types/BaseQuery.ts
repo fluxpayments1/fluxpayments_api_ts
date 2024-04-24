@@ -24,8 +24,11 @@ import { AdditionalSearchOptions } from "./AdditionalSearchOptions";
 import { FluxType } from "./FluxType";
 import { PaginationSupport } from "./PaginationSupport";
 
-export abstract class BaseQuery {
-    attachedObject: typeof FluxType
+export abstract class BaseQuery<T extends FluxType> {
+    constructor (attObject: new (o?: any) => T) {
+        this.attachedObject = attObject
+    }
+    attachedObject: new (o?: any) => T
     pagination : PaginationSupport;
     additionalSearchOptions: AdditionalSearchOptions[];
     lookupPage: string | undefined;

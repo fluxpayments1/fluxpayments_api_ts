@@ -20,6 +20,7 @@
  * SOFTWARE.
  */
 
+import { AccountAddress } from "./AccountAddress";
 import { BaseQuery } from "./BaseQuery";
 import { IAccountAddressQuery } from "./IAccountAddressQuery";
 
@@ -29,7 +30,7 @@ import { IAccountAddressQuery } from "./IAccountAddressQuery";
  * This is an object that is used to query for products.
  */
 
-export class AccountAddressQuery extends BaseQuery {
+export class AccountAddressQuery extends BaseQuery<AccountAddress> {
     public serialize() {
         return {
             id: this.id,
@@ -53,7 +54,7 @@ export class AccountAddressQuery extends BaseQuery {
     addressUniqueId: string;
 
     constructor(accQ?: IAccountAddressQuery) {
-        super();
+        super(AccountAddress);
         Object.assign(this, accQ);
     }
 

@@ -23,6 +23,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TokenQuery = void 0;
 const BaseQuery_1 = require("./BaseQuery");
+const Token_1 = require("./Token");
 class TokenQuery extends BaseQuery_1.BaseQuery {
     serialize() {
         return {
@@ -55,7 +56,7 @@ class TokenQuery extends BaseQuery_1.BaseQuery {
         return isNaN(parsedId) ? 0 : parsedId;
     }
     constructor(tokQ) {
-        super();
+        super(Token_1.Token);
         this.objectType = "token";
         Object.assign(this, tokQ);
         if (tokQ.token) {

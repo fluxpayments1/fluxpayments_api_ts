@@ -1,4 +1,3 @@
-import { Address } from "./Address";
 export interface IAccountAddress {
     id?: number;
     uniqueId?: string;
@@ -6,5 +5,4 @@ export interface IAccountAddress {
     accountUniqueId?: string;
     addressId?: number;
     addressUniqueId?: string;
-    address?: Address;
 }

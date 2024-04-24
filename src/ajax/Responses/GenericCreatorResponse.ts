@@ -35,7 +35,6 @@ export class GenericCreatorResponse extends ResponseBodyBase {
     }
 
     public getClientReturnValue(): FluxIdentifier[] {
-
         return this._createdObjects;
     }
 }

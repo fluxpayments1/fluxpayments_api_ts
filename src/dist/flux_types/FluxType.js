@@ -152,10 +152,10 @@ class FluxType {
             return obs;
         });
     }
-    static queryObjects(q, obType) {
+    static queryObjects(q) {
         return __awaiter(this, void 0, void 0, function* () {
             let f = yield FluxType.getBackendConn();
-            let obs = yield f.getObjects(q, obType);
+            let obs = yield f.getObjects(q);
             return obs;
         });
     }

@@ -22,9 +22,10 @@
 
 import { BaseQuery } from "./BaseQuery";
 import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
+import { PaymentMethod } from "./PaymentMethod";
 
 
-export class PaymentMethodQuery extends BaseQuery {
+export class PaymentMethodQuery extends BaseQuery<PaymentMethod> {
     public serialize() {
         return {
             id: this.id,
@@ -51,7 +52,7 @@ export class PaymentMethodQuery extends BaseQuery {
     protected objectType: string = "payment_method";
 
     public constructor(tokQ?: IPaymentMethodQuery) {
-        super();
+        super(PaymentMethod);
         Object.assign(this, tokQ);
         // Add additional constructor logic here if needed
     }

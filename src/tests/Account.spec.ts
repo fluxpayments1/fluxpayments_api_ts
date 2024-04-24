@@ -2,7 +2,7 @@ import { assert } from "chai";
 import { AccountQuery } from "../flux_types/AccountQuery";
 import { Address } from "../flux_types/Address";
 import { AddressQuery } from "../flux_types/AddressQuery";
-import { Account, AccountUserType, FluxType, IAccount } from "../flux_types/index";
+import { Account, AccountUserType } from "../flux_types/index";
 import { Flux } from "../lib/Flux";
 import { flux } from "../lib/index";
 import { FluxSockets } from "../lib/FluxSockets";
@@ -131,9 +131,9 @@ describe("Account specific tests", function () {
         await acc.delete();
         await acc2.delete();
 
-        let addSearch = await fluxObj.getObjects(AddressQuery.createQuery({}), Address);
+        let addSearch = await fluxObj.getObjects(AddressQuery.createQuery({}));
 
-        let accSearch = await fluxObj.getObjects(AccountQuery.createQuery({}), Account);
+        let accSearch = await fluxObj.getObjects(AccountQuery.createQuery({}));
 
         it("should clean up resources properly", () => {
             assert.lengthOf(accSearch, 0);

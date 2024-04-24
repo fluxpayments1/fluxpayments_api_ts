@@ -1,4 +1,4 @@
-import { RequestBodyBase } from "./";
+import { RequestBodyBase } from "./RequestBodyBase";
 export declare class GenericCreatorRequest extends RequestBodyBase {
     constructor();
     private _createdObjects;

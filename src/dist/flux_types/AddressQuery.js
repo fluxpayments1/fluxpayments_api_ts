@@ -22,6 +22,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddressQuery = void 0;
+const Address_1 = require("./Address");
 const BaseQuery_1 = require("./BaseQuery");
 class AddressQuery extends BaseQuery_1.BaseQuery {
     serialize() {
@@ -39,7 +40,7 @@ class AddressQuery extends BaseQuery_1.BaseQuery {
         };
     }
     constructor(addressQuery) {
-        super();
+        super(Address_1.Address);
         this.objectType = "address";
         Object.assign(this, addressQuery);
     }

@@ -22,9 +22,10 @@
 
 import { BaseQuery } from "./BaseQuery";
 import { IToken } from "./IToken";
+import { Token } from "./Token";
 
 
-export class TokenQuery extends BaseQuery {
+export class TokenQuery extends BaseQuery<Token> {
     public serialize() {
         return {
             id: this.id,
@@ -68,7 +69,7 @@ export class TokenQuery extends BaseQuery {
     }
 
     constructor(tokQ?: IToken) {
-        super();
+        super(Token);
         Object.assign(this, tokQ);
 
         if (tokQ.token) {

@@ -1,6 +1,7 @@
+import { Address } from "./Address";
 import { BaseQuery } from "./BaseQuery";
 import { IAddressQuery } from "./IAddressQuery";
-export declare class AddressQuery extends BaseQuery {
+export declare class AddressQuery extends BaseQuery<Address> {
     serialize(): {
         id: number;
         uniqueId: string;

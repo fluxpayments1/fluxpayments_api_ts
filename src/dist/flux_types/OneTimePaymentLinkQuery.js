@@ -23,6 +23,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.OneTimePaymentLinkQuery = void 0;
 const BaseQuery_1 = require("./BaseQuery");
+const OneTimePaymentLink_1 = require("./OneTimePaymentLink");
 /**
  * This is an object that is used to query for one_time_payment_links.
  */
@@ -40,7 +41,7 @@ class OneTimePaymentLinkQuery extends BaseQuery_1.BaseQuery {
         };
     }
     constructor(tokQ) {
-        super();
+        super(OneTimePaymentLink_1.OneTimePaymentLink);
         this.objectType = "one_time_payment_link";
         Object.assign(this, tokQ);
         // Add additional constructor logic here if needed

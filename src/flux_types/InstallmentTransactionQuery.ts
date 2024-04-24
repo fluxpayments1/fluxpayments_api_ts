@@ -22,12 +22,13 @@
 
 import { BaseQuery } from "./BaseQuery";
 import { IInstallmentTransactionQuery } from "./IInstallmentTransactionQuery";
+import { InstallmentTransaction } from "./InstallmentTransaction";
 
 
 /**
  * This is an object that is used to query for installment_transactions.
  */
-export class InstallmentTransactionQuery extends BaseQuery {
+export class InstallmentTransactionQuery extends BaseQuery<InstallmentTransaction> {
     public serialize() {
         return {
             id: this.id,
@@ -52,7 +53,7 @@ export class InstallmentTransactionQuery extends BaseQuery {
     protected objectType: string = "installment_transaction";
 
     public constructor(tokQ?: IInstallmentTransactionQuery){
-        super();
+        super(InstallmentTransaction);
         Object.assign(this, tokQ);
         // Add additional constructor logic here if needed
     }

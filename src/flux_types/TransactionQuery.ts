@@ -22,9 +22,10 @@
 
 import { BaseQuery } from "./BaseQuery";
 import { ITransactionQuery } from "./ITransactionQuery";
+import { Transaction } from "./Transaction";
 
 
-export class TransactionQuery extends BaseQuery {
+export class TransactionQuery extends BaseQuery<Transaction> {
     public serialize() {
         return {
             id: this.id,
@@ -95,7 +96,7 @@ export class TransactionQuery extends BaseQuery {
     protected objectType: string = "transaction";
 
     public constructor(tokQ?: ITransactionQuery) {
-        super();
+        super(Transaction);
         Object.assign(this, tokQ);
         // Add additional constructor logic here if needed
     }

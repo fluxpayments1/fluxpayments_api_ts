@@ -22,12 +22,13 @@
 
 import { BaseQuery } from "./BaseQuery";
 import { IOneTimePaymentLinkQuery } from "./IOneTimePaymentLinkQuery";
+import { OneTimePaymentLink } from "./OneTimePaymentLink";
 
 
 /**
  * This is an object that is used to query for one_time_payment_links.
  */
-export class OneTimePaymentLinkQuery extends BaseQuery {
+export class OneTimePaymentLinkQuery extends BaseQuery<OneTimePaymentLink> {
     public serialize() {
         return {
             id: this.id,
@@ -50,7 +51,7 @@ export class OneTimePaymentLinkQuery extends BaseQuery {
     protected objectType: string = "one_time_payment_link";
 
     public constructor(tokQ?: IOneTimePaymentLinkQuery) {
-        super();
+        super(OneTimePaymentLink);
         Object.assign(this, tokQ);
         // Add additional constructor logic here if needed
     }
