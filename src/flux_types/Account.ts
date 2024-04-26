@@ -64,6 +64,7 @@ export class Account extends FluxType implements IAccount {
     firstName: string;
     middleName: string;
     lastName: string;
+    //Enum theat describes the type of the account
     accountUserType: AccountUserType;
     private defaultShippingAddressId: number;
     private defaultShippingAddressUniqueId: string;
