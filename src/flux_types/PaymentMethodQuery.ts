@@ -25,7 +25,7 @@ import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
 import { PaymentMethod } from "./PaymentMethod";
 
 
-export class PaymentMethodQuery extends BaseQuery<PaymentMethod> {
+export class PaymentMethodQuery extends BaseQuery<PaymentMethod> implements IPaymentMethodQuery {
     public serialize() {
         return {
             id: this.id,

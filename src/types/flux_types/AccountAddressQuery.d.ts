@@ -4,7 +4,7 @@ import { IAccountAddressQuery } from "./IAccountAddressQuery";
 /**
  * This is an object that is used to query for products.
  */
-export declare class AccountAddressQuery extends BaseQuery<AccountAddress> {
+export declare class AccountAddressQuery extends BaseQuery<AccountAddress> implements IAccountAddressQuery {
     serialize(): {
         id: number;
         uniqueId: string;

@@ -22,10 +22,11 @@
 
 import { BaseQuery } from "./BaseQuery";
 import { IToken } from "./IToken";
+import { ITokenQuery } from "./ITokenQuery";
 import { Token } from "./Token";
 
 
-export class TokenQuery extends BaseQuery<Token> {
+export class TokenQuery extends BaseQuery<Token> implements ITokenQuery{
     public serialize() {
         return {
             id: this.id,
@@ -38,7 +39,7 @@ export class TokenQuery extends BaseQuery<Token> {
     token: string;
     metadata: string;
     id: number;
-    uniqueId?: number;
+    uniqueId?: string;
     protected objectType: string = "token";
     /**
      * @returns The token associated with the

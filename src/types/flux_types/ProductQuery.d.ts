@@ -4,10 +4,10 @@ import { Product } from "./Product";
 /**
  * This is an object that is used to query for products.
  */
-export declare class ProductQuery extends BaseQuery<Product> {
+export declare class ProductQuery extends BaseQuery<Product> implements IProductQuery {
     serialize(): {
         id: number;
-        uniqueId: number;
+        uniqueId: string;
         metadata: string;
         name: string;
         type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT";
@@ -19,7 +19,7 @@ export declare class ProductQuery extends BaseQuery<Product> {
     };
     metadata: string;
     id: number;
-    uniqueId?: number;
+    uniqueId?: string;
     name?: string;
     type?: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT';
     subscriptionInterval?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';

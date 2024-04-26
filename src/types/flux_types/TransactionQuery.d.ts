@@ -1,7 +1,7 @@
 import { BaseQuery } from "./BaseQuery";
 import { ITransactionQuery } from "./ITransactionQuery";
 import { Transaction } from "./Transaction";
-export declare class TransactionQuery extends BaseQuery<Transaction> {
+export declare class TransactionQuery extends BaseQuery<Transaction> implements ITransactionQuery {
     serialize(): {
         id: number;
         email: string;

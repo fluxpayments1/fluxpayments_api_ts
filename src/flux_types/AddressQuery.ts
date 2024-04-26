@@ -24,7 +24,7 @@ import { Address } from "./Address";
 import { BaseQuery } from "./BaseQuery";
 import { IAddressQuery } from "./IAddressQuery";
 
-export class AddressQuery extends BaseQuery<Address> {
+export class AddressQuery extends BaseQuery<Address> implements IAddressQuery {
 
     public serialize() {
         return {

@@ -4,7 +4,7 @@ import { InstallmentTransaction } from "./InstallmentTransaction";
 /**
  * This is an object that is used to query for installment_transactions.
  */
-export declare class InstallmentTransactionQuery extends BaseQuery<InstallmentTransaction> {
+export declare class InstallmentTransactionQuery extends BaseQuery<InstallmentTransaction> implements IInstallmentTransactionQuery {
     serialize(): {
         id: number;
         metadata: string;

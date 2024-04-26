@@ -26,7 +26,7 @@ import { Product } from "./Product";
 /**
  * This is an object that is used to query for products.
  */
-export class ProductQuery extends BaseQuery<Product> {
+export class ProductQuery extends BaseQuery<Product> implements IProductQuery {
     public serialize() {
         return {
             id: this.id,
@@ -44,7 +44,7 @@ export class ProductQuery extends BaseQuery<Product> {
 
     metadata: string;
     id: number;
-    uniqueId?: number;
+    uniqueId?: string;
     name?: string;
     type?: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT';
     subscriptionInterval?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';

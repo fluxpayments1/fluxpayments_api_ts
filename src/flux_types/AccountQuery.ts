@@ -26,7 +26,7 @@ import { BaseQuery } from "./BaseQuery";
 import { IAccountQuery } from "./IAccountQuery";
 
 
-export class AccountQuery extends BaseQuery<Account> {
+export class AccountQuery extends BaseQuery<Account> implements IAccountQuery {
     public serialize() {
         return {
             id: this.id,

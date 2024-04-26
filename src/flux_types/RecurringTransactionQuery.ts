@@ -25,7 +25,7 @@ import { IRecurringTransactionQuery } from "./IRecurringTransactionQuery";
 import { RecurringTransaction } from "./RecurringTransaction";
 
 
-export class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> {
+export class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> implements IRecurringTransactionQuery {
     public serialize() {
         return {
             id: this.id,

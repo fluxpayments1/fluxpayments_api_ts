@@ -12,6 +12,10 @@ This is an object that is used to query for products.
 
   ↳ **`AccountAddressQuery`**
 
+## Implements
+
+- [`IAccountAddressQuery`](../modules/IAccountAddressQuery.md#iaccountaddressquery)
+
 ## Table of contents
 
 ### Constructors
@@ -59,7 +63,7 @@ This is an object that is used to query for products.
 
 #### Defined in
 
-[AccountAddressQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L26)
+[AccountAddressQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L26)
 
 ## Properties
 
@@ -67,9 +71,13 @@ This is an object that is used to query for products.
 
 • **accountId**: `number`
 
+#### Implementation of
+
+IAccountAddressQuery.accountId
+
 #### Defined in
 
-[AccountAddressQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L22)
+[AccountAddressQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L22)
 
 ___
 
@@ -77,9 +85,13 @@ ___
 
 • **accountUniqueId**: `string`
 
+#### Implementation of
+
+IAccountAddressQuery.accountUniqueId
+
 #### Defined in
 
-[AccountAddressQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L24)
+[AccountAddressQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L24)
 
 ___
 
@@ -87,13 +99,17 @@ ___
 
 • **additionalSearchOptions**: [`AdditionalSearchOptions`](AdditionalSearchOptions.AdditionalSearchOptions.md)[]
 
+#### Implementation of
+
+IAccountAddressQuery.additionalSearchOptions
+
 #### Inherited from
 
 [BaseQuery](BaseQuery.BaseQuery.md).[additionalSearchOptions](BaseQuery.BaseQuery.md#additionalsearchoptions)
 
 #### Defined in
 
-[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/BaseQuery.d.ts#L8)
+[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/BaseQuery.d.ts#L8)
 
 ___
 
@@ -101,9 +117,13 @@ ___
 
 • **addressId**: `number`
 
+#### Implementation of
+
+IAccountAddressQuery.addressId
+
 #### Defined in
 
-[AccountAddressQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L23)
+[AccountAddressQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L23)
 
 ___
 
@@ -111,9 +131,13 @@ ___
 
 • **addressUniqueId**: `string`
 
+#### Implementation of
+
+IAccountAddressQuery.addressUniqueId
+
 #### Defined in
 
-[AccountAddressQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L25)
+[AccountAddressQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L25)
 
 ___
 
@@ -141,7 +165,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/BaseQuery.d.ts#L6)
+[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/BaseQuery.d.ts#L6)
 
 ___
 
@@ -149,9 +173,13 @@ ___
 
 • **id**: `number`
 
+#### Implementation of
+
+IAccountAddressQuery.id
+
 #### Defined in
 
-[AccountAddressQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L20)
+[AccountAddressQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L20)
 
 ___
 
@@ -165,7 +193,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/BaseQuery.d.ts#L9)
+[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/BaseQuery.d.ts#L9)
 
 ___
 
@@ -179,7 +207,7 @@ ___
 
 #### Defined in
 
-[AccountAddressQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L21)
+[AccountAddressQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L21)
 
 ___
 
@@ -187,13 +215,17 @@ ___
 
 • **pagination**: [`PaginationSupport`](PaginationSupport.PaginationSupport.md)
 
+#### Implementation of
+
+IAccountAddressQuery.pagination
+
 #### Inherited from
 
 [BaseQuery](BaseQuery.BaseQuery.md).[pagination](BaseQuery.BaseQuery.md#pagination)
 
 #### Defined in
 
-[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/BaseQuery.d.ts#L7)
+[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/BaseQuery.d.ts#L7)
 
 ___
 
@@ -201,9 +233,13 @@ ___
 
 • **uniqueId**: `string`
 
+#### Implementation of
+
+IAccountAddressQuery.uniqueId
+
 #### Defined in
 
-[AccountAddressQuery.d.ts:19](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L19)
+[AccountAddressQuery.d.ts:19](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L19)
 
 ## Methods
 
@@ -233,7 +269,7 @@ ___
 
 #### Defined in
 
-[AccountAddressQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L8)
+[AccountAddressQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L8)
 
 ___
 
@@ -253,4 +289,4 @@ ___
 
 #### Defined in
 
-[AccountAddressQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/27b2feeae7bc40678b3662555d9d94a5f4ec75da/src/types/flux_types/AccountAddressQuery.d.ts#L27)
+[AccountAddressQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/828a07d2e031b56b38919da41f686764f3771feb/src/types/flux_types/AccountAddressQuery.d.ts#L27)

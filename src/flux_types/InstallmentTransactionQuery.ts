@@ -28,7 +28,7 @@ import { InstallmentTransaction } from "./InstallmentTransaction";
 /**
  * This is an object that is used to query for installment_transactions.
  */
-export class InstallmentTransactionQuery extends BaseQuery<InstallmentTransaction> {
+export class InstallmentTransactionQuery extends BaseQuery<InstallmentTransaction> implements IInstallmentTransactionQuery {
     public serialize() {
         return {
             id: this.id,

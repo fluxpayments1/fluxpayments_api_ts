@@ -25,7 +25,7 @@ import { ITransactionQuery } from "./ITransactionQuery";
 import { Transaction } from "./Transaction";
 
 
-export class TransactionQuery extends BaseQuery<Transaction> {
+export class TransactionQuery extends BaseQuery<Transaction> implements ITransactionQuery{
     public serialize() {
         return {
             id: this.id,

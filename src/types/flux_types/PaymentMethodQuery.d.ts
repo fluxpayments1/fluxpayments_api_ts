@@ -1,7 +1,7 @@
 import { BaseQuery } from "./BaseQuery";
 import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
 import { PaymentMethod } from "./PaymentMethod";
-export declare class PaymentMethodQuery extends BaseQuery<PaymentMethod> {
+export declare class PaymentMethodQuery extends BaseQuery<PaymentMethod> implements IPaymentMethodQuery {
     serialize(): {
         id: number;
         uniqueid: string;
