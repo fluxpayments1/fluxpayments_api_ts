@@ -111,7 +111,6 @@ let txn = await Transaction.createInstanceSafe({
 - [FluxIdentifier](docs/modules/FluxIdentifier.md)
 - [FluxType](docs/modules/FluxType.md)
 - [InstallmentTransaction](docs/modules/InstallmentTransaction.md)
-- [Mac](docs/modules/Mac.md)
 - [OneTimePaymentLink](docs/modules/OneTimePaymentLink.md)
 - [PaymentMethod](docs/modules/PaymentMethod.md)
 - [Product](docs/modules/Product.md)
