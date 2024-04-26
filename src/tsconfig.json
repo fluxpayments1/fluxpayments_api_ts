@@ -1,5 +1,11 @@
 {
     "extends": "../tsconfig.json",
-    "exclude": ["./types", "./dist", "./dist_web"]
+    "exclude": ["./types", "./dist", "./dist_web"],
+    "compilerOptions": {
+        "outDir": "./dist",
+        "rootDir": ".", 
+        "baseUrl":"."
+    }
+    
 }
 
