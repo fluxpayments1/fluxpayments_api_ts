@@ -107,7 +107,8 @@ let txn = await Transaction.createInstanceSafe({
 ```
 
 ## Table of contents
-### Modules
+
+### Flux Classes
 - [Account](docs/classes/Account.Account.md)
 - [Address](docs/classes/Address.Address.md)
 - [BankAccount](docs/classes/BankAccount.BankAccount.md)
@@ -122,7 +123,7 @@ let txn = await Transaction.createInstanceSafe({
 - [Token](docs/classes/Token.Token.md)
 - [Transaction](docs/classes/Transaction.Transaction.md)
 
-### Interfaces
+### Flux Class Interfaces
 - [IAccount](docs/interfaces/IAccount.IAccount.md)
 - [IAddress](docs/interfaces/IAddress.IAddress.md)
 - [IBankAccount](docs/interfaces/IBankAccount.IBankAccount.md)
@@ -136,7 +137,7 @@ let txn = await Transaction.createInstanceSafe({
 - [IToken](docs/interfaces/IToken.IToken.md)
 - [ITransaction](docs/interfaces/ITransaction.ITransaction.md)
 
-### classes
+### Query Classes
 - [AccountQuery](docs/classes/AccountQuery.AccountQuery.md)
 - [AdditionalSearchOptions](docs/classes/AdditionalSearchOptions.AdditionalSearchOptions.md)
 - [AddressQuery](docs/classes/AddressQuery.AddressQuery.md)
@@ -148,3 +149,15 @@ let txn = await Transaction.createInstanceSafe({
 - [TokenQuery](docs/classes/TokenQuery.TokenQuery.md)
 - [TransactionQuery](docs/classes/TransactionQuery.TransactionQuery.md)
 - [PaginationSupport](docs/classes/PaginationSupport.PaginationSupport.md)
+
+### Query Types
+- [IAccountQuery](docs/modules/IAccountQuery.md)
+- [IAddressQuery](docs/modules/IAddressQuery.md)
+- [IInstallmentTransactionQuery](docs/modules/IInstallmentTransactionQuery.md)
+- [IOneTimePaymentLinkQuery](docs/modules/IOneTimePaymentLinkQuery.md)
+- [IPaymentMethodQuery](docs/modules/IPaymentMethodQuery.md)
+- [IProductQuery](docs/modules/IProductQuery.md)
+- [IRecurringTransactionQuery](docs/modules/IRecurringTransactionQuery.md)
+- [ITokenQuery](docs/modules/ITokenQuery.md)
+- [ITransactionQuery](docs/modules/ITransactionQuery.md)
+- [IInstallmentTransactionQuery](docs/modules/IInstallmentTransactionQuery.md)
