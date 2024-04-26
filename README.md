@@ -8,7 +8,7 @@ Welcome to the Flux Payments documentation. Below you will find sample code that
 import { flux } from "fluxpayments/lib";
 import { Account } from "fluxpayments/flux_types";
 
-await flux(
+await flux (
     "public_key", 
     "private_key", 
     "username", 
