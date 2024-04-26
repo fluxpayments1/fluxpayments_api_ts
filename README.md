@@ -52,10 +52,8 @@ await acc.setDefaultShippingAddress(firstAddress);
 let sessionGenerated = await acc.generateSession();
 
 ```
-
-#### Send the session to the frontend to create a payment method for
-#### the account.
-
+## Getting exciting...
+Send the session to the frontend to create a payment method for the account.
 ## Browser Code
 ```typescript
 import { fluxBrowser } from "fluxpayments/lib";
@@ -76,9 +74,8 @@ paymentMethod = await Card.createInstanceSafe({
 
 await Account.setDefaultPaymentMethod(paymentMethod)
 ```
-
-#### Create a product and a transaction to charge
-#### the newly created account
+## Drum roll...
+Create a product and a transaction to charge the newly created account
 
 ## Server side code
 ```typescript
