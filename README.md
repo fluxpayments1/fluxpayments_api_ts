@@ -55,8 +55,8 @@ await fluxBrowser("PK_ewRVuDFJEe61LwJCwKjwBA==");
 
 paymentMethod = await Card.createInstanceSafe({
     address: add1,
-    firstName: "Nick",
-    lastName: "Kreissler",
+    firstName: "Jane",
+    lastName: "Doe",
     accountSession: sessionGenerated,
     cardNumber: "1234123412341234",
     cvv: "1234",
