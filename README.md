@@ -2,14 +2,17 @@
 
 Welcome to the fluxpayments documentation. Below you will find a comprehensive list of modules and their respective documentation links.
 
-'''
+The following TypeScript code snippet demonstrates how to initialize a connection with the fluxpayments API using your credentials:
+
+```typescript
+import { flux } from "fluxpayments/lib/";
+
 fluxObj = await flux(
-    "PK_ewRVuDFJEe61LwJCwKjwBA==", 
-    "Z6ZeNlcxdxd9j2Gc1eDwuxkfovDr33BdFaLXZ1y/1Fs=", 
-    "mac_98", 
-    "your_password"
+    "public_key", 
+    "private_key", 
+    "username", 
+    "password"
 );
-'''
 
 ## Table of contents
 ### Modules
