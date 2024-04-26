@@ -1,6 +1,6 @@
 {
     "name": "fluxpayments",
-    "version": "1.0.45",
+    "version": "1.0.46",
     "description": "Api for merchants to connect to flux payments",
     "main": "./src/dist/lib/index.js",
     "types": "./src/types/lib/index.d.ts",
@@ -14,7 +14,7 @@
         "test": "mocha './dist/tests/**/*.spec.js'"
     },
     "devDependencies": {
-        "fluxpayments":"./",
+        "fluxpayments": "./",
         "@babel/cli": "^7.22.9",
         "@babel/core": "^7.22.9",
         "@babel/plugin-proposal-class-properties": "^7.18.6",
@@ -42,7 +42,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "fluxpayments":"./",
+        "fluxpayments": "./",
         "@types/node": "^20.8.9",
         "@types/node-forge": "^1.3.2",
         "@types/ws": "^8.5.5",
