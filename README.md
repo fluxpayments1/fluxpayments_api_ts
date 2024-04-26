@@ -1,9 +1,18 @@
-[fluxpayments](README.md) / Modules
-
 # fluxpayments
 
+Welcome to the fluxpayments documentation. Below you will find a comprehensive list of modules and their respective documentation links.
+
+'''
+fluxObj = await flux(
+    "PK_ewRVuDFJEe61LwJCwKjwBA==", 
+    "Z6ZeNlcxdxd9j2Gc1eDwuxkfovDr33BdFaLXZ1y/1Fs=", 
+    "mac_98", 
+    "your_password"
+);
+'''
+
 ## Table of contents
-### Flux Types
+### Modules
 - [Account](docs/modules/Account.md)
 - [Address](docs/modules/Address.md)
 - [BankAccount](docs/modules/BankAccount.md)
