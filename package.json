@@ -8,6 +8,7 @@
     "license": "ISC",
     "scripts": {
         "prepublishOnly": "cd src && tsc --declaration",
+        "compile-all": "npm run compile && npm run compile-docs",
         "compile": "cd src && tsc --declaration",
         "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs src/types/flux_types/*.ts",
         "test": "mocha './src/dist/tests/**/*.spec.js'"

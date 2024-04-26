@@ -211,7 +211,7 @@ export class Transaction extends FluxType implements ITransaction {
      * 
      * @returns 
      */
-    public async getFluxProducts () : Promise<Product[]> {
+    public async getCurrentProducts () : Promise<Product[]> {
         let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
         let prods = await Product.getObjectsById(this.getId())
 

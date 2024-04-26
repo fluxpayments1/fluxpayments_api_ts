@@ -1,7 +1,16 @@
 # Flux Payments
 
-Welcome to the Flux Payments documentation. Below you will find sample code that demonstrates the API workflow and a comprehensive list of modules and their respective documentation links.
+## Installation
+```bash
+npm install fluxpayments
+```
 
+## Configuration
+Register for an account and get your sandbox keys at https://portal.fluxpayments.com
+
+## Introduction
+
+Welcome to the Flux Payments documentation. Below you will find sample code that demonstrates the API workflow and a comprehensive list of modules and their respective documentation links.
 
 ## Server Side code
 ```typescript
@@ -42,10 +51,11 @@ await acc.setDefaultShippingAddress(firstAddress);
 
 let sessionGenerated = await acc.generateSession();
 
-//Send the session to the frontend to create a payment method for
-//the account
-
 ```
+
+Send the session to the frontend to create a payment method for
+the account.
+
 ## Browser Code
 ```typescript
 import { fluxBrowser } from "fluxpayments/lib";
@@ -66,6 +76,10 @@ paymentMethod = await Card.createInstanceSafe({
 
 await Account.setDefaultPaymentMethod(paymentMethod)
 ```
+
+Create a product and a transaction to charge
+to the newly created account
+
 ## Server side code
 ```typescript
 //Create a product and a transaction

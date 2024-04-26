@@ -192,7 +192,7 @@ export class Account extends FluxType implements IAccount {
      */
     async setDefaultShippingAddress(ob: FluxIdentifier | Address): Promise<void> {
 
-        let thisClone = _cloneDeep(this);
+        let thisClone: Account = _cloneDeep(this);
 
         for (let key in thisClone) {
             if (key !== 'defaultShippingAddressId' && key !== 'defaultShippingAddressUniqueId') {
@@ -204,6 +204,10 @@ export class Account extends FluxType implements IAccount {
         thisClone.uniqueId = this.uniqueId
         thisClone.defaultShippingAddressId = ob.id;
         thisClone.defaultShippingAddressUniqueId = ob.uniqueId
+        thisClone.obName = this.obName
+        thisClone.obType = this.obType
+        thisClone.objectType = this.objectType
+
         await Account.updateObjects(thisClone)
         this.defaultShippingAddressId = ob.id;
         this.defaultShippingAddressUniqueId = ob.uniqueId
@@ -244,8 +248,11 @@ export class Account extends FluxType implements IAccount {
         thisClone.uniqueId = this.uniqueId
         thisClone.defaultPaymentMethodId = ob.id;
         thisClone.defaultPaymentMethodUniqueId = ob.uniqueId
+        thisClone.obName = this.obName
+        thisClone.obType = this.obType
+        thisClone.objectType = this.objectType
 
-
+        console.log(thisClone)
         await Account.updateObjects(thisClone)
         this.defaultPaymentMethodId = ob.id;
         this.defaultPaymentMethodUniqueId = ob.uniqueId

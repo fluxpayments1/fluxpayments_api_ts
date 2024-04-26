@@ -101,7 +101,7 @@ export declare class Transaction extends FluxType implements ITransaction {
      *
      * @returns
      */
-    getFluxProducts(): Promise<Product[]>;
+    getCurrentProducts(): Promise<Product[]>;
     constructor(transaction?: Partial<ITransaction>);
     serialize(): {
         accountId: number;
