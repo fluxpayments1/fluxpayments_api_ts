@@ -1,33 +1,5 @@
 src/types/tests
 src/dist
-src/tests/*
+src/tests/
 # Ignore node_modules folder which might contain dependencies
-/node_modules/
-
-# Ignore environment configuration files
-.env
-.env.local
-
-# Ignore log files and databases
-*.log
-*.sql
-*.sqlite
-
-# Ignore build directories
-/dist/
-/build/
-/out/
-
-# Ignore IDE specific files
-.vscode/
-.idea/
-*.sublime-workspace
-
-# Ignore coverage directories
-/coverage/
-.nyc_output/
-
-# Ignore temporary files
-*.tmp
-*.temp
-*.swp
+node_modules/
