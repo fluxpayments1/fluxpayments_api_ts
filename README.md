@@ -13,7 +13,7 @@ fluxObj = await flux(
     "username", 
     "password"
 );
-
+'''
 ## Table of contents
 ### Modules
 - [Account](docs/modules/Account.md)
