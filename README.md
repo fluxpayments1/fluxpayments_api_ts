@@ -1,19 +1,107 @@
 # fluxpayments
 
-Welcome to the fluxpayments documentation. Below you will find a comprehensive list of modules and their respective documentation links.
+Welcome to the fluxpayments documentation. Below you will find sample code and a comprehensive list of modules and their respective documentation links.
 
-The following TypeScript code snippet demonstrates how to initialize a connection with the fluxpayments API using your credentials:
+The TypeScript code snippet below illustrates the API workflow:
 
 ```typescript
-import { flux } from "fluxpayments/lib/";
+//Server side code
+import { flux } from "fluxpayments/lib";
+import { Account } from "fluxpayments/flux_types";
 
-fluxObj = await flux(
+await flux(
     "public_key", 
     "private_key", 
     "username", 
     "password"
 );
+
+let firstAccount : Account = await Account.createInstanceSafe({
+    accountUserType: AccountUserType.CUSTOMER,
+    uniqueId: "TESTACCOUNT"
+});
+
+let firstAddress = await Address.createInstanceSafe({
+    uniqueId: "FIRSTADDRESS",
+    streetAddress: "123 Main Street",
+    zipCode: "123456",
+    city: "Tampa",
+    state: "Florida"
+})
+
+let secondAddress = await Address.createInstanceSafe({
+    uniqueId: "SECONDADDRESS",
+    streetAddress: "123 Main Street",
+    zipCode: "123453",
+    city: "Tampa",
+    state: "Florida"
+})
+
+await acc.addAddress(firstAddress);
+await acc.addAddress(secondAddress);
+await acc.setDefaultShippingAddress(firstAddress);
+
+let sessionGenerated = await acc.generateSession();
+
+//Send the session to the frontend to create a payment method for
+//the account
+//Browser side code
+import { fluxBrowser } from "fluxpayments/lib";
+import { Card, Account } from "fluxpayments/flux_types";
+
+await fluxBrowser("PK_ewRVuDFJEe61LwJCwKjwBA==");
+
+paymentMethod = await Card.createInstanceSafe({
+    address: add1,
+    firstName: "Nick",
+    lastName: "Kreissler",
+    accountSession: sessionGenerated,
+    cardNumber: "1234123412341234",
+    cvv: "1234",
+    expMonth: "05",
+    expYear: "35"
+});
+
+await Account.setDefaultPaymentMethod(paymentMethod)
+
+//Create a product and a transaction on 
+//Server side code
+import { flux } from "fluxpayments/lib";
+import { Account, Product, Transaction, Address } from "fluxpayments/flux_types";
+
+await flux(
+    "public_key", 
+    "private_key", 
+    "username", 
+    "password"
+);
+
+let prod: Product = await Product.createInstanceSafe({
+    uniqueId: "FIRST_PRODUCT",
+    type: "PHYSICAL_PRODUCT",
+    name: "TEST 1",
+    inventoryCount: 100,
+    price: .51
+})
+
+let account : Account = await Account.createInstanceLazy({
+    uniqueId: "TESTACCOUNT"
+});
+
+let address : Address = await Address.createInstanceLazy({
+    uniqueId: "SECONDADDRESS"
+})
+
+//Transaction that uses the default payment method
+//and a provided address.
+let txn = await Transaction.createInstanceSafe({
+    account: account,
+    shippingAddress: address,
+    products: {...prod, orderQuantity: 5}
+})
+
 ```
+
 ## Table of contents
 ### Modules
 - [Account](docs/modules/Account.md)

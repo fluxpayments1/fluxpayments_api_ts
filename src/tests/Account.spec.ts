@@ -2,7 +2,7 @@ import { assert } from "chai";
 import { AccountQuery } from "../flux_types/AccountQuery";
 import { Address } from "../flux_types/Address";
 import { AddressQuery } from "../flux_types/AddressQuery";
-import { Account, AccountUserType } from "../flux_types/index";
+import { Account, AccountUserType, IAccount } from "../flux_types/index";
 import { Flux } from "../lib/Flux";
 import { flux } from "../lib/index";
 import { FluxSockets } from "../lib/FluxSockets";
