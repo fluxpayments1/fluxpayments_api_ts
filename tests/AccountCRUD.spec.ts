@@ -4,7 +4,7 @@ import { assert } from "chai";
 import { Account } from "fluxpayments/flux_types";
 import { IAccount } from "fluxpayments/flux_types";
 import { Flux, flux } from "fluxpayments/lib/";
-import { initializeFluxWebSocket } from "./A_Websocket.spec";
+import { initializeFluxWebSocket } from "./Websocket.spec";
 import { FluxSockets } from "fluxpayments/lib";
 let fluxWebSocket: FluxSockets
 

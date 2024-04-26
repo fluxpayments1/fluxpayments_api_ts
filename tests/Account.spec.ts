@@ -6,7 +6,7 @@ import { Account, AccountUserType, IAccount } from "fluxpayments/flux_types";
 import { Flux } from "fluxpayments/lib";
 import { flux } from "fluxpayments/lib";
 import { FluxSockets } from "fluxpayments/lib";
-import { initializeFluxWebSocket } from "./A_Websocket.spec";
+import { initializeFluxWebSocket } from "./Websocket.spec";
 
 
 
