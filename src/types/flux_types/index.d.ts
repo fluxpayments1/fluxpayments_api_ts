@@ -52,3 +52,4 @@ export { IProductQuery } from './IProductQuery';
 export { IRecurringTransactionQuery } from './IRecurringTransactionQuery';
 export { EmissionData } from './EmissionData';
 export { ProductDump } from './ProductDump';
+export { Card } from './Card';

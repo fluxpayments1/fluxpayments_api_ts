@@ -35,7 +35,7 @@
 
 #### Defined in
 
-[AdditionalSearchOptions.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/AdditionalSearchOptions.d.ts#L2)
+[AdditionalSearchOptions.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/AdditionalSearchOptions.d.ts#L2)
 
 ___
 
@@ -45,7 +45,7 @@ ___
 
 #### Defined in
 
-[AdditionalSearchOptions.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/AdditionalSearchOptions.d.ts#L3)
+[AdditionalSearchOptions.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/AdditionalSearchOptions.d.ts#L3)
 
 ___
 
@@ -55,7 +55,7 @@ ___
 
 #### Defined in
 
-[AdditionalSearchOptions.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/AdditionalSearchOptions.d.ts#L5)
+[AdditionalSearchOptions.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/AdditionalSearchOptions.d.ts#L5)
 
 ___
 
@@ -65,4 +65,4 @@ ___
 
 #### Defined in
 
-[AdditionalSearchOptions.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/AdditionalSearchOptions.d.ts#L4)
+[AdditionalSearchOptions.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/AdditionalSearchOptions.d.ts#L4)

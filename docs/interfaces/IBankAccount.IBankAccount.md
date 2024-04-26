@@ -4,10 +4,6 @@
 
 [IBankAccount](../modules/IBankAccount.md).IBankAccount
 
-## Implemented by
-
-- [`BankAccount`](../classes/BankAccount.BankAccount.md)
-
 ## Table of contents
 
 ### Properties
@@ -30,7 +26,7 @@
 
 #### Defined in
 
-[IBankAccount.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L8)
+[IBankAccount.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L8)
 
 ___
 
@@ -40,7 +36,7 @@ ___
 
 #### Defined in
 
-[IBankAccount.d.ts:12](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L12)
+[IBankAccount.d.ts:12](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L12)
 
 ___
 
@@ -50,7 +46,7 @@ ___
 
 #### Defined in
 
-[IBankAccount.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L7)
+[IBankAccount.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L7)
 
 ___
 
@@ -60,7 +56,7 @@ ___
 
 #### Defined in
 
-[IBankAccount.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L5)
+[IBankAccount.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L5)
 
 ___
 
@@ -70,7 +66,7 @@ ___
 
 #### Defined in
 
-[IBankAccount.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L9)
+[IBankAccount.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L9)
 
 ___
 
@@ -80,7 +76,7 @@ ___
 
 #### Defined in
 
-[IBankAccount.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L4)
+[IBankAccount.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L4)
 
 ___
 
@@ -90,7 +86,7 @@ ___
 
 #### Defined in
 
-[IBankAccount.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L11)
+[IBankAccount.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L11)
 
 ___
 
@@ -100,7 +96,7 @@ ___
 
 #### Defined in
 
-[IBankAccount.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L6)
+[IBankAccount.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L6)
 
 ___
 
@@ -110,4 +106,4 @@ ___
 
 #### Defined in
 
-[IBankAccount.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IBankAccount.d.ts#L10)
+[IBankAccount.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/IBankAccount.d.ts#L10)

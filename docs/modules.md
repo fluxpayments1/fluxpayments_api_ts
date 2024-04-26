@@ -16,7 +16,6 @@
 - [Address](modules/Address.md)
 - [AddressDump](modules/AddressDump.md)
 - [AddressQuery](modules/AddressQuery.md)
-- [BankAccount](modules/BankAccount.md)
 - [BaseQuery](modules/BaseQuery.md)
 - [Card](modules/Card.md)
 - [DumpId](modules/DumpId.md)

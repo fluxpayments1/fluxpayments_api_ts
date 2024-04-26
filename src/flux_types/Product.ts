@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-import { Flux } from "lib/Flux";
+import { Flux } from "../lib/Flux";
 import { FluxType } from "./FluxType";
 import { IProduct } from "./IProduct";
 import { SecurityHandler } from "../ajax/security";

@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[DumpId.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/DumpId.d.ts#L2)
+[DumpId.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/DumpId.d.ts#L2)
 
 ___
 
@@ -43,4 +43,4 @@ ___
 
 #### Defined in
 
-[DumpId.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/DumpId.d.ts#L3)
+[DumpId.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/966dc2437d778284284d9fc3c5de89b91daa10ba/src/types/flux_types/DumpId.d.ts#L3)

@@ -17,6 +17,7 @@
 - [AddressDump](index.md#addressdump)
 - [AddressQuery](index.md#addressquery)
 - [BaseQuery](index.md#basequery)
+- [Card](index.md#card)
 - [DumpId](index.md#dumpid)
 - [EmissionData](index.md#emissiondata)
 - [FluxIdentifier](index.md#fluxidentifier)
@@ -126,6 +127,12 @@ ___
 ### BaseQuery
 
 Re-exports [BaseQuery](../classes/BaseQuery.BaseQuery.md)
+
+___
+
+### Card
+
+Re-exports [Card](../classes/Card.Card.md)
 
 ___
 
