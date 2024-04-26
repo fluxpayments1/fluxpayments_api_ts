@@ -33,6 +33,21 @@ import { PaymentMethod } from './PaymentMethod';
 /**
  * Class for managing accounts 
  * stored in the flux system.
+ * Use:
+ * ```typescript
+ * import { flux } from "fluxpayments/lib";
+ * import { Account } from "fluxpayments/flux_types";
+ * await flux (
+ *   "public_key", 
+ *   "private_key", 
+ *   "username", 
+ *   "password"
+ * );
+ * let firstAccount : Account = await Account.createInstanceSafe({
+ *     accountUserType: AccountUserType.CUSTOMER,
+ *     uniqueId: "TESTACCOUNT"
+ * });
+ * ```
  */
 export class Account extends FluxType implements IAccount {
     public obName: string = "Account"
