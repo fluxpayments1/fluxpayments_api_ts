@@ -1,11 +1,10 @@
-# fluxpayments
+# Flux Payments
 
-Welcome to the fluxpayments documentation. Below you will find sample code and a comprehensive list of modules and their respective documentation links.
+Welcome to the Flux Payments documentation. Below you will find sample code and a comprehensive list of modules and their respective documentation links.
 
-The TypeScript code snippet below illustrates the API workflow:
 
+## Server Side code
 ```typescript
-//Server side code
 import { flux } from "fluxpayments/lib";
 import { Account } from "fluxpayments/flux_types";
 
@@ -45,7 +44,10 @@ let sessionGenerated = await acc.generateSession();
 
 //Send the session to the frontend to create a payment method for
 //the account
-//Browser side code
+
+```
+## Browser Code
+```typescript
 import { fluxBrowser } from "fluxpayments/lib";
 import { Card, Account } from "fluxpayments/flux_types";
 
@@ -63,9 +65,10 @@ paymentMethod = await Card.createInstanceSafe({
 });
 
 await Account.setDefaultPaymentMethod(paymentMethod)
-
-//Create a product and a transaction on 
-//Server side code
+```
+## Server side code
+```typescript
+//Create a product and a transaction
 import { flux } from "fluxpayments/lib";
 import { Account, Product, Transaction, Address } from "fluxpayments/flux_types";
 
