@@ -53,8 +53,8 @@ let sessionGenerated = await acc.generateSession();
 
 ```
 
-### Send the session to the frontend to create a payment method for
-### the account.
+#### Send the session to the frontend to create a payment method for
+#### the account.
 
 ## Browser Code
 ```typescript
@@ -77,8 +77,8 @@ paymentMethod = await Card.createInstanceSafe({
 await Account.setDefaultPaymentMethod(paymentMethod)
 ```
 
-### Create a product and a transaction to charge
-### the newly created account
+#### Create a product and a transaction to charge
+#### the newly created account
 
 ## Server side code
 ```typescript
