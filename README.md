@@ -107,7 +107,7 @@ let txn = await Transaction.createInstanceSafe({
 
 ## Table of contents
 
-### Classes
+### Flux Classes
 - [Account](docs/classes/Account.Account.md)
 - [Address](docs/classes/Address.Address.md)
 - [BankAccount](docs/classes/BankAccount.BankAccount.md)
@@ -122,7 +122,7 @@ let txn = await Transaction.createInstanceSafe({
 - [Token](docs/classes/Token.Token.md)
 - [Transaction](docs/classes/Transaction.Transaction.md)
 
-### Class Interfaces
+### Flux Class Interfaces
 - [IAccount](docs/interfaces/IAccount.IAccount.md)
 - [IAddress](docs/interfaces/IAddress.IAddress.md)
 - [IBankAccount](docs/interfaces/IBankAccount.IBankAccount.md)
@@ -136,7 +136,7 @@ let txn = await Transaction.createInstanceSafe({
 - [IToken](docs/interfaces/IToken.IToken.md)
 - [ITransaction](docs/interfaces/ITransaction.ITransaction.md)
 
-### Queries
+### Query Classes
 - [AccountQuery](docs/classes/AccountQuery.AccountQuery.md)
 - [AdditionalSearchOptions](docs/classes/AdditionalSearchOptions.AdditionalSearchOptions.md)
 - [AddressQuery](docs/classes/AddressQuery.AddressQuery.md)
