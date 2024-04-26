@@ -89,7 +89,7 @@ export class Transaction extends FluxType implements ITransaction {
      * not be the account used at the time
      * of purchase if it has been updated
      * 
-     * @returns 
+     * @returns Account as it exists currently
      */
     public async getCurrentAccount () : Promise<Account> {
         let fi = new FluxIdentifier(undefined, this.accountId, "account")
@@ -105,8 +105,27 @@ export class Transaction extends FluxType implements ITransaction {
      * Fetches the payment method that was used
      * for the transaction.
      * 
+     * @return Payment method at time of the purchase
+     * 
      */
     public async getPaymentMethod () : Promise<PaymentMethod> {
+        let fi = new FluxIdentifier(undefined, this.paymentMethodId, "payment_method")
+        let paymentMethods = await PaymentMethod.getObjectsById(fi)
+
+        if (paymentMethods.length === 0) throw new Error("could not find payment method associated with the transaction");
+
+        let paymentMethod = paymentMethods[0]
+
+        return paymentMethod
+    }
+
+    /**
+     * Fetches the payment method
+     * 
+     * 
+     * @returns Payment method as it currently exists in the system
+     */
+    public async getCurrentPaymentMethod () : Promise<PaymentMethod> {
         let fi = new FluxIdentifier(undefined, this.paymentMethodId, "payment_method")
         let paymentMethods = await PaymentMethod.getObjectsById(fi)
 
@@ -174,9 +193,9 @@ export class Transaction extends FluxType implements ITransaction {
      * Fetches the payment method address as it exists in 
      * the flux system currently. This may
      * not be the payment method address used at the time
-     * of purchase if it has been updated
+     * of purchase if it has been updated...
      * 
-     * @returns 
+     * @returns Current address as it exists in the system
      */
     public async getCurrentPaymentMethodAddress () : Promise<Address> {
         let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
@@ -196,8 +215,7 @@ export class Transaction extends FluxType implements ITransaction {
      * @returns The products used at the time of the transaction
      */
     public async getProducts () : Promise<IProduct[]> {
-        let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
-        let prods = await ProductDump.getObjectsById(this.getId())
+        let prods = await Transaction.getLinkedObjectsById(ProductDump, this.getId())
 
         if (prods.length === 0) throw new Error("could not find address associated with the transaction");
 
@@ -209,11 +227,11 @@ export class Transaction extends FluxType implements ITransaction {
      * not be the products used at the time
      * of purchase if they have been updated
      * 
-     * @returns 
+     * @returns Gets the products as they currently exist in the system
      */
     public async getCurrentProducts () : Promise<Product[]> {
-        let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "address")
-        let prods = await Product.getObjectsById(this.getId())
+        let fi = new FluxIdentifier(undefined, this.paymentMethodAddressId, "product")
+        let prods = await Transaction.getLinkedObjectsById(Product, this.getId())
 
 
         if (prods.length === 0) throw new Error("could not find address associated with the transaction");
@@ -248,7 +266,13 @@ export class Transaction extends FluxType implements ITransaction {
 
     }
 
-
+    /**
+     * 
+     * Serializes this object into one readable by
+     * the system.
+     * 
+     * @returns Object
+     */
     public serialize() {
         return {
             accountId: this.accountId,
@@ -261,7 +285,8 @@ export class Transaction extends FluxType implements ITransaction {
             objectType: this.objectType,
             shippingAddressId: this.shippingAddressId,
             shippingAddressUniqueId: this.shippingAddressUniqueId,
-            inventoryOnlyOrder: this.inventoryOnlyOrder
+            inventoryOnlyOrder: this.inventoryOnlyOrder,
+            products: this.products
         };
     }
 

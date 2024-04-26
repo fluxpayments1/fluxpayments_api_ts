@@ -44,15 +44,24 @@ export declare class Transaction extends FluxType implements ITransaction {
      * not be the account used at the time
      * of purchase if it has been updated
      *
-     * @returns
+     * @returns Account as it exists currently
      */
     getCurrentAccount(): Promise<Account>;
     /**
      * Fetches the payment method that was used
      * for the transaction.
      *
+     * @return Payment method at time of the purchase
+     *
      */
     getPaymentMethod(): Promise<PaymentMethod>;
+    /**
+     * Fetches the payment method
+     *
+     *
+     * @returns Payment method as it currently exists in the system
+     */
+    getCurrentPaymentMethod(): Promise<PaymentMethod>;
     /**
      * Fetches the shipping address that was used
      * at the time of purchase
@@ -81,9 +90,9 @@ export declare class Transaction extends FluxType implements ITransaction {
      * Fetches the payment method address as it exists in
      * the flux system currently. This may
      * not be the payment method address used at the time
-     * of purchase if it has been updated
+     * of purchase if it has been updated...
      *
-     * @returns
+     * @returns Current address as it exists in the system
      */
     getCurrentPaymentMethodAddress(): Promise<Address>;
     /**
@@ -99,10 +108,17 @@ export declare class Transaction extends FluxType implements ITransaction {
      * not be the products used at the time
      * of purchase if they have been updated
      *
-     * @returns
+     * @returns Gets the products as they currently exist in the system
      */
     getCurrentProducts(): Promise<Product[]>;
     constructor(transaction?: Partial<ITransaction>);
+    /**
+     *
+     * Serializes this object into one readable by
+     * the system.
+     *
+     * @returns Object
+     */
     serialize(): {
         accountId: number;
         accountUniqueId: string;
@@ -115,5 +131,6 @@ export declare class Transaction extends FluxType implements ITransaction {
         shippingAddressId: number;
         shippingAddressUniqueId: string;
         inventoryOnlyOrder: boolean;
+        products: Product[];
     };
 }

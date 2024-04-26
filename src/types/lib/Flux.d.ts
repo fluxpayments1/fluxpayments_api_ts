@@ -25,6 +25,7 @@ export declare class Flux<A extends SecurityHandler> implements IFlux {
     getObjects<T extends FluxType, U extends BaseQuery<T>>(query: U, secHandle?: SecurityHandler): Promise<T[]>;
     deleteObjects<T extends FluxType>(ids: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T, secHandle?: SecurityHandler): Promise<FluxIdentifier[]>;
     getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]>;
+    getLinkedObjectsById<T extends FluxType, U extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T, obType2: new (o?: any) => U): Promise<U[]>;
     updateObjects<T extends FluxType>(ob: T | T[], securityHandle?: SecurityHandler): Promise<T[]>;
     updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier): Promise<Product[]>;
 }

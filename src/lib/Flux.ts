@@ -197,6 +197,25 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         )
     }
 
+    public async getLinkedObjectsById<T extends FluxType, U extends FluxType>(
+        fi: FluxIdentifier | FluxIdentifier[],
+        obType: new (o?: any) => T,
+        obType2: new (o?: any) => U
+    ): Promise<U[]> {
+        let obName = new obType().obName
+        let obName2 = new obType2().obName
+        return CMMT.fetchGeneric<GenericGetByIdRequest, GenericGetterResponse<U>, U>(
+            GenericGetByIdRequest,
+            GenericGetterResponse<U>,
+            obType2,
+            `get${obName.concat(obName2)}ById`,
+            "POST",
+            this._securityHandle,
+            fi
+        )
+    }
+
+
     public async updateObjects<T extends FluxType>(
         ob: T | T[],
         securityHandle?: SecurityHandler

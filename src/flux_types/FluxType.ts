@@ -157,6 +157,15 @@ export abstract class FluxType {
     return obs;
   }
 
+  public static async getLinkedObjectsById<T extends FluxType, U extends FluxType>(this: new () => T, returnType: new (o?: any) => U, fi: FluxIdentifier | FluxIdentifier[]): Promise<U[]> {
+
+
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+
+    let obs = await f.getLinkedObjectsById<T, U>(fi, this, returnType)
+    return obs;
+  }
+
 
   public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]> {
     let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
