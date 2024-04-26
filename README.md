@@ -1,6 +1,6 @@
 # Flux Payments
 
-Welcome to the Flux Payments documentation. Below you will find sample code and a comprehensive list of modules and their respective documentation links.
+Welcome to the Flux Payments documentation. Below you will find sample code that demonstrates the API workflow and a comprehensive list of modules and their respective documentation links.
 
 
 ## Server Side code
