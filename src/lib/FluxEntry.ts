@@ -20,10 +20,12 @@
  * SOFTWARE.
  */
 
+import { platform } from "os";
 import { MerchantEndpointsSecurityHandle } from "../ajax/security/MerchantEndpointsSecurityHandle";
 import { SecurityHandlerBase } from "../ajax/security/SecurityHandlerBase";
 import { Flux } from "./Flux";
 import { FluxSockets, FluxWebsockets } from "./FluxSockets";
+import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
 
 
 /**
@@ -63,12 +65,11 @@ export async function fluxSocket(publicKey: string, privateKey: string, username
  * @param passphrase Passphrase displayed in the Flux dashboard
  * @returns A Promise resolving to a Flux object that can be used to interact with the Flux API
  */
-export async function flux(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<Flux> {
-
-    return new Promise<Flux>(async (resolve, reject) => {
+export async function flux(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<Flux<MerchantEndpointsSecurityHandle>> {
+    return new Promise<Flux<MerchantEndpointsSecurityHandle>>(async (resolve, reject) => {
         try {
 
-            let fma = Flux.getInstance();
+            let fma = Flux.getInstance<MerchantEndpointsSecurityHandle>();
             let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
             passphrase = SecurityHandlerBase.sha256(passphrase, exchangedKey);
 
@@ -83,10 +84,41 @@ export async function flux(publicKey: string, privateKey: string, username: stri
 
 }
 
+export async function fluxBrowser(publicKey: string): Promise<Flux<GeneralSecurityHandle>> {
+
+    let fma = Flux.getInstance<GeneralSecurityHandle>()
+    let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
+    fma.securityHandle = new GeneralSecurityHandle(exchangedKey);
+    fma.isAuthenticated = true;
+
+    if (isBrowserEnv()) {
+        localStorage.setItem('publicKey', publicKey);
+        localStorage.setItem('exchangedKey', exchangedKey);
+    }
+
+    return fma
+};
+
 export function fluxGetter() {
+
+    if (isBrowserEnv()) {
+        let exchangedKey = localStorage.getItem('exchangedKey')
+
+        if (!exchangedKey)throw new Error("no flux connection established, please authenticate by invoking fluxBrowser with public key")
+
+        let fma = Flux.getInstance<GeneralSecurityHandle>()
+        fma.securityHandle = new GeneralSecurityHandle(exchangedKey);
+        fma.isAuthenticated = true;
+        return fma;
+    }
+
     let fi = Flux.getInstance()
 
     if (!fi.isAuthenticated) throw new Error("no flux connection established, please authenticate by invoking flux with your credentials")
 
     return fi;
+}
+
+function isBrowserEnv() {
+    return typeof window !== "undefined" && typeof window.document !== "undefined";
 }

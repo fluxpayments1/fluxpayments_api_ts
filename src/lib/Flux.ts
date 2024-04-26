@@ -19,29 +19,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { CreateSessionRequest } from "../ajax/Requests/CreateSessionRequest";
+import { GenericCreatorRequest } from "../ajax/Requests/GenericCreatorRequest";
+import { GenericGetterRequest } from "../ajax/Requests/GenericGetterRequest";
+import { GenericDeleterRequest } from "../ajax/Requests/GenericDeleterRequest";
+import { GenericGetByIdRequest } from "../ajax/Requests/GenericGetByIdRequest";
+import { GenericUpdaterRequest } from "../ajax/Requests/GenericUpdaterRequest";
+import { ChngProdInvCntRequest } from "../ajax/Requests/ChngProdInvCntRequest";
 
-import { GenAuthReq, CreateSessionRequest, GenericCreatorRequest, GenericGetterRequest, GenericDeleterRequest, GenericGetByIdRequest, GenericUpdaterRequest, ChngProdInvCntRequest } from "../ajax/Requests";
+import { GenAuthReq } from "../ajax/Requests/GenAuthReq";
 import { GenAuthRes, CreateSessionResponse, GenericCreatorResponse, GenericGetterResponse, GenericDeleterResponse, GenericUpdaterResponse, UpdateProductResponse } from "../ajax/Responses";
 import { CMMT } from "../ajax/lib";
-import { MerchantEndpointsSecurityHandle, GenAuthDataSecurityHandle } from "../ajax/security";
+import { MerchantEndpointsSecurityHandle, GenAuthDataSecurityHandle, SecurityHandler } from "../ajax/security";
 import { FluxIdentifier, FluxType, BaseQuery, Product } from "../flux_types";
 import { IFlux } from "./IFlux";
 
 
 
 
-export class Flux implements IFlux {
+export class Flux<A extends SecurityHandler> implements IFlux {
     private _isAuthenticated: boolean = false;
-    private _securityHandle: MerchantEndpointsSecurityHandle;
-    private static fb: Flux;
+    private _securityHandle: A;
+    private static fb: Flux<any>;
     private constructor() {
 
     }
 
-    public static getInstance() {
-        if (Flux.fb) return Flux.fb;
-
-        Flux.fb = new Flux();
+    public static getInstance<T extends SecurityHandler>(): Flux<T> {
+        if (Flux.fb) {
+            return Flux.fb;
+        }
+        Flux.fb = new Flux<T>();
         return Flux.fb
     }
 
@@ -53,11 +61,11 @@ export class Flux implements IFlux {
         this._isAuthenticated = b;
     }
 
-    get securityHandle(): MerchantEndpointsSecurityHandle {
+    get securityHandle(): A {
         return this._securityHandle;
     }
 
-    set securityHandle(securityHandle: MerchantEndpointsSecurityHandle) {
+    set securityHandle(securityHandle: A) {
         this._securityHandle = securityHandle;
     }
 
@@ -80,6 +88,8 @@ export class Flux implements IFlux {
      * @returns a session id
      */
     public async createSession(id: FluxIdentifier): Promise<string> {
+        if (!(this._securityHandle instanceof MerchantEndpointsSecurityHandle))
+            throw new Error("sessions must be created server side")
         return CMMT.fetch<string, CreateSessionRequest, CreateSessionResponse>(
             CreateSessionRequest,
             CreateSessionResponse,
@@ -92,7 +102,8 @@ export class Flux implements IFlux {
 
 
     async createObjectGeneric<T extends FluxType>(
-        ob: T | T[]
+        ob: T | T[],
+        secHandle? : SecurityHandler
     ): Promise<FluxIdentifier[]> {
         let obName
         if (Array.isArray(ob)) obName = ob[0].obName
@@ -103,13 +114,14 @@ export class Flux implements IFlux {
             GenericCreatorResponse,
             `create${obName}`,
             "POST",
-            this._securityHandle,
+            secHandle || this._securityHandle,
             ob
         );
     }
 
     async createObjectGenericSafe<T extends FluxType>(
-        ob: T | T[]
+        ob: T | T[],
+        secHandle?: SecurityHandler
     ): Promise<T[]> {
 
         let obName
@@ -123,13 +135,14 @@ export class Flux implements IFlux {
             obType = ob.obType
         }
 
-        return CMMT.fetchGeneric< GenericCreatorRequest, GenericGetterResponse<T>, T>(
+
+        return CMMT.fetchGeneric<GenericCreatorRequest, GenericGetterResponse<T>, T>(
             GenericCreatorRequest,
             GenericGetterResponse<T>,
             obType,
             `create${obName}InstanceSafe`,
             "POST",
-            this._securityHandle,
+            secHandle || this._securityHandle,
             ob
         );
     }
@@ -137,6 +150,7 @@ export class Flux implements IFlux {
 
     public async getObjects<T extends FluxType, U extends BaseQuery<T>>(
         query: U,
+        secHandle?: SecurityHandler
     ): Promise<T[]> {
         let obType = query.attachedObject
         let name = new obType().obName
@@ -153,7 +167,8 @@ export class Flux implements IFlux {
 
     public async deleteObjects<T extends FluxType>(
         ids: FluxIdentifier | FluxIdentifier[],
-        obType: new (o?: any) => T
+        obType: new (o?: any) => T,
+        secHandle?: SecurityHandler
     ): Promise<FluxIdentifier[]> {
         let obName = new obType().obName
         return CMMT.fetch<FluxIdentifier[], GenericDeleterRequest, GenericDeleterResponse>(
@@ -161,7 +176,7 @@ export class Flux implements IFlux {
             GenericDeleterResponse,
             `delete${obName}`,
             "POST",
-            this._securityHandle,
+            secHandle || this._securityHandle,
             ids
         );
     }
@@ -184,6 +199,7 @@ export class Flux implements IFlux {
 
     public async updateObjects<T extends FluxType>(
         ob: T | T[],
+        securityHandle?: SecurityHandler
     ): Promise<T[]> {
         let obType
         let obName
@@ -201,12 +217,14 @@ export class Flux implements IFlux {
             obType,
             `update${obName}`,
             "POST",
-            this._securityHandle,
+            securityHandle || this._securityHandle,
             ob
         );
     }
 
     public async updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier): Promise<Product[]> {
+        if (!(this._securityHandle instanceof MerchantEndpointsSecurityHandle))
+            throw new Error("inventory must be changed server side")
         return CMMT.fetch<Product[], ChngProdInvCntRequest, UpdateProductResponse>(
             ChngProdInvCntRequest,
             UpdateProductResponse,

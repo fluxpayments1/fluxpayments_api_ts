@@ -72,6 +72,8 @@ class Token extends FluxType_1.FluxType {
         super(token, Token);
         this.obName = "Token";
         this.objectType = "token";
+        if (!token)
+            return;
         if (token.token) {
             this.id = this.parseToken(token.token);
             delete token.token;

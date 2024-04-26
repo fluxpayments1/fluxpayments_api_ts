@@ -1,5 +1,7 @@
+import { MerchantEndpointsSecurityHandle } from "../ajax/security/MerchantEndpointsSecurityHandle";
 import { Flux } from "./Flux";
 import { FluxSockets } from "./FluxSockets";
+import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
 /**
  * Initializes a connection to the flux websocket.
  *
@@ -20,5 +22,6 @@ export declare function fluxSocket(publicKey: string, privateKey: string, userna
  * @param passphrase Passphrase displayed in the Flux dashboard
  * @returns A Promise resolving to a Flux object that can be used to interact with the Flux API
  */
-export declare function flux(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<Flux>;
-export declare function fluxGetter(): Flux;
+export declare function flux(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<Flux<MerchantEndpointsSecurityHandle>>;
+export declare function fluxBrowser(publicKey: string): Promise<Flux<GeneralSecurityHandle>>;
+export declare function fluxGetter(): Flux<import("../ajax/security").SecurityHandler>;

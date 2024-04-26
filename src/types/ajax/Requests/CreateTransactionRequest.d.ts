@@ -1,5 +1,5 @@
-import { Product } from "flux_types/Product";
-import { Transaction } from "flux_types/Transaction";
+import { Product } from "../../flux_types/Product";
+import { Transaction } from "../../flux_types/Transaction";
 import { RequestBodyBase } from "./RequestBodyBase";
 export declare class CreateTransactionRequest extends RequestBodyBase {
     private _prod;

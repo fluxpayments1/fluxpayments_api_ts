@@ -11,7 +11,7 @@ import { initializeFluxWebSocket } from "./A_Websocket.spec";
 
 
 describe("Account specific tests", function () {
-    let fluxObj: Flux, acc : Account, acc2 : Account, adds : Address[], adds2 : Address[];
+    let fluxObj: Flux<any>, acc : Account, acc2 : Account, adds : Address[], adds2 : Address[];
     this.timeout(50000); // sets a 50-second timeout for all tests in this suite
     let fluxWebsocket : FluxSockets;
     before(async () => {

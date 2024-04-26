@@ -1,109 +1,98 @@
-// import { assert } from "chai";
-// import { fluxInit } from "../lib/FluxEntry";
-// import { FluxTokens } from "../lib/FluxTokens";
-// import { Token } from "../flux_types/Token";
-// import { TokenQuery } from "../flux_types/TokenQuery";
-// function delay(ms) {
-//     return new Promise(resolve => setTimeout(resolve, ms));
-// }
+import { assert } from "chai";
+import { Token } from "../flux_types/Token";
+import { TokenQuery } from "../flux_types/TokenQuery";
+import { Flux, flux } from "../lib";
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-// describe("Token class tests", function () {
-//     this.timeout(5000000); // 5-second timeout for each test case
+describe("Token class tests", function () {
+    this.timeout(5000000); // 5-second timeout for each test case
 
-//     let fluxObj: FluxTokens;
-//     let token: Token;
+    let token: Token;
+    let fluxObj: Flux<any>;
+    before(async () => {
+        fluxObj = await flux("PK_ewRVuDFJEe61LwJCwKjwBA==", "Z6ZeNlcxdxd9j2Gc1eDwuxkfovDr33BdFaLXZ1y/1Fs=", "mac_98", "your_password");
+    });
 
-//     before(async () => {
-//         fluxObj = await fluxInit("PK_ewRVuDFJEe61LwJCwKjwBA==", "Z6ZeNlcxdxd9j2Gc1eDwuxkfovDr33BdFaLXZ1y/1Fs=", "mac_98", "your_password");
-//     });
+    it("should instantiate a Token", async () => {
 
-//     describe("Token creation", function () {
-//         it("should instantiate a Token", async () => {
+        token = await Token.createInstanceSafe({
+            payload: "hello world",
+            metadata: "first token"
+        });
+        assert.isDefined(token);
+    });
 
-//             token = await Token.createInstanceSafe({
-//                 payload: "hello world",
-//                 metadata: "first token"
-//             });
-//             assert.isDefined(token);
-//         });
+    it("should have the correct payload", async () => {
 
-//         it("should have the correct payload", async () => {
+        assert.equal(token.getDecryptedPayload(), "hello world");
+    });
 
-//             assert.equal(token.getDecryptedPayload(), "hello world");
-//         });
+    // Add more test cases for other properties and edge cases
 
-//         // Add more test cases for other properties and edge cases
-//     });
+    it("should update a Token", async () => {
 
-//     describe("Token manipulation", function () {
-//         it("should update a Token", async () => {
+        token.metadata = "updated metadata"
+        await token.merge()
 
-//             token.metadata = "updated metadata"
-//             await token.merge()
+        let tokUpdated = await Token.getObjectsById({ id: token.id })
+        assert.equal(tokUpdated[0].metadata, "updated metadata")
 
-//             let tokUpdated = await Token.getObjectsById({ id: token.id })
+    });
 
-//             assert.equal(tokUpdated[0].metadata, "updated metadata")
+    it("should refresh a Token", async () => {
 
-//         });
+        let staleTok = await Token.createInstanceLazy({ id: token.id })
+        await staleTok.refresh()
 
-//         it("should refresh a Token", async () => {
-
-//             let staleTok = Token.createInstanceLazy({ id: token.id })
-//             await staleTok.refresh()
-
-//             assert.equal(staleTok.metadata, "updated metadata")
+        assert.equal(staleTok.metadata, "updated metadata")
 
 
-//         });
+    });
 
-//         // Add more test cases for other manipulation functions
-//     });
+    // Add more test cases for other manipulation functions
 
-//     describe("Token query", function () {
-//         it("should query Tokens", async () => {
-//             const tokens = await Token.queryObjects<Token, TokenQuery>(new TokenQuery({
-//                 id: token.id
-//             }));
-//             assert.isArray(tokens);
-//             assert.isNotEmpty(tokens);
-//             assert.equal(tokens[0].metadata, "updated metadata");
-//         });
-//         it("should return an empty array for non-existent id", async () => {
-//             const tokens = await Token.queryObjects(new TokenQuery({
-//                 id: 999999 // non-existent id
-//             }));
-//             assert.isArray(tokens);
-//             assert.isEmpty(tokens);
-//         });
-//     });
-    
-//     describe("Token deletion", function () {
-//         it("should delete a Token", async () => {
-//             await delay(500)
+    it("should query Tokens", async () => {
+        const tokens = await Token.queryObjects<Token, TokenQuery>(new TokenQuery({
+            id: token.id
+        }));
+        assert.isArray(tokens);
+        assert.isNotEmpty(tokens);
+        assert.equal(tokens[0].metadata, "updated metadata");
+    });
+    it("should return an empty array for non-existent id", async () => {
+        const tokens = await Token.queryObjects(new TokenQuery({
+            id: 999999 // non-existent id
+        }));
+        assert.isArray(tokens);
+        assert.isEmpty(tokens);
+    });
 
-//             await token.delete();
+    it("should delete a Token", async () => {
+        await delay(500)
 
-//             const tokens = await Token.queryObjects(new TokenQuery({
-//                 id: token.id
-//             }));
+        await token.delete();
 
-//             assert.isArray(tokens);
-//             assert.isEmpty(tokens);
-//         });
+        const tokens = await Token.queryObjects(new TokenQuery({
+            id: token.id
+        }));
 
-//         it("should not find the deleted token", async () => {
-//             const tokens = await Token.queryObjects(new TokenQuery({
-//                 id: token.id
-//             }));
-//             assert.isArray(tokens);
-//             assert.isEmpty(tokens);
-//         });
-//     });
+        assert.isArray(tokens);
+        assert.isEmpty(tokens);
+    });
 
-//     after(async () => {
-//         // Cleanup code if needed
-//     });
+    it("should not find the deleted token", async () => {
+        const tokens = await Token.queryObjects(new TokenQuery({
+            id: token.id
+        }));
+        assert.isArray(tokens);
+        assert.isEmpty(tokens);
+    });
 
-// })
+    after(async () => {
+        // Cleanup code if needed
+    });
+
+})
 

@@ -9,7 +9,7 @@ import { FluxSockets } from "../lib/FluxSockets";
 let fluxWebSocket: FluxSockets
 
 describe("Flux Account CRUD Tests", function () {
-    let fluxObj: Flux;
+    let fluxObj: Flux<any>;
     let updatedAccount: Account[];
     before(async () => {
         try {

@@ -19,16 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { Product } from "../../flux_types/Product";
-import { Account } from "../../flux_types/Account";
-import { Address } from "../../flux_types/Address";
-import { ProductQuery } from "../../flux_types/ProductQuery";
-import { AccountQuery } from "../../flux_types/AccountQuery";
-import { AddressQuery } from "../../flux_types/AddressQuery";
 
 import { RequestBody } from "./RequestBody";
+import { FluxType } from "../../flux_types/FluxType";
+import { BaseQuery } from "../../flux_types/BaseQuery";
 
 export abstract class RequestBodyBase implements RequestBody {
+    protected serializeRecursively(object) {
+        if (object instanceof FluxType || object instanceof BaseQuery) {
+            // If the object itself is a FluxType, serialize it
+            
+            let retVal = object.serialize()
+            Object.keys(retVal).forEach(e => {
+                retVal[e] = this.serializeRecursively(retVal[e])
+            })
+            return retVal
+        } else {
+            return object
+        }
+    }
     public abstract loadClientData(...args: any) : void
     public getRequestAsString() : string {
         let str = JSON.stringify(this);
@@ -44,26 +53,6 @@ export abstract class RequestBodyBase implements RequestBody {
     constructor() {
         
     }
-    public loadObjectType (obj : any) : void {
 
-        let type: string;
-        const getObType = (obj: any) => { 
-            let type: string;
-            if (obj instanceof Product || obj instanceof ProductQuery) type = "product";
-            if (obj instanceof Account || obj instanceof AccountQuery) type = "account";
-            if (obj instanceof Address || obj instanceof AddressQuery) type = "address";
-            return type
-        }
-        try {
-            obj.forEach(product => {
-                type = getObType(product);
-                product.objectType = type;
-            })
-        } catch (e) {
-            type = getObType(obj);
-            obj.objectType = type
-        }
-
-    }
 
 }

@@ -44,7 +44,7 @@ export class GenericCreatorRequest extends RequestBodyBase {
         }  
 
         this._createdObjects = this._createdObjects.map(e => {
-            return e.serialize();
+            return this.serializeRecursively(e);
         })
         
     }

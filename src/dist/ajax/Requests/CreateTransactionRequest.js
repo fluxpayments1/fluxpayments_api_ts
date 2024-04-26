@@ -37,9 +37,9 @@ class CreateTransactionRequest extends RequestBodyBase_1.RequestBodyBase {
         this._prod = Array.isArray(prod) ? prod : [prod];
     }
     loadClientData(txn, prod) {
-        this._txn = txn.serialize();
+        this._txn = this.serializeRecursively(txn);
         this._prod = Array.isArray(prod) ? prod : [prod];
-        this._prod = this._prod.map(e => e.serialize());
+        this._prod = this._prod.map(e => this.serializeRecursively(e));
     }
 }
 exports.CreateTransactionRequest = CreateTransactionRequest;

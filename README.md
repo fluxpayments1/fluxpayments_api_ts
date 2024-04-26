@@ -1,1 +1,2 @@
-# fluxpayments_api_ts
+[Go to Documentation README](docs/README.md)
+

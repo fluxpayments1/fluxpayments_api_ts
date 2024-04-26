@@ -1,6 +1,6 @@
 "use strict";
 /*
- * Copyright (c) 2024 Flux Payment Solutions Company
+ * Copyright (c) 2024 Flux<SecurityHandler> Payment Solutions Company
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -54,6 +54,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FluxType = void 0;
+const security_1 = require("../ajax/security");
 const FluxIdentifier_1 = require("./FluxIdentifier");
 let fluxGetter;
 let loadingPromise;
@@ -136,6 +137,22 @@ class FluxType {
         });
     }
     ;
+    /**
+     * Used for account free or stateless payments.
+     * Creating a payment method with a stateless
+     * token will store the payment method in our
+     * system and return a token. You can then pass
+     * this token for one time use into a transaction
+     * object.
+     *
+     *
+     * @returns
+     */
+    static generateStatelessSession() {
+        return __awaiter(this, void 0, void 0, function* () {
+            return null;
+        });
+    }
     refresh() {
         return __awaiter(this, void 0, void 0, function* () {
             let obs = yield FluxType.getObjectsByIdInternal(this.getId(), this.obType);
@@ -154,7 +171,21 @@ class FluxType {
     }
     static getObjectsById(fi) {
         return __awaiter(this, void 0, void 0, function* () {
+            let obType = new this().objectType;
+            if (Array.isArray(fi)) {
+                fi.forEach(e => {
+                    if (!e.objectType)
+                        e.objectType = (new this()).objectType;
+                });
+            }
+            else {
+                if (!fi.objectType)
+                    fi.objectType = (new this()).objectType;
+            }
             let f = yield FluxType.getBackendConn();
+            if (!(f.securityHandle instanceof security_1.MerchantEndpointsSecurityHandle) && obType === "payment_method") {
+                throw new Error("get by id is not supported in the browser environment");
+            }
             let obs = yield f.getObjectsById(fi, (new this().obType));
             return obs;
         });

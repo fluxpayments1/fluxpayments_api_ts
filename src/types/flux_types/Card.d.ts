@@ -8,4 +8,14 @@ export declare class Card extends PaymentMethod implements ICard {
     expYear: string;
     cardNumber: string;
     cvv: string;
+    static createInstanceLazy(acc: Partial<ICard>): Promise<Card>;
+    /**
+     * Will not create a card if working outside of the browser,
+     * will just load the card if it exists.
+     *
+     * @param acc
+     * @param accountSession
+     * @returns
+     */
+    static createInstanceSafe(acc: Partial<ICard>): Promise<PaymentMethod>;
 }

@@ -28,6 +28,8 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
   public abstract encodeRequest(request: string, headers: Map<string, string>): Promise<string>;
   private static shaSaltGlobal = "FLUX_SALT"
 
+  get publicKey () {return this.publicKey}
+
   public static sha256(str: string, salt: string) {
     const hash = crypto.createHash('sha256');
     hash.update(str + salt);

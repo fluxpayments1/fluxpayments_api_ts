@@ -1,6 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.RequestBodyBase = void 0;
 /*
  * Copyright (c) 2024 Flux Payment Solutions Company
  *
@@ -22,13 +20,24 @@ exports.RequestBodyBase = void 0;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-const Product_1 = require("../../flux_types/Product");
-const Account_1 = require("../../flux_types/Account");
-const Address_1 = require("../../flux_types/Address");
-const ProductQuery_1 = require("../../flux_types/ProductQuery");
-const AccountQuery_1 = require("../../flux_types/AccountQuery");
-const AddressQuery_1 = require("../../flux_types/AddressQuery");
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.RequestBodyBase = void 0;
+const FluxType_1 = require("../../flux_types/FluxType");
+const BaseQuery_1 = require("../../flux_types/BaseQuery");
 class RequestBodyBase {
+    serializeRecursively(object) {
+        if (object instanceof FluxType_1.FluxType || object instanceof BaseQuery_1.BaseQuery) {
+            // If the object itself is a FluxType, serialize it
+            let retVal = object.serialize();
+            Object.keys(retVal).forEach(e => {
+                retVal[e] = this.serializeRecursively(retVal[e]);
+            });
+            return retVal;
+        }
+        else {
+            return object;
+        }
+    }
     getRequestAsString() {
         let str = JSON.stringify(this);
         let obj = JSON.parse(str);
@@ -41,29 +50,6 @@ class RequestBodyBase {
         return JSON.stringify(retObj);
     }
     constructor() {
-    }
-    loadObjectType(obj) {
-        let type;
-        const getObType = (obj) => {
-            let type;
-            if (obj instanceof Product_1.Product || obj instanceof ProductQuery_1.ProductQuery)
-                type = "product";
-            if (obj instanceof Account_1.Account || obj instanceof AccountQuery_1.AccountQuery)
-                type = "account";
-            if (obj instanceof Address_1.Address || obj instanceof AddressQuery_1.AddressQuery)
-                type = "address";
-            return type;
-        };
-        try {
-            obj.forEach(product => {
-                type = getObType(product);
-                product.objectType = type;
-            });
-        }
-        catch (e) {
-            type = getObType(obj);
-            obj.objectType = type;
-        }
     }
 }
 exports.RequestBodyBase = RequestBodyBase;

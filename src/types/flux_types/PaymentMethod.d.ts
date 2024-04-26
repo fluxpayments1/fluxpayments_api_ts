@@ -1,6 +1,9 @@
+import { SecurityHandler } from "../ajax/security/SecurityHandler";
 import { Address } from "./Address";
+import { FluxIdentifier } from "./FluxIdentifier";
 import { FluxType } from "./FluxType";
 import { IPaymentMethod } from "./IPaymentMethod";
+import { BaseQuery } from "./BaseQuery";
 export declare class PaymentMethod extends FluxType implements IPaymentMethod {
     obName: string;
     serialize(): {
@@ -27,11 +30,20 @@ export declare class PaymentMethod extends FluxType implements IPaymentMethod {
     firstName: string;
     lastName: string;
     objecttype: string;
+    accountSession: string;
     private encSensitiveData;
     private encAesKey;
     private aesNonce;
     protected objectType: string;
+    protected static createInstanceSafeDbCall(inst: PaymentMethod, pt: any): Promise<PaymentMethod>;
     constructor(c?: Partial<IPaymentMethod>);
-    static createInstanceLazy(acc: Partial<IPaymentMethod>): Promise<PaymentMethod>;
-    static createInstanceSafe(acc: Partial<IPaymentMethod>): Promise<PaymentMethod>;
+    static updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]>;
+    static createObjects<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]>;
+    delete(): Promise<void>;
+    merge(): Promise<void>;
+    persist(): Promise<void>;
+    refresh(): Promise<void>;
+    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]>;
+    static deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], accountSession?: string): Promise<FluxIdentifier[]>;
+    protected static createObjectsSafe<T extends FluxType>(ob: T | T[], secHandle?: SecurityHandler): Promise<T[]>;
 }

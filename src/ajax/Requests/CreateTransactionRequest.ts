@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-import { Product } from "flux_types/Product";
-import { Transaction } from "flux_types/Transaction";
+import { Product } from "../../flux_types/Product";
+import { Transaction } from "../../flux_types/Transaction";
 import { RequestBodyBase } from "./RequestBodyBase";
 
 
@@ -46,10 +46,10 @@ export class CreateTransactionRequest extends RequestBodyBase {
     }
 
     public loadClientData(txn: Transaction, prod : Product | Product[]): void {
-        this._txn = txn.serialize()
+        this._txn = this.serializeRecursively(txn)
         this._prod = Array.isArray(prod) ? prod : [prod]
 
-        this._prod = this._prod.map(e => e.serialize())
+        this._prod = this._prod.map(e => this.serializeRecursively(e))
 
     }
 }

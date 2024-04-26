@@ -1,8 +1,8 @@
-import { BaseQuery } from "flux_types/BaseQuery";
+import { BaseQuery } from "../../flux_types/BaseQuery";
 import { RequestBodyBase } from "./RequestBodyBase";
 import { AdditionalSearchOptions } from "../../flux_types/AdditionalSearchOptions";
 import { PaginationSupport } from "../../flux_types/PaginationSupport";
-import { FluxType } from "flux_types";
+import { FluxType } from "../../flux_types/FluxType";
 export declare class GenericGetterRequest<U extends FluxType, T extends BaseQuery<U>> extends RequestBodyBase {
     _queryObj: T;
     _additionalSearchOptions: AdditionalSearchOptions[];

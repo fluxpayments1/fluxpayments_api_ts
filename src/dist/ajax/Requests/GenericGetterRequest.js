@@ -49,7 +49,7 @@ class GenericGetterRequest extends RequestBodyBase_1.RequestBodyBase {
         this._queryObj = prodQuery;
     }
     loadClientData(prodQuery) {
-        this._queryObj = prodQuery.serialize();
+        this._queryObj = this.serializeRecursively(prodQuery);
         if (prodQuery.lookupPage)
             this._lookupPage = prodQuery.lookupPage;
         this._additionalSearchOptions = this._queryObj.additionalSearchOptions;

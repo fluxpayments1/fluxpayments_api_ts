@@ -3,6 +3,7 @@ export declare abstract class SecurityHandlerBase implements SecurityHandler {
     abstract decodeResponse(response: string): Promise<string>;
     abstract encodeRequest(request: string, headers: Map<string, string>): Promise<string>;
     private static shaSaltGlobal;
+    get publicKey(): any;
     static sha256(str: string, salt: string): string;
     static decryptAESBrowser(keyBase64: any, base64Nonce: any, encryptedData: any): Promise<string>;
     static encryptAESBrowser(keyBase64: any, base64Nonce: any, data: any): Promise<string>;

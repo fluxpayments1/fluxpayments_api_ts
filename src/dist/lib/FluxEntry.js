@@ -30,11 +30,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fluxGetter = exports.flux = exports.fluxSocket = void 0;
+exports.fluxGetter = exports.fluxBrowser = exports.flux = exports.fluxSocket = void 0;
 const MerchantEndpointsSecurityHandle_1 = require("../ajax/security/MerchantEndpointsSecurityHandle");
 const SecurityHandlerBase_1 = require("../ajax/security/SecurityHandlerBase");
 const Flux_1 = require("./Flux");
 const FluxSockets_1 = require("./FluxSockets");
+const GeneralSecurityHandle_1 = require("../ajax/security/GeneralSecurityHandle");
 /**
  * Initializes a connection to the flux websocket.
  *
@@ -90,11 +91,38 @@ function flux(publicKey, privateKey, username, passphrase) {
     });
 }
 exports.flux = flux;
+function fluxBrowser(publicKey) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let fma = Flux_1.Flux.getInstance();
+        let exchangedKey = yield fma.getGeneralAuthorizationAccess(publicKey);
+        fma.securityHandle = new GeneralSecurityHandle_1.GeneralSecurityHandle(exchangedKey);
+        fma.isAuthenticated = true;
+        if (isBrowserEnv()) {
+            localStorage.setItem('publicKey', publicKey);
+            localStorage.setItem('exchangedKey', exchangedKey);
+        }
+        return fma;
+    });
+}
+exports.fluxBrowser = fluxBrowser;
+;
 function fluxGetter() {
+    if (isBrowserEnv()) {
+        let exchangedKey = localStorage.getItem('exchangedKey');
+        if (!exchangedKey)
+            throw new Error("no flux connection established, please authenticate by invoking fluxBrowser with public key");
+        let fma = Flux_1.Flux.getInstance();
+        fma.securityHandle = new GeneralSecurityHandle_1.GeneralSecurityHandle(exchangedKey);
+        fma.isAuthenticated = true;
+        return fma;
+    }
     let fi = Flux_1.Flux.getInstance();
     if (!fi.isAuthenticated)
         throw new Error("no flux connection established, please authenticate by invoking flux with your credentials");
     return fi;
 }
 exports.fluxGetter = fluxGetter;
+function isBrowserEnv() {
+    return typeof window !== "undefined" && typeof window.document !== "undefined";
+}
 //# sourceMappingURL=FluxEntry.js.map

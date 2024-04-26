@@ -20,6 +20,7 @@
  * SOFTWARE.
  */
 
+import { FluxType } from "./FluxType";
 import { ICard } from "./ICard";
 import { PaymentMethod } from "./PaymentMethod";
 
@@ -35,4 +36,27 @@ export class Card extends PaymentMethod implements ICard {
     expYear: string;
     cardNumber: string;
     cvv: string;
+
+    public static async createInstanceLazy(acc: Partial<ICard>) {
+        return await PaymentMethod.instantiateLazyInstance(acc, this)
+    }
+
+
+    /**
+     * Will not create a card if working outside of the browser,
+     * will just load the card if it exists.
+     * 
+     * @param acc 
+     * @param accountSession 
+     * @returns 
+     */
+    public static async createInstanceSafe(acc: Partial<ICard>) {
+        let instance: Card = new Card(acc);
+        let retVal = await PaymentMethod.createInstanceSafeDbCall(instance, acc)
+        return retVal;
+    }
+
+
+
+
 }

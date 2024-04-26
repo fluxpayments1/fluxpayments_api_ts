@@ -8,7 +8,7 @@ import { AddressQuery } from "../flux_types/AddressQuery";
 import { IAccount } from "../flux_types/IAccount";
 
 describe("Flux AccountAddress CRUD Tests", function () {
-    let fluxObj: Flux;
+    let fluxObj: Flux<any>;
     let updatedAccount: Account[];
 
     before(async () => {

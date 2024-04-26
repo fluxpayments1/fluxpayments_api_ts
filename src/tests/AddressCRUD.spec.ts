@@ -27,7 +27,7 @@ function createRandomAddress(): Address {
 
 
 describe("Flux Address CRUD Tests", function () {
-    let fluxObj: Flux;
+    let fluxObj: Flux<any>;
     let addressIdentifier: FluxIdentifier[];
     let addressSearch: Address[];
 

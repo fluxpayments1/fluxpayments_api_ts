@@ -5,7 +5,7 @@ import { Flux } from "../lib/Flux";
 import { flux } from "../lib/index";
 
 describe("Address specific tests", function () {
-    let fluxObj: Flux, add : Address, add2 : Address;
+    let fluxObj: Flux<any>, add : Address, add2 : Address;
     this.timeout(50000); // sets a 50-second timeout for all tests in this suite
 
     before(async () => {

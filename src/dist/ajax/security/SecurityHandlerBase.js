@@ -36,6 +36,7 @@ exports.SecurityHandlerBase = void 0;
 const crypto = __importStar(require("crypto"));
 const util_1 = require("util");
 class SecurityHandlerBase {
+    get publicKey() { return this.publicKey; }
     static sha256(str, salt) {
         const hash = crypto.createHash('sha256');
         hash.update(str + salt);

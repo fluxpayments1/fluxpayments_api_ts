@@ -20,11 +20,11 @@
  * SOFTWARE.
  */
 
-import { BaseQuery } from "flux_types/BaseQuery";
+import { BaseQuery } from "../../flux_types/BaseQuery";
 import { RequestBodyBase } from "./RequestBodyBase";
 import { AdditionalSearchOptions } from "../../flux_types/AdditionalSearchOptions";
 import { PaginationSupport } from "../../flux_types/PaginationSupport";
-import { FluxType } from "flux_types";
+import { FluxType } from "../../flux_types/FluxType";
 
 
 export class GenericGetterRequest<U extends FluxType,T extends BaseQuery<U>> extends RequestBodyBase {
@@ -66,7 +66,7 @@ export class GenericGetterRequest<U extends FluxType,T extends BaseQuery<U>> ext
     }
 
     public loadClientData(prodQuery: T): void {
-        this._queryObj = prodQuery.serialize();
+        this._queryObj = this.serializeRecursively(prodQuery)
 
         if (prodQuery.lookupPage) this._lookupPage = prodQuery.lookupPage
 

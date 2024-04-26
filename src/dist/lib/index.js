@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FluxWebsockets = exports.Flux = exports.fluxSocket = exports.flux = void 0;
+exports.FluxWebsockets = exports.Flux = exports.fluxBrowser = exports.fluxSocket = exports.flux = void 0;
 /*
  * Copyright (c) 2024 Flux Payment Solutions Company
  *
@@ -25,6 +25,7 @@ exports.FluxWebsockets = exports.Flux = exports.fluxSocket = exports.flux = void
 var FluxEntry_1 = require("./FluxEntry");
 Object.defineProperty(exports, "flux", { enumerable: true, get: function () { return FluxEntry_1.flux; } });
 Object.defineProperty(exports, "fluxSocket", { enumerable: true, get: function () { return FluxEntry_1.fluxSocket; } });
+Object.defineProperty(exports, "fluxBrowser", { enumerable: true, get: function () { return FluxEntry_1.fluxBrowser; } });
 var Flux_1 = require("./Flux");
 Object.defineProperty(exports, "Flux", { enumerable: true, get: function () { return Flux_1.Flux; } });
 var FluxSockets_1 = require("./FluxSockets");

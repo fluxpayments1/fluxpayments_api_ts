@@ -1,5 +1,5 @@
 import { assert } from "chai";
-import {  flux } from "../lib/";
+import {  flux } from "../lib/FluxEntry";
 import { fluxSocket } from "../lib/FluxEntry";
 import { FluxSockets, Subscription } from "../lib/FluxSockets";
 

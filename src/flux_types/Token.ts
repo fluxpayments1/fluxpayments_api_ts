@@ -110,6 +110,8 @@ export class Token extends FluxType implements IToken {
     public constructor(token?: Partial<IToken>) {
         super(token, Token);
 
+        if (!token) return;
+
         if (token.token) {
             this.id = this.parseToken(token.token)
             delete token.token

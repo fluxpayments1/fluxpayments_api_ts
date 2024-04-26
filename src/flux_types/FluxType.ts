@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024 Flux Payment Solutions Company
+ * Copyright (c) 2024 Flux<SecurityHandler> Payment Solutions Company
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -20,6 +20,7 @@
  * SOFTWARE.
  */
 
+import { MerchantEndpointsSecurityHandle, SecurityHandler } from "../ajax/security";
 import { Flux } from "../lib/Flux";
 import { BaseQuery } from "./BaseQuery";
 import { FluxIdentifier } from "./FluxIdentifier";
@@ -78,7 +79,7 @@ export abstract class FluxType {
     return obs[0]
   }
 
-  protected static async getBackendConn(): Promise<Flux> {
+  protected static async getBackendConn(): Promise<Flux<SecurityHandler>> {
     await loadFluxGetter();
     if (!fluxGetter) {
       throw new Error("Failed to load FluxGetter module.");
@@ -89,7 +90,7 @@ export abstract class FluxType {
   public abstract serialize();
 
   public async delete(): Promise<void> {
-    let f: Flux = await FluxType.getBackendConn()
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
     await f.deleteObjects(this.getId(), this.obType)
     Object.keys(this).forEach(e => {
       this[e] = undefined
@@ -99,8 +100,8 @@ export abstract class FluxType {
 
   public async merge(): Promise<void> {
     let t = this.obType
-    let f: Flux = await FluxType.getBackendConn()
-    let obs = await f.updateObjects(this)    
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+    let obs = await f.updateObjects(this)
     if (obs.length !== 1) throw new Error("couldn't persist the object");
     Object.assign(this, obs[0])
   };
@@ -110,6 +111,21 @@ export abstract class FluxType {
     this.setId(obs[0]);
   };
 
+  /**
+   * Used for account free or stateless payments.
+   * Creating a payment method with a stateless
+   * token will store the payment method in our 
+   * system and return a token. You can then pass
+   * this token for one time use into a transaction
+   * object.
+   * 
+   * 
+   * @returns 
+   */
+  public static async generateStatelessSession() {
+    return null;
+  }
+
   public async refresh(): Promise<void> {
     let obs = await FluxType.getObjectsByIdInternal(this.getId(), this.obType)
     if (obs.length !== 1) throw new Error("couldn't refresh the object");
@@ -117,43 +133,56 @@ export abstract class FluxType {
   };
 
   protected static async getObjectsByIdInternal<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]> {
-    let f: Flux = await FluxType.getBackendConn()
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
     let obs = await f.getObjectsById(fi, obType)
     return obs;
   }
 
   public static async getObjectsById<T extends FluxType>(this: new () => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<T[]> {
-    let f: Flux = await FluxType.getBackendConn()
+
+    let obType = new this().objectType
+    if (Array.isArray(fi)) {
+      fi.forEach(e => {
+        if (!e.objectType) e.objectType = (new this()).objectType
+      })
+    } else {
+      if (!fi.objectType) fi.objectType = (new this()).objectType
+    }
+
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+    if (!(f.securityHandle instanceof MerchantEndpointsSecurityHandle) && obType === "payment_method") {
+      throw new Error("get by id is not supported in the browser environment")
+    }
     let obs = await f.getObjectsById<T>(fi, (new this().obType))
     return obs;
   }
 
 
   public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]> {
-    let f: Flux = await FluxType.getBackendConn()
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
     let obs = await f.getObjects<T, U>(q)
     return obs;
   }
 
   public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<FluxIdentifier[]> {
-    let f: Flux = await FluxType.getBackendConn()
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
     return await f.deleteObjects<T>(fi, this)
   }
 
   public static async updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]> {
-    let f: Flux = await FluxType.getBackendConn()
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
     let obs = await f.updateObjects<T>(ob)
     return obs;
   }
 
   public static async createObjects<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]> {
-    let f: Flux = await FluxType.getBackendConn()
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
     let obs: FluxIdentifier[] = await f.createObjectGeneric<T>(ob)
     return obs;
   }
 
-  public static async createObjectsSafe<T extends FluxType>( ob: T | T[]): Promise<T[]> {
-    let f: Flux = await FluxType.getBackendConn()
+  protected static async createObjectsSafe<T extends FluxType>(ob: T | T[]): Promise<T[]> {
+    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
     let obs: T[] = await f.createObjectGenericSafe<T>(ob)
     return obs;
   }
