@@ -34,6 +34,9 @@ export declare class Account extends FluxType implements IAccount {
     firstName: string;
     middleName: string;
     lastName: string;
+    /**
+     * Describes the type of the account
+     */
     accountUserType: AccountUserType;
     private defaultShippingAddressId;
     private defaultShippingAddressUniqueId;
@@ -47,7 +50,7 @@ export declare class Account extends FluxType implements IAccount {
      * of the current context.
      *
      */
-    getAddressses(): Promise<Address[]>;
+    getAddresses(): Promise<Address[]>;
     /**
      * Adds addresses to the current context.
      *

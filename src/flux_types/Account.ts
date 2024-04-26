@@ -64,7 +64,9 @@ export class Account extends FluxType implements IAccount {
     firstName: string;
     middleName: string;
     lastName: string;
-    //Enum theat describes the type of the account
+    /**
+     * Describes the type of the account
+     */
     accountUserType: AccountUserType;
     private defaultShippingAddressId: number;
     private defaultShippingAddressUniqueId: string;
@@ -79,7 +81,7 @@ export class Account extends FluxType implements IAccount {
      * of the current context.
      * 
      */
-    async getAddressses(): Promise<Address[]> {
+    async getAddresses(): Promise<Address[]> {
         let accountAddresses: AccountAddress[] = await FluxType.queryObjects(
             AccountAddressQuery.createQuery({
                 accountId: this.id,
