@@ -26,7 +26,7 @@
 
 #### Defined in
 
-[IToken.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/54e92445ed8f94c13807b26dae9f1e6dc30f7b46/src/types/flux_types/IToken.d.ts#L3)
+[IToken.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IToken.d.ts#L3)
 
 ___
 
@@ -36,7 +36,7 @@ ___
 
 #### Defined in
 
-[IToken.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/54e92445ed8f94c13807b26dae9f1e6dc30f7b46/src/types/flux_types/IToken.d.ts#L4)
+[IToken.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IToken.d.ts#L4)
 
 ___
 
@@ -46,7 +46,7 @@ ___
 
 #### Defined in
 
-[IToken.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/54e92445ed8f94c13807b26dae9f1e6dc30f7b46/src/types/flux_types/IToken.d.ts#L6)
+[IToken.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IToken.d.ts#L6)
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 #### Defined in
 
-[IToken.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/54e92445ed8f94c13807b26dae9f1e6dc30f7b46/src/types/flux_types/IToken.d.ts#L5)
+[IToken.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IToken.d.ts#L5)
 
 ___
 
@@ -66,4 +66,4 @@ ___
 
 #### Defined in
 
-[IToken.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/54e92445ed8f94c13807b26dae9f1e6dc30f7b46/src/types/flux_types/IToken.d.ts#L2)
+[IToken.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IToken.d.ts#L2)

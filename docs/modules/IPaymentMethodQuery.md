@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[IPaymentMethodQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/54e92445ed8f94c13807b26dae9f1e6dc30f7b46/src/types/flux_types/IPaymentMethodQuery.d.ts#L3)
+[IPaymentMethodQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/532ba7d14706ca35bef486713ea09d5377c657db/src/types/flux_types/IPaymentMethodQuery.d.ts#L3)
