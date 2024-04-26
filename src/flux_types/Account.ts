@@ -30,7 +30,10 @@ import { FluxType } from './FluxType';
 import { IAccount } from './IAccount';
 import { PaymentMethod } from './PaymentMethod';
 
-
+/**
+ * Class for managing accounts 
+ * stored in the flux system.
+ */
 export class Account extends FluxType implements IAccount {
     public obName: string = "Account"
     public serialize() {

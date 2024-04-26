@@ -4,6 +4,10 @@ import { FluxIdentifier } from './FluxIdentifier';
 import { FluxType } from './FluxType';
 import { IAccount } from './IAccount';
 import { PaymentMethod } from './PaymentMethod';
+/**
+ * Class for managing accounts
+ * stored in the flux system.
+ */
 export declare class Account extends FluxType implements IAccount {
     obName: string;
     serialize(): {
