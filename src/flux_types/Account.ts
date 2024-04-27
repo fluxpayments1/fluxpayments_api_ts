@@ -146,6 +146,10 @@ export class Account extends FluxType implements IAccount {
     }
 
     public async getInstallmentTransactions() {
+
+    }
+
+    public async getPaymentMethods () {
         
     }
 

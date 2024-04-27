@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[IInstallmentTransactionQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/78e8be0f64a53d79657f3b6468d4899325fbcdc5/src/types/flux_types/IInstallmentTransactionQuery.d.ts#L3)
+[IInstallmentTransactionQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d6fcc920f7d9392fbebb0d04a90c115a45b7d55a/src/types/flux_types/IInstallmentTransactionQuery.d.ts#L3)
