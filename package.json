@@ -7,7 +7,7 @@
     "author": "Flux Payment Solutions Company",
     "license": "ISC",
     "scripts": {
-        "prepublishOnly": "npm version patch && cd src && tsc --declaration",
+        "prepublishOnly": "git commit -a -m 'Publishing to registry' && git push origin main && npm version patch && cd src && tsc --declaration",
         "compile-all": "npm run compile && npm install && tsc && npm run compile-docs",
         "compile": "cd src && tsc --declaration",
         "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs src/types/flux_types/*.ts --excludePrivate",
