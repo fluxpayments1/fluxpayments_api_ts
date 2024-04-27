@@ -1,6 +1,6 @@
 {
     "name": "fluxpayments",
-    "version": "1.0.47",
+    "version": "1.0.48",
     "description": "Api for merchants to connect to flux payments",
     "main": "./src/dist/lib/index.js",
     "types": "./src/types/lib/index.d.ts",
