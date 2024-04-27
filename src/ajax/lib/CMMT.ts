@@ -33,8 +33,8 @@ import * as env from '../../env.json';
 import { FluxType } from "../../flux_types/FluxType";
 
 export class CMMT {
-    private static readonly BASE_URL: string = env.API_CONNECTION_ENDPOINT
-    private static readonly WEBSOCKET_BASE_URL : string = env.WEBSOCKET_CONNECTION_ENDPOINT;
+    private static readonly BASE_URL: string = env.IS_PROD_MODE ? env.API_CONNECTION_ENDPOINT_PROD : env.API_CONNECTION_ENDPOINT
+    private static readonly WEBSOCKET_BASE_URL : string = env.IS_PROD_MODE ? env.WEBSOCKET_CONNECTION_ENDPOINT_PROD : env.WEBSOCKET_CONNECTION_ENDPOINT;
     private static isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
     private static getPath(arg): string {
         return CMMT.BASE_URL.concat(arg).concat(this.isBrowser ? "Web": "");
