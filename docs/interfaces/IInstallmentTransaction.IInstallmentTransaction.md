@@ -29,7 +29,7 @@
 
 #### Defined in
 
-[IInstallmentTransaction.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a7d3311b31bb499dbc9972f8e4cba1c1e8f89eb9/src/types/flux_types/IInstallmentTransaction.d.ts#L2)
+[IInstallmentTransaction.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/15228995690992b379bb5f773355cec49d83ed0c/src/types/flux_types/IInstallmentTransaction.d.ts#L2)
 
 ___
 
@@ -39,7 +39,7 @@ ___
 
 #### Defined in
 
-[IInstallmentTransaction.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a7d3311b31bb499dbc9972f8e4cba1c1e8f89eb9/src/types/flux_types/IInstallmentTransaction.d.ts#L6)
+[IInstallmentTransaction.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/15228995690992b379bb5f773355cec49d83ed0c/src/types/flux_types/IInstallmentTransaction.d.ts#L6)
 
 ___
 
@@ -49,7 +49,7 @@ ___
 
 #### Defined in
 
-[IInstallmentTransaction.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a7d3311b31bb499dbc9972f8e4cba1c1e8f89eb9/src/types/flux_types/IInstallmentTransaction.d.ts#L8)
+[IInstallmentTransaction.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/15228995690992b379bb5f773355cec49d83ed0c/src/types/flux_types/IInstallmentTransaction.d.ts#L8)
 
 ___
 
@@ -59,7 +59,7 @@ ___
 
 #### Defined in
 
-[IInstallmentTransaction.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a7d3311b31bb499dbc9972f8e4cba1c1e8f89eb9/src/types/flux_types/IInstallmentTransaction.d.ts#L5)
+[IInstallmentTransaction.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/15228995690992b379bb5f773355cec49d83ed0c/src/types/flux_types/IInstallmentTransaction.d.ts#L5)
 
 ___
 
@@ -69,7 +69,7 @@ ___
 
 #### Defined in
 
-[IInstallmentTransaction.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a7d3311b31bb499dbc9972f8e4cba1c1e8f89eb9/src/types/flux_types/IInstallmentTransaction.d.ts#L3)
+[IInstallmentTransaction.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/15228995690992b379bb5f773355cec49d83ed0c/src/types/flux_types/IInstallmentTransaction.d.ts#L3)
 
 ___
 
@@ -79,7 +79,7 @@ ___
 
 #### Defined in
 
-[IInstallmentTransaction.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a7d3311b31bb499dbc9972f8e4cba1c1e8f89eb9/src/types/flux_types/IInstallmentTransaction.d.ts#L4)
+[IInstallmentTransaction.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/15228995690992b379bb5f773355cec49d83ed0c/src/types/flux_types/IInstallmentTransaction.d.ts#L4)
 
 ___
 
@@ -89,7 +89,7 @@ ___
 
 #### Defined in
 
-[IInstallmentTransaction.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a7d3311b31bb499dbc9972f8e4cba1c1e8f89eb9/src/types/flux_types/IInstallmentTransaction.d.ts#L7)
+[IInstallmentTransaction.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/15228995690992b379bb5f773355cec49d83ed0c/src/types/flux_types/IInstallmentTransaction.d.ts#L7)
 
 ___
 
@@ -99,4 +99,4 @@ ___
 
 #### Defined in
 
-[IInstallmentTransaction.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a7d3311b31bb499dbc9972f8e4cba1c1e8f89eb9/src/types/flux_types/IInstallmentTransaction.d.ts#L9)
+[IInstallmentTransaction.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/15228995690992b379bb5f773355cec49d83ed0c/src/types/flux_types/IInstallmentTransaction.d.ts#L9)
