@@ -76,6 +76,8 @@ export declare class Account extends FluxType implements IAccount {
      *
      */
     addAddress(address: Address | Address[]): Promise<void>;
+    getPurchasedProducts(): Promise<void>;
+    getTransactions(): Promise<void>;
     /**
      * Removes addresses from the current context.
      *

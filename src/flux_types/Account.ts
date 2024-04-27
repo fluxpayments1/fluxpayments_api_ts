@@ -137,6 +137,14 @@ export class Account extends FluxType implements IAccount {
 
     }
 
+    public async getPurchasedProducts () {
+
+    }
+
+    public async getTransactions () {
+
+    }
+
     /** 
      * Removes addresses from the current context. 
      * 
