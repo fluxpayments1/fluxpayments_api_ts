@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[IAccountQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/efcba18692b7f92bba6ef1c13f0a3de2d9e4339c/src/types/flux_types/IAccountQuery.d.ts#L3)
+[IAccountQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/f6a77327cdb29c423e341df6d3689b76b0e6cf53/src/types/flux_types/IAccountQuery.d.ts#L3)
