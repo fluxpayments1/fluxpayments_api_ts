@@ -9,7 +9,7 @@
     "scripts": {
         "commit": "git commit -a -m 'Publishing to registry'",
         "push": "git push origin main",
-        "prepublishOnly": "npm run commit && npm run push && npm version patch && cd src && tsc --declaration",
+        "prepublishOnly": "npm run commit && npm run push && npm version patch && npm run compile",
         "postpublish": "npm run push",
         "compile-all": "npm run compile && npm install && tsc && npm run compile-docs",
         "compile": "cd src && tsc --declaration",
