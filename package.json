@@ -11,8 +11,9 @@
         "push": "git push origin main",
         "prepublishOnly": "npm run compile-all && npm run commit && npm run push && npm version patch",
         "postpublish": "npm run push",
-        "compile-all": "npm run compile && npm install && tsc && npm run compile-docs",
-        "compile": "cd src && tsc --declaration",
+        "compile-all": "npm run compile-src && npm install && npm run compile-test && npm run compile-docs",
+        "compile-src": "cd src && tsc",
+        "compile-test": "tsc",
         "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs src/types/flux_types/*.ts --excludePrivate",
         "test": "mocha './dist/tests/**/*.spec.js'"
     },
