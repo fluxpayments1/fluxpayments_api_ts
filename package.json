@@ -7,9 +7,10 @@
     "author": "Flux Payment Solutions Company",
     "license": "ISC",
     "scripts": {
-        "commit": "git commit -a -m 'Publishing to registry'",
+        "add": "git add .",
+        "commit": "git commit -m 'Publishing to registry'",
         "push": "git push origin main",
-        "prepublishOnly": "npm run switch-env && npm run compile-all && npm run commit && npm run push && npm version patch",
+        "prepublishOnly": "npm run switch-env && npm run compile-all && npm run add && npm run commit && npm run push && npm version patch",
         "postpublish": "npm run push",
         "compile-all": "npm run compile-src && npm install && npm run compile-test && npm run compile-docs",
         "compile-src": "cd src && tsc",
