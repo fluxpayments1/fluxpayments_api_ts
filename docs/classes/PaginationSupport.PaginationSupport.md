@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[PaginationSupport.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/8d54a34cdfcf0eea8cd1bc5133619265a6ca14b9/src/types/flux_types/PaginationSupport.d.ts#L4)
+[PaginationSupport.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b6c77a6ebf5cd7d2e9b907a1e1fdbd8a7f3e986a/src/types/flux_types/PaginationSupport.d.ts#L4)
 
 ## Properties
 
@@ -43,7 +43,7 @@
 
 #### Defined in
 
-[PaginationSupport.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/8d54a34cdfcf0eea8cd1bc5133619265a6ca14b9/src/types/flux_types/PaginationSupport.d.ts#L3)
+[PaginationSupport.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b6c77a6ebf5cd7d2e9b907a1e1fdbd8a7f3e986a/src/types/flux_types/PaginationSupport.d.ts#L3)
 
 ___
 
@@ -53,4 +53,4 @@ ___
 
 #### Defined in
 
-[PaginationSupport.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/8d54a34cdfcf0eea8cd1bc5133619265a6ca14b9/src/types/flux_types/PaginationSupport.d.ts#L2)
+[PaginationSupport.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b6c77a6ebf5cd7d2e9b907a1e1fdbd8a7f3e986a/src/types/flux_types/PaginationSupport.d.ts#L2)

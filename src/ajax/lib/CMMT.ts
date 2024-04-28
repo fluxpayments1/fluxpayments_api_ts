@@ -181,6 +181,7 @@ export class CMMT {
         ...arg: any
     ): Promise<W[]> {
         arg = cloneDeep(arg);
+        console.log(arg)
         return new Promise<W[]>(async (resolve, reject) => {
             try {
                 let arh = new AjaxRequestHandle(req, res, secHandle, type);
