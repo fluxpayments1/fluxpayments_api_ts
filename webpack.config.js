@@ -1,6 +1,6 @@
 module.exports = [
   {
-    entry: ['./polyfills.ts','./src/lib/index.ts'],
+    entry: ['./src/polyfills.ts','./src/lib/index.ts'],
     output: {
       filename: 'lib.js',
       path: __dirname + '/src/dist_web',
@@ -31,7 +31,7 @@ module.exports = [
     
   },
   {
-    entry: ['./polyfills.ts','./src/flux_types/index.ts'],
+    entry: ['./src/polyfills.ts','./src/flux_types/index.ts'],
     output: {
       filename: 'flux_types.js',
       path: __dirname + '/src/dist_web',

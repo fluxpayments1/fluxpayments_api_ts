@@ -167,8 +167,8 @@ export abstract class FluxType {
   }
 
 
-  public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]> {
-    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+  public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]> {
+    let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
     let obs = await f.getObjects<T, U>(q)
     return obs;
   }

@@ -36,7 +36,7 @@ export declare abstract class FluxType {
     protected static getObjectsByIdInternal<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]>;
     static getObjectsById<T extends FluxType>(this: new () => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<T[]>;
     static getLinkedObjectsById<T extends FluxType, U extends FluxType>(this: new () => T, returnType: new (o?: any) => U, fi: FluxIdentifier | FluxIdentifier[]): Promise<U[]>;
-    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]>;
+    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]>;
     static deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<FluxIdentifier[]>;
     static updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]>;
     static createObjects<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]>;
