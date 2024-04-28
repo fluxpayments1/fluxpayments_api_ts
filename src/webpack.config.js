@@ -1,9 +1,9 @@
 module.exports = [
   {
-    entry: ['./src/polyfills.ts','./src/lib/index.ts'],
+    entry: ['./polyfills.ts','./lib/index.ts'],
     output: {
       filename: 'lib.js',
-      path: __dirname + '/src/dist_web',
+      path: __dirname + '/dist_web',
       library: 'MyLibrary', // Exposed global variable when used in browsers
       libraryTarget: 'umd', // Universal module definition
     },
@@ -31,10 +31,10 @@ module.exports = [
     
   },
   {
-    entry: ['./src/polyfills.ts','./src/flux_types/index.ts'],
+    entry: ['./polyfills.ts','./flux_types/index.ts'],
     output: {
       filename: 'flux_types.js',
-      path: __dirname + '/src/dist_web',
+      path: __dirname + '/dist_web',
       library: 'MyLibrary', // Exposed global variable when used in browsers
       libraryTarget: 'umd', // Universal module definition
     },
