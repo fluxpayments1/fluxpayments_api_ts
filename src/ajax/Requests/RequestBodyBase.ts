@@ -26,7 +26,7 @@ import { BaseQuery } from "../../flux_types/BaseQuery";
 
 export abstract class RequestBodyBase implements RequestBody {
     protected serializeRecursively(object) {
-        if (object instanceof FluxType && !Array.isArray(object)) {
+        if (object.serialize && !Array.isArray(object)) {
             // If the object itself is a FluxType, serialize it
             
             let retVal = object.serialize()
@@ -34,7 +34,7 @@ export abstract class RequestBodyBase implements RequestBody {
                 retVal[e] = this.serializeRecursively(retVal[e])
             })
             return retVal
-        } else if (object instanceof BaseQuery) {
+        } else if (object.serialize) {
             // If the object is a BaseQuery, serialize it
             return object.serialize()
         } else if (Array.isArray(object)) {
