@@ -41,7 +41,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
     private _isAuthenticated: boolean = false;
     private _securityHandle: A;
     private static fb: Flux<any>;
-    private constructor() {
+    public constructor() {
 
     }
 

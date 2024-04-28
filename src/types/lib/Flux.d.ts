@@ -5,7 +5,7 @@ export declare class Flux<A extends SecurityHandler> implements IFlux {
     private _isAuthenticated;
     private _securityHandle;
     private static fb;
-    private constructor();
+    constructor();
     static getInstance<T extends SecurityHandler>(): Flux<T>;
     get isAuthenticated(): boolean;
     set isAuthenticated(b: boolean);
