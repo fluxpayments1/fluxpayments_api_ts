@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L2)
+[IRecurringTransaction.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L2)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L3)
+[IRecurringTransaction.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L3)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L7)
+[IRecurringTransaction.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L7)
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L10)
+[IRecurringTransaction.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L10)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L9)
+[IRecurringTransaction.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L9)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L8)
+[IRecurringTransaction.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L8)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L5)
+[IRecurringTransaction.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L5)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L6)
+[IRecurringTransaction.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L6)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L11)
+[IRecurringTransaction.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L11)
 
 ___
 
@@ -121,4 +121,4 @@ ___
 
 #### Defined in
 
-[IRecurringTransaction.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/IRecurringTransaction.d.ts#L4)
+[IRecurringTransaction.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IRecurringTransaction.d.ts#L4)

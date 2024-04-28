@@ -64,7 +64,7 @@ This is an object that is used to query for one_time_payment_links.
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L26)
+[OneTimePaymentLinkQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L26)
 
 ## Properties
 
@@ -78,7 +78,7 @@ IOneTimePaymentLinkQuery.accountId
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L24)
+[OneTimePaymentLinkQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L24)
 
 ___
 
@@ -96,7 +96,7 @@ IOneTimePaymentLinkQuery.additionalSearchOptions
 
 #### Defined in
 
-[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/BaseQuery.d.ts#L8)
+[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/BaseQuery.d.ts#L8)
 
 ___
 
@@ -124,7 +124,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/BaseQuery.d.ts#L6)
+[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/BaseQuery.d.ts#L6)
 
 ___
 
@@ -138,7 +138,7 @@ IOneTimePaymentLinkQuery.id
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:18](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L18)
+[OneTimePaymentLinkQuery.d.ts:18](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L18)
 
 ___
 
@@ -152,7 +152,7 @@ IOneTimePaymentLinkQuery.liveStatus
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L21)
+[OneTimePaymentLinkQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L21)
 
 ___
 
@@ -166,7 +166,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/BaseQuery.d.ts#L9)
+[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/BaseQuery.d.ts#L9)
 
 ___
 
@@ -180,7 +180,7 @@ IOneTimePaymentLinkQuery.metadata
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:19](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L19)
+[OneTimePaymentLinkQuery.d.ts:19](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L19)
 
 ___
 
@@ -194,7 +194,7 @@ ___
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L25)
+[OneTimePaymentLinkQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L25)
 
 ___
 
@@ -212,7 +212,7 @@ IOneTimePaymentLinkQuery.pagination
 
 #### Defined in
 
-[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/BaseQuery.d.ts#L7)
+[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/BaseQuery.d.ts#L7)
 
 ___
 
@@ -226,7 +226,7 @@ IOneTimePaymentLinkQuery.paymentLink
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L23)
+[OneTimePaymentLinkQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L23)
 
 ___
 
@@ -240,7 +240,7 @@ IOneTimePaymentLinkQuery.removeOnSuccess
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L22)
+[OneTimePaymentLinkQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L22)
 
 ___
 
@@ -254,7 +254,7 @@ IOneTimePaymentLinkQuery.uniqueId
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L20)
+[OneTimePaymentLinkQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L20)
 
 ## Methods
 
@@ -283,7 +283,7 @@ IOneTimePaymentLinkQuery.uniqueId
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L8)
+[OneTimePaymentLinkQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L8)
 
 ___
 
@@ -303,4 +303,4 @@ ___
 
 #### Defined in
 
-[OneTimePaymentLinkQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L27)
+[OneTimePaymentLinkQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/OneTimePaymentLinkQuery.d.ts#L27)

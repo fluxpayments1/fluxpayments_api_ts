@@ -2,6 +2,5 @@ src/types/tests
 src/dist
 src/tests/
 # Ignore node_modules folder which might contain dependencies
-node_modules/
 dist/
 src/dist_web

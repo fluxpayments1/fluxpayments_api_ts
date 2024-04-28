@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[AccountUserType.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/AccountUserType.d.ts#L2)
+[AccountUserType.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/AccountUserType.d.ts#L2)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[AccountUserType.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0d122970a2b2eb37b3253deac5b64355681713d9/src/types/flux_types/AccountUserType.d.ts#L3)
+[AccountUserType.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/AccountUserType.d.ts#L3)
