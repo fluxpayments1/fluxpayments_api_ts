@@ -27,7 +27,7 @@
 
 #### Defined in
 
-[IAccountAddress.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/IAccountAddress.d.ts#L4)
+[IAccountAddress.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/fe6af91b239000303f3a40b0ff13d9f66473787d/src/types/flux_types/IAccountAddress.d.ts#L4)
 
 ___
 
@@ -37,7 +37,7 @@ ___
 
 #### Defined in
 
-[IAccountAddress.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/IAccountAddress.d.ts#L5)
+[IAccountAddress.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/fe6af91b239000303f3a40b0ff13d9f66473787d/src/types/flux_types/IAccountAddress.d.ts#L5)
 
 ___
 
@@ -47,7 +47,7 @@ ___
 
 #### Defined in
 
-[IAccountAddress.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/IAccountAddress.d.ts#L6)
+[IAccountAddress.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/fe6af91b239000303f3a40b0ff13d9f66473787d/src/types/flux_types/IAccountAddress.d.ts#L6)
 
 ___
 
@@ -57,7 +57,7 @@ ___
 
 #### Defined in
 
-[IAccountAddress.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/IAccountAddress.d.ts#L7)
+[IAccountAddress.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/fe6af91b239000303f3a40b0ff13d9f66473787d/src/types/flux_types/IAccountAddress.d.ts#L7)
 
 ___
 
@@ -67,7 +67,7 @@ ___
 
 #### Defined in
 
-[IAccountAddress.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/IAccountAddress.d.ts#L2)
+[IAccountAddress.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/fe6af91b239000303f3a40b0ff13d9f66473787d/src/types/flux_types/IAccountAddress.d.ts#L2)
 
 ___
 
@@ -77,4 +77,4 @@ ___
 
 #### Defined in
 
-[IAccountAddress.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/IAccountAddress.d.ts#L3)
+[IAccountAddress.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/fe6af91b239000303f3a40b0ff13d9f66473787d/src/types/flux_types/IAccountAddress.d.ts#L3)
