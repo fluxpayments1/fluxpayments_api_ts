@@ -26,6 +26,7 @@ import { BaseQuery } from "../../flux_types/BaseQuery";
 
 export abstract class RequestBodyBase implements RequestBody {
     protected serializeRecursively(object) {
+        if (!object) return;
         if (object.serialize && !Array.isArray(object)) {
             // If the object itself is a FluxType, serialize it
             
