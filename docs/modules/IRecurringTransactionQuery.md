@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[IRecurringTransactionQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/9cbe2727382384510be013f4478c6ce27d687fb6/src/types/flux_types/IRecurringTransactionQuery.d.ts#L3)
+[IRecurringTransactionQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/6c376cfc3c8c7c4ca0e0f4fd00e25765d4618bd7/src/types/flux_types/IRecurringTransactionQuery.d.ts#L3)

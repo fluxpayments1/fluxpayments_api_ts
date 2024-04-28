@@ -67,7 +67,7 @@ export class GenericGetterRequest<U extends FluxType,T extends BaseQuery<U>> ext
 
     public loadClientData(prodQuery: T): void {
         this._queryObj = this.serializeRecursively(prodQuery)
-
+        console.log(this._queryObj)
         if (prodQuery.lookupPage) this._lookupPage = prodQuery.lookupPage
 
         this._additionalSearchOptions = this._queryObj.additionalSearchOptions
