@@ -1,6 +1,7 @@
 import { SecurityHandler } from "../ajax/security";
 import { FluxIdentifier, FluxType, BaseQuery } from "../flux_types";
 export interface IFlux {
+    getObjects<T extends FluxType, U extends BaseQuery<T>>(query: U, secHandle?: SecurityHandler): Promise<T[]>;
     createObjectGenericSafe<T extends FluxType>(ob: T | T[], secHandle?: SecurityHandler): Promise<T[]>;
     getGeneralAuthorizationAccess(customerPublicKey: string): Promise<string>;
     createSession(id: FluxIdentifier): Promise<string>;
