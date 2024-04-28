@@ -31,7 +31,7 @@
 
 #### Defined in
 
-[IAccount.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L6)
+[IAccount.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L6)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[IAccount.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L11)
+[IAccount.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L11)
 
 ___
 
@@ -51,7 +51,7 @@ ___
 
 #### Defined in
 
-[IAccount.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L7)
+[IAccount.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L7)
 
 ___
 
@@ -61,7 +61,7 @@ ___
 
 #### Defined in
 
-[IAccount.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L8)
+[IAccount.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L8)
 
 ___
 
@@ -71,7 +71,7 @@ ___
 
 #### Defined in
 
-[IAccount.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L3)
+[IAccount.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L3)
 
 ___
 
@@ -81,7 +81,7 @@ ___
 
 #### Defined in
 
-[IAccount.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L10)
+[IAccount.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L10)
 
 ___
 
@@ -91,7 +91,7 @@ ___
 
 #### Defined in
 
-[IAccount.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L5)
+[IAccount.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L5)
 
 ___
 
@@ -101,7 +101,7 @@ ___
 
 #### Defined in
 
-[IAccount.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L9)
+[IAccount.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L9)
 
 ___
 
@@ -111,4 +111,4 @@ ___
 
 #### Defined in
 
-[IAccount.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/7d26a1417cfd8b12a540756c67a8c8f49ee9d220/src/types/flux_types/IAccount.d.ts#L4)
+[IAccount.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IAccount.d.ts#L4)
