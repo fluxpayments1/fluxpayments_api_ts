@@ -1,107 +1,122 @@
-[fluxpayments](../README.md) / [Modules](../modules.md) / [PaymentMethod](../modules/PaymentMethod.md) / PaymentMethod
+[fluxpayments](../README.md) / [Modules](../modules.md) / [BankAccount](../modules/BankAccount.md) / BankAccount
 
-# Class: PaymentMethod
+# Class: BankAccount
 
-[PaymentMethod](../modules/PaymentMethod.md).PaymentMethod
+[BankAccount](../modules/BankAccount.md).BankAccount
 
 ## Hierarchy
 
-- [`FluxType`](FluxType.FluxType.md)
+- [`PaymentMethod`](PaymentMethod.PaymentMethod.md)
 
-  ↳ **`PaymentMethod`**
-
-  ↳↳ [`BankAccount`](BankAccount.BankAccount.md)
-
-  ↳↳ [`Card`](Card.Card.md)
+  ↳ **`BankAccount`**
 
 ## Implements
 
-- [`IPaymentMethod`](../modules/IPaymentMethod.md#ipaymentmethod)
+- [`IBankAccount`](../interfaces/IBankAccount.IBankAccount.md)
 
 ## Table of contents
 
 ### Constructors
 
-- [constructor](PaymentMethod.PaymentMethod.md#constructor)
+- [constructor](BankAccount.BankAccount.md#constructor)
 
 ### Properties
 
-- [accountSession](PaymentMethod.PaymentMethod.md#accountsession)
-- [activeStatus](PaymentMethod.PaymentMethod.md#activestatus)
-- [address](PaymentMethod.PaymentMethod.md#address)
-- [addressId](PaymentMethod.PaymentMethod.md#addressid)
-- [dataTableMetadata](PaymentMethod.PaymentMethod.md#datatablemetadata)
-- [email](PaymentMethod.PaymentMethod.md#email)
-- [firstName](PaymentMethod.PaymentMethod.md#firstname)
-- [id](PaymentMethod.PaymentMethod.md#id)
-- [lastName](PaymentMethod.PaymentMethod.md#lastname)
-- [metadata](PaymentMethod.PaymentMethod.md#metadata)
-- [obName](PaymentMethod.PaymentMethod.md#obname)
-- [obType](PaymentMethod.PaymentMethod.md#obtype)
-- [objectType](PaymentMethod.PaymentMethod.md#objecttype)
-- [objecttype](PaymentMethod.PaymentMethod.md#objecttype-1)
-- [payType](PaymentMethod.PaymentMethod.md#paytype)
-- [token](PaymentMethod.PaymentMethod.md#token)
-- [uniqueId](PaymentMethod.PaymentMethod.md#uniqueid)
-- [version](PaymentMethod.PaymentMethod.md#version)
+- [accountNumber](BankAccount.BankAccount.md#accountnumber)
+- [accountSession](BankAccount.BankAccount.md#accountsession)
+- [activeStatus](BankAccount.BankAccount.md#activestatus)
+- [address](BankAccount.BankAccount.md#address)
+- [addressId](BankAccount.BankAccount.md#addressid)
+- [bankBrand](BankAccount.BankAccount.md#bankbrand)
+- [bankName](BankAccount.BankAccount.md#bankname)
+- [dataTableMetadata](BankAccount.BankAccount.md#datatablemetadata)
+- [email](BankAccount.BankAccount.md#email)
+- [firstName](BankAccount.BankAccount.md#firstname)
+- [id](BankAccount.BankAccount.md#id)
+- [lastFour](BankAccount.BankAccount.md#lastfour)
+- [lastName](BankAccount.BankAccount.md#lastname)
+- [metadata](BankAccount.BankAccount.md#metadata)
+- [obName](BankAccount.BankAccount.md#obname)
+- [obType](BankAccount.BankAccount.md#obtype)
+- [objectType](BankAccount.BankAccount.md#objecttype)
+- [objecttype](BankAccount.BankAccount.md#objecttype-1)
+- [payType](BankAccount.BankAccount.md#paytype)
+- [routingNumber](BankAccount.BankAccount.md#routingnumber)
+- [token](BankAccount.BankAccount.md#token)
+- [uniqueId](BankAccount.BankAccount.md#uniqueid)
+- [version](BankAccount.BankAccount.md#version)
 
 ### Methods
 
-- [delete](PaymentMethod.PaymentMethod.md#delete)
-- [getId](PaymentMethod.PaymentMethod.md#getid)
-- [getObjectType](PaymentMethod.PaymentMethod.md#getobjecttype)
-- [merge](PaymentMethod.PaymentMethod.md#merge)
-- [persist](PaymentMethod.PaymentMethod.md#persist)
-- [refresh](PaymentMethod.PaymentMethod.md#refresh)
-- [serialize](PaymentMethod.PaymentMethod.md#serialize)
-- [setId](PaymentMethod.PaymentMethod.md#setid)
-- [createInstanceSafeDbCall](PaymentMethod.PaymentMethod.md#createinstancesafedbcall)
-- [createObjects](PaymentMethod.PaymentMethod.md#createobjects)
-- [createObjectsSafe](PaymentMethod.PaymentMethod.md#createobjectssafe)
-- [deleteObjects](PaymentMethod.PaymentMethod.md#deleteobjects)
-- [generateStatelessSession](PaymentMethod.PaymentMethod.md#generatestatelesssession)
-- [getBackendConn](PaymentMethod.PaymentMethod.md#getbackendconn)
-- [getLinkedObjectsById](PaymentMethod.PaymentMethod.md#getlinkedobjectsbyid)
-- [getObjectsById](PaymentMethod.PaymentMethod.md#getobjectsbyid)
-- [getObjectsByIdInternal](PaymentMethod.PaymentMethod.md#getobjectsbyidinternal)
-- [instantiateInstance](PaymentMethod.PaymentMethod.md#instantiateinstance)
-- [instantiateLazyInstance](PaymentMethod.PaymentMethod.md#instantiatelazyinstance)
-- [queryObjects](PaymentMethod.PaymentMethod.md#queryobjects)
-- [updateObjects](PaymentMethod.PaymentMethod.md#updateobjects)
+- [delete](BankAccount.BankAccount.md#delete)
+- [getId](BankAccount.BankAccount.md#getid)
+- [getObjectType](BankAccount.BankAccount.md#getobjecttype)
+- [merge](BankAccount.BankAccount.md#merge)
+- [persist](BankAccount.BankAccount.md#persist)
+- [refresh](BankAccount.BankAccount.md#refresh)
+- [serialize](BankAccount.BankAccount.md#serialize)
+- [setId](BankAccount.BankAccount.md#setid)
+- [createInstanceSafeDbCall](BankAccount.BankAccount.md#createinstancesafedbcall)
+- [createObjects](BankAccount.BankAccount.md#createobjects)
+- [createObjectsSafe](BankAccount.BankAccount.md#createobjectssafe)
+- [deleteObjects](BankAccount.BankAccount.md#deleteobjects)
+- [generateStatelessSession](BankAccount.BankAccount.md#generatestatelesssession)
+- [getBackendConn](BankAccount.BankAccount.md#getbackendconn)
+- [getLinkedObjectsById](BankAccount.BankAccount.md#getlinkedobjectsbyid)
+- [getObjectsById](BankAccount.BankAccount.md#getobjectsbyid)
+- [getObjectsByIdInternal](BankAccount.BankAccount.md#getobjectsbyidinternal)
+- [instantiateInstance](BankAccount.BankAccount.md#instantiateinstance)
+- [instantiateLazyInstance](BankAccount.BankAccount.md#instantiatelazyinstance)
+- [queryObjects](BankAccount.BankAccount.md#queryobjects)
+- [updateObjects](BankAccount.BankAccount.md#updateobjects)
 
 ## Constructors
 
 ### constructor
 
-• **new PaymentMethod**(`c?`): [`PaymentMethod`](PaymentMethod.PaymentMethod.md)
+• **new BankAccount**(`c`): [`BankAccount`](BankAccount.BankAccount.md)
 
 #### Parameters
 
 | Name | Type |
 | :------ | :------ |
-| `c?` | `Partial`\<[`IPaymentMethod`](../modules/IPaymentMethod.md#ipaymentmethod)\> |
+| `c` | `Partial`\<[`IBankAccount`](../interfaces/IBankAccount.IBankAccount.md)\> |
 
 #### Returns
 
-[`PaymentMethod`](PaymentMethod.PaymentMethod.md)
+[`BankAccount`](BankAccount.BankAccount.md)
 
 #### Overrides
 
-[FluxType](FluxType.FluxType.md).[constructor](FluxType.FluxType.md#constructor)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[constructor](PaymentMethod.PaymentMethod.md#constructor)
 
 #### Defined in
 
-[PaymentMethod.d.ts:39](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/PaymentMethod.d.ts#L39)
+[BankAccount.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/BankAccount.d.ts#L4)
 
 ## Properties
+
+### accountNumber
+
+• **accountNumber**: `string`
+
+#### Implementation of
+
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[accountNumber](../interfaces/IBankAccount.IBankAccount.md#accountnumber)
+
+#### Defined in
+
+[BankAccount.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/BankAccount.d.ts#L9)
+
+___
 
 ### accountSession
 
 • **accountSession**: `string`
 
-#### Implementation of
+#### Inherited from
 
-IPaymentMethod.accountSession
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[accountSession](PaymentMethod.PaymentMethod.md#accountsession)
 
 #### Defined in
 
@@ -112,6 +127,10 @@ ___
 ### activeStatus
 
 • **activeStatus**: `any`
+
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[activeStatus](PaymentMethod.PaymentMethod.md#activestatus)
 
 #### Defined in
 
@@ -125,7 +144,11 @@ ___
 
 #### Implementation of
 
-IPaymentMethod.address
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[address](../interfaces/IBankAccount.IBankAccount.md#address)
+
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[address](PaymentMethod.PaymentMethod.md#address)
 
 #### Defined in
 
@@ -137,9 +160,41 @@ ___
 
 • **addressId**: `number`
 
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[addressId](PaymentMethod.PaymentMethod.md#addressid)
+
 #### Defined in
 
 [PaymentMethod.d.ts:29](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/PaymentMethod.d.ts#L29)
+
+___
+
+### bankBrand
+
+• **bankBrand**: `string`
+
+#### Implementation of
+
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[bankBrand](../interfaces/IBankAccount.IBankAccount.md#bankbrand)
+
+#### Defined in
+
+[BankAccount.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/BankAccount.d.ts#L8)
+
+___
+
+### bankName
+
+• **bankName**: `string`
+
+#### Implementation of
+
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[bankName](../interfaces/IBankAccount.IBankAccount.md#bankname)
+
+#### Defined in
+
+[BankAccount.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/BankAccount.d.ts#L6)
 
 ___
 
@@ -149,7 +204,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[dataTableMetadata](FluxType.FluxType.md#datatablemetadata)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[dataTableMetadata](PaymentMethod.PaymentMethod.md#datatablemetadata)
 
 #### Defined in
 
@@ -161,6 +216,10 @@ ___
 
 • **email**: `string`
 
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[email](PaymentMethod.PaymentMethod.md#email)
+
 #### Defined in
 
 [PaymentMethod.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/PaymentMethod.d.ts#L27)
@@ -171,9 +230,9 @@ ___
 
 • **firstName**: `string`
 
-#### Implementation of
+#### Inherited from
 
-IPaymentMethod.firstName
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[firstName](PaymentMethod.PaymentMethod.md#firstname)
 
 #### Defined in
 
@@ -187,11 +246,11 @@ ___
 
 #### Implementation of
 
-IPaymentMethod.id
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[id](../interfaces/IBankAccount.IBankAccount.md#id)
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[id](FluxType.FluxType.md#id)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[id](PaymentMethod.PaymentMethod.md#id)
 
 #### Defined in
 
@@ -199,13 +258,27 @@ IPaymentMethod.id
 
 ___
 
+### lastFour
+
+• **lastFour**: `string`
+
+#### Implementation of
+
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[lastFour](../interfaces/IBankAccount.IBankAccount.md#lastfour)
+
+#### Defined in
+
+[BankAccount.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/BankAccount.d.ts#L5)
+
+___
+
 ### lastName
 
 • **lastName**: `string`
 
-#### Implementation of
+#### Inherited from
 
-IPaymentMethod.lastName
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[lastName](PaymentMethod.PaymentMethod.md#lastname)
 
 #### Defined in
 
@@ -219,7 +292,11 @@ ___
 
 #### Implementation of
 
-IPaymentMethod.metadata
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[metadata](../interfaces/IBankAccount.IBankAccount.md#metadata)
+
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[metadata](PaymentMethod.PaymentMethod.md#metadata)
 
 #### Defined in
 
@@ -231,9 +308,9 @@ ___
 
 • **obName**: `string`
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[obName](FluxType.FluxType.md#obname)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[obName](PaymentMethod.PaymentMethod.md#obname)
 
 #### Defined in
 
@@ -261,7 +338,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[obType](FluxType.FluxType.md#obtype)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[obType](PaymentMethod.PaymentMethod.md#obtype)
 
 #### Defined in
 
@@ -273,9 +350,9 @@ ___
 
 • `Protected` **objectType**: `string`
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[objectType](FluxType.FluxType.md#objecttype)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[objectType](PaymentMethod.PaymentMethod.md#objecttype)
 
 #### Defined in
 
@@ -287,6 +364,10 @@ ___
 
 • **objecttype**: `string`
 
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[objecttype](PaymentMethod.PaymentMethod.md#objecttype-1)
+
 #### Defined in
 
 [PaymentMethod.d.ts:32](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/PaymentMethod.d.ts#L32)
@@ -297,15 +378,37 @@ ___
 
 • **payType**: `any`
 
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[payType](PaymentMethod.PaymentMethod.md#paytype)
+
 #### Defined in
 
 [PaymentMethod.d.ts:28](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/PaymentMethod.d.ts#L28)
 
 ___
 
+### routingNumber
+
+• **routingNumber**: `string`
+
+#### Implementation of
+
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[routingNumber](../interfaces/IBankAccount.IBankAccount.md#routingnumber)
+
+#### Defined in
+
+[BankAccount.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/b8ae582bf9abf4cb5dbb0ed3371ea2fe28a341f9/src/types/flux_types/BankAccount.d.ts#L7)
+
+___
+
 ### token
 
 • **token**: `string`
+
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[token](PaymentMethod.PaymentMethod.md#token)
 
 #### Defined in
 
@@ -319,11 +422,11 @@ ___
 
 #### Implementation of
 
-IPaymentMethod.uniqueId
+[IBankAccount](../interfaces/IBankAccount.IBankAccount.md).[uniqueId](../interfaces/IBankAccount.IBankAccount.md#uniqueid)
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[uniqueId](FluxType.FluxType.md#uniqueid)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[uniqueId](PaymentMethod.PaymentMethod.md#uniqueid)
 
 #### Defined in
 
@@ -334,6 +437,10 @@ ___
 ### version
 
 • **version**: `number`
+
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[version](PaymentMethod.PaymentMethod.md#version)
 
 #### Defined in
 
@@ -349,9 +456,9 @@ ___
 
 `Promise`\<`void`\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[delete](FluxType.FluxType.md#delete)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[delete](PaymentMethod.PaymentMethod.md#delete)
 
 #### Defined in
 
@@ -369,7 +476,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[getId](FluxType.FluxType.md#getid)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[getId](PaymentMethod.PaymentMethod.md#getid)
 
 #### Defined in
 
@@ -387,7 +494,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[getObjectType](FluxType.FluxType.md#getobjecttype)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[getObjectType](PaymentMethod.PaymentMethod.md#getobjecttype)
 
 #### Defined in
 
@@ -403,9 +510,9 @@ ___
 
 `Promise`\<`void`\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[merge](FluxType.FluxType.md#merge)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[merge](PaymentMethod.PaymentMethod.md#merge)
 
 #### Defined in
 
@@ -421,9 +528,9 @@ ___
 
 `Promise`\<`void`\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[persist](FluxType.FluxType.md#persist)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[persist](PaymentMethod.PaymentMethod.md#persist)
 
 #### Defined in
 
@@ -439,9 +546,9 @@ ___
 
 `Promise`\<`void`\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[refresh](FluxType.FluxType.md#refresh)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[refresh](PaymentMethod.PaymentMethod.md#refresh)
 
 #### Defined in
 
@@ -469,9 +576,9 @@ ___
 | `payType` | `any` |
 | `uniqueId` | `string` |
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[serialize](FluxType.FluxType.md#serialize)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[serialize](PaymentMethod.PaymentMethod.md#serialize)
 
 #### Defined in
 
@@ -495,7 +602,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[setId](FluxType.FluxType.md#setid)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[setId](PaymentMethod.PaymentMethod.md#setid)
 
 #### Defined in
 
@@ -517,6 +624,10 @@ ___
 #### Returns
 
 `Promise`\<[`PaymentMethod`](PaymentMethod.PaymentMethod.md)\>
+
+#### Inherited from
+
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[createInstanceSafeDbCall](PaymentMethod.PaymentMethod.md#createinstancesafedbcall)
 
 #### Defined in
 
@@ -544,9 +655,9 @@ ___
 
 `Promise`\<[`FluxIdentifier`](FluxIdentifier.FluxIdentifier.md)[]\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[createObjects](FluxType.FluxType.md#createobjects)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[createObjects](PaymentMethod.PaymentMethod.md#createobjects)
 
 #### Defined in
 
@@ -575,9 +686,9 @@ ___
 
 `Promise`\<`T`[]\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[createObjectsSafe](FluxType.FluxType.md#createobjectssafe)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[createObjectsSafe](PaymentMethod.PaymentMethod.md#createobjectssafe)
 
 #### Defined in
 
@@ -607,9 +718,9 @@ ___
 
 `Promise`\<[`FluxIdentifier`](FluxIdentifier.FluxIdentifier.md)[]\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[deleteObjects](FluxType.FluxType.md#deleteobjects)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[deleteObjects](PaymentMethod.PaymentMethod.md#deleteobjects)
 
 #### Defined in
 
@@ -634,7 +745,7 @@ object.
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[generateStatelessSession](FluxType.FluxType.md#generatestatelesssession)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[generateStatelessSession](PaymentMethod.PaymentMethod.md#generatestatelesssession)
 
 #### Defined in
 
@@ -652,7 +763,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[getBackendConn](FluxType.FluxType.md#getbackendconn)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[getBackendConn](PaymentMethod.PaymentMethod.md#getbackendconn)
 
 #### Defined in
 
@@ -685,7 +796,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[getLinkedObjectsById](FluxType.FluxType.md#getlinkedobjectsbyid)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[getLinkedObjectsById](PaymentMethod.PaymentMethod.md#getlinkedobjectsbyid)
 
 #### Defined in
 
@@ -716,7 +827,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[getObjectsById](FluxType.FluxType.md#getobjectsbyid)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[getObjectsById](PaymentMethod.PaymentMethod.md#getobjectsbyid)
 
 #### Defined in
 
@@ -747,7 +858,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[getObjectsByIdInternal](FluxType.FluxType.md#getobjectsbyidinternal)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[getObjectsByIdInternal](PaymentMethod.PaymentMethod.md#getobjectsbyidinternal)
 
 #### Defined in
 
@@ -779,7 +890,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[instantiateInstance](FluxType.FluxType.md#instantiateinstance)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[instantiateInstance](PaymentMethod.PaymentMethod.md#instantiateinstance)
 
 #### Defined in
 
@@ -811,7 +922,7 @@ ___
 
 #### Inherited from
 
-[FluxType](FluxType.FluxType.md).[instantiateLazyInstance](FluxType.FluxType.md#instantiatelazyinstance)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[instantiateLazyInstance](PaymentMethod.PaymentMethod.md#instantiatelazyinstance)
 
 #### Defined in
 
@@ -840,9 +951,9 @@ ___
 
 `Promise`\<`T`[]\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[queryObjects](FluxType.FluxType.md#queryobjects)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[queryObjects](PaymentMethod.PaymentMethod.md#queryobjects)
 
 #### Defined in
 
@@ -870,9 +981,9 @@ ___
 
 `Promise`\<`T`[]\>
 
-#### Overrides
+#### Inherited from
 
-[FluxType](FluxType.FluxType.md).[updateObjects](FluxType.FluxType.md#updateobjects)
+[PaymentMethod](PaymentMethod.PaymentMethod.md).[updateObjects](PaymentMethod.PaymentMethod.md#updateobjects)
 
 #### Defined in
 

@@ -32,6 +32,9 @@
         "experimentalDecorators": true,              
         "emitDecoratorMetadata": true
     },
+    "include": [
+        "./src/types/flux_types/**/*.ts"
+    ],
     // "include": ["./polyfills.ts"],
-    "exclude": ["./types", "./dist", "./dist_web", "./src"]
+    "exclude": ["./types", "./dist", "./dist_web"]
 }

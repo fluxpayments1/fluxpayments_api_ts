@@ -12,16 +12,15 @@
         "push": "git push origin main",
         "prepublishOnly": "npm run switch-env && npm run compile-all && npm run add && npm run commit && npm run push && npm version patch",
         "postpublish": "npm run push",
-        "compile-all": "npm run compile-src && npm run compile-web && npm install && npm run compile-test && npm run compile-docs",
+        "compile-all": "npm run compile-src && npm run compile-web && npm run compile-docs",
         "compile-src": "cd src && tsc",
         "switch-env": "cp src/env_prod.json src/env.json",
         "compile-web": "cd src && npx webpack --mode production",
         "compile-test": "tsc",
-        "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs src/types/flux_types/*.ts --excludePrivate",
+        "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs ./src/types/flux_types/*.ts --excludePrivate",
         "test": "mocha './dist/tests/**/*.spec.js'"
     },
     "devDependencies": {
-        "fluxpayments": "./",
         "@babel/cli": "^7.22.9",
         "@babel/core": "^7.22.9",
         "@babel/plugin-proposal-class-properties": "^7.18.6",
