@@ -21,7 +21,7 @@
 
 #### Defined in
 
-[Mac.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/861fd5e58be3e000c865359135af32d447e4f42b/src/types/flux_types/Mac.d.ts#L4)
+[Mac.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/Mac.d.ts#L4)
 
 ___
 
@@ -31,7 +31,7 @@ ___
 
 #### Defined in
 
-[Mac.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/861fd5e58be3e000c865359135af32d447e4f42b/src/types/flux_types/Mac.d.ts#L3)
+[Mac.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/Mac.d.ts#L3)
 
 ___
 
@@ -41,7 +41,7 @@ ___
 
 #### Defined in
 
-[Mac.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/861fd5e58be3e000c865359135af32d447e4f42b/src/types/flux_types/Mac.d.ts#L5)
+[Mac.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/Mac.d.ts#L5)
 
 ___
 
@@ -51,4 +51,4 @@ ___
 
 #### Defined in
 
-[Mac.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/861fd5e58be3e000c865359135af32d447e4f42b/src/types/flux_types/Mac.d.ts#L2)
+[Mac.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/Mac.d.ts#L2)
