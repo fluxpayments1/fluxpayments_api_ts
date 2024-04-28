@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[IOneTimePaymentLinkQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2f49bdf72dc323c1067544fb110e2f250ca8ba7e/src/types/flux_types/IOneTimePaymentLinkQuery.d.ts#L3)
+[IOneTimePaymentLinkQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/e1997d802a44349d7c84fbeef4355fc57d2d735c/src/types/flux_types/IOneTimePaymentLinkQuery.d.ts#L3)
