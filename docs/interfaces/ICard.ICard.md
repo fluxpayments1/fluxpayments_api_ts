@@ -33,7 +33,7 @@
 
 #### Defined in
 
-[ICard.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L8)
+[ICard.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L8)
 
 ___
 
@@ -43,7 +43,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L7)
+[ICard.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L7)
 
 ___
 
@@ -53,7 +53,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:14](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L14)
+[ICard.d.ts:14](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L14)
 
 ___
 
@@ -63,7 +63,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:15](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L15)
+[ICard.d.ts:15](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L15)
 
 ___
 
@@ -73,7 +73,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:12](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L12)
+[ICard.d.ts:12](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L12)
 
 ___
 
@@ -83,7 +83,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:13](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L13)
+[ICard.d.ts:13](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L13)
 
 ___
 
@@ -93,7 +93,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L9)
+[ICard.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L9)
 
 ___
 
@@ -103,7 +103,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L4)
+[ICard.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L4)
 
 ___
 
@@ -113,7 +113,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L11)
+[ICard.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L11)
 
 ___
 
@@ -123,7 +123,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L10)
+[ICard.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L10)
 
 ___
 
@@ -133,7 +133,7 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L6)
+[ICard.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L6)
 
 ___
 
@@ -143,4 +143,4 @@ ___
 
 #### Defined in
 
-[ICard.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/37e572a00ab161c8ca02d44bf207e9379d9b11c6/src/types/flux_types/ICard.d.ts#L5)
+[ICard.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/0523ee78bcda82e6781876347534a562ea547e80/src/types/flux_types/ICard.d.ts#L5)
