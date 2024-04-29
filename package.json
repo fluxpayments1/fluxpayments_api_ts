@@ -15,9 +15,7 @@
         "compile-all": "npm run compile-src && npm run compile-web && npm run compile-docs",
         "compile-src": "cd src && tsc",
         "compile-web": "cd src && npx webpack --mode production",
-        "compile-test": "cd tests && tsc",
-        "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs ./src/types/flux_types/*.ts --excludePrivate",
-        "test": "cd tests && mocha './dist/*.spec.js'"
+        "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs ./src/types/flux_types/*.ts --excludePrivate"
     },
     "dependencies": {
         "@babel/cli": "^7.22.9",
