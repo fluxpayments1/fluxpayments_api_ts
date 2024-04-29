@@ -167,7 +167,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
     };
 
     public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]> {
-        let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+        let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
         let secHandle = undefined;
         if ((q as IPaymentMethodQuery).accountSession) {
             secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (q as IPaymentMethodQuery).accountSession)
