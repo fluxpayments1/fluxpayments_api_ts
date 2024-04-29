@@ -19,7 +19,7 @@
 
 #### Defined in
 
-[ISearchOptions.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/52b2c51e4a996ce8304be6a9eaffa1affa165ddd/src/types/flux_types/ISearchOptions.d.ts#L5)
+[ISearchOptions.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/dd47b2d31d685ec590eea1ac5ff9ab28936aad55/src/types/flux_types/ISearchOptions.d.ts#L5)
 
 ___
 
@@ -29,4 +29,4 @@ ___
 
 #### Defined in
 
-[ISearchOptions.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/52b2c51e4a996ce8304be6a9eaffa1affa165ddd/src/types/flux_types/ISearchOptions.d.ts#L4)
+[ISearchOptions.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/dd47b2d31d685ec590eea1ac5ff9ab28936aad55/src/types/flux_types/ISearchOptions.d.ts#L4)
