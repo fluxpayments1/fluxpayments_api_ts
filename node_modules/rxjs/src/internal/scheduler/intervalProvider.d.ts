@@ -1,0 +1,13 @@
+import type { TimerHandle } from './timerHandle';
+type SetIntervalFunction = (handler: () => void, timeout?: number, ...args: any[]) => TimerHandle;
+type ClearIntervalFunction = (handle: TimerHandle) => void;
+interface IntervalProvider {
+    setInterval: SetIntervalFunction;
+    clearInterval: ClearIntervalFunction;
+    delegate: {
+        setInterval: SetIntervalFunction;
+        clearInterval: ClearIntervalFunction;
+    } | undefined;
+}
+export declare const intervalProvider: IntervalProvider;
+export {};

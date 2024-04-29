@@ -1,0 +1,6 @@
+{
+    "name": "flux_types",
+    "types": "../src/types/flux_types/index.d.ts",
+    "main": "../src/dist/flux_types/index.js",
+    "sideEffects": false
+  }

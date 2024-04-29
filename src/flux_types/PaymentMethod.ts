@@ -29,7 +29,6 @@ import { FluxType } from "./FluxType";
 import { IPaymentMethod } from "./IPaymentMethod";
 import { BaseQuery } from "./BaseQuery";
 import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
-import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
 import { SecurityHandlerBase } from "../ajax/security/SecurityHandlerBase";
 
 
@@ -167,7 +166,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         Object.assign(this, obs[0])
     };
 
-    public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]> {
+    public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]> {
         let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
         let secHandle = undefined;
         if ((q as IPaymentMethodQuery).accountSession) {
