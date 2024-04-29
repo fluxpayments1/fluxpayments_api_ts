@@ -1,5 +1,5 @@
 {
-    "name": "ajax",
+    "name": "ajax_web",
     "types": "../src/types/ajax/index.d.ts",
     "main": "../src/dist_web/ajax.js",
     "sideEffects": false

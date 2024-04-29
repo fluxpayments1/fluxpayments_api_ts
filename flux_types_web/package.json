@@ -1,5 +1,5 @@
 {
-    "name": "flux_types",
+    "name": "flux_types_web",
     "types": "../src/types/flux_types/index.d.ts",
     "main": "../src/dist_web/flux_types.js",
     "sideEffects": false

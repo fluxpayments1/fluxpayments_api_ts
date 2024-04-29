@@ -1,5 +1,5 @@
 {
-    "name": "flux_types",
+    "name": "lib_web",
     "types": "../src/types/lib/index.d.ts",
     "main": "../src/dist_web/lib.js",
     "sideEffects": false
