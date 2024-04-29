@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[IAddressQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/6236b1a6ef990467e274e55fa9f16e8fe5a6bec7/src/types/flux_types/IAddressQuery.d.ts#L3)
+[IAddressQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/01e4c870861eb72481e7012f506ea84f3680b290/src/types/flux_types/IAddressQuery.d.ts#L3)
