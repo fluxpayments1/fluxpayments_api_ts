@@ -6,3 +6,5 @@ dist/
 src/dist_web
 package-lock.json
 tests/package-lock.json
+node_modules
+tests/node_modules

@@ -1,6 +1,0 @@
-{
-    "name": "lib",
-    "types": "../src/types/lib/index.d.ts",
-    "main": "../src/dist/lib/index.js",
-    "sideEffects": false
-  }
