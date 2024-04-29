@@ -5,6 +5,7 @@ export interface IBankAccount {
     bankName: string;
     routingNumber: string;
     bankBrand: string;
+    addressId: number;
     accountNumber: string;
     id: number;
     uniqueId: string;

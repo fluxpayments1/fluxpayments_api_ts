@@ -119,6 +119,10 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         this.metadata = c.metadata
         this.address = new Address(c.address)
         this.accountSession = c.accountSession
+        this.addressId = c.addressId
+        this.firstName = c.firstName
+        this.lastName = c.lastName
+        this.payType = c.payType
 
     }
 

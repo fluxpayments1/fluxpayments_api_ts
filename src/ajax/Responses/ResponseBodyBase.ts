@@ -57,7 +57,6 @@ export abstract class ResponseBodyBase implements ResponseBody {
          * this framework will not work.
          */
 
-
         let jsonObj = JSON.parse(json);
         for (let key in jsonObj) {
             this["_".concat(key)] = jsonObj[key];

@@ -41,6 +41,7 @@ export class GenericGetterResponse<T extends FluxType> extends ResponseBodyBase 
 
     public getClientReturnValue(): T[] {
   
+
         this._objects = this._objects.map(prod => {
             let t = new this.type(prod);
             t.dataTableMetadata = this._metadata

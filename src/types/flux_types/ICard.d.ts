@@ -5,9 +5,11 @@ export interface ICard {
     uniqueId?: string;
     metadata?: string;
     address: Address | IAddress;
+    addressId: number;
     accountSession: string;
     firstName?: string;
     lastName?: string;
+    payType?: string;
     lastFour?: string;
     expMonth: string;
     expYear: string;
