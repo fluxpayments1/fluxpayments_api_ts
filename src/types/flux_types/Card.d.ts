@@ -1,3 +1,7 @@
+import { SecurityHandler } from "../ajax/security/SecurityHandler";
+import { Flux } from "../lib/Flux";
+import { BaseQuery } from "./BaseQuery";
+import { FluxType } from "./FluxType";
 import { ICard } from "./ICard";
 import { PaymentMethod } from "./PaymentMethod";
 export declare class Card extends PaymentMethod implements ICard {
@@ -18,4 +22,5 @@ export declare class Card extends PaymentMethod implements ICard {
      * @returns
      */
     static createInstanceSafe(acc: Partial<ICard>): Promise<PaymentMethod>;
+    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]>;
 }

@@ -28,7 +28,7 @@
 
 #### Defined in
 
-[IOneTimePaymentLink.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/01e4c870861eb72481e7012f506ea84f3680b290/src/types/flux_types/IOneTimePaymentLink.d.ts#L8)
+[IOneTimePaymentLink.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/caa92350d28ad0c86e062f54c70f6d8a51392cd1/src/types/flux_types/IOneTimePaymentLink.d.ts#L8)
 
 ___
 
@@ -38,7 +38,7 @@ ___
 
 #### Defined in
 
-[IOneTimePaymentLink.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/01e4c870861eb72481e7012f506ea84f3680b290/src/types/flux_types/IOneTimePaymentLink.d.ts#L2)
+[IOneTimePaymentLink.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/caa92350d28ad0c86e062f54c70f6d8a51392cd1/src/types/flux_types/IOneTimePaymentLink.d.ts#L2)
 
 ___
 
@@ -48,7 +48,7 @@ ___
 
 #### Defined in
 
-[IOneTimePaymentLink.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/01e4c870861eb72481e7012f506ea84f3680b290/src/types/flux_types/IOneTimePaymentLink.d.ts#L5)
+[IOneTimePaymentLink.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/caa92350d28ad0c86e062f54c70f6d8a51392cd1/src/types/flux_types/IOneTimePaymentLink.d.ts#L5)
 
 ___
 
@@ -58,7 +58,7 @@ ___
 
 #### Defined in
 
-[IOneTimePaymentLink.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/01e4c870861eb72481e7012f506ea84f3680b290/src/types/flux_types/IOneTimePaymentLink.d.ts#L3)
+[IOneTimePaymentLink.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/caa92350d28ad0c86e062f54c70f6d8a51392cd1/src/types/flux_types/IOneTimePaymentLink.d.ts#L3)
 
 ___
 
@@ -68,7 +68,7 @@ ___
 
 #### Defined in
 
-[IOneTimePaymentLink.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/01e4c870861eb72481e7012f506ea84f3680b290/src/types/flux_types/IOneTimePaymentLink.d.ts#L7)
+[IOneTimePaymentLink.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/caa92350d28ad0c86e062f54c70f6d8a51392cd1/src/types/flux_types/IOneTimePaymentLink.d.ts#L7)
 
 ___
 
@@ -78,7 +78,7 @@ ___
 
 #### Defined in
 
-[IOneTimePaymentLink.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/01e4c870861eb72481e7012f506ea84f3680b290/src/types/flux_types/IOneTimePaymentLink.d.ts#L6)
+[IOneTimePaymentLink.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/caa92350d28ad0c86e062f54c70f6d8a51392cd1/src/types/flux_types/IOneTimePaymentLink.d.ts#L6)
 
 ___
 
@@ -88,4 +88,4 @@ ___
 
 #### Defined in
 
-[IOneTimePaymentLink.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/01e4c870861eb72481e7012f506ea84f3680b290/src/types/flux_types/IOneTimePaymentLink.d.ts#L4)
+[IOneTimePaymentLink.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/caa92350d28ad0c86e062f54c70f6d8a51392cd1/src/types/flux_types/IOneTimePaymentLink.d.ts#L4)

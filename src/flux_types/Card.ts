@@ -20,8 +20,13 @@
  * SOFTWARE.
  */
 
+import { SecurityHandler } from "../ajax/security/SecurityHandler";
+import { SensitiveClientDataSecurityHandle } from "../ajax/security/SensitiveClientDataSecurityHandle";
+import { Flux } from "../lib/Flux";
+import { BaseQuery } from "./BaseQuery";
 import { FluxType } from "./FluxType";
 import { ICard } from "./ICard";
+import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
 import { PaymentMethod } from "./PaymentMethod";
 
 
@@ -54,6 +59,17 @@ export class Card extends PaymentMethod implements ICard {
         let instance: Card = new Card(acc);
         let retVal = await PaymentMethod.createInstanceSafeDbCall(instance, acc)
         return retVal;
+    }
+
+    public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]> {
+        let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
+        let secHandle = undefined;
+        if ((q as IPaymentMethodQuery).accountSession) {
+            secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (q as IPaymentMethodQuery).accountSession)
+        }
+
+        let obs = await f.getObjects<T, U>(q, secHandle)
+        return obs;
     }
 
 

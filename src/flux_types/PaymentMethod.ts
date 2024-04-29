@@ -166,7 +166,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         Object.assign(this, obs[0])
     };
 
-    public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]> {
+    public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs: Flux<SecurityHandler>): Promise<T[]> {
         let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
         let secHandle = undefined;
         if ((q as IPaymentMethodQuery).accountSession) {
