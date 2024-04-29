@@ -37,5 +37,5 @@
         "./tests/**/*"
     ],
     // "include": ["./polyfills.ts"],
-    "exclude": ["./types", "./dist", "./dist_web"]
+    "exclude": ["./types", "./dist", "./dist_web", "./tests"]
 }

@@ -1,4 +1,5 @@
 import { SecurityHandler } from "../ajax/security/SecurityHandler";
+import { Flux } from "../lib/Flux";
 import { Address } from "./Address";
 import { FluxIdentifier } from "./FluxIdentifier";
 import { FluxType } from "./FluxType";
@@ -43,7 +44,7 @@ export declare class PaymentMethod extends FluxType implements IPaymentMethod {
     merge(): Promise<void>;
     persist(): Promise<void>;
     refresh(): Promise<void>;
-    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U): Promise<T[]>;
+    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]>;
     static deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], accountSession?: string): Promise<FluxIdentifier[]>;
     protected static createObjectsSafe<T extends FluxType>(ob: T | T[], secHandle?: SecurityHandler): Promise<T[]>;
 }
