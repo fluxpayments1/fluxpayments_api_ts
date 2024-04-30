@@ -31,7 +31,6 @@ import * as https from 'https'
 
 import * as env from '../../env.json';
 import { FluxType } from "../../flux_types/FluxType";
-
 export class CMMT {
     private static readonly BASE_URL: string = env.API_CONNECTION_ENDPOINT_PROD
     private static readonly WEBSOCKET_BASE_URL : string = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD 

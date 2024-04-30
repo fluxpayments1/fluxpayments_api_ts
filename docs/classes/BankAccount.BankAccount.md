@@ -92,7 +92,7 @@
 
 #### Defined in
 
-[BankAccount.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/BankAccount.d.ts#L4)
+[BankAccount.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BankAccount.d.ts#L4)
 
 ## Properties
 
@@ -106,7 +106,7 @@
 
 #### Defined in
 
-[BankAccount.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/BankAccount.d.ts#L9)
+[BankAccount.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BankAccount.d.ts#L9)
 
 ___
 
@@ -120,7 +120,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:34](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L34)
+[PaymentMethod.d.ts:34](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L34)
 
 ___
 
@@ -134,7 +134,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L25)
+[PaymentMethod.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L25)
 
 ___
 
@@ -152,7 +152,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L21)
+[PaymentMethod.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L21)
 
 ___
 
@@ -170,7 +170,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:30](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L30)
+[PaymentMethod.d.ts:30](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L30)
 
 ___
 
@@ -184,7 +184,7 @@ ___
 
 #### Defined in
 
-[BankAccount.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/BankAccount.d.ts#L8)
+[BankAccount.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BankAccount.d.ts#L8)
 
 ___
 
@@ -198,7 +198,7 @@ ___
 
 #### Defined in
 
-[BankAccount.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/BankAccount.d.ts#L6)
+[BankAccount.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BankAccount.d.ts#L6)
 
 ___
 
@@ -212,7 +212,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L6)
+[FluxType.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L6)
 
 ___
 
@@ -226,7 +226,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:28](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L28)
+[PaymentMethod.d.ts:28](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L28)
 
 ___
 
@@ -240,7 +240,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:31](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L31)
+[PaymentMethod.d.ts:31](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L31)
 
 ___
 
@@ -258,7 +258,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L22)
+[PaymentMethod.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L22)
 
 ___
 
@@ -272,7 +272,7 @@ ___
 
 #### Defined in
 
-[BankAccount.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/BankAccount.d.ts#L5)
+[BankAccount.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BankAccount.d.ts#L5)
 
 ___
 
@@ -286,7 +286,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:32](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L32)
+[PaymentMethod.d.ts:32](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L32)
 
 ___
 
@@ -304,7 +304,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L24)
+[PaymentMethod.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L24)
 
 ___
 
@@ -318,7 +318,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L9)
+[PaymentMethod.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L9)
 
 ___
 
@@ -346,7 +346,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L8)
+[FluxType.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L8)
 
 ___
 
@@ -360,7 +360,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:38](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L38)
+[PaymentMethod.d.ts:38](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L38)
 
 ___
 
@@ -374,7 +374,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:33](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L33)
+[PaymentMethod.d.ts:33](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L33)
 
 ___
 
@@ -388,7 +388,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:29](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L29)
+[PaymentMethod.d.ts:29](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L29)
 
 ___
 
@@ -402,7 +402,7 @@ ___
 
 #### Defined in
 
-[BankAccount.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/BankAccount.d.ts#L7)
+[BankAccount.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BankAccount.d.ts#L7)
 
 ___
 
@@ -416,7 +416,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L26)
+[PaymentMethod.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L26)
 
 ___
 
@@ -434,7 +434,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L23)
+[PaymentMethod.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L23)
 
 ___
 
@@ -448,7 +448,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L27)
+[PaymentMethod.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L27)
 
 ## Methods
 
@@ -466,7 +466,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:43](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L43)
+[PaymentMethod.d.ts:43](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L43)
 
 ___
 
@@ -484,7 +484,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:14](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L14)
+[FluxType.d.ts:14](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L14)
 
 ___
 
@@ -502,7 +502,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L11)
+[FluxType.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L11)
 
 ___
 
@@ -520,7 +520,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:44](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L44)
+[PaymentMethod.d.ts:44](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L44)
 
 ___
 
@@ -538,7 +538,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:45](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L45)
+[PaymentMethod.d.ts:45](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L45)
 
 ___
 
@@ -556,7 +556,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:46](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L46)
+[PaymentMethod.d.ts:46](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L46)
 
 ___
 
@@ -586,7 +586,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L10)
+[PaymentMethod.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L10)
 
 ___
 
@@ -610,7 +610,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:15](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L15)
+[FluxType.d.ts:15](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L15)
 
 ___
 
@@ -635,7 +635,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:39](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L39)
+[PaymentMethod.d.ts:39](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L39)
 
 ___
 
@@ -665,7 +665,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:42](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L42)
+[PaymentMethod.d.ts:42](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L42)
 
 ___
 
@@ -696,7 +696,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:49](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L49)
+[PaymentMethod.d.ts:49](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L49)
 
 ___
 
@@ -728,7 +728,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:48](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L48)
+[PaymentMethod.d.ts:48](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L48)
 
 ___
 
@@ -753,7 +753,7 @@ object.
 
 #### Defined in
 
-[FluxType.d.ts:34](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L34)
+[FluxType.d.ts:34](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L34)
 
 ___
 
@@ -771,7 +771,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:18](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L18)
+[FluxType.d.ts:18](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L18)
 
 ___
 
@@ -804,7 +804,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:38](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L38)
+[FluxType.d.ts:38](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L38)
 
 ___
 
@@ -835,7 +835,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:37](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L37)
+[FluxType.d.ts:37](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L37)
 
 ___
 
@@ -866,7 +866,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:36](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L36)
+[FluxType.d.ts:36](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L36)
 
 ___
 
@@ -898,7 +898,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:17](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L17)
+[FluxType.d.ts:17](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L17)
 
 ___
 
@@ -930,7 +930,7 @@ ___
 
 #### Defined in
 
-[FluxType.d.ts:16](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/FluxType.d.ts#L16)
+[FluxType.d.ts:16](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/FluxType.d.ts#L16)
 
 ___
 
@@ -962,7 +962,7 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:47](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L47)
+[PaymentMethod.d.ts:47](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L47)
 
 ___
 
@@ -992,4 +992,4 @@ ___
 
 #### Defined in
 
-[PaymentMethod.d.ts:41](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/5bde0c2d1ee122667bd48eb924f52c2200241c03/src/types/flux_types/PaymentMethod.d.ts#L41)
+[PaymentMethod.d.ts:41](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/PaymentMethod.d.ts#L41)
