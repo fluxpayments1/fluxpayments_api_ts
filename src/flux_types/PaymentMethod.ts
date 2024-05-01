@@ -181,8 +181,8 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         return obs;
     }
 
-    public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], accountSession?: string): Promise<FluxIdentifier[]> {
-        let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+    public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], cfs?: Flux<SecurityHandler>, accountSession?: string): Promise<FluxIdentifier[]> {
+        let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
         let secHandle = undefined;
 
 

@@ -173,13 +173,13 @@ export abstract class FluxType {
     return obs;
   }
 
-  public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[]): Promise<FluxIdentifier[]> {
-    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+  public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], cfs?: Flux<SecurityHandler>): Promise<FluxIdentifier[]> {
+    let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
     return await f.deleteObjects<T>(fi, this)
   }
 
-  public static async updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]> {
-    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+  public static async updateObjects<T extends FluxType>(ob: T | T[], cfs?: Flux<SecurityHandler>): Promise<T[]> {
+    let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
     let obs = await f.updateObjects<T>(ob)
     return obs;
   }
