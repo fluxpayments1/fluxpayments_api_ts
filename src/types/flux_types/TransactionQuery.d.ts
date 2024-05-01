@@ -20,7 +20,7 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
         inventoryOnlyOrder: any;
         paymentMethodAddressDumpId: number;
         paymentMethodAddressId: number;
-        uniqueid: string;
+        uniqueId: string;
         taxRate: number;
         taxAmount: number;
         amount: number;
@@ -53,7 +53,7 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
     inventoryOnlyOrder: any;
     paymentMethodAddressDumpId: number;
     paymentMethodAddressId: number;
-    uniqueid: string;
+    uniqueId: string;
     taxRate: number;
     taxAmount: number;
     amount: number;

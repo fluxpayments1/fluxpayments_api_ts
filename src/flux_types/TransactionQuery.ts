@@ -45,7 +45,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             inventoryOnlyOrder: this.inventoryOnlyOrder,
             paymentMethodAddressDumpId: this.paymentMethodAddressDumpId,
             paymentMethodAddressId: this.paymentMethodAddressId,
-            uniqueid: this.uniqueid,
+            uniqueId: this.uniqueId,
             taxRate: this.taxRate,
             taxAmount: this.taxAmount,
             amount: this.amount,
@@ -79,7 +79,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
     inventoryOnlyOrder: any;
     paymentMethodAddressDumpId: number;
     paymentMethodAddressId: number;
-    uniqueid: string;
+    uniqueId: string;
     taxRate: number;
     taxAmount: number;
     amount: number;
