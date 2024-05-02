@@ -26,6 +26,7 @@
 - [addressState](AddressQuery.AddressQuery.md#addressstate)
 - [attachedObject](AddressQuery.AddressQuery.md#attachedobject)
 - [city](AddressQuery.AddressQuery.md#city)
+- [conditional](AddressQuery.AddressQuery.md#conditional)
 - [country](AddressQuery.AddressQuery.md#country)
 - [id](AddressQuery.AddressQuery.md#id)
 - [lookupPage](AddressQuery.AddressQuery.md#lookuppage)
@@ -63,7 +64,7 @@
 
 #### Defined in
 
-[AddressQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L26)
+[AddressQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L26)
 
 ## Properties
 
@@ -81,7 +82,7 @@ IAddressQuery.additionalSearchOptions
 
 #### Defined in
 
-[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BaseQuery.d.ts#L8)
+[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/BaseQuery.d.ts#L9)
 
 ___
 
@@ -95,7 +96,7 @@ IAddressQuery.addressState
 
 #### Defined in
 
-[AddressQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L23)
+[AddressQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L23)
 
 ___
 
@@ -123,7 +124,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BaseQuery.d.ts#L6)
+[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/BaseQuery.d.ts#L7)
 
 ___
 
@@ -137,7 +138,25 @@ IAddressQuery.city
 
 #### Defined in
 
-[AddressQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L24)
+[AddressQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L24)
+
+___
+
+### conditional
+
+• **conditional**: ``"OR"`` \| ``"AND"``
+
+#### Implementation of
+
+IAddressQuery.conditional
+
+#### Inherited from
+
+[BaseQuery](BaseQuery.BaseQuery.md).[conditional](BaseQuery.BaseQuery.md#conditional)
+
+#### Defined in
+
+[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/BaseQuery.d.ts#L6)
 
 ___
 
@@ -151,7 +170,7 @@ IAddressQuery.country
 
 #### Defined in
 
-[AddressQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L21)
+[AddressQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L21)
 
 ___
 
@@ -165,7 +184,7 @@ IAddressQuery.id
 
 #### Defined in
 
-[AddressQuery.d.ts:18](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L18)
+[AddressQuery.d.ts:18](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L18)
 
 ___
 
@@ -179,7 +198,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BaseQuery.d.ts#L9)
+[BaseQuery.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/BaseQuery.d.ts#L10)
 
 ___
 
@@ -193,7 +212,7 @@ IAddressQuery.metadata
 
 #### Defined in
 
-[AddressQuery.d.ts:19](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L19)
+[AddressQuery.d.ts:19](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L19)
 
 ___
 
@@ -207,7 +226,7 @@ ___
 
 #### Defined in
 
-[AddressQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L25)
+[AddressQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L25)
 
 ___
 
@@ -225,7 +244,7 @@ IAddressQuery.pagination
 
 #### Defined in
 
-[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/BaseQuery.d.ts#L7)
+[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/BaseQuery.d.ts#L8)
 
 ___
 
@@ -239,7 +258,7 @@ IAddressQuery.streetAddress
 
 #### Defined in
 
-[AddressQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L20)
+[AddressQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L20)
 
 ___
 
@@ -253,7 +272,7 @@ IAddressQuery.uniqueId
 
 #### Defined in
 
-[AddressQuery.d.ts:17](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L17)
+[AddressQuery.d.ts:17](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L17)
 
 ___
 
@@ -267,7 +286,7 @@ IAddressQuery.zipCode
 
 #### Defined in
 
-[AddressQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L22)
+[AddressQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L22)
 
 ## Methods
 
@@ -298,7 +317,7 @@ IAddressQuery.zipCode
 
 #### Defined in
 
-[AddressQuery.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L5)
+[AddressQuery.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L5)
 
 ___
 
@@ -318,4 +337,4 @@ ___
 
 #### Defined in
 
-[AddressQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/AddressQuery.d.ts#L27)
+[AddressQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/AddressQuery.d.ts#L27)

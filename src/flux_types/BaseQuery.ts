@@ -28,6 +28,7 @@ export abstract class BaseQuery<T extends FluxType> {
     constructor (attObject: new (o?: any) => T) {
         this.attachedObject = attObject
     }
+    conditional: "OR" | "AND";
     attachedObject: new (o?: any) => T
     pagination : PaginationSupport;
     additionalSearchOptions: AdditionalSearchOptions[];

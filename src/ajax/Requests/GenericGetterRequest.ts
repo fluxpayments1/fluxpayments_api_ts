@@ -32,7 +32,7 @@ export class GenericGetterRequest<U extends FluxType,T extends BaseQuery<U>> ext
     _additionalSearchOptions: AdditionalSearchOptions[];
     _pagination: PaginationSupport;
     _lookupPage: string
-
+    _conditional: string
     get lookupPage(): string {
         return this._lookupPage
     }
@@ -68,7 +68,7 @@ export class GenericGetterRequest<U extends FluxType,T extends BaseQuery<U>> ext
     public loadClientData(prodQuery: T): void {
         this._queryObj = this.serializeRecursively(prodQuery)
         if (prodQuery.lookupPage) this._lookupPage = prodQuery.lookupPage
-
+        this._conditional = prodQuery.conditional
         this._additionalSearchOptions = this._queryObj.additionalSearchOptions
 
         this._queryObj.additionalSearchOptions = undefined

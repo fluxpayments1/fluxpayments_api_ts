@@ -8,6 +8,7 @@ export declare class GenericGetterRequest<U extends FluxType, T extends BaseQuer
     _additionalSearchOptions: AdditionalSearchOptions[];
     _pagination: PaginationSupport;
     _lookupPage: string;
+    _conditional: string;
     get lookupPage(): string;
     set lookupPage(s: string);
     get additionalSearchOptions(): AdditionalSearchOptions[];

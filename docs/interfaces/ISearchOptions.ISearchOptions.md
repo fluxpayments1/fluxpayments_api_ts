@@ -9,6 +9,7 @@
 ### Properties
 
 - [additionalSearchOptions](ISearchOptions.ISearchOptions.md#additionalsearchoptions)
+- [conditional](ISearchOptions.ISearchOptions.md#conditional)
 - [pagination](ISearchOptions.ISearchOptions.md#pagination)
 
 ## Properties
@@ -19,7 +20,17 @@
 
 #### Defined in
 
-[ISearchOptions.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/ISearchOptions.d.ts#L5)
+[ISearchOptions.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/ISearchOptions.d.ts#L5)
+
+___
+
+### conditional
+
+• **conditional**: `string`
+
+#### Defined in
+
+[ISearchOptions.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/ISearchOptions.d.ts#L6)
 
 ___
 
@@ -29,4 +40,4 @@ ___
 
 #### Defined in
 
-[ISearchOptions.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/d3b8c806d24e79163e6f6f7c69354201c6fb6589/src/types/flux_types/ISearchOptions.d.ts#L4)
+[ISearchOptions.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/ISearchOptions.d.ts#L4)
