@@ -43,10 +43,12 @@ export class AccountQuery extends BaseQuery<Account> implements IAccountQuery {
             defaultShippingAddressId: this.defaultShippingAddressId,
             defaultShippingAddressUniqueId: this.defaultShippingAddressUniqueId,
             defaultPaymentMethodId: this.defaultPaymentMethodId,
-            defaultPaymentMethodUniqueId: this.defaultPaymentMethodUniqueId
+            defaultPaymentMethodUniqueId: this.defaultPaymentMethodUniqueId,
+            isTaxExempt: this.isTaxExempt
         }
     }
 
+    isTaxExempt?: boolean;
     id: number;
     uniqueId: string;
     metadata: string;

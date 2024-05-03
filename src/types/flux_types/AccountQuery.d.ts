@@ -19,7 +19,9 @@ export declare class AccountQuery extends BaseQuery<Account> implements IAccount
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;
         defaultPaymentMethodUniqueId: string;
+        isTaxExempt: boolean;
     };
+    isTaxExempt?: boolean;
     id: number;
     uniqueId: string;
     metadata: string;

@@ -12,6 +12,7 @@ export declare class AddressQuery extends BaseQuery<Address> implements IAddress
         city: string;
         objectType: string;
         pagination: import("./PaginationSupport").PaginationSupport;
+        addressState: string;
         additionalSearchOptions: import("./AdditionalSearchOptions").AdditionalSearchOptions[];
     };
     uniqueId: string;

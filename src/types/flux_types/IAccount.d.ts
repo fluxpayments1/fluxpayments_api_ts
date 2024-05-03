@@ -7,6 +7,7 @@ export interface IAccount {
     currency?: string;
     firstName?: string;
     middleName?: string;
+    isTaxExempt?: boolean;
     lastName?: string;
     accountUserType: AccountUserType;
 }

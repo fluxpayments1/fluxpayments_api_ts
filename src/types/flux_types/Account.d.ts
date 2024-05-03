@@ -31,6 +31,7 @@ export declare class Account extends FluxType implements IAccount {
         currency: string;
         metadata: string;
         accountEmail: string;
+        isTaxExempt: boolean;
         firstName: string;
         middleName: string;
         lastName: string;
@@ -41,6 +42,7 @@ export declare class Account extends FluxType implements IAccount {
         defaultPaymentMethodUniqueId: string;
         objectType: string;
     };
+    isTaxExempt: boolean;
     currency: string;
     id: number;
     uniqueId: string;

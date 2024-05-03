@@ -16,4 +16,4 @@
 
 #### Defined in
 
-[ITokenQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/68d905275443508b8811ed9f59476ae8a1c4b23c/src/types/flux_types/ITokenQuery.d.ts#L3)
+[ITokenQuery.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/58a6e5901c1007e9a07c203e87e64d4abad5e111/src/types/flux_types/ITokenQuery.d.ts#L3)

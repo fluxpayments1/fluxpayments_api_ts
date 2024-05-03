@@ -37,6 +37,7 @@ export class AddressQuery extends BaseQuery<Address> implements IAddressQuery {
             city: this.city,
             objectType: this.objectType,
             pagination: this.pagination,
+            addressState: this.addressState,
             additionalSearchOptions: this.additionalSearchOptions
         }
     }
