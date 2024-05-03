@@ -35,6 +35,8 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
         objectType: string;
         hasBackOrderedProducts: any;
         baseTransaction: number;
+        pagination: import("./PaginationSupport").PaginationSupport;
+        additionalSearchOptions: import("./AdditionalSearchOptions").AdditionalSearchOptions[];
     };
     id: number;
     email: string;

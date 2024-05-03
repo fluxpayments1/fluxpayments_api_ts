@@ -27,5 +27,6 @@ export declare class Flux<A extends SecurityHandler> implements IFlux {
     getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T): Promise<T[]>;
     getLinkedObjectsById<T extends FluxType, U extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T, obType2: new (o?: any) => U): Promise<U[]>;
     updateObjects<T extends FluxType>(ob: T | T[], securityHandle?: SecurityHandler): Promise<T[]>;
+    getMetadata(metadataName: string): Promise<string>;
     updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier): Promise<Product[]>;
 }

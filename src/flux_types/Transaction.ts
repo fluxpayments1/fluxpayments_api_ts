@@ -65,6 +65,7 @@ export class Transaction extends FluxType implements ITransaction {
     shippingAddressUniqueId: string;
     objectType: string = "transaction";
     products : Product[];
+    id: number;
 
     /**
      * Fetches the account that was used
@@ -275,6 +276,7 @@ export class Transaction extends FluxType implements ITransaction {
      */
     public serialize() {
         return {
+            id: this.id,
             accountId: this.accountId,
             accountUniqueId: this.accountUniqueId,
             paymentMethodId: this.paymentMethodId,

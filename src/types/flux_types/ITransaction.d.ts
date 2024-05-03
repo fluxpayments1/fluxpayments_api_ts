@@ -5,6 +5,7 @@ import { Product } from "./Product";
 export interface ITransaction {
     account: Account;
     paymentMethod: PaymentMethod;
+    id: number;
     uniqueId: string;
     taxRate?: number;
     currency: string;

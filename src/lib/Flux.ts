@@ -28,11 +28,12 @@ import { GenericUpdaterRequest } from "../ajax/Requests/GenericUpdaterRequest";
 import { ChngProdInvCntRequest } from "../ajax/Requests/ChngProdInvCntRequest";
 
 import { GenAuthReq } from "../ajax/Requests/GenAuthReq";
-import { GenAuthRes, CreateSessionResponse, GenericCreatorResponse, GenericGetterResponse, GenericDeleterResponse, GenericUpdaterResponse, UpdateProductResponse } from "../ajax/Responses";
+import { GenAuthRes, CreateSessionResponse, GenericCreatorResponse, GenericGetterResponse, GenericDeleterResponse, GenericUpdaterResponse, UpdateProductResponse, GetMetadataResponse } from "../ajax/Responses";
 import { CMMT } from "../ajax/lib";
 import { MerchantEndpointsSecurityHandle, GenAuthDataSecurityHandle, SecurityHandler } from "../ajax/security";
 import { FluxIdentifier, FluxType, BaseQuery, Product } from "../flux_types";
 import { IFlux } from "./IFlux";
+import { GetMetadataRequest } from "../ajax/Requests/GetMetadataRequest";
 
 
 
@@ -239,6 +240,17 @@ export class Flux<A extends SecurityHandler> implements IFlux {
             securityHandle || this._securityHandle,
             ob
         );
+    }
+
+    public async getMetadata(metadataName: string) {
+        return CMMT.fetch<string, GetMetadataRequest, GetMetadataResponse>(
+            GetMetadataRequest,
+            GetMetadataResponse,
+            "getMetadata",
+            "POST",
+            this._securityHandle,
+            metadataName
+        )
     }
 
     public async updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier): Promise<Product[]> {

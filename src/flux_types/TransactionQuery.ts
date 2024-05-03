@@ -60,6 +60,8 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             objectType: this.objectType,
             hasBackOrderedProducts: this.hasBackOrderedProducts,
             baseTransaction: this.baseTransaction,
+            pagination: this.pagination,
+            additionalSearchOptions: this.additionalSearchOptions
         }
     }
     id: number;

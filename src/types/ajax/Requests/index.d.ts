@@ -9,3 +9,4 @@ export { ChngProdInvCntRequest } from './ChngProdInvCntRequest';
 export { GenericDeleterRequest } from './GenericDeleterRequest';
 export { GenericUpdaterRequest } from './GenericUpdaterRequest';
 export { AddSubscriptionRequest } from './Websockets/AddSubscriptionRequest';
+export { GetMetadataRequest } from './GetMetadataRequest';

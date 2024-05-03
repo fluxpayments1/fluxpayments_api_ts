@@ -19,17 +19,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { ResponseBodyBase } from "./ResponseBodyBase";
 
+export class GetMetadataResponse extends ResponseBodyBase {
+    constructor() {
+        super();
+    }
 
-export { RequestBodyBase } from "./RequestBodyBase";
-export { RequestBody } from "./RequestBody";
-export { GenAuthReq } from "./GenAuthReq";
-export { GenericGetterRequest } from "./GenericGetterRequest";
-export { CreateSessionRequest } from "./CreateSessionRequest";
-export { GenericCreatorRequest } from './GenericCreatorRequest'
-export { GenericGetByIdRequest } from './GenericGetByIdRequest'
-export { ChngProdInvCntRequest } from './ChngProdInvCntRequest'
-export { GenericDeleterRequest } from './GenericDeleterRequest'
-export { GenericUpdaterRequest } from './GenericUpdaterRequest'
-export { AddSubscriptionRequest } from './Websockets/AddSubscriptionRequest'
-export { GetMetadataRequest } from './GetMetadataRequest'  
+    _metadata: any;
+
+    public getClientReturnValue(): any {
+        return this._metadata
+    }
+}

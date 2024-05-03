@@ -8,3 +8,4 @@ export { CreateSessionResponse } from "./CreateSessionResponse";
 export { UpdateProductResponse } from './UpdateProductResponse';
 export { GenericUpdaterResponse } from './GenericUpdaterResponse';
 export { AddSubscriptionResponse } from './Websockets/AddSubscriptionResponse';
+export { GetMetadataResponse } from './GetMetadataResponse';
