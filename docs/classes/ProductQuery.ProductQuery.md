@@ -65,7 +65,7 @@ This is an object that is used to query for products.
 
 #### Defined in
 
-[ProductQuery.d.ts:28](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L28)
+[ProductQuery.d.ts:28](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L28)
 
 ## Properties
 
@@ -83,7 +83,7 @@ IProductQuery.additionalSearchOptions
 
 #### Defined in
 
-[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/BaseQuery.d.ts#L9)
+[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L9)
 
 ___
 
@@ -111,7 +111,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/BaseQuery.d.ts#L7)
+[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L7)
 
 ___
 
@@ -125,7 +125,7 @@ IProductQuery.category
 
 #### Defined in
 
-[ProductQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L26)
+[ProductQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L26)
 
 ___
 
@@ -143,7 +143,7 @@ IProductQuery.conditional
 
 #### Defined in
 
-[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/BaseQuery.d.ts#L6)
+[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L6)
 
 ___
 
@@ -157,7 +157,7 @@ IProductQuery.id
 
 #### Defined in
 
-[ProductQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L21)
+[ProductQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L21)
 
 ___
 
@@ -171,7 +171,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/BaseQuery.d.ts#L10)
+[BaseQuery.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L10)
 
 ___
 
@@ -185,7 +185,7 @@ IProductQuery.metadata
 
 #### Defined in
 
-[ProductQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L20)
+[ProductQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L20)
 
 ___
 
@@ -199,7 +199,7 @@ IProductQuery.name
 
 #### Defined in
 
-[ProductQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L23)
+[ProductQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L23)
 
 ___
 
@@ -213,7 +213,7 @@ ___
 
 #### Defined in
 
-[ProductQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L27)
+[ProductQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L27)
 
 ___
 
@@ -231,7 +231,7 @@ IProductQuery.pagination
 
 #### Defined in
 
-[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/BaseQuery.d.ts#L8)
+[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L8)
 
 ___
 
@@ -245,7 +245,7 @@ IProductQuery.subscriptionInterval
 
 #### Defined in
 
-[ProductQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L25)
+[ProductQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L25)
 
 ___
 
@@ -259,7 +259,7 @@ IProductQuery.type
 
 #### Defined in
 
-[ProductQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L24)
+[ProductQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L24)
 
 ___
 
@@ -273,7 +273,7 @@ IProductQuery.uniqueId
 
 #### Defined in
 
-[ProductQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L22)
+[ProductQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L22)
 
 ## Methods
 
@@ -304,7 +304,7 @@ IProductQuery.uniqueId
 
 #### Defined in
 
-[ProductQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L8)
+[ProductQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L8)
 
 ___
 
@@ -324,4 +324,4 @@ ___
 
 #### Defined in
 
-[ProductQuery.d.ts:29](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/ProductQuery.d.ts#L29)
+[ProductQuery.d.ts:29](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/ProductQuery.d.ts#L29)

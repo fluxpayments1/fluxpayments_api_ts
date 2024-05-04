@@ -34,7 +34,7 @@
 
 #### Defined in
 
-[EmissionData.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/EmissionData.d.ts#L4)
+[EmissionData.d.ts:4](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/EmissionData.d.ts#L4)
 
 ## Properties
 
@@ -44,7 +44,7 @@
 
 #### Defined in
 
-[EmissionData.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/EmissionData.d.ts#L3)
+[EmissionData.d.ts:3](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/EmissionData.d.ts#L3)
 
 ___
 
@@ -54,4 +54,4 @@ ___
 
 #### Defined in
 
-[EmissionData.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/a6ae41cec3853b52ad8cc24b4c7051f97f78a6d5/src/types/flux_types/EmissionData.d.ts#L2)
+[EmissionData.d.ts:2](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/EmissionData.d.ts#L2)
