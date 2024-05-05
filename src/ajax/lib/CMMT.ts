@@ -33,31 +33,31 @@ import * as env from '../../env.json';
 import { FluxType } from "../../flux_types/FluxType";
 export class CMMT {
     private static readonly BASE_URL: string = env.API_CONNECTION_ENDPOINT_PROD
-    private static readonly WEBSOCKET_BASE_URL : string = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD 
+    private static readonly WEBSOCKET_BASE_URL: string = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD
     private static isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
     private static getPath(arg): string {
-        return CMMT.BASE_URL.concat(arg).concat(this.isBrowser ? "Web": "");
+        return CMMT.BASE_URL.concat(arg).concat(this.isBrowser ? "Web" : "");
     }
 
-    public static async sendWsCommMessage<U extends RequestBody, V extends ResponseBody> (
+    public static async sendWsCommMessage<U extends RequestBody, V extends ResponseBody>(
         ws: WebSocket,
         req: new () => U,
         res: new () => V,
         secHandle: SecurityHandler,
         ...args: any
     ): Promise<any> {
-    
+
         args = cloneDeep(args);
         let messageIdentifier = Math.floor(Math.random() * Math.pow(2, 53));
         let arh = new AjaxRequestHandle(req, res, secHandle);
         arh.request.loadClientData(...args, messageIdentifier);
         let reqStr = await arh.securityHandler.encodeRequest(arh.request.getRequestAsString());
-    
+
         // Return a new promise
         return new Promise<any>((resolve, reject) => {
             // Send the message over WebSocket
 
-    
+
             // Message event handler
             const messageHandler = async (stream: any) => {
                 let jsonStream = JSON.parse(stream.toString());
@@ -65,7 +65,7 @@ export class CMMT {
                     // This is our message; decode and resolve
                     let decResponse = await arh.securityHandler.decodeResponse(stream.toString());
                     resolve(arh.response.setResponseJSON(decResponse).getClientReturnValue());
-                    
+
                     // Clean up by removing this event listener
                     ws.off('message', messageHandler);
                 }
@@ -80,28 +80,56 @@ export class CMMT {
 
         });
     }
-    
+
+    public static async initializeBrowserWebsocketConnection(url, hdrs: object) : Promise<any> {
+
+
+        const wsUrl = `${CMMT.WEBSOCKET_BASE_URL}${url}`;
+        const ws = new window.WebSocket(wsUrl);
+
+        return new Promise((resolve, reject) => {
+            ws.addEventListener('open', () => {
+                resolve(ws);
+            }, { once: true });
+
+            ws.addEventListener('error', (event) => {
+                if (ws.readyState === WebSocket.CONNECTING) {
+                    ws.close();
+                    reject(new Error('WebSocket failed to open: ' + event));
+                }
+            }, { once: true });
+
+            ws.addEventListener('close', () => {
+                ws.close();
+            }, { once: true });
+        });
+
+    }
 
     public static async initializeWebSocketConnection<U extends RequestBody, V extends ResponseBody>(
         url: string,
         secHandle: SecurityHandler
-    ): Promise<WebSocket> {
+    ): Promise<any> {
         const arh = new AjaxRequestHandle(undefined, undefined, secHandle);
         arh.path = url;
         const hdrs = await arh.securityHandler.createHeaders();
-    
         const headersObject = Object.fromEntries(hdrs.entries());
+
+        if (typeof window !== 'undefined') {
+            return await CMMT.initializeBrowserWebsocketConnection(url, headersObject);
+        }
+
         const ws: WebSocket = new WebSocket(
-            `${CMMT.WEBSOCKET_BASE_URL}${url}`, 
-            {headers: headersObject}
+            `${CMMT.WEBSOCKET_BASE_URL}${url}`,
+            { headers: headersObject }
         );
-    
+
         return new Promise((resolve, reject) => {
             const onOpenHandler = (stream: any) => {
                 ws.off('open', onOpenHandler);  // remove listener after it's used
                 resolve(ws);
             };
-    
+
             const onErrorHandler = (err: Error) => {
                 if (ws.readyState === WebSocket.CONNECTING) {
                     ws.off('error', onErrorHandler);  // remove listener
@@ -109,18 +137,18 @@ export class CMMT {
                     reject(new Error('WebSocket failed to open: ' + err.message));
                 }
             };
-    
+
             const onCloseHandler = () => {
                 ws.off('close', onCloseHandler);  // remove listener
                 ws.close();
             };
-    
+
             ws.on('open', onOpenHandler);
             ws.on('error', onErrorHandler);
             ws.on('close', onCloseHandler);
         });
     }
-    
+
 
     public static fetch<T, U extends RequestBody, V extends ResponseBody>(
         req: new () => U,
@@ -137,7 +165,7 @@ export class CMMT {
                 arh.request.loadClientData(...arg);
                 arh.method = mtd;
                 arh.path = url;
-    
+
                 let hdrs = await arh.securityHandler.createHeaders();
                 let config: AxiosRequestConfig<string> = {
                     url: CMMT.getPath(arh.path),
@@ -152,11 +180,11 @@ export class CMMT {
                     }),
                     timeout: 100000
                 };
-    
+
                 let axios = new Axios(config)
 
                 let axiosResponse = await axios.request<string, any>(config);
-    
+
                 if (axiosResponse.status === 200) {
                     let decodedResponse = await arh.securityHandler.decodeResponse(axiosResponse.data as string, axiosResponse.headers);
                     let retVal = arh.response.setResponseJSON(decodedResponse);
@@ -186,7 +214,7 @@ export class CMMT {
                 arh.request.loadClientData(...arg);
                 arh.method = mtd;
                 arh.path = url;
-    
+
                 let hdrs = await arh.securityHandler.createHeaders();
                 let config: AxiosRequestConfig<string> = {
                     url: CMMT.getPath(arh.path),
@@ -201,11 +229,11 @@ export class CMMT {
                     }),
                     timeout: 100000
                 };
-    
+
                 let axios = new Axios(config)
 
                 let axiosResponse = await axios.request<string, any>(config);
-    
+
                 if (axiosResponse.status === 200) {
                     let decodedResponse = await arh.securityHandler.decodeResponse(axiosResponse.data as string, axiosResponse.headers);
                     let retVal = arh.response.setResponseJSON(decodedResponse);
@@ -218,9 +246,9 @@ export class CMMT {
             }
         });
     }
-    
-    
-    
+
+
+
 
 }
 

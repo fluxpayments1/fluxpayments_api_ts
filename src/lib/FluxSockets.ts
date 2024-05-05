@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { MerchantEndpointsSecurityHandle } from '../ajax/security';
+import { MerchantEndpointsSecurityHandle, SecurityHandler, SecurityHandlerBase } from '../ajax/security';
 import { WebSocket } from 'ws'
 import { CMMT } from '../ajax/lib';
 import { EmissionData } from '../flux_types/';
@@ -60,7 +60,7 @@ export interface FluxSockets {
 export class FluxWebsockets extends EventEmitter implements FluxSockets {
 
     private websocketConnection: WebSocket;
-    private static initializationSecHandler: MerchantEndpointsSecurityHandle;
+    private static initializationSecHandler: SecurityHandlerBase;
     private generalSecHandler: GenAuthDataSecurityHandle = new GenAuthDataSecurityHandle()
     private expectingConnectionClose : Boolean = false;
     constructor () {
@@ -140,6 +140,11 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
     public static initializeSecurityHandle (pk : string, prk: string, un: string , pw: string) {
         if (!FluxWebsockets.initializationSecHandler)
             FluxWebsockets.initializationSecHandler = new MerchantEndpointsSecurityHandle(pk, prk, un, pw);
+    }
+
+    public static initializeWebSecHandle (x : SecurityHandlerBase) {
+        if (!FluxWebsockets.initializationSecHandler)
+            FluxWebsockets.initializationSecHandler = x
     }
 
     private async initializeConnection () {

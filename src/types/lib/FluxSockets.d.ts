@@ -1,4 +1,5 @@
 /// <reference types="node" />
+import { SecurityHandlerBase } from '../ajax/security';
 import { EmissionData } from '../flux_types/';
 import { EventEmitter } from 'events';
 export declare enum Subscription {
@@ -36,6 +37,7 @@ export declare class FluxWebsockets extends EventEmitter implements FluxSockets 
     unSubscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
     closeSocketAndListeners(): Promise<void>;
     static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string): void;
+    static initializeWebSecHandle(x: SecurityHandlerBase): void;
     private initializeConnection;
     static getInstance(): Promise<FluxWebsockets>;
 }

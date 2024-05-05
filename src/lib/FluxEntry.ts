@@ -99,6 +99,9 @@ export async function fluxBrowser(publicKey: string): Promise<Flux<GeneralSecuri
     return fma
 };
 
+
+
+
 export function fluxGetter() {
 
     if (isBrowserEnv()) {
