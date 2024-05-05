@@ -30,24 +30,24 @@ import { GenAuthDataSecurityHandle } from '../ajax/security/';
 import { EventEmitter } from 'events';
 
 export enum Subscription {
-    ACCOUNT_CREATE = "ACCOUNT.CREATE",
-    ACCOUNT_UPDATE = "ACCOUNT.UPDATE",
-    ACCOUNT_DELETE = "ACCOUNT.DELETE",
-    PRODUCT_CREATE = "PRODUCT.CREATE",
-    PRODUCT_UPDATE = "PRODUCT.UPDATE",
-    PRODUCT_DELETE = "PRODUCT.DELETE",
-    ADDRESS_CREATE = "ADDRESS.CREATE",
-    ADDRESS_UPDATE = "ADDRESS.UPDATE",
-    ADDRESS_DELETE = "ADDRESS.DELETE",
-    PAYMENT_METHOD_CREATE = "PAYMENT_METHOD.CREATE",
-    PAYMENT_METHOD_UPDATE = "PAYMENT_METHOD.UPDATE",
-    PAYMENT_METHOD_DELETE = "PAYMENT_METHOD.DELETE",
-    TRANSACTION_CREATE = "TRANSACTION.CREATE",
-    TRANSACTION_UPDATE = "TRANSACTION.UPDATE",
-    TRANSACTION_DELETE = "TRANSACTION.DELETE",
-    TOKEN_CREATE = "TOKEN.CREATE",
-    TOKEN_UPDATE = "TOKEN.UPDATE",
-    TOKEN_DELETE = "TOKEN.DELETE"
+    ACCOUNT_CREATE = "account.CREATE",
+    ACCOUNT_UPDATE = "account.UPDATE",
+    ACCOUNT_DELETE = "account.DELETE",
+    PRODUCT_CREATE = "product.CREATE",
+    PRODUCT_UPDATE = "product.UPDATE",
+    PRODUCT_DELETE = "product.DELETE",
+    ADDRESS_CREATE = "address.CREATE",
+    ADDRESS_UPDATE = "address.UPDATE",
+    ADDRESS_DELETE = "address.DELETE",
+    PAYMENT_METHOD_CREATE = "payment_method.CREATE",
+    PAYMENT_METHOD_UPDATE = "payment_method.UPDATE",
+    PAYMENT_METHOD_DELETE = "payment_method.DELETE",
+    TRANSACTION_CREATE = "transaction.CREATE",
+    TRANSACTION_UPDATE = "transaction.UPDATE",
+    TRANSACTION_DELETE = "transaction.DELETE",
+    TOKEN_CREATE = "token.CREATE",
+    TOKEN_UPDATE = "token.UPDATE",
+    TOKEN_DELETE = "token.DELETE"
     
 }
 
@@ -147,6 +147,7 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
             FluxWebsockets.initializationSecHandler = x
     }
 
+    
     private async initializeConnection () {
         this.websocketConnection = await CMMT.initializeWebSocketConnection(
             "subscribe",
@@ -157,7 +158,7 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
             let jsonObj = JSON.parse(msg.toString());
             if (jsonObj.messageIdentifier === -1) {
                 let emissionData = new EmissionData(jsonObj)
-                this.emit(emissionData.notifyObjectType.toUpperCase() + "." + emissionData.notifyType.toUpperCase(), emissionData)
+                this.emit(emissionData.notifyObjectType + "." + emissionData.notifyType, emissionData)
             }
 
         })

@@ -39,6 +39,7 @@ import { GetMetadataRequest } from "../ajax/Requests/GetMetadataRequest";
 
 
 export class Flux<A extends SecurityHandler> implements IFlux {
+    protected tes;
     protected _isAuthenticated: boolean = false;
     protected _securityHandle: A;
     protected static fb: Flux<any>;

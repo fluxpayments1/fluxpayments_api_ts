@@ -14,6 +14,7 @@
         "postpublish": "npm run push",
         "compile-all": "npm run compile-src && npm run compile-web && npm run compile-docs",
         "compile-src": "cd src && tsc",
+        "compile-src-dev": "cd src && tsc --watch",
         "compile-web": "cd src && npx webpack --mode production",
         "compile-web-dev": "cd src && npx webpack -w --mode development",
         "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs ./src/types/flux_types/*.ts --excludePrivate"

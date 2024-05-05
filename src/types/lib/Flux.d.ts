@@ -2,6 +2,7 @@ import { SecurityHandler } from "../ajax/security";
 import { FluxIdentifier, FluxType, BaseQuery, Product } from "../flux_types";
 import { IFlux } from "./IFlux";
 export declare class Flux<A extends SecurityHandler> implements IFlux {
+    protected tes: any;
     protected _isAuthenticated: boolean;
     protected _securityHandle: A;
     protected static fb: Flux<any>;

@@ -116,12 +116,23 @@ export class CMMT {
         const headersObject = Object.fromEntries(hdrs.entries());
 
         if (typeof window !== 'undefined') {
+            console.log("in browser")
             return await CMMT.initializeBrowserWebsocketConnection(url, headersObject);
+        }
+
+        let obj;
+        if (env.MODE === "DEV") {
+            const agent = new https.Agent({
+                rejectUnauthorized: false
+            });
+            obj = { headers: headersObject, agent:agent }
+        } else {
+            obj = { headers: headersObject }
         }
 
         const ws: WebSocket = new WebSocket(
             `${CMMT.WEBSOCKET_BASE_URL}${url}`,
-            { headers: headersObject }
+            obj
         );
 
         return new Promise((resolve, reject) => {
@@ -131,6 +142,7 @@ export class CMMT {
             };
 
             const onErrorHandler = (err: Error) => {
+                console.log(err)
                 if (ws.readyState === WebSocket.CONNECTING) {
                     ws.off('error', onErrorHandler);  // remove listener
                     ws.close()
