@@ -143,8 +143,7 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
     }
 
     public static initializeWebSecHandle (x : SecurityHandlerBase) {
-        if (!FluxWebsockets.initializationSecHandler)
-            FluxWebsockets.initializationSecHandler = x
+        FluxWebsockets.initializationSecHandler = x
     }
 
     

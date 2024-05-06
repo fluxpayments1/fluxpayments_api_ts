@@ -83,26 +83,37 @@ export class CMMT {
 
     public static async initializeBrowserWebsocketConnection(url, hdrs: object) : Promise<any> {
 
-
-        const wsUrl = `${CMMT.WEBSOCKET_BASE_URL}${url}`;
-        const ws = new window.WebSocket(wsUrl);
-
-        return new Promise((resolve, reject) => {
-            ws.addEventListener('open', () => {
-                resolve(ws);
-            }, { once: true });
-
-            ws.addEventListener('error', (event) => {
-                if (ws.readyState === WebSocket.CONNECTING) {
+        console.log("in browser")
+        console.log(hdrs)
+        try {
+            const wsUrl = `${CMMT.WEBSOCKET_BASE_URL}${url}`;
+            const ws = new window.WebSocket(wsUrl, "protocol");
+    
+            let conn = await new Promise((resolve, reject) => {
+                ws.addEventListener('open', () => {
+                    resolve(ws);
+                }, { once: true });
+    
+                ws.addEventListener('error', (event) => {
+                    if (ws.readyState === window.WebSocket.CONNECTING) {
+                        ws.close();
+                        reject(new Error('WebSocket failed to open: ' + event));
+                    }
+                }, { once: true });
+    
+                ws.addEventListener('close', () => {
                     ws.close();
-                    reject(new Error('WebSocket failed to open: ' + event));
-                }
-            }, { once: true });
+                }, { once: true });
+            });
+    
+            if (conn instanceof window.WebSocket) {
+                conn.send(JSON.stringify(hdrs));
+            }
+        } catch (e) {
+            console.log("caught", e)
+        }
+        
 
-            ws.addEventListener('close', () => {
-                ws.close();
-            }, { once: true });
-        });
 
     }
 
