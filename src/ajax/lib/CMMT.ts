@@ -26,7 +26,7 @@ import { RequestBody } from "../../ajax/Requests/RequestBody";
 import { ResponseBody } from "../../ajax/Responses/ResponseBody";
 import { AxiosRequestConfig, Axios, HttpStatusCode } from "axios";
 import cloneDeep from 'lodash/cloneDeep';
-import { WebSocket } from 'ws'
+import { WebSocket, WebSocketServer } from 'ws'
 import * as https from 'https'
 
 import * as env from '../../env.json';
@@ -53,68 +53,67 @@ export class CMMT {
         arh.request.loadClientData(...args, messageIdentifier);
         let reqStr = await arh.securityHandler.encodeRequest(arh.request.getRequestAsString());
 
-        // Return a new promise
-        return new Promise<any>((resolve, reject) => {
-            // Send the message over WebSocket
+        if (typeof window !== 'undefined') {
+            console.log(ws)
+            ws.send(reqStr);
+            return new Promise<any>((resolve, reject) => {
+                const messageHandler = async (stream: any) => {
+                    console.log(stream)
+                    let jsonStream = JSON.parse(stream.data.toString());
+                    if (jsonStream.messageIdentifier === messageIdentifier) {
+                        let decResponse = await arh.securityHandler.decodeResponse(stream.data.toString());
+                        ws.removeEventListener('message', messageHandler);
 
-
-            // Message event handler
-            const messageHandler = async (stream: any) => {
-                let jsonStream = JSON.parse(stream.toString());
-                if (jsonStream.messageIdentifier === messageIdentifier) {
-                    // This is our message; decode and resolve
-                    let decResponse = await arh.securityHandler.decodeResponse(stream.toString());
-                    resolve(arh.response.setResponseJSON(decResponse).getClientReturnValue());
-
-                    // Clean up by removing this event listener
-                    ws.off('message', messageHandler);
-                }
-            };
-            // Attach the message event handler
-            ws.on('message', messageHandler);
-
-
-            ws.send(reqStr, (err) => {
-                if (err) reject(new Error(err.message)); // If error during sending, reject the promise
+                        resolve(arh.response.setResponseJSON(decResponse).getClientReturnValue());
+                    }
+                };
+                ws.addEventListener('message', messageHandler);
             });
-
-        });
+        } else {
+            return new Promise<any>((resolve, reject) => {
+                // Send the message over WebSocket
+    
+    
+                // Message event handler
+                const messageHandler = async (stream: any) => {
+                    let jsonStream = JSON.parse(stream.toString());
+                    if (jsonStream.messageIdentifier === messageIdentifier) {
+                        let decResponse = await arh.securityHandler.decodeResponse(stream.toString());
+                        resolve(arh.response.setResponseJSON(decResponse).getClientReturnValue());
+                        ws.off('message', messageHandler);
+                    }
+                };
+                // Attach the message event handler
+                ws.on('message', messageHandler);
+    
+    
+                ws.send(reqStr, (err) => {
+                    if (err) reject(new Error(err.message)); // If error during sending, reject the promise
+                });
+    
+            });
+        }
     }
 
     public static async initializeBrowserWebsocketConnection(url, hdrs: object) : Promise<any> {
-
-        console.log("in browser")
-        console.log(hdrs)
-        try {
-            const wsUrl = `${CMMT.WEBSOCKET_BASE_URL}${url}`;
-            const ws = new window.WebSocket(wsUrl, "protocol");
-    
-            let conn = await new Promise((resolve, reject) => {
-                ws.addEventListener('open', () => {
+        return new Promise((resolve, reject) => {
+            try {
+                const wsUrl = `${CMMT.WEBSOCKET_BASE_URL}${url}`;
+                const ws = new window.WebSocket(wsUrl);
+                
+                ws.onopen = () => {
+                    ws.send(JSON.stringify(hdrs))
                     resolve(ws);
-                }, { once: true });
+
+                }
     
-                ws.addEventListener('error', (event) => {
-                    if (ws.readyState === window.WebSocket.CONNECTING) {
-                        ws.close();
-                        reject(new Error('WebSocket failed to open: ' + event));
-                    }
-                }, { once: true });
-    
-                ws.addEventListener('close', () => {
-                    ws.close();
-                }, { once: true });
-            });
-    
-            if (conn instanceof window.WebSocket) {
-                conn.send(JSON.stringify(hdrs));
+                
+            } catch (e) {
+                console.log("caught", e)
+                reject(e)
             }
-        } catch (e) {
-            console.log("caught", e)
-        }
-        
-
-
+            
+        })
     }
 
     public static async initializeWebSocketConnection<U extends RequestBody, V extends ResponseBody>(

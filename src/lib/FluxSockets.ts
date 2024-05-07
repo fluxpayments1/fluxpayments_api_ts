@@ -48,7 +48,7 @@ export enum Subscription {
     TOKEN_CREATE = "token.CREATE",
     TOKEN_UPDATE = "token.UPDATE",
     TOKEN_DELETE = "token.DELETE"
-    
+
 }
 
 export interface FluxSockets {
@@ -62,8 +62,8 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
     private websocketConnection: WebSocket;
     private static initializationSecHandler: SecurityHandlerBase;
     private generalSecHandler: GenAuthDataSecurityHandle = new GenAuthDataSecurityHandle()
-    private expectingConnectionClose : Boolean = false;
-    constructor () {
+    private expectingConnectionClose: Boolean = false;
+    constructor() {
         super();
         this.setMaxListeners(1000)
     }
@@ -71,8 +71,11 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
     public async subscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this> {
 
         subs = Array.isArray(subs) ? subs : [subs]
-        
-        let addRequest : Boolean = false;
+
+        let addRequest: Boolean = false;
+
+
+
 
         subs.forEach(e => {
             if (this.listeners(e).length === 0) {
@@ -82,11 +85,11 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
 
         if (addRequest) {
 
-            let msg : AddSubscriptionResponse = await CMMT.sendWsCommMessage(
-                this.websocketConnection, 
-                AddSubscriptionRequest, 
-                AddSubscriptionResponse, 
-                this.generalSecHandler, 
+            let msg: AddSubscriptionResponse = await CMMT.sendWsCommMessage(
+                this.websocketConnection,
+                AddSubscriptionRequest,
+                AddSubscriptionResponse,
+                this.generalSecHandler,
                 subs,
                 true
             );
@@ -95,7 +98,9 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
 
         }
 
-        subs.forEach (e => {
+        console.log(subs)
+        subs.forEach(e => {
+
             super.on(e, listener)
         })
 
@@ -103,7 +108,7 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
     }
 
     public async unSubscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this> {
-        
+
         subs = Array.isArray(subs) ? subs : [subs]
 
         subs.forEach(element => {
@@ -118,10 +123,10 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
 
         if (removalArr.length !== 0) {
             await CMMT.sendWsCommMessage(
-                this.websocketConnection, 
-                AddSubscriptionRequest, 
-                AddSubscriptionResponse, 
-                this.generalSecHandler, 
+                this.websocketConnection,
+                AddSubscriptionRequest,
+                AddSubscriptionResponse,
+                this.generalSecHandler,
                 removalArr,
                 false
             );
@@ -137,47 +142,73 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
         this.websocketConnection.close()
     }
 
-    public static initializeSecurityHandle (pk : string, prk: string, un: string , pw: string) {
+    public static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string) {
         if (!FluxWebsockets.initializationSecHandler)
             FluxWebsockets.initializationSecHandler = new MerchantEndpointsSecurityHandle(pk, prk, un, pw);
     }
 
-    public static initializeWebSecHandle (x : SecurityHandlerBase) {
+    public static initializeWebSecHandle(x: SecurityHandlerBase) {
         FluxWebsockets.initializationSecHandler = x
     }
 
-    
-    private async initializeConnection () {
+
+    private async initializeConnection() {
         this.websocketConnection = await CMMT.initializeWebSocketConnection(
             "subscribe",
             FluxWebsockets.initializationSecHandler
         )
-//
-        this.websocketConnection.on('message', (msg) => {
-            let jsonObj = JSON.parse(msg.toString());
-            if (jsonObj.messageIdentifier === -1) {
-                let emissionData = new EmissionData(jsonObj)
-                this.emit(emissionData.notifyObjectType + "." + emissionData.notifyType, emissionData)
+
+        if (typeof window !== 'undefined') {
+
+            this.websocketConnection.onmessage = (msg) => {
+                let jsonObj = JSON.parse(msg.data.toString());
+                if (jsonObj.messageIdentifier === -1) {
+                    console.log("emitting:" + jsonObj.notifyObjectType + "." + jsonObj.notifyType  )
+                    let emissionData = new EmissionData(jsonObj)
+                    this.emit(emissionData.notifyObjectType + "." + emissionData.notifyType, emissionData)
+                }
             }
 
-        })
-
-        this.websocketConnection.on('close', () => {
-            if (!this.expectingConnectionClose) {
-                setTimeout(() => this.initializeConnection(), 1000)
+            this.websocketConnection.onclose = () => {
+                console.log('websocket closed, reopening')
+                if (!this.expectingConnectionClose) {
+                    setTimeout(() => this.initializeConnection(), 1000)
+                }
             }
-        })
+
+            this.websocketConnection.onerror = (err) => {
+                console.log(err)
+            }
 
 
-        
-        this.websocketConnection.setMaxListeners(500);
+        } else {
+            //
+            this.websocketConnection.on('message', (msg) => {
+                let jsonObj = JSON.parse(msg.toString());
+                if (jsonObj.messageIdentifier === -1) {
+                    let emissionData = new EmissionData(jsonObj)
+                    this.emit(emissionData.notifyObjectType + "." + emissionData.notifyType, emissionData)
+                }
 
+            })
+
+            this.websocketConnection.on('close', () => {
+                if (!this.expectingConnectionClose) {
+                    setTimeout(() => this.initializeConnection(), 1000)
+                }
+            })
+
+
+
+            this.websocketConnection.setMaxListeners(500);
+        }
     }
 
-    public static async getInstance () {
+    public static async getInstance() {
         if (!FluxWebsockets.initializationSecHandler) throw new Error("must initialize security handle")
         let instance = new FluxWebsockets();
         await instance.initializeConnection();
+
         return instance;
     }
 
