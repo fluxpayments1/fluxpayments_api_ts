@@ -12,6 +12,8 @@ export declare class EmissionData {
     notifyType?: string;
     resyncRequired?: boolean;
     notifyObjectType?: string;
+    associatedData: string;
     constructor(obj: any);
+    getFluxType(): any;
     toJSON(): string;
 }

@@ -273,7 +273,6 @@ export class Account extends FluxType implements IAccount {
         thisClone.obType = this.obType
         thisClone.objectType = this.objectType
 
-        console.log(thisClone)
         await Account.updateObjects(thisClone)
         this.defaultPaymentMethodId = ob.id;
         this.defaultPaymentMethodUniqueId = ob.uniqueId

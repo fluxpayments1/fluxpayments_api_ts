@@ -20,6 +20,8 @@
  * SOFTWARE.
  */
 
+import { FluxType } from "./FluxType";
+
 export class MulticastEmissionDataId {
     uuid: string;
     sequenceNumber: number;
@@ -42,9 +44,17 @@ export class EmissionData {
     notifyType?: string;
     resyncRequired?: boolean;
     notifyObjectType?: string;
+    associatedData: string
+
 
     constructor(obj) {
         Object.assign(this, obj);
+    }
+
+    getFluxType(): any {
+        if (!this.associatedData) return undefined
+        return this.associatedData
+
     }
 
     // Considering you also want a method to convert the instance to JSON:

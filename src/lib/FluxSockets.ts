@@ -76,7 +76,6 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
 
 
 
-
         subs.forEach(e => {
             if (this.listeners(e).length === 0) {
                 addRequest = true;
@@ -98,9 +97,7 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
 
         }
 
-        console.log(subs)
         subs.forEach(e => {
-
             super.on(e, listener)
         })
 
@@ -163,7 +160,6 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
             this.websocketConnection.onmessage = (msg) => {
                 let jsonObj = JSON.parse(msg.data.toString());
                 if (jsonObj.messageIdentifier === -1) {
-                    console.log("emitting:" + jsonObj.notifyObjectType + "." + jsonObj.notifyType  )
                     let emissionData = new EmissionData(jsonObj)
                     this.emit(emissionData.notifyObjectType + "." + emissionData.notifyType, emissionData)
                 }
@@ -177,7 +173,7 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
             }
 
             this.websocketConnection.onerror = (err) => {
-                console.log(err)
+                console.log("websocket error", err)
             }
 
 

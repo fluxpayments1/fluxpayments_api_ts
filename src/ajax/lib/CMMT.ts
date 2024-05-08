@@ -54,11 +54,9 @@ export class CMMT {
         let reqStr = await arh.securityHandler.encodeRequest(arh.request.getRequestAsString());
 
         if (typeof window !== 'undefined') {
-            console.log(ws)
             ws.send(reqStr);
             return new Promise<any>((resolve, reject) => {
                 const messageHandler = async (stream: any) => {
-                    console.log(stream)
                     let jsonStream = JSON.parse(stream.data.toString());
                     if (jsonStream.messageIdentifier === messageIdentifier) {
                         let decResponse = await arh.securityHandler.decodeResponse(stream.data.toString());
@@ -126,7 +124,6 @@ export class CMMT {
         const headersObject = Object.fromEntries(hdrs.entries());
 
         if (typeof window !== 'undefined') {
-            console.log("in browser")
             return await CMMT.initializeBrowserWebsocketConnection(url, headersObject);
         }
 
