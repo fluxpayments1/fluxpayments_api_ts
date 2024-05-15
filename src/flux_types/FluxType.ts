@@ -48,6 +48,8 @@ async function loadFluxGetter() {
 export abstract class FluxType {
   public dataTableMetadata;
   uniqueId: string
+  public createdAt: Date;
+  public updatedAt: Date;
   public obType: new (o?: any) => this;
   public abstract obName: string
   protected abstract objectType: string;
@@ -184,8 +186,8 @@ export abstract class FluxType {
     return obs;
   }
 
-  public static async createObjects<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]> {
-    let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+  public static async createObjects<T extends FluxType>(ob: T | T[], cfs?: Flux<SecurityHandler>): Promise<FluxIdentifier[]> {
+    let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
     let obs: FluxIdentifier[] = await f.createObjectGeneric<T>(ob)
     return obs;
   }
