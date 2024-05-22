@@ -194,6 +194,24 @@ describe("Pagination and additional functionalities tests for Account", function
         accIdSearch3Results = await Account.getObjectsById(accIds);
 
         await Account.deleteObjects(accounts.map(e => e.getId()).filter(e => e.id !== 1));
+        let accs = []
+        for (let i =0; i < 10000; i++) {
+            accs.push(await createRandomAccount())
+        }
+        try {
+            await Account.createObjects(accs)
+
+        } catch (e: any) {  
+            console.log(e)
+            process.exit()
+
+
+            
+        }
+
+
+
+
     });
 
     it("should have created 53 accounts", () => {
