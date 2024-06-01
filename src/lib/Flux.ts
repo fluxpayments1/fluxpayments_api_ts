@@ -102,6 +102,31 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
+    public static async exchangeOTPLForSession(otpl: string): Promise<string> {
+        return CMMT.fetch<string, CreateSessionRequest, CreateSessionResponse>(
+            CreateSessionRequest,
+            CreateSessionResponse,
+            "exchangeOTPLForSession",
+            "POST",
+            new GenAuthDataSecurityHandle(),
+            undefined,
+            otpl
+        );
+    }
+
+
+    public static async getMerchantPublicKeyFromOTPL(otpl: string): Promise<string> {
+        return CMMT.fetch<string, CreateSessionRequest, CreateSessionResponse>(
+            CreateSessionRequest,
+            CreateSessionResponse,
+            "exchangeOTPLForCustomerPublicKey",
+            "POST",
+            new GenAuthDataSecurityHandle(),
+            undefined,
+            otpl
+        );
+    }
+
 
     async createObjectGeneric<T extends FluxType>(
         ob: T | T[],
@@ -162,7 +187,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
             obType,
             `get${name}`,
             "POST",
-            this._securityHandle,
+            secHandle || this._securityHandle,
             query
         );
     }

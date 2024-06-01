@@ -20,9 +20,21 @@
  * SOFTWARE.
  */
 
+
+/**
+ * All of the properties for class
+ * 
+ * We need a list of products to attach to the payment link
+ * We need an account to attach to the payment link (if no account is attached, the user will pass in the email in the account field)
+ * 
+ * 
+ * 
+ */
+
 import _cloneDeep from 'lodash/cloneDeep';
 import { FluxType } from './FluxType';
 import { IOneTimePaymentLink } from './IOneTimePaymentLink';
+import { FluxIdentifier } from './FluxIdentifier';
 
 export class OneTimePaymentLink extends FluxType implements IOneTimePaymentLink {
     public obName: string = "OneTimePaymentLink";
@@ -33,20 +45,20 @@ export class OneTimePaymentLink extends FluxType implements IOneTimePaymentLink 
             metadata: this.metadata,
             objectType: this.objectType,
             uniqueId: this.uniqueId,
-            liveStatus: this.liveStatus,
-            removeOnSuccess: this.removeOnSuccess,
-            paymentLink: this.paymentLink,
             accountId: this.accountId,
+            products: this.products,
+            accountEmail: this.accountEmail,
+            status: this.status
         };
     }
 
     id: number;
     metadata: string;
     uniqueId: string;
-    liveStatus: any;
-    removeOnSuccess: any;
-    paymentLink: string;
     accountId: number;
+    status: string;
+    accountEmail: string;
+    products: FluxIdentifier[];
     protected objectType: string = "one_time_payment_link";
 
     public constructor(oneTimePaymentLink?: Partial<OneTimePaymentLink>) {

@@ -20,7 +20,7 @@
  * SOFTWARE.
  */
 
-import { MerchantEndpointsSecurityHandle, SecurityHandler } from "../ajax/security";
+import { MerchantEndpointsSecurityHandle, SecurityHandler, SensitiveClientDataSecurityHandle } from "../ajax/security";
 import { Flux } from "../lib/Flux";
 import { BaseQuery } from "./BaseQuery";
 import { FluxIdentifier } from "./FluxIdentifier";
@@ -174,6 +174,17 @@ export abstract class FluxType {
     let obs = await f.getObjects<T, U>(q)
     return obs;
   }
+
+  public static async queryObjectsWeb<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]> {
+    let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
+    let secHandle = undefined;
+    if ((q as any).accountSession) {
+        secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (q as any).accountSession)
+    }
+
+    let obs = await f.getObjects<T, U>(q, secHandle)
+    return obs;
+}
 
   public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], cfs?: Flux<SecurityHandler>): Promise<FluxIdentifier[]> {
     let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()

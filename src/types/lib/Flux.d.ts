@@ -21,6 +21,8 @@ export declare class Flux<A extends SecurityHandler> implements IFlux {
      * @returns a session id
      */
     createSession(id: FluxIdentifier): Promise<string>;
+    static exchangeOTPLForSession(otpl: string): Promise<string>;
+    static getMerchantPublicKeyFromOTPL(otpl: string): Promise<string>;
     createObjectGeneric<T extends FluxType>(ob: T | T[], secHandle?: SecurityHandler): Promise<FluxIdentifier[]>;
     createObjectGenericSafe<T extends FluxType>(ob: T | T[], secHandle?: SecurityHandler): Promise<T[]>;
     getObjects<T extends FluxType, U extends BaseQuery<T>>(query: U, secHandle?: SecurityHandler): Promise<T[]>;

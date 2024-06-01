@@ -30,8 +30,13 @@ export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
     public async encodeRequest(request: string, headers: Map<string, string>) : Promise<string> {
         //First generate RSA_ENC_AES_KEY
         let base64Key :string = SecurityHandlerBase.genAesKey()
+        let base64EncKey;
+        if (window !== undefined) {
+            base64EncKey = await SecurityHandlerBase.encryptRsaBrowser(this._publicKey, base64Key)
 
-        let base64EncKey = SecurityHandlerBase.encryptRsa(this._publicKey, base64Key)
+        } else {
+            base64EncKey = SecurityHandlerBase.encryptRsa(this._publicKey, base64Key)
+        }
 
         let accHeader = {
             "iat": new Date().getTime(),
@@ -41,9 +46,16 @@ export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
         let accHeaderString = JSON.stringify(accHeader)
 
         let base64Nonce = headers.get("X-Nonce");
+        let base64AccHeaderEnc
+        let base64EncRequest
+        if (window !== undefined) {
+            base64AccHeaderEnc = await SecurityHandlerBase.encryptAESBrowser(base64Key, base64Nonce, accHeaderString)
+            base64EncRequest = await SecurityHandlerBase.encryptAESBrowser(base64Key, base64Nonce, request)
+        } else {
+            base64AccHeaderEnc = SecurityHandlerBase.encryptAES(base64Key, base64Nonce, accHeaderString)
+            base64EncRequest = SecurityHandlerBase.encryptAES(base64Key, base64Nonce, request)
+        }
 
-        let base64AccHeaderEnc = SecurityHandlerBase.encryptAES(base64Key, base64Nonce, accHeaderString)
-        let base64EncRequest = SecurityHandlerBase.encryptAES(base64Key, base64Nonce, request)
 
         //Place nonce on map
         SensitiveClientDataSecurityHandle.nonceKeyMap.set(base64Nonce, base64Key);
@@ -81,11 +93,16 @@ export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
         let base64LookupNonce = headers.get('X-Lookup-Nonce');
         let base64Nonce = headers.get('X-Nonce');
         
+
         let base64AesKey = SensitiveClientDataSecurityHandle.nonceKeyMap.get(base64LookupNonce);
 
         if (!base64AesKey) throw new Error("decryption error");
 
         SensitiveClientDataSecurityHandle.nonceKeyMap.delete(base64LookupNonce)
+
+        if (window !== undefined) {
+            return await SecurityHandlerBase.decryptAESBrowser(base64AesKey, base64Nonce, JSON.parse(response).encData)
+        } 
 
         return SecurityHandlerBase.decryptAES(base64AesKey, base64Nonce, JSON.parse(response).encData)
     }

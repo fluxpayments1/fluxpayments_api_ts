@@ -26,11 +26,12 @@ import { RequestBodyBase } from "./RequestBodyBase"
 
 export class CreateSessionRequest extends RequestBodyBase{
     _account : FluxIdentifier
+    _otpl: string
 
     
-    public loadClientData(id: FluxIdentifier): void {
+    public loadClientData(id: FluxIdentifier, otpl?: string): void {
         this._account = id
-       
+        this._otpl = otpl
     }
     
 }

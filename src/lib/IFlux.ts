@@ -34,4 +34,5 @@ export interface IFlux {
     updateObjects<T extends FluxType>(prod: T | T[], s?: SecurityHandler): Promise<T[]>
     createObjectGeneric<T extends FluxType>(ob: T | T[], s?: SecurityHandler): Promise<FluxIdentifier[]>
     getObjectsById<T extends FluxType>(fi: FluxIdentifier | FluxIdentifier[], obType: new (o?: any) => T, obName: string): Promise<T[]>
+
 }
