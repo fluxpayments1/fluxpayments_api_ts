@@ -29,6 +29,7 @@ import { OneTimePaymentLink } from "./OneTimePaymentLink";
  * This is an object that is used to query for one_time_payment_links.
  */
 export class OneTimePaymentLinkQuery extends BaseQuery<OneTimePaymentLink> implements IOneTimePaymentLinkQuery {
+    public obName: string = "OneTimePaymentLink";
     public serialize() {
         return {
             id: this.id,

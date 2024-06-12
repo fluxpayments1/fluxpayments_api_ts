@@ -179,12 +179,24 @@ export abstract class FluxType {
     let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
     let secHandle = undefined;
     if ((q as any).accountSession) {
-        secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (q as any).accountSession)
+      secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (q as any).accountSession)
     }
 
     let obs = await f.getObjects<T, U>(q, secHandle)
     return obs;
-}
+  }
+
+
+  public static async createObjectsWeb<T extends FluxType>(ob: T | T[], cfs?: Flux<SecurityHandler>): Promise<T[]> {
+
+    let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
+    let secHandle = undefined;
+    if ((ob as any).accountSession) {
+      secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (ob as any).accountSession)
+    }
+    let obs: T[] = await f.createObjectGenericSafe<T>(ob, secHandle)
+    return obs;
+  }
 
   public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], cfs?: Flux<SecurityHandler>): Promise<FluxIdentifier[]> {
     let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()

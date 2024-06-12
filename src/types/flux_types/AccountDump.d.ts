@@ -13,6 +13,7 @@ export declare class AccountDump extends FluxType implements IAccount {
     metadata: string;
     accountEmail: string;
     accountUserType: AccountUserType;
+    phoneNumber: string;
     creationTime: Date;
     getInterface(): IAccount;
     constructor(accDump?: any);

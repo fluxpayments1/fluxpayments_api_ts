@@ -40,6 +40,7 @@ export class AccountDump extends FluxType implements IAccount {
     public metadata: string;
     public accountEmail: string;
     public accountUserType: AccountUserType;
+    public phoneNumber: string;
     public creationTime: Date;
 
     public getInterface(): IAccount {
@@ -51,7 +52,8 @@ export class AccountDump extends FluxType implements IAccount {
             firstName: this.firstName,
             middleName: this.middleName,
             lastName: this.lastName,
-            accountUserType: this.accountUserType
+            accountUserType: this.accountUserType,
+            phoneNumber: this.phoneNumber
         } as IAccount
     }
 

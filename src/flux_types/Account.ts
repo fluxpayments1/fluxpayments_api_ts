@@ -67,7 +67,8 @@ export class Account extends FluxType implements IAccount {
             defaultShippingAddressUniqueId: this.defaultShippingAddressUniqueId,
             defaultPaymentMethodId: this.defaultPaymentMethodId,
             defaultPaymentMethodUniqueId: this.defaultPaymentMethodUniqueId,
-            objectType : this.objectType
+            objectType : this.objectType,
+            phoneNumber: this.phoneNumber
         }
     }
 
@@ -80,6 +81,7 @@ export class Account extends FluxType implements IAccount {
     firstName: string;
     middleName: string;
     lastName: string;
+    phoneNumber: string;
     /**
      * Describes the type of the account
      */
