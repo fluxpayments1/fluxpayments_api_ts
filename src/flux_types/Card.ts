@@ -23,6 +23,7 @@
 import { SecurityHandler } from "../ajax/security/SecurityHandler";
 import { SensitiveClientDataSecurityHandle } from "../ajax/security/SensitiveClientDataSecurityHandle";
 import { Flux } from "../lib/Flux";
+import { Address } from "./Address";
 import { BaseQuery } from "./BaseQuery";
 import { FluxType } from "./FluxType";
 import { ICard } from "./ICard";
@@ -34,11 +35,13 @@ export class Card extends PaymentMethod implements ICard {
     public constructor (c : Partial<ICard>) {
         super(c)
         this.payType = "CARD"
+        
     }
     accountSession: string;
     lastFour?: string;
     expMonth: string;
     expYear: string;
+    address: Address;
     cardNumber: string;
     cvv: string;
 
@@ -58,6 +61,12 @@ export class Card extends PaymentMethod implements ICard {
     public static async createInstanceSafe(acc: Partial<ICard>) {
         let instance: Card = new Card(acc);
         let retVal = await PaymentMethod.createInstanceSafeDbCall(instance, acc)
+        return retVal;
+    }
+
+    public static async validateCard(acc: Partial<ICard>) {
+        let instance: Card = new Card(acc);
+        let retVal = await PaymentMethod.validatePaymentMethod(instance, acc)
         return retVal;
     }
 

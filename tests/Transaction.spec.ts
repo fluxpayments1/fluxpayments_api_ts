@@ -449,6 +449,8 @@ describe("Transaction tests basic", function ()  {
             products: [prod1]
         })
 
+
+
         console.log(transaction)
         
         await acc.delete();
@@ -809,6 +811,8 @@ describe("Transaction tests basic", function ()  {
         await acc.setDefaultPaymentMethod(paymentMethod1);
         await acc.setDefaultShippingAddress(add1);
 
+
+
         let transaction = await Transaction.createInstanceSafe({
             account: acc,
             products: [firstProd, secondProduct],
@@ -817,7 +821,7 @@ describe("Transaction tests basic", function ()  {
             currency: "AWG"
         })
 
-        console.log(transaction)
+
         
         assert.equal(transaction.currency, "AWG");
 

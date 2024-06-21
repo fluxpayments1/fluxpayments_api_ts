@@ -84,7 +84,14 @@ export async function flux(publicKey: string, privateKey: string, username: stri
 
 }
 
-export async function fluxBrowser(publicKey: string): Promise<Flux<GeneralSecurityHandle>> {
+export async function fluxBrowser(publicKey?: string): Promise<Flux<GeneralSecurityHandle>> {
+    
+    if (localStorage.getItem('exchangedKey')) {
+        let fma = Flux.getInstance<GeneralSecurityHandle>()
+        fma.securityHandle = new GeneralSecurityHandle(localStorage.getItem('exchangedKey'));
+        fma.isAuthenticated = true;
+        return fma;
+    }
 
     let fma = Flux.getInstance<GeneralSecurityHandle>()
     let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);

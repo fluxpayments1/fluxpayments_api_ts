@@ -23,5 +23,5 @@ export declare function fluxSocket(publicKey: string, privateKey: string, userna
  * @returns A Promise resolving to a Flux object that can be used to interact with the Flux API
  */
 export declare function flux(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<Flux<MerchantEndpointsSecurityHandle>>;
-export declare function fluxBrowser(publicKey: string): Promise<Flux<GeneralSecurityHandle>>;
+export declare function fluxBrowser(publicKey?: string): Promise<Flux<GeneralSecurityHandle>>;
 export declare function fluxGetter(): Flux<import("../ajax/security").SecurityHandler>;

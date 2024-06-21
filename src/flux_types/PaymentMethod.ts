@@ -30,7 +30,7 @@ import { IPaymentMethod } from "./IPaymentMethod";
 import { BaseQuery } from "./BaseQuery";
 import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
 import { SecurityHandlerBase } from "../ajax/security/SecurityHandlerBase";
-
+import { fluxBrowser } from "../lib/FluxEntry"
 
 
 export class PaymentMethod extends FluxType implements IPaymentMethod {
@@ -52,6 +52,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
     id: number;
     uniqueId: string;
     metadata: string;
+    
     activeStatus: any;
     token: string;
     version: number;
@@ -67,6 +68,51 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
     private aesNonce;
 
     protected objectType: string = "payment_method";
+
+    public static async validatePaymentMethod(pm: PaymentMethod, pt: any) {
+
+        delete pt.accountSession
+        delete pt.id
+        delete pt.uniqueId
+        delete pt.address
+        delete pt.metadata
+        delete pt.obName
+        delete pt.obType
+        delete pt.objectType
+        delete pt.firstName
+        delete pt.lastName
+        delete pt.payType
+
+        let f: Flux<SecurityHandler> = await fluxBrowser()
+
+
+        let secH: SecurityHandler = f.securityHandle
+
+        let aesKey = SecurityHandlerBase.genAesKey()
+        let aesNonce = SecurityHandlerBase.generateNonce();
+
+        console.log(pt)
+
+        let cardBase64 =  SecurityHandlerBase.utf8ToBase64(JSON.stringify(pt))
+        
+        
+        pm.encSensitiveData =  await SecurityHandlerBase.encryptAESBrowser(aesKey, aesNonce, cardBase64)
+        pm.encAesKey =  await SecurityHandlerBase.encryptRsaBrowser(secH.publicKey, aesKey);
+        pm.aesNonce = aesNonce
+
+        let secHandle = undefined
+        if (pm.accountSession) {
+            secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, pm.accountSession)
+        }
+
+
+
+        console.log("validating 5")
+
+        let obs = await f.validatePaymentMethod(pm, secHandle)
+        return obs;
+        
+    }
 
     protected static async createInstanceSafeDbCall (inst : PaymentMethod, pt: any) {
 

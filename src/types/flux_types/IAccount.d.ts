@@ -9,6 +9,6 @@ export interface IAccount {
     middleName?: string;
     isTaxExempt?: boolean;
     lastName?: string;
-    phoneNumber: string;
+    phoneNumber?: string;
     accountUserType: AccountUserType;
 }

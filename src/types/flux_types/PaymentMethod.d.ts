@@ -36,6 +36,7 @@ export declare class PaymentMethod extends FluxType implements IPaymentMethod {
     private encAesKey;
     private aesNonce;
     protected objectType: string;
+    static validatePaymentMethod(pm: PaymentMethod, pt: any): Promise<FluxIdentifier[]>;
     protected static createInstanceSafeDbCall(inst: PaymentMethod, pt: any): Promise<PaymentMethod>;
     constructor(c?: Partial<IPaymentMethod>);
     static updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]>;

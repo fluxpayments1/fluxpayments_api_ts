@@ -147,6 +147,12 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
   }
 
   public static utf8ToBase64(data: string) {
+
+    if (window !== undefined) {
+
+      return window.btoa(data);
+    }
+
     return Buffer.from(data, 'utf-8').toString("base64");
   }
 

@@ -19,6 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 import _cloneDeep from 'lodash/cloneDeep';
 import { FluxType } from './FluxType';
 import { IToken } from './IToken';
