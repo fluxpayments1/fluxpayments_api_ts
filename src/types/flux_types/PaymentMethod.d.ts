@@ -5,23 +5,28 @@ import { FluxIdentifier } from "./FluxIdentifier";
 import { FluxType } from "./FluxType";
 import { IPaymentMethod } from "./IPaymentMethod";
 import { BaseQuery } from "./BaseQuery";
+import { EmissionData } from "./EmissionData";
 export declare class PaymentMethod extends FluxType implements IPaymentMethod {
     obName: string;
     serialize(): {
         objectType: string;
         id: number;
         uniqueId: string;
+        firstName: string;
+        lastName: string;
         metadata: string;
         payType: any;
         address: Address;
         encSensitiveData: string;
         encAesKey: any;
         aesNonce: any;
+        lastFour: string;
     };
     address: Address;
     id: number;
     uniqueId: string;
     metadata: string;
+    lastFour: string;
     activeStatus: any;
     token: string;
     version: number;
@@ -36,7 +41,7 @@ export declare class PaymentMethod extends FluxType implements IPaymentMethod {
     private encAesKey;
     private aesNonce;
     protected objectType: string;
-    static validatePaymentMethod(pm: PaymentMethod, pt: any): Promise<FluxIdentifier[]>;
+    static validatePaymentMethod(pm: PaymentMethod, pt: any): Promise<EmissionData>;
     protected static createInstanceSafeDbCall(inst: PaymentMethod, pt: any): Promise<PaymentMethod>;
     constructor(c?: Partial<IPaymentMethod>);
     static updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]>;

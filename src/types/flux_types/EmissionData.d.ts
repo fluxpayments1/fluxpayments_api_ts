@@ -5,6 +5,8 @@ export declare class MulticastEmissionDataId {
 }
 export declare class EmissionData {
     private static readonly DEFAULT_MESSAGE_IDENTIFIER;
+    accountSessionIdentifierString: string;
+    additionalDataString: string;
     messageIdentifier: number;
     objectId?: number;
     id: MulticastEmissionDataId;

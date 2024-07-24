@@ -7,4 +7,4 @@ export { RequestBodyBase } from './Requests/RequestBodyBase'
 export { GeneralSecurityHandle } from './security/GeneralSecurityHandle'
 export { GenericGetterResponse } from './Responses/GenericGetterResponse'
 export { SensitiveClientDataSecurityHandle } from './security/SensitiveClientDataSecurityHandle'
-
+export { AccountDataSecurityHandle } from './security/AccountDataSecurityHandle'

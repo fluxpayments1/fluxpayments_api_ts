@@ -26,6 +26,8 @@ import { SecurityHandlerBase } from "../ajax/security/SecurityHandlerBase";
 import { Flux } from "./Flux";
 import { FluxSockets, FluxWebsockets } from "./FluxSockets";
 import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
+import { SensitiveClientDataSecurityHandle } from "../ajax/security/SensitiveClientDataSecurityHandle";
+import { AccountDataSecurityHandle } from "ajax/security/AccountDataSecurityHandle";
 
 
 /**
@@ -131,4 +133,11 @@ export function fluxGetter() {
 
 function isBrowserEnv() {
     return typeof window !== "undefined" && typeof window.document !== "undefined";
+}
+
+
+export async function fluxSocketBrowserSessionBased(secHandle: AccountDataSecurityHandle): Promise<FluxSockets> {
+    FluxWebsockets.initializeWebSecHandle(secHandle)
+    let fm = await FluxWebsockets.getInstance();
+    return fm
 }

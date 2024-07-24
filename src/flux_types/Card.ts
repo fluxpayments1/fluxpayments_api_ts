@@ -35,10 +35,13 @@ export class Card extends PaymentMethod implements ICard {
     public constructor (c : Partial<ICard>) {
         super(c)
         this.payType = "CARD"
-        
+        this.lastFour = c.lastFour;
+        this.expMonth = c.expMonth
+        this.expYear = c.expYear
+        this.cardNumber = c.cardNumber
+        this.cvv = c.cvv
     }
     accountSession: string;
-    lastFour?: string;
     expMonth: string;
     expYear: string;
     address: Address;
@@ -62,6 +65,22 @@ export class Card extends PaymentMethod implements ICard {
         let instance: Card = new Card(acc);
         let retVal = await PaymentMethod.createInstanceSafeDbCall(instance, acc)
         return retVal;
+    }
+
+    public static async createCard(acc: Partial<ICard>) {
+        let accCopy = JSON.parse(JSON.stringify(acc))
+        let instance: Card = new Card(acc);
+        let instance2: Card = new Card(accCopy);
+        let l = await PaymentMethod.validatePaymentMethod(instance, acc)
+        let additionalData = JSON.parse(l.additionalDataString)
+        if (additionalData?.success) {
+            let retVal = await PaymentMethod.createInstanceSafeDbCall(instance2, accCopy)
+            return retVal;
+        } else {
+            throw new Error("Card validation failed")
+        }
+
+
     }
 
     public static async validateCard(acc: Partial<ICard>) {

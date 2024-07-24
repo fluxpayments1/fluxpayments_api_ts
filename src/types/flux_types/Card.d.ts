@@ -8,7 +8,6 @@ import { PaymentMethod } from "./PaymentMethod";
 export declare class Card extends PaymentMethod implements ICard {
     constructor(c: Partial<ICard>);
     accountSession: string;
-    lastFour?: string;
     expMonth: string;
     expYear: string;
     address: Address;
@@ -24,6 +23,7 @@ export declare class Card extends PaymentMethod implements ICard {
      * @returns
      */
     static createInstanceSafe(acc: Partial<ICard>): Promise<PaymentMethod>;
-    static validateCard(acc: Partial<ICard>): Promise<import("./FluxIdentifier").FluxIdentifier[]>;
+    static createCard(acc: Partial<ICard>): Promise<PaymentMethod>;
+    static validateCard(acc: Partial<ICard>): Promise<import("./EmissionData").EmissionData>;
     static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]>;
 }

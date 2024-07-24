@@ -35,6 +35,7 @@ export class Product extends FluxType implements IProduct {
             id: this.id,
             metadata: this.metadata,
             name: this.name,
+            shippingFee: this.shippingFee,
             description: this.description,
             price: this.price,
             sku: this.sku,
@@ -65,6 +66,7 @@ export class Product extends FluxType implements IProduct {
     imageUrl: string;
     category: string;
     enableInventoryManagement: boolean;
+    shippingFee: number;
     enableBackorderedProducts: boolean;
     protected objectType: string = "product";
 

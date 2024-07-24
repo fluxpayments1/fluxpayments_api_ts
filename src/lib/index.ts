@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-export { flux, fluxSocket, fluxBrowser } from './FluxEntry'
+export { flux, fluxSocket, fluxBrowser, fluxSocketBrowserSessionBased } from './FluxEntry'
 export { IFlux } from './IFlux'
 export { Flux } from './Flux'
 export { FluxSockets, Subscription } from './FluxSockets'

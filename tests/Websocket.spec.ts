@@ -7,7 +7,6 @@ export const initializeFluxWebSocket = async () => {
     let fluxWebSocket = await fluxSocket("PK_ewRVuDFJEe61LwJCwKjwBA==", "Z6ZeNlcxdxd9j2Gc1eDwuxkfovDr33BdFaLXZ1y/1Fs=", "mac_98", "your_password");
     let enumKeys = Object.keys(Subscription)
     await fluxWebSocket.subscribe(enumKeys.map(e => Subscription[e]), ee => {
-        console.log(ee)
     });
 
     return fluxWebSocket

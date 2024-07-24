@@ -163,7 +163,6 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         ob: T | T[],
         secHandle?: SecurityHandler
     ): Promise<T[]> {
-
         let obName
         let obType
         if (Array.isArray(ob)) {
@@ -194,6 +193,11 @@ export class Flux<A extends SecurityHandler> implements IFlux {
     ): Promise<T[]> {
         let obType = query.attachedObject
         let name = new obType().obName
+
+        if ((query as any).accountSession) {
+            name += "SensitiveData"
+        }
+
         return CMMT.fetchGeneric<GenericGetterRequest<T, U>, GenericGetterResponse<T>, T>(
             GenericGetterRequest<T, U>,
             GenericGetterResponse<T>,

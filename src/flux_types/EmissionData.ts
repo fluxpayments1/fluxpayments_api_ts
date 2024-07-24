@@ -36,7 +36,8 @@ export class MulticastEmissionDataId {
 
 export class EmissionData {
     private static readonly DEFAULT_MESSAGE_IDENTIFIER: number = -1;
-
+    accountSessionIdentifierString: string;
+    additionalDataString: string;
     messageIdentifier: number = EmissionData.DEFAULT_MESSAGE_IDENTIFIER;
     objectId?: number;
     id: MulticastEmissionDataId;

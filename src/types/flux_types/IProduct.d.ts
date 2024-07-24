@@ -11,6 +11,8 @@ export interface IProduct {
     inventoryCount?: number;
     imageUrl?: string;
     category?: string;
+    shippingFee?: number;
+    serviceFee?: number;
     currency?: string;
     enableBackorderedProducts: boolean;
     enableInventoryManagement: boolean;

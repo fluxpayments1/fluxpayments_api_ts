@@ -40,6 +40,7 @@ export abstract class ResponseBodyBase implements ResponseBody {
 
     public sanitizeResults<T>(clazz: new (op? : any) => T, obj : any) {
         let basePropsSet = new Set(Object.keys(new clazz()));
+
         let keys = Object.keys(obj);
         for (let key of keys) {
             if (!basePropsSet.has(key) ) delete obj[key]

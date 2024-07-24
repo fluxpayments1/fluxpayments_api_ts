@@ -30,29 +30,36 @@ import { IPaymentMethod } from "./IPaymentMethod";
 import { BaseQuery } from "./BaseQuery";
 import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
 import { SecurityHandlerBase } from "../ajax/security/SecurityHandlerBase";
-import { fluxBrowser } from "../lib/FluxEntry"
+import { fluxBrowser, fluxSocketBrowserSessionBased } from "../lib/FluxEntry"
+import { AccountDataSecurityHandle } from "../ajax";
+import { Subscription } from "../lib/FluxSockets";
+import { EmissionData } from "./EmissionData";
 
 
 export class PaymentMethod extends FluxType implements IPaymentMethod {
+    
     public obName: string = "PaymentMethod";
     public serialize() {
         return {
             objectType: this.objectType,
             id: this.id,
             uniqueId: this.uniqueId,
+            firstName: this.firstName,
+            lastName: this.lastName,
             metadata: this.metadata,
             payType: this.payType,
             address: this.address,
             encSensitiveData: this.encSensitiveData,
             encAesKey: this.encAesKey,
-            aesNonce: this.aesNonce
+            aesNonce: this.aesNonce,
+            lastFour: this.lastFour
         }
     }
     address: Address
     id: number;
     uniqueId: string;
     metadata: string;
-    
+    lastFour: string;
     activeStatus: any;
     token: string;
     version: number;
@@ -69,48 +76,78 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
 
     protected objectType: string = "payment_method";
 
-    public static async validatePaymentMethod(pm: PaymentMethod, pt: any) {
+    public static async validatePaymentMethod(pm: PaymentMethod, pt: any): Promise<EmissionData> {
 
-        delete pt.accountSession
-        delete pt.id
-        delete pt.uniqueId
-        delete pt.address
-        delete pt.metadata
-        delete pt.obName
-        delete pt.obType
-        delete pt.objectType
-        delete pt.firstName
-        delete pt.lastName
-        delete pt.payType
+        return new Promise(async (resolve, reject) => {
 
-        let f: Flux<SecurityHandler> = await fluxBrowser()
+            delete pt.accountSession
+            delete pt.id
+            delete pt.uniqueId
+            delete pt.address
+            delete pt.metadata
+            delete pt.obName
+            delete pt.obType
+            delete pt.objectType
+            delete pt.firstName
+            delete pt.lastName
+            delete pt.payType
+    
+            let f: Flux<SecurityHandler> = await fluxBrowser()
+    
+    
+            let secH: SecurityHandler = f.securityHandle
+    
+            let aesKey = SecurityHandlerBase.genAesKey()
+            let aesNonce = SecurityHandlerBase.generateNonce();
+    
+    
+            let cardBase64 =  SecurityHandlerBase.utf8ToBase64(JSON.stringify(pt))
+            
+            
+            pm.encSensitiveData =  await SecurityHandlerBase.encryptAESBrowser(aesKey, aesNonce, cardBase64)
+            pm.encAesKey =  await SecurityHandlerBase.encryptRsaBrowser(secH.publicKey, aesKey);
+            pm.aesNonce = aesNonce
+    
+            let secHandle = undefined
+            if (pm.accountSession) {
+                secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, pm.accountSession)
+            } else {
+                throw new Error("must have an account session");
+            }
 
 
-        let secH: SecurityHandler = f.securityHandle
+    
+            fluxSocketBrowserSessionBased(new AccountDataSecurityHandle(f.securityHandle.publicKey, pm.accountSession)).then((a) => {
+                let resolved = false;
+                a.subscribe(Subscription.PAYMENT_VALIDATION, async (data: EmissionData) => {
+                    if (data.accountSessionIdentifierString === pm.accountSession) {
+                        await a.closeSocketAndListeners()
+                        resolved = true;
+                        resolve(data)
+                        return;
+                    }
+                }).then(async () => {
+                    setTimeout(() => {
+                        if (!resolved) reject(new Error("timeout"))
+                    }, 12000)
+                    try {
+                        await f.validatePaymentMethod(pm, secHandle)
+                    } catch (e) {
+                        reject(e)
+                        return
+                    }
+                })
+    
+    
+            })
+    
+    
+    
+    
+        })
 
-        let aesKey = SecurityHandlerBase.genAesKey()
-        let aesNonce = SecurityHandlerBase.generateNonce();
+  
 
-        console.log(pt)
-
-        let cardBase64 =  SecurityHandlerBase.utf8ToBase64(JSON.stringify(pt))
-        
-        
-        pm.encSensitiveData =  await SecurityHandlerBase.encryptAESBrowser(aesKey, aesNonce, cardBase64)
-        pm.encAesKey =  await SecurityHandlerBase.encryptRsaBrowser(secH.publicKey, aesKey);
-        pm.aesNonce = aesNonce
-
-        let secHandle = undefined
-        if (pm.accountSession) {
-            secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, pm.accountSession)
-        }
-
-
-
-        console.log("validating 5")
-
-        let obs = await f.validatePaymentMethod(pm, secHandle)
-        return obs;
         
     }
 
@@ -121,18 +158,25 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         delete pt.uniqueId
         delete pt.address
         delete pt.metadata
+        delete pt.firstName
+        delete pt.lastName
+        delete pt.payType
 
         
         let instance: PaymentMethod =  inst
 
-        let secH = await (await FluxType.getBackendConn()).securityHandle
+        let f: Flux<SecurityHandler> = await fluxBrowser()
+    
+    
+        let secH: SecurityHandler = f.securityHandle
+
 
         let aesKey = SecurityHandlerBase.genAesKey()
         let aesNonce = SecurityHandlerBase.generateNonce();
 
         let cardBase64 =  SecurityHandlerBase.utf8ToBase64(JSON.stringify(pt))
-        instance.encSensitiveData =  SecurityHandlerBase.encryptAES(aesKey, aesNonce, cardBase64)
-        instance.encAesKey =  SecurityHandlerBase.encryptRsa(secH.publicKey, aesKey);
+        instance.encSensitiveData = await SecurityHandlerBase.encryptAESBrowser(aesKey, aesNonce, cardBase64)
+        instance.encAesKey = await  SecurityHandlerBase.encryptRsaBrowser(secH.publicKey, aesKey);
         instance.aesNonce = aesNonce
 
         //Clear out memory for safety
@@ -143,14 +187,19 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         }
 
 
-        let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
-        let secHandle = undefined
-        if (instance.accountSession) {
-            secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, instance.accountSession)
 
+
+
+        let secHandle = undefined
+        if (inst.accountSession) {
+            secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, inst.accountSession)
+        } else {
+            throw new Error("must have an account session");
         }
 
+
         let obs = await PaymentMethod.createObjectsSafe(instance, secHandle)
+        console.log(obs[0])
         return obs[0]
 
     
@@ -169,7 +218,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         this.firstName = c.firstName
         this.lastName = c.lastName
         this.payType = c.payType
-
+        this.lastFour = c.lastFour
     }
 
     public static async updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]> {

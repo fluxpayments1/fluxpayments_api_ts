@@ -45,6 +45,7 @@ export class OneTimePaymentLink extends FluxType implements IOneTimePaymentLink 
             metadata: this.metadata,
             objectType: this.objectType,
             uniqueId: this.uniqueId,
+            paymentLink: this.paymentLink,
             accountId: this.accountId,
             products: this.products,
             accountEmail: this.accountEmail,
@@ -55,6 +56,7 @@ export class OneTimePaymentLink extends FluxType implements IOneTimePaymentLink 
     id: number;
     metadata: string;
     uniqueId: string;
+    paymentLink: string;
     accountId: number;
     status: string;
     accountEmail: string;

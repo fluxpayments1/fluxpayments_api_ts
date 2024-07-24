@@ -22,7 +22,7 @@
 
 import { SecurityHandlerBase } from "./SecurityHandlerBase";
 
-export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
+export class AccountDataSecurityHandle extends SecurityHandlerBase {
 
 
     private static nonceKeyMap : Map<string, string> = new Map();
@@ -57,7 +57,8 @@ export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
         }
 
         //Place nonce on map
-        SensitiveClientDataSecurityHandle.nonceKeyMap.set(base64Nonce, base64Key);
+        AccountDataSecurityHandle.nonceKeyMap.set(base64Nonce, base64Key);
+        headers.set("X-Request", `${base64EncKey}.${base64AccHeaderEnc}.${base64EncRequest}`);
         return "{\"encData\":" + "\"" + base64EncKey + "." + base64AccHeaderEnc + "." + base64EncRequest + "\"}"
     }
 
@@ -92,11 +93,11 @@ export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
         let base64Nonce = headers.get('X-Nonce');
         
 
-        let base64AesKey = SensitiveClientDataSecurityHandle.nonceKeyMap.get(base64LookupNonce);
+        let base64AesKey = AccountDataSecurityHandle.nonceKeyMap.get(base64LookupNonce);
 
         if (!base64AesKey) throw new Error("decryption error");
 
-        SensitiveClientDataSecurityHandle.nonceKeyMap.delete(base64LookupNonce)
+        AccountDataSecurityHandle.nonceKeyMap.delete(base64LookupNonce)
 
         if (window !== undefined) {
             return await SecurityHandlerBase.decryptAESBrowser(base64AesKey, base64Nonce, JSON.parse(response).encData)
@@ -110,7 +111,11 @@ export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
         let hdrs = new Map<string, string>();
         hdrs.set("X-Nonce", base64Nonce)
         hdrs.set("X-Key", this._publicKey);
-        hdrs.set("X-Conn-Type", "SensitiveClientDataSecurityHandle")
+        hdrs.set("X-Conn-Type", "AccountDataSecurityHandle")
+    
+        await this.encodeRequest("Hello world", hdrs);
+
+
         return hdrs;
     }
 

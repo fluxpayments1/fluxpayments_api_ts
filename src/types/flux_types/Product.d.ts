@@ -7,6 +7,7 @@ export declare class Product extends FluxType implements IProduct {
         id: number;
         metadata: string;
         name: string;
+        shippingFee: number;
         description: string;
         price: number;
         sku: string;
@@ -36,6 +37,7 @@ export declare class Product extends FluxType implements IProduct {
     imageUrl: string;
     category: string;
     enableInventoryManagement: boolean;
+    shippingFee: number;
     enableBackorderedProducts: boolean;
     protected objectType: string;
     constructor(prod?: Partial<IProduct>);
