@@ -6,7 +6,7 @@ npm install fluxpayments
 ```
 
 ## Configuration
-Register for an account and get your sandbox keys at https://portal.fluxpayments.com
+Register for an account and get your sandbox keys.
 
 ## Introduction
 
