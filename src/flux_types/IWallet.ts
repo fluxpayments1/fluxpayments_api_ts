@@ -19,13 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-export interface IOneTimePaymentLink {
-    id?: number;
-    metadata?: string;
-    uniqueId?: string;
-    liveStatus?: any;
-    removeOnSuccess?: any;
-    paymentLink?: string;
-    accountId?: number;
+export interface IWallet {
+    uniqueId?: string,
+    id?: number,
+    metadata?: string,
+    chain?: string,
+    active?: boolean
 }

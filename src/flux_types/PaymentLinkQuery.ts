@@ -21,15 +21,15 @@
  */
 
 import { BaseQuery } from "./BaseQuery";
-import { IOneTimePaymentLinkQuery } from "./IOneTimePaymentLinkQuery";
-import { OneTimePaymentLink } from "./OneTimePaymentLink";
+import { IPaymentLinkQuery } from "./IPaymentLinkQuery";
+import { PaymentLink } from "./PaymentLink";
 
 
 /**
  * This is an object that is used to query for one_time_payment_links.
  */
-export class OneTimePaymentLinkQuery extends BaseQuery<OneTimePaymentLink> implements IOneTimePaymentLinkQuery {
-    public obName: string = "OneTimePaymentLink";
+export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPaymentLinkQuery {
+    public obName: string = "PaymentLink";
     public serialize() {
         return {
             id: this.id,
@@ -49,17 +49,17 @@ export class OneTimePaymentLinkQuery extends BaseQuery<OneTimePaymentLink> imple
     removeOnSuccess: any;
     paymentLink: string;
     accountId: number;
-    protected objectType: string = "one_time_payment_link";
+    protected objectType: string = "payment_link";
 
-    public constructor(tokQ?: IOneTimePaymentLinkQuery) {
-        super(OneTimePaymentLink);
+    public constructor(tokQ?: IPaymentLinkQuery) {
+        super(PaymentLink);
         Object.assign(this, tokQ);
         // Add additional constructor logic here if needed
     }
 
     // Additional methods like getToken and parseToken can be added here
 
-    public static createQuery(ipq: IOneTimePaymentLinkQuery) {
-        return new OneTimePaymentLinkQuery(ipq);
+    public static createQuery(ipq: IPaymentLinkQuery) {
+        return new PaymentLinkQuery(ipq);
     }
 }

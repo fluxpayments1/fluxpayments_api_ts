@@ -13,17 +13,21 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         products: FluxIdentifier[];
         accountEmail: string;
         status: string;
+        redirectUrl: string;
+        oneTimeUse: boolean;
     };
     id: number;
     metadata: string;
     uniqueId: string;
     paymentLink: string;
+    redirectUrl: string;
+    oneTimeUse: boolean;
     accountId: number;
     status: string;
     accountEmail: string;
     products: FluxIdentifier[];
     protected objectType: string;
-    constructor(PaymentLink?: Partial<PaymentLink>);
+    constructor(pl?: Partial<PaymentLink>);
     static createInstanceLazy(acc: Partial<IPaymentLink>): Promise<PaymentLink>;
     static createInstanceSafe(acc: Partial<IPaymentLink>): Promise<PaymentLink>;
 }

@@ -1,10 +1,10 @@
 import { BaseQuery } from "./BaseQuery";
-import { IOneTimePaymentLinkQuery } from "./IOneTimePaymentLinkQuery";
-import { OneTimePaymentLink } from "./PaymentLink";
+import { IPaymentLinkQuery } from "./IPaymentLinkQuery";
+import { PaymentLink } from "./PaymentLink";
 /**
  * This is an object that is used to query for one_time_payment_links.
  */
-export declare class OneTimePaymentLinkQuery extends BaseQuery<OneTimePaymentLink> implements IOneTimePaymentLinkQuery {
+export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPaymentLinkQuery {
     obName: string;
     serialize(): {
         id: number;
@@ -24,6 +24,6 @@ export declare class OneTimePaymentLinkQuery extends BaseQuery<OneTimePaymentLin
     paymentLink: string;
     accountId: number;
     protected objectType: string;
-    constructor(tokQ?: IOneTimePaymentLinkQuery);
-    static createQuery(ipq: IOneTimePaymentLinkQuery): OneTimePaymentLinkQuery;
+    constructor(tokQ?: IPaymentLinkQuery);
+    static createQuery(ipq: IPaymentLinkQuery): PaymentLinkQuery;
 }

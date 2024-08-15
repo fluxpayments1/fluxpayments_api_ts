@@ -33,11 +33,11 @@
 
 import _cloneDeep from 'lodash/cloneDeep';
 import { FluxType } from './FluxType';
-import { IOneTimePaymentLink } from './IOneTimePaymentLink';
+import { IPaymentLink } from './IPaymentLink';
 import { FluxIdentifier } from './FluxIdentifier';
 
-export class OneTimePaymentLink extends FluxType implements IOneTimePaymentLink {
-    public obName: string = "OneTimePaymentLink";
+export class PaymentLink extends FluxType implements IPaymentLink {
+    public obName: string = "PaymentLink";
 
     public serialize() {
         return {
@@ -49,7 +49,9 @@ export class OneTimePaymentLink extends FluxType implements IOneTimePaymentLink 
             accountId: this.accountId,
             products: this.products,
             accountEmail: this.accountEmail,
-            status: this.status
+            status: this.status,
+            redirectUrl: this.redirectUrl,
+            oneTimeUse: this.oneTimeUse
         };
     }
 
@@ -57,22 +59,24 @@ export class OneTimePaymentLink extends FluxType implements IOneTimePaymentLink 
     metadata: string;
     uniqueId: string;
     paymentLink: string;
+    redirectUrl: string;
+    oneTimeUse: boolean;
     accountId: number;
     status: string;
     accountEmail: string;
     products: FluxIdentifier[];
-    protected objectType: string = "one_time_payment_link";
+    protected objectType: string = "payment_link";
 
-    public constructor(oneTimePaymentLink?: Partial<OneTimePaymentLink>) {
-        super(oneTimePaymentLink, OneTimePaymentLink);
-        Object.assign(this, oneTimePaymentLink)
+    public constructor(pl?: Partial<PaymentLink>) {
+        super(pl, PaymentLink);
+        Object.assign(this, pl)
     }
 
-    public static async createInstanceLazy(acc: Partial<IOneTimePaymentLink>) {
+    public static async createInstanceLazy(acc: Partial<IPaymentLink>) {
         return await FluxType.instantiateLazyInstance(acc, this)
     }
 
-    public static async createInstanceSafe(acc: Partial<IOneTimePaymentLink>) {
+    public static async createInstanceSafe(acc: Partial<IPaymentLink>) {
         return await FluxType.instantiateInstance(acc, this)
     }
 }

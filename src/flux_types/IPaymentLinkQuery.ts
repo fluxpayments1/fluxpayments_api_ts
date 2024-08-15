@@ -20,8 +20,8 @@
  * SOFTWARE.
  */
 
-import { IOneTimePaymentLink } from "./IOneTimePaymentLink";
+import { IPaymentLink } from "./IPaymentLink";
 import { ISearchOptions } from "./ISearchOptions";
 
 
-export type IOneTimePaymentLinkQuery = Partial<IOneTimePaymentLink> & Partial<ISearchOptions>;
+export type IPaymentLinkQuery = Partial<IPaymentLink> & Partial<ISearchOptions>;
