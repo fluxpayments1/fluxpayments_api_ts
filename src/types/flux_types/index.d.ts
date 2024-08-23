@@ -55,3 +55,5 @@ export { ProductDump } from './ProductDump';
 export { Card } from './Card';
 export { Wallet } from './Wallet';
 export { WalletQuery } from './WalletQuery';
+export { Currency } from './Currency';
+export { CurrencyQuery } from './CurrencyQuery';
