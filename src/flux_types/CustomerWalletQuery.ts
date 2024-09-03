@@ -20,21 +20,41 @@
  * SOFTWARE.
  */
 
-import { Account } from "./Account";
-import { Address } from "./Address";
-import { PaymentMethod } from "./PaymentMethod";
-import { Product } from "./Product";
+import { BaseQuery } from "./BaseQuery";
+import { CustomerWallet } from "./CustomerWallet";
+import { ICustomerWallet } from "./ICustomerWallet";
+import { ICustomerWalletQuery } from "./ICustomerWalletQuery";
+import { IWallet } from "./IWallet";
+import { IWalletQuery } from "./IWalletQuery";
+import { Wallet } from "./Wallet";
 
 
-export interface ITransaction {
-    account: Account;
-    paymentMethod: PaymentMethod;
-    id: number
-    uniqueId: string;
-    taxRate?: number;
-    currency: string;
-    currencyId: number;
-    shippingAddress: Address,
-    products: Product | Product[],
-    inventoryOnlyOrder?: boolean
+export class CustomerWalletQuery extends BaseQuery<CustomerWallet> implements ICustomerWalletQuery {
+    public serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            objectType: this.objectType,
+            chain: this.chain,
+            publicAddress: this.publicAddress
+        }
+    }
+    chain: string;
+    publicAddress;
+    metadata: string;
+    id: number;
+    uniqueId?: string;
+    protected objectType: string = "customer_wallet";
+
+    constructor(tokQ?: ICustomerWallet) {
+        super(CustomerWallet);
+        Object.assign(this, tokQ);
+
+    }
+
+
+    public static createQuery(ipq: ICustomerWallet) {
+        return new CustomerWalletQuery(ipq)
+    }
 }

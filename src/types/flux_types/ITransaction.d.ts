@@ -9,6 +9,7 @@ export interface ITransaction {
     uniqueId: string;
     taxRate?: number;
     currency: string;
+    currencyId: number;
     shippingAddress: Address;
     products: Product | Product[];
     inventoryOnlyOrder?: boolean;

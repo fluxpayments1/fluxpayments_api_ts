@@ -20,21 +20,47 @@
  * SOFTWARE.
  */
 
-import { Account } from "./Account";
-import { Address } from "./Address";
-import { PaymentMethod } from "./PaymentMethod";
-import { Product } from "./Product";
+import _cloneDeep from 'lodash/cloneDeep';
+import { FluxType } from './FluxType';
+import { ICustomerWallet } from './ICustomerWallet';
 
+export class CustomerWallet extends FluxType implements ICustomerWallet {
+    public obName: string = "CustomerWallet";
 
-export interface ITransaction {
-    account: Account;
-    paymentMethod: PaymentMethod;
-    id: number
+    public serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            publicAddress: this.publicAddress,
+            chain: this.chain,
+            objectType: "customer_wallet"
+        }
+    }
+
+    publicAddress: string;
+    chain: string
+    id: number;
     uniqueId: string;
-    taxRate?: number;
-    currency: string;
-    currencyId: number;
-    shippingAddress: Address,
-    products: Product | Product[],
-    inventoryOnlyOrder?: boolean
+    metadata: string;
+    protected objectType: string = "customer_wallet";
+
+
+
+    public constructor(wallet?: Partial<ICustomerWallet>) {
+        super(wallet, CustomerWallet);
+
+        if (!wallet) return;
+
+        Object.assign(this, wallet);
+    }
+
+    public static async createInstanceLazy(acc: Partial<ICustomerWallet>) {
+        return await FluxType.instantiateLazyInstance(acc, this)
+    }
+
+    public static async createInstanceSafe(acc: Partial<ICustomerWallet>) {
+        return await FluxType.instantiateInstance(acc, this)
+    }
+
 }
