@@ -9,8 +9,10 @@ import { PaymentMethod } from "./PaymentMethod";
 import { Product } from "./Product";
 export declare class Transaction extends FluxType implements ITransaction {
     obName: string;
+    txnHash: string;
     static createInstanceLazy(acc: Partial<ITransaction>): Promise<Transaction>;
     static createInstanceSafe(acc: Partial<ITransaction>): Promise<Transaction>;
+    approvalStatus: string;
     inventoryOnlyOrder: boolean;
     account: Account;
     shippingAddressDumpId: number;
@@ -21,9 +23,12 @@ export declare class Transaction extends FluxType implements ITransaction {
     accountId: number;
     accountUniqueId: string;
     accountDumpId: number;
+    confidenceLevel: number;
     paymentMethodId: number;
     paymentMethodUniqueId: string;
     uniqueId: string;
+    chainNumber: number;
+    defaultCurrencyAmount: number;
     taxRate: number;
     currency: string;
     currencyId: number;
@@ -127,8 +132,13 @@ export declare class Transaction extends FluxType implements ITransaction {
         accountUniqueId: string;
         paymentMethodId: number;
         paymentMethodUniqueId: string;
+        chainNumber: number;
         uniqueId: string;
+        defaultCurrencyAmount: number;
+        confidenceLevel: number;
+        txnHash: string;
         taxRate: number;
+        approvalStatus: string;
         currency: string;
         currencyId: number;
         objectType: string;

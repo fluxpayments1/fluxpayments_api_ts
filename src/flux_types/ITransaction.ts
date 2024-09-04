@@ -32,7 +32,12 @@ export interface ITransaction {
     id: number
     uniqueId: string;
     taxRate?: number;
+    chainNumber: number;
+    defaultCurrencyAmount: number;
+    confidenceLevel: number;
     currency: string;
+    approvalStatus: string;
+    txnHash: string;
     currencyId: number;
     shippingAddress: Address,
     products: Product | Product[],

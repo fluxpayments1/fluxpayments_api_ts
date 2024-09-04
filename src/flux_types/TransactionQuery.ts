@@ -43,31 +43,40 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             accountVersion: this.accountVersion,
             paymentMethodAddressVersion: this.paymentMethodAddressVersion,
             inventoryOnlyOrder: this.inventoryOnlyOrder,
+            confidenceLevel: this.confidenceLevel,
             paymentMethodAddressDumpId: this.paymentMethodAddressDumpId,
             paymentMethodAddressId: this.paymentMethodAddressId,
             uniqueId: this.uniqueId,
+            chainNumber: this.chainNumber,
             taxRate: this.taxRate,
             taxAmount: this.taxAmount,
             amount: this.amount,
             activeStatus: this.activeStatus,
+            defaultCurrencyAmount: this.defaultCurrencyAmount,
             currency: this.currency,
             transactionStatus: this.transactionStatus,
             shippingAddressId: this.shippingAddressId,
             shippingAddressDumpId: this.shippingAddressDumpId,
             shippingAddressVersion: this.shippingAddressVersion,
+            txnHash: this.txnHash,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
             objectType: this.objectType,
             hasBackOrderedProducts: this.hasBackOrderedProducts,
             baseTransaction: this.baseTransaction,
+            approvalStatus: this.approvalStatus,
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions
         }
     }
+    txnHash: string;
     id: number;
     email: string;
     cardBrandId: string;
     version: number;
+    chainNumber: number;
+    approvalStatus: string;
+    confidenceLevel: number;
     metadata: string;
     accountId: number;
     accountDumpId: number;
@@ -88,6 +97,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
     activeStatus: any;
     currency: string;
     transactionStatus: any;
+    defaultCurrencyAmount: number;
     shippingAddressId: number;
     shippingAddressDumpId: number;
     shippingAddressVersion: number;

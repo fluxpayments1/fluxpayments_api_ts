@@ -38,6 +38,7 @@ import { ProductDump } from "./ProductDump";
 
 export class Transaction extends FluxType implements ITransaction {
     public obName: string = "Transaction";
+    txnHash: string;
     public static async createInstanceLazy(acc: Partial<ITransaction>) {
         return await FluxType.instantiateLazyInstance(acc, this)
     }
@@ -46,6 +47,7 @@ export class Transaction extends FluxType implements ITransaction {
         return await FluxType.instantiateInstance(acc, this)
     }
 
+    approvalStatus: string;
     inventoryOnlyOrder: boolean;
     account: Account;
     shippingAddressDumpId: number;
@@ -56,9 +58,12 @@ export class Transaction extends FluxType implements ITransaction {
     accountId: number;
     accountUniqueId: string;
     accountDumpId: number;
+    confidenceLevel: number;
     paymentMethodId: number;
     paymentMethodUniqueId: string;
     uniqueId: string;
+    chainNumber: number;
+    defaultCurrencyAmount: number;
     taxRate: number;
     currency: string;
     currencyId: number;
@@ -283,8 +288,13 @@ export class Transaction extends FluxType implements ITransaction {
             accountUniqueId: this.accountUniqueId,
             paymentMethodId: this.paymentMethodId,
             paymentMethodUniqueId: this.paymentMethodUniqueId,
+            chainNumber: this.chainNumber,
             uniqueId: this.uniqueId,
+            defaultCurrencyAmount: this.defaultCurrencyAmount,
+            confidenceLevel: this.confidenceLevel,
+            txnHash: this.txnHash,
             taxRate: this.taxRate,
+            approvalStatus: this.approvalStatus,
             currency: this.currency,
             currencyId: this.currencyId,
             objectType: this.objectType,
