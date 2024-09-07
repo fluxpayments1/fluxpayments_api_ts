@@ -36,6 +36,7 @@ import { FluxType } from './FluxType';
 import { IPaymentLink } from './IPaymentLink';
 import { FluxIdentifier } from './FluxIdentifier';
 import { Product } from './Product';
+import { Currency } from './Currency';
 
 export class PaymentLink extends FluxType implements IPaymentLink {
     public obName: string = "PaymentLink";
@@ -49,6 +50,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             paymentLink: this.paymentLink,
             accountId: this.accountId,
             products: this.products,
+            currencies: this.currencies,
             accountEmail: this.accountEmail,
             status: this.status,
             redirectUrl: this.redirectUrl,
@@ -66,6 +68,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     status: string;
     accountEmail: string;
     products: Product[];
+    currencies : Currency[];
     protected objectType: string = "payment_link";
 
     public constructor(pl?: Partial<PaymentLink>) {

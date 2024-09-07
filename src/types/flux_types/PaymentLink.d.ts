@@ -1,6 +1,7 @@
 import { FluxType } from './FluxType';
 import { IPaymentLink } from './IPaymentLink';
 import { Product } from './Product';
+import { Currency } from './Currency';
 export declare class PaymentLink extends FluxType implements IPaymentLink {
     obName: string;
     serialize(): {
@@ -11,6 +12,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         paymentLink: string;
         accountId: number;
         products: Product[];
+        currencies: Currency[];
         accountEmail: string;
         status: string;
         redirectUrl: string;
@@ -26,6 +28,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     status: string;
     accountEmail: string;
     products: Product[];
+    currencies: Currency[];
     protected objectType: string;
     constructor(pl?: Partial<PaymentLink>);
     static createInstanceLazy(acc: Partial<IPaymentLink>): Promise<PaymentLink>;
