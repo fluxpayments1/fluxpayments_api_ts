@@ -35,6 +35,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import { FluxType } from './FluxType';
 import { IPaymentLink } from './IPaymentLink';
 import { FluxIdentifier } from './FluxIdentifier';
+import { Product } from './Product';
 
 export class PaymentLink extends FluxType implements IPaymentLink {
     public obName: string = "PaymentLink";
@@ -64,7 +65,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     accountId: number;
     status: string;
     accountEmail: string;
-    products: FluxIdentifier[];
+    products: Product[];
     protected objectType: string = "payment_link";
 
     public constructor(pl?: Partial<PaymentLink>) {

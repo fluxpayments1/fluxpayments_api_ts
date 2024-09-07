@@ -40,7 +40,6 @@ export class GenericGetterResponse<T extends FluxType> extends ResponseBodyBase 
     }
 
     public getClientReturnValue(): T[] {
-        console.log(this._objects)
 
         if (this._objects)
 

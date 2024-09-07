@@ -199,7 +199,6 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
 
 
         let obs = await PaymentMethod.createObjectsSafe(instance, secHandle)
-        console.log(obs[0])
         return obs[0]
 
     
