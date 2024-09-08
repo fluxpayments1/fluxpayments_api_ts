@@ -2,6 +2,7 @@ import { FluxType } from './FluxType';
 import { IPaymentLink } from './IPaymentLink';
 import { Product } from './Product';
 import { Currency } from './Currency';
+import { Wallet } from './Wallet';
 export declare class PaymentLink extends FluxType implements IPaymentLink {
     obName: string;
     serialize(): {
@@ -12,12 +13,14 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         paymentLink: string;
         accountId: number;
         products: Product[];
+        wallets: Wallet[];
         currencies: Currency[];
         accountEmail: string;
         status: string;
         redirectUrl: string;
         oneTimeUse: boolean;
     };
+    wallets: Wallet[];
     id: number;
     metadata: string;
     uniqueId: string;
