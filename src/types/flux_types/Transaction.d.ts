@@ -29,6 +29,7 @@ export declare class Transaction extends FluxType implements ITransaction {
     uniqueId: string;
     chainNumber: number;
     defaultCurrencyAmount: number;
+    paymentLinkId: number;
     taxRate: number;
     currency: string;
     currencyId: number;
@@ -141,6 +142,7 @@ export declare class Transaction extends FluxType implements ITransaction {
         approvalStatus: string;
         currency: string;
         currencyId: number;
+        paymentLinkId: number;
         objectType: string;
         shippingAddressId: number;
         shippingAddressUniqueId: string;

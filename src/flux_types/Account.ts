@@ -86,7 +86,7 @@ export class Account extends FluxType implements IAccount {
      * Describes the type of the account
      */
     accountUserType: AccountUserType;
-    private defaultShippingAddressId: number;
+    defaultShippingAddressId: number;
     private defaultShippingAddressUniqueId: string;
     private defaultPaymentMethodId: number;
     private defaultPaymentMethodUniqueId: string;

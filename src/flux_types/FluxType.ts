@@ -205,7 +205,11 @@ export abstract class FluxType {
 
   public static async updateObjects<T extends FluxType>(ob: T | T[], cfs?: Flux<SecurityHandler>): Promise<T[]> {
     let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
-    let obs = await f.updateObjects<T>(ob)
+    let secHandle = undefined;
+    if ((ob as any).accountSession) {
+      secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (ob as any).accountSession)
+    }
+    let obs = await f.updateObjects<T>(ob, secHandle)
     return obs;
   }
 

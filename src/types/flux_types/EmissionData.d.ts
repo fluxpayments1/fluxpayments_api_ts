@@ -1,3 +1,4 @@
+import { FluxType } from "./FluxType";
 export declare class MulticastEmissionDataId {
     uuid: string;
     sequenceNumber: number;
@@ -14,7 +15,7 @@ export declare class EmissionData {
     notifyType?: string;
     resyncRequired?: boolean;
     notifyObjectType?: string;
-    associatedData: string;
+    associatedData: FluxType;
     constructor(obj: any);
     getFluxType(): any;
     toJSON(): string;

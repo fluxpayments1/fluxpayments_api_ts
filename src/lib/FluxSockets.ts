@@ -48,7 +48,8 @@ export enum Subscription {
     TOKEN_CREATE = "TOKEN.CREATE",
     TOKEN_UPDATE = "TOKEN.UPDATE",
     TOKEN_DELETE = "TOKEN.DELETE",
-    PAYMENT_VALIDATION = "PAYMENT_METHOD.VALIDATION"
+    PAYMENT_VALIDATION = "PAYMENT_METHOD.VALIDATION",
+    PAYMENT_LINK_UPDATE = "PAYMENT_LINK.UPDATE"
 }
 
 export interface FluxSockets {
@@ -137,6 +138,7 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
         this.expectingConnectionClose = true;
         this.websocketConnection.removeAllListeners()
         this.websocketConnection.close()
+        this.removeAllListeners()
     }
 
     public static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string) {
@@ -150,10 +152,33 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
 
 
     private async initializeConnection() {
-        this.websocketConnection = await CMMT.initializeWebSocketConnection(
-            "subscribe",
-            FluxWebsockets.initializationSecHandler
-        )
+
+        try {
+            this.websocketConnection = await CMMT.initializeWebSocketConnection(
+                "subscribe",
+                FluxWebsockets.initializationSecHandler
+            )
+        } catch (e) {
+            console.log("here in error", e)
+            setTimeout(() => this.initializeConnection(), 1000)
+            return;
+        }
+
+
+        if (this.eventNames().length !== 0) {
+            let msg: AddSubscriptionResponse = await CMMT.sendWsCommMessage(
+                this.websocketConnection,
+                AddSubscriptionRequest,
+                AddSubscriptionResponse,
+                this.generalSecHandler,
+                this.eventNames(),
+                true
+            );
+
+            if (msg.status !== 200) throw new Error("could not subscribe")
+
+        }
+
 
         if (typeof window !== 'undefined') {
 
@@ -174,6 +199,10 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
 
             this.websocketConnection.onerror = (err) => {
                 console.log("websocket error", err)
+                console.log('websocket closed, reopening')
+                if (!this.expectingConnectionClose) {
+                    setTimeout(() => this.initializeConnection(), 1000)
+                }
             }
 
 

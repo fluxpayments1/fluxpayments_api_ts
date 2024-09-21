@@ -21,7 +21,8 @@ export declare enum Subscription {
     TOKEN_CREATE = "TOKEN.CREATE",
     TOKEN_UPDATE = "TOKEN.UPDATE",
     TOKEN_DELETE = "TOKEN.DELETE",
-    PAYMENT_VALIDATION = "PAYMENT_METHOD.VALIDATION"
+    PAYMENT_VALIDATION = "PAYMENT_METHOD.VALIDATION",
+    PAYMENT_LINK_UPDATE = "PAYMENT_LINK.UPDATE"
 }
 export interface FluxSockets {
     closeSocketAndListeners(): any;

@@ -45,7 +45,7 @@ export class EmissionData {
     notifyType?: string;
     resyncRequired?: boolean;
     notifyObjectType?: string;
-    associatedData: string
+    associatedData: FluxType
 
 
     constructor(obj) {

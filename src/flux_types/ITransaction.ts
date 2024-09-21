@@ -33,6 +33,7 @@ export interface ITransaction {
     uniqueId: string;
     taxRate?: number;
     chainNumber: number;
+    paymentLinkId: number;
     defaultCurrencyAmount: number;
     confidenceLevel: number;
     currency: string;

@@ -102,8 +102,12 @@ export class CMMT {
                 ws.onopen = () => {
                     ws.send(JSON.stringify(hdrs))
                     resolve(ws);
-
                 }
+
+                ws.onerror = e => {
+                    reject(e)
+                }
+
     
                 
             } catch (e) {
