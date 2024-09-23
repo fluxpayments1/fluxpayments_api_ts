@@ -51,7 +51,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             paymentLink: this.paymentLink,
             accountId: this.accountId,
             products: this.products,
-            emailNotificationEnabled: this.emailNotificationEnabled,
+            emailNotificationDisabled: this.emailNotificationDisabled,
             serviceFee: this.serviceFee,
             taxRatesId: this.taxRatesId,
             wallets: this.wallets,
@@ -80,7 +80,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     requireShippingAddress: boolean;
     redirectUrl: string;
     oneTimeUse: boolean;
-    emailNotificationEnabled: boolean;
+    emailNotificationDisabled: boolean;
     accountId: number;
     status: string;
     accountEmail: string;

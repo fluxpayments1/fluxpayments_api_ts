@@ -43,5 +43,5 @@ export interface IPaymentLink {
     removeOnSuccess?: any;
     paymentLink?: string;
     accountId?: number;
-    emailNotificationEnabled: boolean;
+    emailNotificationDisabled: boolean;
 }

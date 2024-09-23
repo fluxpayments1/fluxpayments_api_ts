@@ -13,7 +13,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         paymentLink: string;
         accountId: number;
         products: Product[];
-        emailNotificationEnabled: boolean;
+        emailNotificationDisabled: boolean;
         serviceFee: number;
         taxRatesId: number;
         wallets: Wallet[];
@@ -41,7 +41,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     requireShippingAddress: boolean;
     redirectUrl: string;
     oneTimeUse: boolean;
-    emailNotificationEnabled: boolean;
+    emailNotificationDisabled: boolean;
     accountId: number;
     status: string;
     accountEmail: string;
