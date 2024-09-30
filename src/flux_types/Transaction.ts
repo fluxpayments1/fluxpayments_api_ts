@@ -58,6 +58,7 @@ export class Transaction extends FluxType implements ITransaction {
     accountId: number;
     accountUniqueId: string;
     accountDumpId: number;
+    taxRateId: number;
     confidenceLevel: number;
     paymentMethodId: number;
     paymentMethodUniqueId: string;
@@ -295,7 +296,9 @@ export class Transaction extends FluxType implements ITransaction {
             confidenceLevel: this.confidenceLevel,
             txnHash: this.txnHash,
             taxRate: this.taxRate,
+            taxRateId: this.taxRateId,
             approvalStatus: this.approvalStatus,
+            
             currency: this.currency,
             currencyId: this.currencyId,
             paymentLinkId: this.paymentLinkId,

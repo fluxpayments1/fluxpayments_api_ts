@@ -23,6 +23,7 @@ export declare class Transaction extends FluxType implements ITransaction {
     accountId: number;
     accountUniqueId: string;
     accountDumpId: number;
+    taxRateId: number;
     confidenceLevel: number;
     paymentMethodId: number;
     paymentMethodUniqueId: string;
@@ -139,6 +140,7 @@ export declare class Transaction extends FluxType implements ITransaction {
         confidenceLevel: number;
         txnHash: string;
         taxRate: number;
+        taxRateId: number;
         approvalStatus: string;
         currency: string;
         currencyId: number;

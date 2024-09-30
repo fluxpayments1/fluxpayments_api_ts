@@ -8,6 +8,7 @@ export interface ITransaction {
     id: number;
     uniqueId: string;
     taxRate?: number;
+    taxRateId: number;
     chainNumber: number;
     paymentLinkId: number;
     defaultCurrencyAmount: number;

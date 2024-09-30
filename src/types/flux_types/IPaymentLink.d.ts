@@ -10,7 +10,7 @@ export interface IPaymentLink {
     taxRatesId: number;
     requireShippingAddress: boolean;
     currentStatus: string;
-    serviceFee: number;
+    serviceFeeRate: number;
     liveStatus?: any;
     wallets?: Wallet[];
     currencies?: Currency[];

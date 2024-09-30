@@ -41,6 +41,6 @@ export class GenericUpdaterRequest<T extends FluxType> extends RequestBodyBase {
     
     public loadClientData(product: T | T[]): void {
         this.updatedObjects = Array.isArray(product) ? product : [product];
-        this._updatedObjects = this._updatedObjects.map(e => {return e.serialize()})
+        this._updatedObjects = this._updatedObjects.map(e => {return this.serializeRecursively(e)})
     }
 }

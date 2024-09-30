@@ -52,7 +52,9 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             accountId: this.accountId,
             products: this.products,
             emailNotificationDisabled: this.emailNotificationDisabled,
-            serviceFee: this.serviceFee,
+            updateAccInfo: this.updateAccInfo,
+            updateAddInfo: this.updateAddInfo,
+            serviceFeeRate: this.serviceFeeRate,
             taxRatesId: this.taxRatesId,
             wallets: this.wallets,
             currencies: this.currencies,
@@ -70,7 +72,9 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     id: number;
     metadata: string;
     uniqueId: string;
-    serviceFee: number;
+    updateAccInfo: boolean;
+    updateAddInfo: boolean
+    serviceFeeRate: number;
     taxRatesId: number;
     requireAccountInformation: boolean
     confidenceLevel: number;
