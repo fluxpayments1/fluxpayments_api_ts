@@ -30,6 +30,7 @@ export abstract class BaseQuery<T extends FluxType> {
     }
     conditional: "OR" | "AND";
     attachedObject: new (o?: any) => T
+    createdAt: number;
     pagination : PaginationSupport;
     additionalSearchOptions: AdditionalSearchOptions[];
     lookupPage: string | undefined;

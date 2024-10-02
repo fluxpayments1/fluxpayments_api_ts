@@ -55,6 +55,7 @@ export class Transaction extends FluxType implements ITransaction {
     shippingAddress: Address;
     paymentMethod: PaymentMethod;
     paymentMethodAddressId: number;
+    createdAt: number;
     accountId: number;
     accountUniqueId: string;
     accountDumpId: number;
@@ -298,7 +299,7 @@ export class Transaction extends FluxType implements ITransaction {
             taxRate: this.taxRate,
             taxRateId: this.taxRateId,
             approvalStatus: this.approvalStatus,
-            
+            createdAt: this.createdAt,
             currency: this.currency,
             currencyId: this.currencyId,
             paymentLinkId: this.paymentLinkId,

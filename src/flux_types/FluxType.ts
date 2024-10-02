@@ -48,7 +48,7 @@ async function loadFluxGetter() {
 export abstract class FluxType {
   public dataTableMetadata;
   uniqueId: string
-  public createdAt: Date;
+  public createdAt: number;
   public updatedAt: Date;
   public obType: new (o?: any) => this;
   public abstract obName: string

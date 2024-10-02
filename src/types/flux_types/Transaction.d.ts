@@ -20,6 +20,7 @@ export declare class Transaction extends FluxType implements ITransaction {
     shippingAddress: Address;
     paymentMethod: PaymentMethod;
     paymentMethodAddressId: number;
+    createdAt: number;
     accountId: number;
     accountUniqueId: string;
     accountDumpId: number;
@@ -142,6 +143,7 @@ export declare class Transaction extends FluxType implements ITransaction {
         taxRate: number;
         taxRateId: number;
         approvalStatus: string;
+        createdAt: number;
         currency: string;
         currencyId: number;
         paymentLinkId: number;

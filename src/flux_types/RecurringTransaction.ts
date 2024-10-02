@@ -23,6 +23,7 @@
 import _cloneDeep from 'lodash/cloneDeep';
 import { FluxType } from './FluxType';
 import { IRecurringTransaction } from './IRecurringTransaction';
+import { PaymentLink } from './PaymentLink';
 
 export class RecurringTransaction extends FluxType implements IRecurringTransaction {
     public obName: string = "RecurringTransaction";
@@ -36,9 +37,12 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
             recurringAmount: this.recurringAmount,
             recurringTaxAmount: this.recurringTaxAmount,
             originalTransactionId: this.originalTransactionId,
+            accountId: this.accountId,
             productId: this.productId,
             productDumpId: this.productDumpId,
             otplId: this.otplId,
+            nextProcessDate: this.nextProcessDate,
+            paymentLinks : this.paymentLinks,
             status: this.status,
         };
     }
@@ -48,7 +52,10 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
     uniqueId: string;
     recurringAmount: number;
     recurringTaxAmount: number;
+    nextProcessDate: Date;
     originalTransactionId: number;
+    accountId: number;
+    paymentLinks : PaymentLink[]
     productId: number;
     productDumpId: number;
     otplId: number;

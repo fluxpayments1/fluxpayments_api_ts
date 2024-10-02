@@ -1,5 +1,6 @@
 import { FluxType } from './FluxType';
 import { IRecurringTransaction } from './IRecurringTransaction';
+import { PaymentLink } from './PaymentLink';
 export declare class RecurringTransaction extends FluxType implements IRecurringTransaction {
     obName: string;
     serialize(): {
@@ -10,9 +11,12 @@ export declare class RecurringTransaction extends FluxType implements IRecurring
         recurringAmount: number;
         recurringTaxAmount: number;
         originalTransactionId: number;
+        accountId: number;
         productId: number;
         productDumpId: number;
         otplId: number;
+        nextProcessDate: Date;
+        paymentLinks: PaymentLink[];
         status: any;
     };
     id: number;
@@ -20,7 +24,10 @@ export declare class RecurringTransaction extends FluxType implements IRecurring
     uniqueId: string;
     recurringAmount: number;
     recurringTaxAmount: number;
+    nextProcessDate: Date;
     originalTransactionId: number;
+    accountId: number;
+    paymentLinks: PaymentLink[];
     productId: number;
     productDumpId: number;
     otplId: number;

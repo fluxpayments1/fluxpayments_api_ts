@@ -5,6 +5,7 @@ export declare abstract class BaseQuery<T extends FluxType> {
     constructor(attObject: new (o?: any) => T);
     conditional: "OR" | "AND";
     attachedObject: new (o?: any) => T;
+    createdAt: number;
     pagination: PaginationSupport;
     additionalSearchOptions: AdditionalSearchOptions[];
     lookupPage: string | undefined;

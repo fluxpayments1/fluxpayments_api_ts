@@ -5,7 +5,7 @@ import { FluxIdentifier } from "./FluxIdentifier";
 export declare abstract class FluxType {
     dataTableMetadata: any;
     uniqueId: string;
-    createdAt: Date;
+    createdAt: number;
     updatedAt: Date;
     obType: new (o?: any) => this;
     abstract obName: string;
