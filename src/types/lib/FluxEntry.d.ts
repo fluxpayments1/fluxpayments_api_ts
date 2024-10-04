@@ -2,7 +2,7 @@ import { MerchantEndpointsSecurityHandle } from "../ajax/security/MerchantEndpoi
 import { Flux } from "./Flux";
 import { FluxSockets } from "./FluxSockets";
 import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
-import { AccountDataSecurityHandle } from "ajax/security/AccountDataSecurityHandle";
+import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityHandle";
 /**
  * Initializes a connection to the flux websocket.
  *

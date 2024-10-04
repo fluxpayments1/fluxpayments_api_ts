@@ -20,9 +20,13 @@
 
   ↳ [`AddressQuery`](AddressQuery.AddressQuery.md)
 
+  ↳ [`CurrencyQuery`](CurrencyQuery.CurrencyQuery.md)
+
+  ↳ [`CustomerWalletQuery`](CustomerWalletQuery.CustomerWalletQuery.md)
+
   ↳ [`InstallmentTransactionQuery`](InstallmentTransactionQuery.InstallmentTransactionQuery.md)
 
-  ↳ [`OneTimePaymentLinkQuery`](OneTimePaymentLinkQuery.OneTimePaymentLinkQuery.md)
+  ↳ [`PaymentLinkQuery`](PaymentLinkQuery.PaymentLinkQuery.md)
 
   ↳ [`PaymentMethodQuery`](PaymentMethodQuery.PaymentMethodQuery.md)
 
@@ -33,6 +37,8 @@
   ↳ [`TokenQuery`](TokenQuery.TokenQuery.md)
 
   ↳ [`TransactionQuery`](TransactionQuery.TransactionQuery.md)
+
+  ↳ [`WalletQuery`](WalletQuery.WalletQuery.md)
 
 ## Table of contents
 
@@ -45,6 +51,7 @@
 - [additionalSearchOptions](BaseQuery.BaseQuery.md#additionalsearchoptions)
 - [attachedObject](BaseQuery.BaseQuery.md#attachedobject)
 - [conditional](BaseQuery.BaseQuery.md#conditional)
+- [createdAt](BaseQuery.BaseQuery.md#createdat)
 - [lookupPage](BaseQuery.BaseQuery.md#lookuppage)
 - [objectType](BaseQuery.BaseQuery.md#objecttype)
 - [pagination](BaseQuery.BaseQuery.md#pagination)
@@ -77,7 +84,7 @@
 
 #### Defined in
 
-[BaseQuery.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L5)
+[BaseQuery.d.ts:5](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L5)
 
 ## Properties
 
@@ -87,7 +94,7 @@
 
 #### Defined in
 
-[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L9)
+[BaseQuery.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L10)
 
 ___
 
@@ -111,7 +118,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L7)
+[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L7)
 
 ___
 
@@ -121,7 +128,17 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L6)
+[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L6)
+
+___
+
+### createdAt
+
+• **createdAt**: `number`
+
+#### Defined in
+
+[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L8)
 
 ___
 
@@ -131,7 +148,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L10)
+[BaseQuery.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L11)
 
 ___
 
@@ -141,7 +158,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L11)
+[BaseQuery.d.ts:12](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L12)
 
 ___
 
@@ -151,7 +168,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L8)
+[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L9)
 
 ## Methods
 
@@ -165,4 +182,4 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:12](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L12)
+[BaseQuery.d.ts:13](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L13)

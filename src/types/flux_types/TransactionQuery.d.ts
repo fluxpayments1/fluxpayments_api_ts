@@ -34,7 +34,7 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
         shippingAddressDumpId: number;
         shippingAddressVersion: number;
         txnHash: string;
-        createdAt: Date;
+        createdAt: number;
         updatedAt: Date;
         objectType: string;
         hasBackOrderedProducts: any;
@@ -75,7 +75,7 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
     shippingAddressId: number;
     shippingAddressDumpId: number;
     shippingAddressVersion: number;
-    createdAt: Date;
+    createdAt: number;
     updatedAt: Date;
     hasBackOrderedProducts: any;
     baseTransaction: number;

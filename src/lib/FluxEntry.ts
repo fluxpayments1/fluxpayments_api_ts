@@ -27,7 +27,7 @@ import { Flux } from "./Flux";
 import { FluxSockets, FluxWebsockets } from "./FluxSockets";
 import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
 import { SensitiveClientDataSecurityHandle } from "../ajax/security/SensitiveClientDataSecurityHandle";
-import { AccountDataSecurityHandle } from "ajax/security/AccountDataSecurityHandle";
+import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityHandle";
 
 
 /**

@@ -18,6 +18,10 @@
 - [AddressQuery](index.md#addressquery)
 - [BaseQuery](index.md#basequery)
 - [Card](index.md#card)
+- [Currency](index.md#currency)
+- [CurrencyQuery](index.md#currencyquery)
+- [CustomerWallet](index.md#customerwallet)
+- [CustomerWalletQuery](index.md#customerwalletquery)
 - [DumpId](index.md#dumpid)
 - [EmissionData](index.md#emissiondata)
 - [FluxIdentifier](index.md#fluxidentifier)
@@ -32,8 +36,8 @@
 - [ICard](index.md#icard)
 - [IInstallmentTransaction](index.md#iinstallmenttransaction)
 - [IInstallmentTransactionQuery](index.md#iinstallmenttransactionquery)
-- [IOneTimePaymentLink](index.md#ionetimepaymentlink)
-- [IOneTimePaymentLinkQuery](index.md#ionetimepaymentlinkquery)
+- [IPaymentLink](index.md#ipaymentlink)
+- [IPaymentLinkQuery](index.md#ipaymentlinkquery)
 - [IPaymentMethod](index.md#ipaymentmethod)
 - [IPaymentMethodQuery](index.md#ipaymentmethodquery)
 - [IProduct](index.md#iproduct)
@@ -47,9 +51,9 @@
 - [InstallmentTransaction](index.md#installmenttransaction)
 - [InstallmentTransactionQuery](index.md#installmenttransactionquery)
 - [MAC](index.md#mac)
-- [OneTimePaymentLink](index.md#onetimepaymentlink)
-- [OneTimePaymentLinkQuery](index.md#onetimepaymentlinkquery)
 - [PaginationSupport](index.md#paginationsupport)
+- [PaymentLink](index.md#paymentlink)
+- [PaymentLinkQuery](index.md#paymentlinkquery)
 - [PaymentMethod](index.md#paymentmethod)
 - [PaymentMethodQuery](index.md#paymentmethodquery)
 - [Product](index.md#product)
@@ -61,6 +65,8 @@
 - [TokenQuery](index.md#tokenquery)
 - [Transaction](index.md#transaction)
 - [TransactionQuery](index.md#transactionquery)
+- [Wallet](index.md#wallet)
+- [WalletQuery](index.md#walletquery)
 
 ## References
 
@@ -133,6 +139,30 @@ ___
 ### Card
 
 Re-exports [Card](../classes/Card.Card.md)
+
+___
+
+### Currency
+
+Re-exports [Currency](../classes/Currency.Currency.md)
+
+___
+
+### CurrencyQuery
+
+Re-exports [CurrencyQuery](../classes/CurrencyQuery.CurrencyQuery.md)
+
+___
+
+### CustomerWallet
+
+Re-exports [CustomerWallet](../classes/CustomerWallet.CustomerWallet.md)
+
+___
+
+### CustomerWalletQuery
+
+Re-exports [CustomerWalletQuery](../classes/CustomerWalletQuery.CustomerWalletQuery.md)
 
 ___
 
@@ -220,15 +250,15 @@ Re-exports [IInstallmentTransactionQuery](IInstallmentTransactionQuery.md#iinsta
 
 ___
 
-### IOneTimePaymentLink
+### IPaymentLink
 
-Re-exports [IOneTimePaymentLink](../interfaces/IOneTimePaymentLink.IOneTimePaymentLink.md)
+Re-exports [IPaymentLink](../interfaces/IPaymentLink.IPaymentLink.md)
 
 ___
 
-### IOneTimePaymentLinkQuery
+### IPaymentLinkQuery
 
-Re-exports [IOneTimePaymentLinkQuery](IOneTimePaymentLinkQuery.md#ionetimepaymentlinkquery)
+Re-exports [IPaymentLinkQuery](IPaymentLinkQuery.md#ipaymentlinkquery)
 
 ___
 
@@ -310,21 +340,21 @@ Re-exports [MAC](../interfaces/Mac.MAC.md)
 
 ___
 
-### OneTimePaymentLink
-
-Re-exports [OneTimePaymentLink](../classes/OneTimePaymentLink.OneTimePaymentLink.md)
-
-___
-
-### OneTimePaymentLinkQuery
-
-Re-exports [OneTimePaymentLinkQuery](../classes/OneTimePaymentLinkQuery.OneTimePaymentLinkQuery.md)
-
-___
-
 ### PaginationSupport
 
 Re-exports [PaginationSupport](../classes/PaginationSupport.PaginationSupport.md)
+
+___
+
+### PaymentLink
+
+Re-exports [PaymentLink](../classes/PaymentLink.PaymentLink.md)
+
+___
+
+### PaymentLinkQuery
+
+Re-exports [PaymentLinkQuery](../classes/PaymentLinkQuery.PaymentLinkQuery.md)
 
 ___
 
@@ -391,3 +421,15 @@ ___
 ### TransactionQuery
 
 Re-exports [TransactionQuery](../classes/TransactionQuery.TransactionQuery.md)
+
+___
+
+### Wallet
+
+Re-exports [Wallet](../classes/Wallet.Wallet.md)
+
+___
+
+### WalletQuery
+
+Re-exports [WalletQuery](../classes/WalletQuery.WalletQuery.md)

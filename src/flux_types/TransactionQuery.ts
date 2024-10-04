@@ -101,7 +101,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
     shippingAddressId: number;
     shippingAddressDumpId: number;
     shippingAddressVersion: number;
-    createdAt: Date;
+    createdAt: number;
     updatedAt: Date;
     hasBackOrderedProducts: any;
     baseTransaction: number;

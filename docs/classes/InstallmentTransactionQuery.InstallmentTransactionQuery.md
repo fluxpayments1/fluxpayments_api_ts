@@ -27,6 +27,7 @@ This is an object that is used to query for installment_transactions.
 - [additionalSearchOptions](InstallmentTransactionQuery.InstallmentTransactionQuery.md#additionalsearchoptions)
 - [attachedObject](InstallmentTransactionQuery.InstallmentTransactionQuery.md#attachedobject)
 - [conditional](InstallmentTransactionQuery.InstallmentTransactionQuery.md#conditional)
+- [createdAt](InstallmentTransactionQuery.InstallmentTransactionQuery.md#createdat)
 - [id](InstallmentTransactionQuery.InstallmentTransactionQuery.md#id)
 - [installmentAmount](InstallmentTransactionQuery.InstallmentTransactionQuery.md#installmentamount)
 - [installmentPeriod](InstallmentTransactionQuery.InstallmentTransactionQuery.md#installmentperiod)
@@ -66,7 +67,7 @@ This is an object that is used to query for installment_transactions.
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:28](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L28)
+[InstallmentTransactionQuery.d.ts:28](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L28)
 
 ## Properties
 
@@ -84,7 +85,7 @@ IInstallmentTransactionQuery.additionalSearchOptions
 
 #### Defined in
 
-[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L9)
+[BaseQuery.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L10)
 
 ___
 
@@ -112,7 +113,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L7)
+[BaseQuery.d.ts:7](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L7)
 
 ___
 
@@ -130,7 +131,21 @@ IInstallmentTransactionQuery.conditional
 
 #### Defined in
 
-[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L6)
+[BaseQuery.d.ts:6](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L6)
+
+___
+
+### createdAt
+
+• **createdAt**: `number`
+
+#### Inherited from
+
+[BaseQuery](BaseQuery.BaseQuery.md).[createdAt](BaseQuery.BaseQuery.md#createdat)
+
+#### Defined in
+
+[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L8)
 
 ___
 
@@ -144,7 +159,7 @@ IInstallmentTransactionQuery.id
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:19](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L19)
+[InstallmentTransactionQuery.d.ts:19](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L19)
 
 ___
 
@@ -158,7 +173,7 @@ IInstallmentTransactionQuery.installmentAmount
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L23)
+[InstallmentTransactionQuery.d.ts:23](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L23)
 
 ___
 
@@ -172,7 +187,7 @@ IInstallmentTransactionQuery.installmentPeriod
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L25)
+[InstallmentTransactionQuery.d.ts:25](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L25)
 
 ___
 
@@ -186,7 +201,7 @@ IInstallmentTransactionQuery.installmentsLeft
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L22)
+[InstallmentTransactionQuery.d.ts:22](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L22)
 
 ___
 
@@ -200,7 +215,7 @@ ___
 
 #### Defined in
 
-[BaseQuery.d.ts:10](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L10)
+[BaseQuery.d.ts:11](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L11)
 
 ___
 
@@ -214,7 +229,7 @@ IInstallmentTransactionQuery.metadata
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L20)
+[InstallmentTransactionQuery.d.ts:20](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L20)
 
 ___
 
@@ -228,7 +243,7 @@ ___
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L27)
+[InstallmentTransactionQuery.d.ts:27](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L27)
 
 ___
 
@@ -242,7 +257,7 @@ IInstallmentTransactionQuery.originalTransactionId
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L21)
+[InstallmentTransactionQuery.d.ts:21](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L21)
 
 ___
 
@@ -256,7 +271,7 @@ IInstallmentTransactionQuery.otplId
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L24)
+[InstallmentTransactionQuery.d.ts:24](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L24)
 
 ___
 
@@ -274,7 +289,7 @@ IInstallmentTransactionQuery.pagination
 
 #### Defined in
 
-[BaseQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/BaseQuery.d.ts#L8)
+[BaseQuery.d.ts:9](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/BaseQuery.d.ts#L9)
 
 ___
 
@@ -288,7 +303,7 @@ IInstallmentTransactionQuery.status
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L26)
+[InstallmentTransactionQuery.d.ts:26](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L26)
 
 ## Methods
 
@@ -318,7 +333,7 @@ IInstallmentTransactionQuery.status
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L8)
+[InstallmentTransactionQuery.d.ts:8](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L8)
 
 ___
 
@@ -338,4 +353,4 @@ ___
 
 #### Defined in
 
-[InstallmentTransactionQuery.d.ts:29](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/af7550594f492576ca6f534473c1e6d78e74cb4b/src/types/flux_types/InstallmentTransactionQuery.d.ts#L29)
+[InstallmentTransactionQuery.d.ts:29](https://github.com/fluxpayments1/fluxpayments_api_ts/blob/2772c747e214a3cab637ab4d18a9d6944f43ee64/src/types/flux_types/InstallmentTransactionQuery.d.ts#L29)
