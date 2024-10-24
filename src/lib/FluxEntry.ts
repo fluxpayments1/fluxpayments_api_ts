@@ -88,9 +88,9 @@ export async function flux(publicKey: string, privateKey: string, username: stri
 
 export async function fluxBrowser(publicKey?: string): Promise<Flux<GeneralSecurityHandle>> {
     
-    if (localStorage.getItem('exchangedKey')) {
+    if (sessionStorage.getItem('exchangedKey')) {
         let fma = Flux.getInstance<GeneralSecurityHandle>()
-        fma.securityHandle = new GeneralSecurityHandle(localStorage.getItem('exchangedKey'));
+        fma.securityHandle = new GeneralSecurityHandle(sessionStorage.getItem('exchangedKey'));
         fma.isAuthenticated = true;
         return fma;
     }
@@ -101,8 +101,8 @@ export async function fluxBrowser(publicKey?: string): Promise<Flux<GeneralSecur
     fma.isAuthenticated = true;
 
     if (isBrowserEnv()) {
-        localStorage.setItem('publicKey', publicKey);
-        localStorage.setItem('exchangedKey', exchangedKey);
+        sessionStorage.setItem('publicKey', publicKey);
+        sessionStorage.setItem('exchangedKey', exchangedKey);
     }
 
     return fma
@@ -114,7 +114,7 @@ export async function fluxBrowser(publicKey?: string): Promise<Flux<GeneralSecur
 export function fluxGetter() {
 
     if (isBrowserEnv()) {
-        let exchangedKey = localStorage.getItem('exchangedKey')
+        let exchangedKey = sessionStorage.getItem('exchangedKey')
 
         if (!exchangedKey)throw new Error("no flux connection established, please authenticate by invoking fluxBrowser with public key")
 
