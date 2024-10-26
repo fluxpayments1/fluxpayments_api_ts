@@ -35,6 +35,7 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
             id: this.id,
             metadata: this.metadata,
             objectType: this.objectType,
+            createdAt: this.createdAt,
             uniqueId: this.uniqueId,
             liveStatus: this.liveStatus,
             removeOnSuccess: this.removeOnSuccess,
@@ -47,6 +48,7 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
     uniqueId: string;
     liveStatus: any;
     removeOnSuccess: any;
+    createdAt: number;
     paymentLink: string;
     accountId: number;
     protected objectType: string = "payment_link";

@@ -35,7 +35,8 @@ export class CurrencyQuery extends BaseQuery<Currency> implements ICurrencyQuery
             shortName: this.shortName,
             chain: this.chain,
             mintAddress: this.mintAddress,
-            objectType: "currency"
+            objectType: "currency",
+            createdAt: this.createdAt,
         }
     }
     chain: string;

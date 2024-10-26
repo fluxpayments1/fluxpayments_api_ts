@@ -37,6 +37,7 @@ export class CustomerWalletQuery extends BaseQuery<CustomerWallet> implements IC
             metadata: this.metadata,
             objectType: this.objectType,
             chain: this.chain,
+            createdAt: this.createdAt,
             publicAddress: this.publicAddress
         }
     }

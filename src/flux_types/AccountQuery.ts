@@ -36,6 +36,7 @@ export class AccountQuery extends BaseQuery<Account> implements IAccountQuery {
             firstName: this.firstName,
             middleName: this.middleName,
             lastName: this.lastName,
+            createdAt: this.createdAt,
             objectType: this.objectType,
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions,

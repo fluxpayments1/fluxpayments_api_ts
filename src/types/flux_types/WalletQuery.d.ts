@@ -10,6 +10,7 @@ export declare class WalletQuery extends BaseQuery<Wallet> implements IWalletQue
         objectType: string;
         chain: string;
         active: boolean;
+        createdAt: number;
         publicAddress: any;
     };
     active: boolean;

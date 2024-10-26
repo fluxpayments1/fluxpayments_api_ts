@@ -39,6 +39,7 @@ export class InstallmentTransactionQuery extends BaseQuery<InstallmentTransactio
             installmentAmount: this.installmentAmount,
             otplId: this.otplId,
             installmentPeriod: this.installmentPeriod,
+            createdAt: this.createdAt,
             status: this.status,
         }
     }

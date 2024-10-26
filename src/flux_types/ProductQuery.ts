@@ -36,6 +36,7 @@ export class ProductQuery extends BaseQuery<Product> implements IProductQuery {
             type: this.type,
             subscriptionInterval: this.subscriptionInterval,
             category: this.category,
+            createdAt: this.createdAt,
             objectType: this.objectType,
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions

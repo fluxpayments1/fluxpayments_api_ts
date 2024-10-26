@@ -9,6 +9,7 @@ export declare class TokenQuery extends BaseQuery<Token> implements ITokenQuery 
         metadata: string;
         objectType: string;
         token: string;
+        createdAt: number;
     };
     token: string;
     metadata: string;

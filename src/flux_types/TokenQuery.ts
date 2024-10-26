@@ -33,7 +33,9 @@ export class TokenQuery extends BaseQuery<Token> implements ITokenQuery{
             uniqueId: this.uniqueId,
             metadata: this.metadata,
             objectType: this.objectType,
-            token: this.token
+            token: this.token,
+            createdAt: this.createdAt
+
         }
     }
     token: string;

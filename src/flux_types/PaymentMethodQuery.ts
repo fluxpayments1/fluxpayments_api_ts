@@ -35,6 +35,7 @@ export class PaymentMethodQuery extends BaseQuery<PaymentMethod> implements IPay
             token: this.token,
             payType: this.payType,
             addressId: this.addressId,
+            createdAt: this.createdAt,
             firstName: this.firstName,
             lastName: this.lastName,
             objectType: this.objectType,

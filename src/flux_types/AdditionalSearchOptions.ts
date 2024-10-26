@@ -24,5 +24,5 @@ export class AdditionalSearchOptions {
     column?: string = undefined;
     limit?: number = undefined;
     order?: "ASCENDING" | "DESCENDING" | undefined = undefined;
-    matchingAlgorithm?: "DEFAULT" | "CONTAINS" | "SOUNDS_LIKE" = undefined;
+    matchingAlgorithm?: "DEFAULT" | "CONTAINS" | "SOUNDS_LIKE" | "LESS_THAN" = undefined;
 }

@@ -9,6 +9,7 @@ export declare class CustomerWalletQuery extends BaseQuery<CustomerWallet> imple
         metadata: string;
         objectType: string;
         chain: string;
+        createdAt: number;
         publicAddress: any;
     };
     chain: string;

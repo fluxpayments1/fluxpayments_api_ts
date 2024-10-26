@@ -35,6 +35,7 @@ export class WalletQuery extends BaseQuery<Wallet> implements IWalletQuery{
             objectType: this.objectType,
             chain: this.chain,
             active: this.active,
+            createdAt: this.createdAt,
             publicAddress: this.publicAddress
         }
     }

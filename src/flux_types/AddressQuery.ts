@@ -33,6 +33,7 @@ export class AddressQuery extends BaseQuery<Address> implements IAddressQuery {
             metadata: this.metadata,
             streetAddress: this.streetAddress,
             country: this.country,
+            createdAt: this.createdAt,
             zipCode: this.zipCode,
             city: this.city,
             objectType: this.objectType,

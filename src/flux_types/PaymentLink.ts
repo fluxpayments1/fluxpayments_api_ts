@@ -50,6 +50,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             uniqueId: this.uniqueId,
             paymentLink: this.paymentLink,
             accountId: this.accountId,
+            createdAt: this.createdAt,
             products: this.products,
             emailNotificationDisabled: this.emailNotificationDisabled,
             updateAccInfo: this.updateAccInfo,

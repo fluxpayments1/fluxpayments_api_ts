@@ -41,6 +41,7 @@ export class AccountAddressQuery extends BaseQuery<AccountAddress> implements IA
             accountId: this.accountId,
             objectType: this.objectType,
             pagination: this.pagination,
+            createdAt: this.createdAt,
             additionalSearchOptions: this.additionalSearchOptions
         }
     }

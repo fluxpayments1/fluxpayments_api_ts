@@ -8,6 +8,7 @@ export declare class AddressQuery extends BaseQuery<Address> implements IAddress
         metadata: string;
         streetAddress: string;
         country: string;
+        createdAt: number;
         zipCode: string;
         city: string;
         objectType: string;

@@ -11,6 +11,7 @@ export declare class RecurringTransactionQuery extends BaseQuery<RecurringTransa
         recurringTaxAmount: number;
         originalTransactionId: number;
         productId: number;
+        createdAt: number;
         productDumpId: number;
         otplId: number;
         status: any;

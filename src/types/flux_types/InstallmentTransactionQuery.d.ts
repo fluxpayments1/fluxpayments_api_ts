@@ -14,6 +14,7 @@ export declare class InstallmentTransactionQuery extends BaseQuery<InstallmentTr
         installmentAmount: number;
         otplId: number;
         installmentPeriod: any;
+        createdAt: number;
         status: any;
     };
     id: number;

@@ -13,6 +13,7 @@ export declare class ProductQuery extends BaseQuery<Product> implements IProduct
         type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT";
         subscriptionInterval: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
         category: string;
+        createdAt: number;
         objectType: string;
         pagination: import("./PaginationSupport").PaginationSupport;
         additionalSearchOptions: import("./AdditionalSearchOptions").AdditionalSearchOptions[];

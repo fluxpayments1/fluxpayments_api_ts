@@ -10,6 +10,7 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
         id: number;
         metadata: string;
         objectType: string;
+        createdAt: number;
         uniqueId: string;
         liveStatus: any;
         removeOnSuccess: any;
@@ -21,6 +22,7 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
     uniqueId: string;
     liveStatus: any;
     removeOnSuccess: any;
+    createdAt: number;
     paymentLink: string;
     accountId: number;
     protected objectType: string;

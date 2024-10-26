@@ -10,6 +10,7 @@ export declare class PaymentMethodQuery extends BaseQuery<PaymentMethod> impleme
         token: string;
         payType: any;
         addressId: number;
+        createdAt: number;
         firstName: string;
         lastName: string;
         objectType: string;

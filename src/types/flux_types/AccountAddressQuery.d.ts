@@ -14,6 +14,7 @@ export declare class AccountAddressQuery extends BaseQuery<AccountAddress> imple
         accountId: number;
         objectType: string;
         pagination: import("./PaginationSupport").PaginationSupport;
+        createdAt: number;
         additionalSearchOptions: import("./AdditionalSearchOptions").AdditionalSearchOptions[];
     };
     uniqueId: string;

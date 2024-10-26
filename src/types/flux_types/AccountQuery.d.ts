@@ -11,6 +11,7 @@ export declare class AccountQuery extends BaseQuery<Account> implements IAccount
         firstName: string;
         middleName: string;
         lastName: string;
+        createdAt: number;
         objectType: string;
         pagination: import("./PaginationSupport").PaginationSupport;
         additionalSearchOptions: import("./AdditionalSearchOptions").AdditionalSearchOptions[];
