@@ -12,6 +12,7 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
         objectType: string;
         createdAt: number;
         uniqueId: string;
+        isReusable: boolean;
         liveStatus: any;
         removeOnSuccess: any;
         paymentLink: string;
@@ -24,6 +25,7 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
     removeOnSuccess: any;
     createdAt: number;
     paymentLink: string;
+    isReusable: boolean;
     accountId: number;
     protected objectType: string;
     constructor(tokQ?: IPaymentLinkQuery);

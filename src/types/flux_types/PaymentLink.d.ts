@@ -29,6 +29,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         currentStatus: any;
         redirectUrl: string;
         oneTimeUse: boolean;
+        isReusable: boolean;
     };
     wallets: Wallet[];
     id: number;
@@ -37,6 +38,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     updateAccInfo: boolean;
     updateAddInfo: boolean;
     serviceFeeRate: number;
+    isReusable: boolean;
     taxRatesId: number;
     requireAccountInformation: boolean;
     confidenceLevel: number;
@@ -49,6 +51,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     emailNotificationDisabled: boolean;
     accountId: number;
     status: string;
+    reusableLinkId: number;
     accountEmail: string;
     products: Product[];
     currencies: Currency[];

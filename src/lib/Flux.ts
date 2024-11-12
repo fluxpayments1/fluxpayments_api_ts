@@ -102,8 +102,8 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
-    public static async exchangeOTPLForSession(otpl: string): Promise<string> {
-        return CMMT.fetch<string, CreateSessionRequest, CreateSessionResponse>(
+    public static async exchangeOTPLForSession(otpl: string): Promise<CreateSessionResponse> {
+        return CMMT.fetch<CreateSessionResponse, CreateSessionRequest, CreateSessionResponse>(
             CreateSessionRequest,
             CreateSessionResponse,
             "exchangeOTPLForSession",
@@ -115,8 +115,8 @@ export class Flux<A extends SecurityHandler> implements IFlux {
     }
 
 
-    public static async getMerchantPublicKeyFromOTPL(otpl: string): Promise<string> {
-        return CMMT.fetch<string, CreateSessionRequest, CreateSessionResponse>(
+    public static async getMerchantPublicKeyFromOTPL(otpl: string): Promise<CreateSessionResponse> {
+        return CMMT.fetch<CreateSessionResponse, CreateSessionRequest, CreateSessionResponse>(
             CreateSessionRequest,
             CreateSessionResponse,
             "exchangeOTPLForCustomerPublicKey",

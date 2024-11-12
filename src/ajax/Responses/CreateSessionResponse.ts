@@ -19,22 +19,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+import { PaymentLink } from "flux_types";
 import { ResponseBodyBase } from "./ResponseBodyBase";
 
 export class CreateSessionResponse extends ResponseBodyBase{
     
-    _sessionId: String;
-
-    get sessionId(): String{
+    _sessionId: string;
+        
+    get sessionId(): string{
         return this._sessionId;
     }
 
-    set sessionId(sessionId : String) {
+    set sessionId(sessionId : string) {
         this._sessionId = sessionId;
     }
     
-    public getClientReturnValue() {
-        return this.sessionId;
+    public getClientReturnValue(): CreateSessionResponse {
+
+
+        return this
     }
     
 }

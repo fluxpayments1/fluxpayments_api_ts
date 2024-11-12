@@ -1,3 +1,4 @@
+import { CreateSessionResponse } from "../ajax/Responses";
 import { SecurityHandler } from "../ajax/security";
 import { FluxIdentifier, FluxType, BaseQuery, Product } from "../flux_types";
 import { IFlux } from "./IFlux";
@@ -21,8 +22,8 @@ export declare class Flux<A extends SecurityHandler> implements IFlux {
      * @returns a session id
      */
     createSession(id: FluxIdentifier): Promise<string>;
-    static exchangeOTPLForSession(otpl: string): Promise<string>;
-    static getMerchantPublicKeyFromOTPL(otpl: string): Promise<string>;
+    static exchangeOTPLForSession(otpl: string): Promise<CreateSessionResponse>;
+    static getMerchantPublicKeyFromOTPL(otpl: string): Promise<CreateSessionResponse>;
     validatePaymentMethod<T extends FluxType>(ob: T, secHandle?: SecurityHandler): Promise<FluxIdentifier[]>;
     createObjectGeneric<T extends FluxType>(ob: T | T[], secHandle?: SecurityHandler): Promise<FluxIdentifier[]>;
     createObjectGenericSafe<T extends FluxType>(ob: T | T[], secHandle?: SecurityHandler): Promise<T[]>;

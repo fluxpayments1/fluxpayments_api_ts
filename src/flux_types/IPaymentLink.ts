@@ -28,10 +28,12 @@ export interface IPaymentLink {
     id?: number;
     metadata?: string;
     uniqueId?: string;
+    isReusable?: boolean;
     redirectUrl: string;
     oneTimeUse: boolean;
     taxRatesId: number;
     requireShippingAddress: boolean;
+    reusableLinkId: number
     currentStatus: string
     serviceFeeRate: number;
     liveStatus?: any;
