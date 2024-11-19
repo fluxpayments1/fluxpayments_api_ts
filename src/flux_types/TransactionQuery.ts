@@ -63,6 +63,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             updatedAt: this.updatedAt,
             objectType: this.objectType,
             hasBackOrderedProducts: this.hasBackOrderedProducts,
+            walletId: this.walletId,
             baseTransaction: this.baseTransaction,
             approvalStatus: this.approvalStatus,
             pagination: this.pagination,
@@ -72,6 +73,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
     txnHash: string;
     id: number;
     email: string;
+    walletId: number;
     cardBrandId: string;
     version: number;
     chainNumber: number;

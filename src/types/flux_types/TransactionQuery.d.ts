@@ -38,6 +38,7 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
         updatedAt: Date;
         objectType: string;
         hasBackOrderedProducts: any;
+        walletId: number;
         baseTransaction: number;
         approvalStatus: string;
         pagination: import("./PaginationSupport").PaginationSupport;
@@ -46,6 +47,7 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
     txnHash: string;
     id: number;
     email: string;
+    walletId: number;
     cardBrandId: string;
     version: number;
     chainNumber: number;
