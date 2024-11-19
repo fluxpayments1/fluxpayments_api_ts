@@ -29,6 +29,7 @@ import { FluxIdentifier } from './FluxIdentifier';
 import { FluxType } from './FluxType';
 import { IAccount } from './IAccount';
 import { PaymentMethod } from './PaymentMethod';
+import { CustomerWallet } from './CustomerWallet';
 
 /**
  * Class for managing accounts 
@@ -82,6 +83,8 @@ export class Account extends FluxType implements IAccount {
     middleName: string;
     lastName: string;
     phoneNumber: string;
+    addresses: Address[];
+    customerWallets: CustomerWallet[];
     /**
      * Describes the type of the account
      */
@@ -291,8 +294,8 @@ export class Account extends FluxType implements IAccount {
         return paymentMethods[0];
     }
 
-    constructor(account?: Partial<IAccount>) {
-        super(account, Account);
+    constructor(account?: Partial<IAccount>, overrideClass?: any) {
+        super(account, overrideClass ? overrideClass : Account);
         Object.assign(this, account);
 
     }

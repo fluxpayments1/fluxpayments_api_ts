@@ -64,9 +64,9 @@ export class AccountQuery extends BaseQuery<Account> implements IAccountQuery {
     defaultPaymentMethodUniqueId: string;
     protected objectType: string = "account";
 
-    constructor(accQ?: IAccountQuery){
-        super(Account);
-        this.attachedObject = Account
+    constructor(accQ?: any, overrideClass? : any){
+        super(overrideClass ? overrideClass : Account);
+        this.attachedObject = overrideClass ? overrideClass : Account;
         Object.assign(this, accQ);
     }
 

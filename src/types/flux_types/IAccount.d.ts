@@ -1,5 +1,9 @@
 import { AccountUserType } from "./AccountUserType";
+import { Address } from "./Address";
+import { CustomerWallet } from "./CustomerWallet";
 export interface IAccount {
+    addresses?: Address[];
+    customerWallets?: CustomerWallet[];
     id?: number;
     uniqueId?: string;
     metadata?: string;

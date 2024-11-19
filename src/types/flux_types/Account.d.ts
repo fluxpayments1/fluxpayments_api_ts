@@ -4,6 +4,7 @@ import { FluxIdentifier } from './FluxIdentifier';
 import { FluxType } from './FluxType';
 import { IAccount } from './IAccount';
 import { PaymentMethod } from './PaymentMethod';
+import { CustomerWallet } from './CustomerWallet';
 /**
  * Class for managing accounts
  * stored in the flux system.
@@ -53,6 +54,8 @@ export declare class Account extends FluxType implements IAccount {
     middleName: string;
     lastName: string;
     phoneNumber: string;
+    addresses: Address[];
+    customerWallets: CustomerWallet[];
     /**
      * Describes the type of the account
      */
@@ -120,7 +123,7 @@ export declare class Account extends FluxType implements IAccount {
     getDefaultShippingAddress(): Promise<Address>;
     setDefaultPaymentMethod(ob: PaymentMethod | FluxIdentifier): Promise<void>;
     getDefaultPaymentMethod(): Promise<PaymentMethod>;
-    constructor(account?: Partial<IAccount>);
+    constructor(account?: Partial<IAccount>, overrideClass?: any);
     static generateSession(arg: Account | IAccount): Promise<string>;
     generateAccountSession(): Promise<string>;
     static createInstanceLazy(acc: Partial<IAccount>): Promise<Account>;

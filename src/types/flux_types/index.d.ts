@@ -59,3 +59,7 @@ export { Currency } from './Currency';
 export { CurrencyQuery } from './CurrencyQuery';
 export { CustomerWallet } from './CustomerWallet';
 export { CustomerWalletQuery } from './CustomerWalletQuery';
+export { AccountWithAddress } from './AccountWithAddress';
+export { AccountWithAddressQuery } from './AccountWithAddressQuery';
+export { AccountWithCustomerWallet } from './AccountWithCustomerWallet';
+export { AccountWithCustomerWalletQuery } from './AccountWithCustomerWalletQuery';

@@ -36,6 +36,6 @@ export declare class AccountQuery extends BaseQuery<Account> implements IAccount
     defaultPaymentMethodId: number;
     defaultPaymentMethodUniqueId: string;
     protected objectType: string;
-    constructor(accQ?: IAccountQuery);
+    constructor(accQ?: any, overrideClass?: any);
     static createQuery(accQ?: IAccountQuery): AccountQuery;
 }
