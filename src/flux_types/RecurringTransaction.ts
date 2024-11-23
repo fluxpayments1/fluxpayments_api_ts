@@ -28,6 +28,10 @@ import { PaymentLink } from './PaymentLink';
 export class RecurringTransaction extends FluxType implements IRecurringTransaction {
     public obName: string = "RecurringTransaction";
 
+    public getDispName(): string {
+        return this.id.toString()
+    }
+
     public serialize() {
         return {
             id: this.id,

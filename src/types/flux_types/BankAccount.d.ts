@@ -7,4 +7,5 @@ export declare class BankAccount extends PaymentMethod implements IBankAccount {
     routingNumber: string;
     bankBrand: string;
     accountNumber: string;
+    getDispName(): string;
 }

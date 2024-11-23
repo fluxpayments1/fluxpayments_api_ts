@@ -2,6 +2,7 @@ import { FluxType } from './FluxType';
 import { IWallet } from './IWallet';
 export declare class Wallet extends FluxType implements IWallet {
     obName: string;
+    getDispName(): string;
     serialize(): {
         id: number;
         uniqueId: string;

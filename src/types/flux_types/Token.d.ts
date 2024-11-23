@@ -1,6 +1,7 @@
 import { FluxType } from './FluxType';
 import { IToken } from './IToken';
 export declare class Token extends FluxType implements IToken {
+    getDispName(): string;
     obName: string;
     serialize(): {
         id: number;

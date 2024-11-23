@@ -7,6 +7,7 @@ import { IPaymentMethod } from "./IPaymentMethod";
 import { BaseQuery } from "./BaseQuery";
 import { EmissionData } from "./EmissionData";
 export declare class PaymentMethod extends FluxType implements IPaymentMethod {
+    getDispName(): string;
     obName: string;
     serialize(): {
         objectType: string;

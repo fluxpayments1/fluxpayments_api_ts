@@ -47,6 +47,9 @@ export class Currency extends FluxType implements ICurrency {
     metadata: string;
     protected objectType: string = "currency";
 
+    public getDispName(): string {
+        return this.shortName
+    }
 
 
     public constructor(currency?: Partial<ICurrency>) {

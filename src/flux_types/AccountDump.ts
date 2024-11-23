@@ -33,6 +33,10 @@ export class AccountDump extends FluxType implements IAccount {
     }
     protected objectType: string = "account_dump";
 
+    public getDispName(): string {
+        return this.accountEmail
+    }
+    
     public dumpId: DumpId
     public firstName: string;
     public middleName: string;

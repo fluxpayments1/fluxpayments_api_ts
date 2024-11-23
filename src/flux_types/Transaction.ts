@@ -37,6 +37,11 @@ import { ProductDump } from "./ProductDump";
 
 
 export class Transaction extends FluxType implements ITransaction {
+
+    public getDispName(): string {
+        return this.txnHash
+    }
+
     public obName: string = "Transaction";
     txnHash: string;
     public static async createInstanceLazy(acc: Partial<ITransaction>) {

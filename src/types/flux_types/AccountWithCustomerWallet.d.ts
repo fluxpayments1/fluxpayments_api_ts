@@ -21,6 +21,7 @@ export declare class AccountWithCustomerWallet extends Account {
         objectType: string;
         phoneNumber: string;
     };
+    getDispName(): string;
     customerWallets: CustomerWallet[];
     protected objectType: string;
     constructor(acc?: Partial<AccountWithCustomerWallet>);

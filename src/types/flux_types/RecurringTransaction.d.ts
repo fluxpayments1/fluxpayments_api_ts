@@ -3,6 +3,7 @@ import { IRecurringTransaction } from './IRecurringTransaction';
 import { PaymentLink } from './PaymentLink';
 export declare class RecurringTransaction extends FluxType implements IRecurringTransaction {
     obName: string;
+    getDispName(): string;
     serialize(): {
         id: number;
         metadata: string;

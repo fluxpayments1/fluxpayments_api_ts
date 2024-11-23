@@ -18,6 +18,7 @@ export declare class Currency extends FluxType implements ICurrency {
     uniqueId: string;
     metadata: string;
     protected objectType: string;
+    getDispName(): string;
     constructor(currency?: Partial<ICurrency>);
     static createInstanceLazy(acc: Partial<ICurrency>): Promise<Currency>;
     static createInstanceSafe(acc: Partial<ICurrency>): Promise<Currency>;

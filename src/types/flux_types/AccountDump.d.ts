@@ -6,6 +6,7 @@ export declare class AccountDump extends FluxType implements IAccount {
     obName: string;
     serialize(): void;
     protected objectType: string;
+    getDispName(): string;
     dumpId: DumpId;
     firstName: string;
     middleName: string;

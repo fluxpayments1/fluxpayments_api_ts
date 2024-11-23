@@ -40,6 +40,10 @@ export class Address extends FluxType {
         }
     }
 
+    public getDispName(): string {
+        return this.streetAddress
+    }
+
     uniqueId: string;
     id: number;
     metadata: string;

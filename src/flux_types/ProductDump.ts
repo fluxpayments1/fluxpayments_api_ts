@@ -32,6 +32,12 @@ export class ProductDump extends FluxType implements IProduct {
     public serialize() {
         throw new Error("Method not implemented.");
     }
+
+
+    public getDispName(): string {
+        return this.name
+    }
+
     public dumpId: DumpId;
     public metadata: string;
     public name: string;

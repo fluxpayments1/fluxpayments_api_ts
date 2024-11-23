@@ -1,6 +1,7 @@
 import { FluxType } from "./FluxType";
 import { IAccountAddress } from "./IAccountAddress";
 export declare class AccountAddress extends FluxType implements IAccountAddress {
+    getDispName(): string;
     obName: string;
     serialize(): {
         uniqueId: string;

@@ -46,6 +46,7 @@ async function loadFluxGetter() {
 }
 
 export abstract class FluxType {
+  public abstract getDispName () : string;
   public dataTableMetadata;
   uniqueId: string
   public createdAt: number;

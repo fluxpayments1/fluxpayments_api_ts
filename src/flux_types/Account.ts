@@ -73,6 +73,11 @@ export class Account extends FluxType implements IAccount {
         }
     }
 
+
+    public getDispName(): string {
+        return this.accountEmail
+    }
+
     isTaxExempt: boolean;
     currency: string;
     id: number;

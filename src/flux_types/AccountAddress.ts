@@ -27,6 +27,12 @@ import { IAccountAddress } from "./IAccountAddress";
 
 
 export class AccountAddress extends FluxType implements IAccountAddress {
+
+
+    public getDispName(): string {
+        return ""
+    }
+
     public obName: string = "AccountAddress"
     public serialize() {
         return {

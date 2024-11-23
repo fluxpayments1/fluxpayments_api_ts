@@ -34,4 +34,8 @@ export class BankAccount extends PaymentMethod implements IBankAccount {
     bankBrand: string;
     accountNumber: string;
 
+    public getDispName(): string {
+        return this.lastFour
+    }
+
 }

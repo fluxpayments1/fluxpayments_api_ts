@@ -27,6 +27,10 @@ import { IWallet } from './IWallet';
 export class Wallet extends FluxType implements IWallet {
     public obName: string = "Wallet";
 
+    public getDispName(): string {
+        return this.publicAddress
+    }
+
     public serialize() {
         return {
             id: this.id,

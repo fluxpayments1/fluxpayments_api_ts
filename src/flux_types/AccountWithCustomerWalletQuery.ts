@@ -1,4 +1,5 @@
 import { AccountQuery } from "./AccountQuery";
+import { AccountWithCustomerWallet } from "./AccountWithCustomerWallet";
 import { CustomerWallet } from "./CustomerWallet";
 
 export class AccountWithCustomerWalletQuery extends AccountQuery {
@@ -14,7 +15,7 @@ export class AccountWithCustomerWalletQuery extends AccountQuery {
     protected objectType = "account_with_customer_wallet"
 
     constructor(acc?: Partial<AccountWithCustomerWalletQuery>) {
-        super(acc, AccountWithCustomerWalletQuery)
+        super(acc, AccountWithCustomerWallet)
         Object.assign(this, acc);
     }
 

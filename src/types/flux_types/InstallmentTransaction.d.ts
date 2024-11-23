@@ -13,6 +13,7 @@ export declare class InstallmentTransaction extends FluxType implements IInstall
         installmentPeriod: any;
         status: any;
     };
+    getDispName(): string;
     id: number;
     metadata: string;
     originalTransactionId: number;

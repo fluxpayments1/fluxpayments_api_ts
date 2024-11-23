@@ -3,6 +3,7 @@ import { Flux } from "../lib/Flux";
 import { BaseQuery } from "./BaseQuery";
 import { FluxIdentifier } from "./FluxIdentifier";
 export declare abstract class FluxType {
+    abstract getDispName(): string;
     dataTableMetadata: any;
     uniqueId: string;
     createdAt: number;

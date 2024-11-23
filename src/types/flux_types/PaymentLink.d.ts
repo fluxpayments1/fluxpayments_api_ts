@@ -5,6 +5,7 @@ import { Currency } from './Currency';
 import { Wallet } from './Wallet';
 export declare class PaymentLink extends FluxType implements IPaymentLink {
     obName: string;
+    getDispName(): string;
     serialize(): {
         id: number;
         metadata: string;

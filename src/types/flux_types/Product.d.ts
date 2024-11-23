@@ -1,6 +1,7 @@
 import { FluxType } from "./FluxType";
 import { IProduct } from "./IProduct";
 export declare class Product extends FluxType implements IProduct {
+    getDispName(): string;
     obName: string;
     serialize(): {
         uniqueId: string;

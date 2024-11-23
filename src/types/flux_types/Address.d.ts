@@ -13,6 +13,7 @@ export declare class Address extends FluxType {
         city: string;
         objectType: string;
     };
+    getDispName(): string;
     uniqueId: string;
     id: number;
     metadata: string;

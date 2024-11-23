@@ -25,6 +25,12 @@ import { FluxType } from './FluxType';
 import { IToken } from './IToken';
 
 export class Token extends FluxType implements IToken {
+
+    public getDispName(): string {
+        return this.token
+    }
+
+
     public obName: string = "Token";
 
     public serialize() {

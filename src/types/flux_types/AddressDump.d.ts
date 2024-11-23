@@ -5,6 +5,7 @@ export declare class AddressDump extends FluxType implements IAddress {
     serialize(): void;
     obName: string;
     protected objectType: string;
+    getDispName(): string;
     dumpId: DumpId;
     metadata: string;
     streetAddress: string;

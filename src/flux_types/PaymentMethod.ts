@@ -38,6 +38,10 @@ import { EmissionData } from "./EmissionData";
 
 export class PaymentMethod extends FluxType implements IPaymentMethod {
     
+    public getDispName(): string {
+        return this.lastFour
+    }
+
     public obName: string = "PaymentMethod";
     public serialize() {
         return {

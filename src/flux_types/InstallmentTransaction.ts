@@ -41,6 +41,10 @@ export class InstallmentTransaction extends FluxType implements IInstallmentTran
         };
     }
 
+    public getDispName(): string {
+        return this.id.toString()
+    }
+
     id: number;
     metadata: string;
     originalTransactionId: number;

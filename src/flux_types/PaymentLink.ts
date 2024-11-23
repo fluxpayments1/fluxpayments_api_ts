@@ -42,6 +42,11 @@ import { Wallet } from './Wallet';
 export class PaymentLink extends FluxType implements IPaymentLink {
     public obName: string = "PaymentLink";
 
+    public getDispName(): string {
+        return this.paymentLink
+    }
+
+
     public serialize() {
         return {
             id: this.id,

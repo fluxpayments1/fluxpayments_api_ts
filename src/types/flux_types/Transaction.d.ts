@@ -8,6 +8,7 @@ import { ITransaction } from "./ITransaction";
 import { PaymentMethod } from "./PaymentMethod";
 import { Product } from "./Product";
 export declare class Transaction extends FluxType implements ITransaction {
+    getDispName(): string;
     obName: string;
     txnHash: string;
     static createInstanceLazy(acc: Partial<ITransaction>): Promise<Transaction>;

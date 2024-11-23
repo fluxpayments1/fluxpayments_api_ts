@@ -48,6 +48,10 @@ export class Card extends PaymentMethod implements ICard {
     cardNumber: string;
     cvv: string;
 
+    public getDispName(): string {
+        return this.lastFour
+    }
+
     public static async createInstanceLazy(acc: Partial<ICard>) {
         return await PaymentMethod.instantiateLazyInstance(acc, this)
     }

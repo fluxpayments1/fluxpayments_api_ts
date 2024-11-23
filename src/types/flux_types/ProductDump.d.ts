@@ -5,6 +5,7 @@ export declare class ProductDump extends FluxType implements IProduct {
     obName: string;
     protected objectType: string;
     serialize(): void;
+    getDispName(): string;
     dumpId: DumpId;
     metadata: string;
     name: string;

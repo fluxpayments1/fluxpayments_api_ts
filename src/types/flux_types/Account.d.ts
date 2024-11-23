@@ -44,6 +44,7 @@ export declare class Account extends FluxType implements IAccount {
         objectType: string;
         phoneNumber: string;
     };
+    getDispName(): string;
     isTaxExempt: boolean;
     currency: string;
     id: number;

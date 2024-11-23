@@ -32,6 +32,11 @@ export class AddressDump extends FluxType implements IAddress {
     public obName: string = "AddressDump";
     protected objectType: string = "address_dump";
 
+
+    public getDispName(): string {
+        return this.streetAddress
+    }
+
     public dumpId: DumpId
     public metadata: string;
     public streetAddress: string;

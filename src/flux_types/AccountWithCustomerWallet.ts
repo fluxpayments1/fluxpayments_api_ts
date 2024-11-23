@@ -11,6 +11,10 @@ export class AccountWithCustomerWallet extends Account {
         }
     }
 
+    public getDispName(): string {
+        return this.accountEmail
+    }
+
     customerWallets: CustomerWallet[];
     protected objectType = "account_with_customer_wallet"
 

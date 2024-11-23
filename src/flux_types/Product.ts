@@ -28,6 +28,11 @@ import { SecurityHandler } from "../ajax/security";
 
 
 export class Product extends FluxType implements IProduct {
+
+    public getDispName(): string {
+        return this.name
+    }
+
     public obName: string = "Product";
     public serialize() {
         return {

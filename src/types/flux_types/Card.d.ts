@@ -13,6 +13,7 @@ export declare class Card extends PaymentMethod implements ICard {
     address: Address;
     cardNumber: string;
     cvv: string;
+    getDispName(): string;
     static createInstanceLazy(acc: Partial<ICard>): Promise<Card>;
     /**
      * Will not create a card if working outside of the browser,
