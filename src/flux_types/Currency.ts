@@ -48,7 +48,7 @@ export class Currency extends FluxType implements ICurrency {
     protected objectType: string = "currency";
 
     public getDispName(): string {
-        return this.shortName
+        return this.chain ? `${this.chain.slice(0, 3).toUpperCase()} - ${this.shortName}` : this.shortName
     }
 
 
