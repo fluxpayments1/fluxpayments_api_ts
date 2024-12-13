@@ -24,5 +24,6 @@ export interface IWallet {
     id?: number,
     metadata?: string,
     chain?: string,
+    memoTag?: string,
     active?: boolean
 }

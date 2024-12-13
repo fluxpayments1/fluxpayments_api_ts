@@ -38,6 +38,7 @@ export class Wallet extends FluxType implements IWallet {
             metadata: this.metadata,
             publicAddress: this.publicAddress,
             chain: this.chain,
+            memoTag: this.memoTag,
             active: this.active,
             objectType: "wallet"
         }
@@ -48,6 +49,7 @@ export class Wallet extends FluxType implements IWallet {
     id: number;
     uniqueId: string;
     metadata: string;
+    memoTag: string;
     active: boolean;
     protected objectType: string = "wallet";
 

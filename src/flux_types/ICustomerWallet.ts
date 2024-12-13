@@ -24,4 +24,5 @@ export interface ICustomerWallet {
     id?: number,
     metadata?: string,
     chain?: string,
+    memoTag?: string,
 }

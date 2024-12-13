@@ -9,6 +9,7 @@ export declare class Wallet extends FluxType implements IWallet {
         metadata: string;
         publicAddress: string;
         chain: string;
+        memoTag: string;
         active: boolean;
         objectType: string;
     };
@@ -17,6 +18,7 @@ export declare class Wallet extends FluxType implements IWallet {
     id: number;
     uniqueId: string;
     metadata: string;
+    memoTag: string;
     active: boolean;
     protected objectType: string;
     constructor(wallet?: Partial<IWallet>);

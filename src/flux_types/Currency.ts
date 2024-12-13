@@ -34,6 +34,7 @@ export class Currency extends FluxType implements ICurrency {
             uniqueId: this.uniqueId,
             metadata: this.metadata,
             shortName: this.shortName,
+            issuer: this.issuer,
             chain: this.chain,
             mintAddress: this.mintAddress,
             objectType: "currency"
@@ -43,6 +44,7 @@ export class Currency extends FluxType implements ICurrency {
     mintAddress: string;
     shortName: string;
     id: number;
+    issuer: string;
     uniqueId: string;
     metadata: string;
     protected objectType: string = "currency";

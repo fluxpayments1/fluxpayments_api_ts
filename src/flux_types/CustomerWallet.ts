@@ -38,9 +38,12 @@ export class CustomerWallet extends FluxType implements ICustomerWallet {
             metadata: this.metadata,
             publicAddress: this.publicAddress,
             chain: this.chain,
-            objectType: "customer_wallet"
+            objectType: "customer_wallet",
+            memoTag: this.memoTag   
         }
     }
+
+    memoTag: string;
 
     publicAddress: string;
     chain: string

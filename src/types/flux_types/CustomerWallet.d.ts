@@ -10,7 +10,9 @@ export declare class CustomerWallet extends FluxType implements ICustomerWallet 
         publicAddress: string;
         chain: string;
         objectType: string;
+        memoTag: string;
     };
+    memoTag: string;
     publicAddress: string;
     chain: string;
     id: number;

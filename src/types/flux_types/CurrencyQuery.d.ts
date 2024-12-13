@@ -11,6 +11,7 @@ export declare class CurrencyQuery extends BaseQuery<Currency> implements ICurre
         chain: string;
         mintAddress: string;
         objectType: string;
+        issuer: string;
         createdAt: number;
     };
     chain: string;
@@ -19,6 +20,7 @@ export declare class CurrencyQuery extends BaseQuery<Currency> implements ICurre
     id: number;
     uniqueId: string;
     metadata: string;
+    issuer: string;
     protected objectType: string;
     constructor(tokQ?: ICurrency);
     static createQuery(ipq: ICurrency): CurrencyQuery;

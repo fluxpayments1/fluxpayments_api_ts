@@ -36,6 +36,7 @@ export class CurrencyQuery extends BaseQuery<Currency> implements ICurrencyQuery
             chain: this.chain,
             mintAddress: this.mintAddress,
             objectType: "currency",
+            issuer: this.issuer,
             createdAt: this.createdAt,
         }
     }
@@ -45,6 +46,7 @@ export class CurrencyQuery extends BaseQuery<Currency> implements ICurrencyQuery
     id: number;
     uniqueId: string;
     metadata: string;
+    issuer: string;
     protected objectType: string = "currency";
 
 
