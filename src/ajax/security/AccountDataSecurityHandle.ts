@@ -19,7 +19,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
+import Cookies from 'js-cookie';
 import { SecurityHandlerBase } from "./SecurityHandlerBase";
 
 export class AccountDataSecurityHandle extends SecurityHandlerBase {
@@ -91,6 +91,9 @@ export class AccountDataSecurityHandle extends SecurityHandlerBase {
     public async decodeResponse(response: string, headers?: any): Promise<string> {
         let base64LookupNonce = headers.get('X-Lookup-Nonce');
         let base64Nonce = headers.get('X-Nonce');
+        let pubEncKey = headers.get('X-Pub-Enc-Key');
+
+        Cookies.set('X-Pub-Enc-Key', pubEncKey);
         
 
         let base64AesKey = AccountDataSecurityHandle.nonceKeyMap.get(base64LookupNonce);

@@ -141,6 +141,20 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
+    async validateAndCreatePaymentMethod<T extends FluxType>(
+        ob: T,
+        secHandle?: SecurityHandler
+    ) : Promise<FluxIdentifier[]> {
+        return CMMT.fetch<FluxIdentifier[], GenericCreatorRequest, GenericCreatorResponse>(
+            GenericCreatorRequest,
+            GenericCreatorResponse,
+            `validateAndCreatePaymentMethod`,
+            "POST",
+            secHandle || this._securityHandle,
+            ob
+        );
+    }
+
     async createObjectGeneric<T extends FluxType>(
         ob: T | T[],
         secHandle? : SecurityHandler
@@ -173,7 +187,6 @@ export class Flux<A extends SecurityHandler> implements IFlux {
             obName = ob.obName
             obType = ob.obType
         }
-
 
         return CMMT.fetchGeneric<GenericCreatorRequest, GenericGetterResponse<T>, T>(
             GenericCreatorRequest,

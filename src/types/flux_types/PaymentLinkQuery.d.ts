@@ -11,6 +11,8 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
         metadata: string;
         objectType: string;
         createdAt: number;
+        disableACH: boolean;
+        disableCard: boolean;
         uniqueId: string;
         isReusable: boolean;
         liveStatus: any;
@@ -20,6 +22,8 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
     };
     id: number;
     metadata: string;
+    disableACH: boolean;
+    disableCard: boolean;
     uniqueId: string;
     liveStatus: any;
     removeOnSuccess: any;

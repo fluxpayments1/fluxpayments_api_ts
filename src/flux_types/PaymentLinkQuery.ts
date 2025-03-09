@@ -36,6 +36,8 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
             metadata: this.metadata,
             objectType: this.objectType,
             createdAt: this.createdAt,
+            disableACH: this.disableACH,
+            disableCard: this.disableCard,
             uniqueId: this.uniqueId,
             isReusable: this.isReusable,
             liveStatus: this.liveStatus,
@@ -46,6 +48,8 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
     }
     id: number;
     metadata: string;
+    disableACH: boolean;
+    disableCard: boolean;
     uniqueId: string;
     liveStatus: any;
     removeOnSuccess: any;

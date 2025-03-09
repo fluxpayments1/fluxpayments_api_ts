@@ -1,3 +1,5 @@
+
+
 /*
  * Copyright (c) 2024 Flux Payment Solutions Company
  *
@@ -20,32 +22,8 @@
  * SOFTWARE.
  */
 
-import { Currency } from "./Currency";
-import { Product } from "./Product";
-import { Wallet } from "./Wallet";
+import { IPermissions } from "./IPermissions";
+import { ISearchOptions } from "./ISearchOptions";
 
-export interface IPaymentLink {
-    id?: number;
-    metadata?: string;
-    uniqueId?: string;
-    isReusable?: boolean;
-    redirectUrl: string;
-    oneTimeUse: boolean;
-    disableACH: boolean;
-    disableCard: boolean;
-    taxRatesId: number;
-    requireShippingAddress: boolean;
-    reusableLinkId: number
-    currentStatus: string
-    serviceFeeRate: number;
-    liveStatus?: any;
-    wallets?: Wallet[];
-    currencies?: Currency[]
-    products?: Product[]
-    requireAccountInformation: boolean
-    confidenceLevel: number
-    removeOnSuccess?: any;
-    paymentLink?: string;
-    accountId?: number;
-    emailNotificationDisabled: boolean;
-}
+
+export type IPermissionsQuery = Partial<IPermissions> & Partial<ISearchOptions>;

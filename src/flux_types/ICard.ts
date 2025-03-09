@@ -28,15 +28,19 @@ export interface ICard {
     id?: number,
     uniqueId?: string;
     metadata?: string;
-    address: Address | IAddress;
-    addressId: number;
     accountSession: string;
     firstName?: string;
     lastName?: string;
     payType?: string;
     lastFour?: string,
-    expMonth: string,
-    expYear: string,
+    cardBrand?: string,
+    address1?: string,
+    address2?: string,
+    city?: string,
+    state?: string,
+    zip?: string,
+    country?: string,
+    expiryDate: string,
     cardNumber: string,
     cvv: string,
 }

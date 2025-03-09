@@ -20,32 +20,22 @@
  * SOFTWARE.
  */
 
-import { Currency } from "./Currency";
-import { Product } from "./Product";
-import { Wallet } from "./Wallet";
 
-export interface IPaymentLink {
-    id?: number;
-    metadata?: string;
-    uniqueId?: string;
-    isReusable?: boolean;
-    redirectUrl: string;
-    oneTimeUse: boolean;
-    disableACH: boolean;
-    disableCard: boolean;
-    taxRatesId: number;
-    requireShippingAddress: boolean;
-    reusableLinkId: number
-    currentStatus: string
-    serviceFeeRate: number;
-    liveStatus?: any;
-    wallets?: Wallet[];
-    currencies?: Currency[]
-    products?: Product[]
-    requireAccountInformation: boolean
-    confidenceLevel: number
-    removeOnSuccess?: any;
-    paymentLink?: string;
-    accountId?: number;
-    emailNotificationDisabled: boolean;
+export interface ICustomerSensitiveData {
+    id?: number,
+    lastFour?: string,
+    token?: string,
+    email?: string,
+    accountType?: string,
+    type?: string,
+    isAuthorized?: boolean,
+    firstName?: string,
+    lastName?: string,
+    bankName?: string,
+    accountSession?: string,
+    encryptedAESKey?: string,
+    encryptedPayload?: string,
+    nonce?: string,
+    objectType?: string,
+
 }

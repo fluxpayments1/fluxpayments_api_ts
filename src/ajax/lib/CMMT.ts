@@ -208,6 +208,7 @@ export class CMMT {
 
                 let axiosResponse = await axios.request<string, any>(config);
 
+
                 if (axiosResponse.status === 200) {
                     let decodedResponse = await arh.securityHandler.decodeResponse(axiosResponse.data as string, axiosResponse.headers);
                     let retVal = arh.response.setResponseJSON(decodedResponse);
@@ -239,6 +240,8 @@ export class CMMT {
                 arh.path = url;
 
                 let hdrs = await arh.securityHandler.createHeaders();
+
+
                 let config: AxiosRequestConfig<string> = {
                     url: CMMT.getPath(arh.path),
                     method: arh.method,

@@ -21,7 +21,7 @@
  */
 
 import { SecurityHandlerBase } from "./SecurityHandlerBase";
-
+import Cookies from 'js-cookie';
 export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
 
 
@@ -90,7 +90,8 @@ export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
     public async decodeResponse(response: string, headers?: any): Promise<string> {
         let base64LookupNonce = headers.get('X-Lookup-Nonce');
         let base64Nonce = headers.get('X-Nonce');
-        
+
+        Cookies.set("X-Pub-Enc-Key", headers.get("X-Pub-Enc-Key"))        
 
         let base64AesKey = SensitiveClientDataSecurityHandle.nonceKeyMap.get(base64LookupNonce);
 

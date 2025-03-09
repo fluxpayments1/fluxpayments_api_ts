@@ -20,32 +20,42 @@
  * SOFTWARE.
  */
 
-import { Currency } from "./Currency";
-import { Product } from "./Product";
-import { Wallet } from "./Wallet";
+import { BaseQuery } from "./BaseQuery";
+import { IUserQuery } from "./IUserQuery";
+import { User } from "./User";
 
-export interface IPaymentLink {
+
+export class UserQuery extends BaseQuery<User> implements IUserQuery{
+    protected objectType: string = "user";
+    uniqueId?: string;
     id?: number;
     metadata?: string;
-    uniqueId?: string;
-    isReusable?: boolean;
-    redirectUrl: string;
-    oneTimeUse: boolean;
-    disableACH: boolean;
-    disableCard: boolean;
-    taxRatesId: number;
-    requireShippingAddress: boolean;
-    reusableLinkId: number
-    currentStatus: string
-    serviceFeeRate: number;
-    liveStatus?: any;
-    wallets?: Wallet[];
-    currencies?: Currency[]
-    products?: Product[]
-    requireAccountInformation: boolean
-    confidenceLevel: number
-    removeOnSuccess?: any;
-    paymentLink?: string;
-    accountId?: number;
-    emailNotificationDisabled: boolean;
+    isApiKey?: boolean;
+    isAdminKey?: boolean;
+    isAccountLocked?: boolean;
+    userEmail?: string;
+    customerPublicKey?: string;
+    permissions
+    public serialize() {
+        return {
+            id: this.id,
+            objectType: this.objectType,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            isApiKey: this.isApiKey,
+            isAdminKey: this.isAdminKey,
+            isAccountLocked: this.isAccountLocked,
+            userEmail: this.userEmail,
+            customerPublicKey: this.customerPublicKey,
+        }
+    }
+
+    public constructor(iUserQ?: IUserQuery) {
+        super(User);
+        Object.assign(this, iUserQ);
+    }
+
+    public static createQuery(ipq: IUserQuery) {
+        return new UserQuery(ipq);
+    }
 }

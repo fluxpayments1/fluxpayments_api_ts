@@ -8,6 +8,8 @@ export interface IPaymentLink {
     isReusable?: boolean;
     redirectUrl: string;
     oneTimeUse: boolean;
+    disableACH: boolean;
+    disableCard: boolean;
     taxRatesId: number;
     requireShippingAddress: boolean;
     reusableLinkId: number;

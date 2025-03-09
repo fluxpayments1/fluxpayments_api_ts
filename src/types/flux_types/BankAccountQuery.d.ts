@@ -1,4 +1,6 @@
-/*
+/**
+ *
+ * /*
  * Copyright (c) 2024 Flux Payment Solutions Company
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -7,7 +9,7 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
@@ -19,33 +21,15 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-import { Currency } from "./Currency";
-import { Product } from "./Product";
-import { Wallet } from "./Wallet";
-
-export interface IPaymentLink {
-    id?: number;
-    metadata?: string;
-    uniqueId?: string;
-    isReusable?: boolean;
-    redirectUrl: string;
-    oneTimeUse: boolean;
-    disableACH: boolean;
-    disableCard: boolean;
-    taxRatesId: number;
-    requireShippingAddress: boolean;
-    reusableLinkId: number
-    currentStatus: string
-    serviceFeeRate: number;
-    liveStatus?: any;
-    wallets?: Wallet[];
-    currencies?: Currency[]
-    products?: Product[]
-    requireAccountInformation: boolean
-    confidenceLevel: number
-    removeOnSuccess?: any;
-    paymentLink?: string;
-    accountId?: number;
-    emailNotificationDisabled: boolean;
+import { BankAccount } from "./BankAccount";
+import { BaseQuery } from "./BaseQuery";
+import { IBankAccount } from "./IBankAccount";
+export declare class BankAccountQuery extends BaseQuery<BankAccount> {
+    obName: string;
+    objectType: string;
+    constructor(c: Partial<IBankAccount>);
+    serialize(): {
+        objectType: string;
+    };
+    static createQuery(accQ?: Partial<IBankAccount>): BankAccountQuery;
 }

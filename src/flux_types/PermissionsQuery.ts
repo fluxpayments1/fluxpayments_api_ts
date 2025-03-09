@@ -20,32 +20,40 @@
  * SOFTWARE.
  */
 
-import { Currency } from "./Currency";
+import { BaseQuery } from "./BaseQuery";
+import { IPermissionsQuery } from "./IPermissionsQuery";
+import { IProductQuery } from "./IProductQuery";
+import { Permissions } from "./Permissions";
 import { Product } from "./Product";
-import { Wallet } from "./Wallet";
+/**
+ * This is an object that is used to query for products.
+ */
+export class PermissionsQuery extends BaseQuery<Permissions> implements IPermissionsQuery {
+    protected objectType: string = "permissions";
+    public serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            permissionObjectType: this.permissionObjectType,
+            permissionAction: this.permissionAction,
+            objectType: this.objectType
+        }
+    }
 
-export interface IPaymentLink {
     id?: number;
-    metadata?: string;
     uniqueId?: string;
-    isReusable?: boolean;
-    redirectUrl: string;
-    oneTimeUse: boolean;
-    disableACH: boolean;
-    disableCard: boolean;
-    taxRatesId: number;
-    requireShippingAddress: boolean;
-    reusableLinkId: number
-    currentStatus: string
-    serviceFeeRate: number;
-    liveStatus?: any;
-    wallets?: Wallet[];
-    currencies?: Currency[]
-    products?: Product[]
-    requireAccountInformation: boolean
-    confidenceLevel: number
-    removeOnSuccess?: any;
-    paymentLink?: string;
-    accountId?: number;
-    emailNotificationDisabled: boolean;
+    metadata?: string;
+    permissionObjectType?: string;
+    permissionAction?: string;
+
+    constructor(permissionsQuery?: IPermissionsQuery) {
+        super(Permissions);
+        Object.assign(this, permissionsQuery);
+    }
+
+
+    public static createQuery(ipq: IProductQuery) {
+        return new PermissionsQuery(ipq)
+    }
 }

@@ -20,19 +20,97 @@
  * SOFTWARE.
  */
 
+import { FluxType } from "./FluxType";
 import { IBankAccount } from "./IBankAccount";
-import { PaymentMethod } from "./PaymentMethod";
+import { SecurityHandlerBase, SensitiveClientDataSecurityHandle } from "../ajax/security";
+import { SecurityHandler } from "../ajax/security";
+import { Flux, fluxBrowser } from "../lib";
+import { CustomerSensitiveData } from "./CustomerSensitiveData";
+import Cookies from 'js-cookie';
+export class BankAccount extends FluxType implements IBankAccount {
+    public obName: string = "BankAccount";
+    public objectType: string = "bank_account";
 
-export class BankAccount extends PaymentMethod implements IBankAccount {
-    public constructor (c : Partial<IBankAccount>) {
-        super(c)
-        this.payType = "BANK_ACCOUNT"
+
+    public serialize() {
+        return {
+            objectType: this.objectType,
+            lastFour: this.lastFour,
+            bankName: this.bankName,
+        }
+    }
+    public constructor(c: Partial<IBankAccount>) {
+        super(c, BankAccount)
+        Object.assign(this, c)
     }
     lastFour: string;
     bankName: string;
     routingNumber: string;
     bankBrand: string;
     accountNumber: string;
+    accountType: string;
+    accountSession: string;
+    metadata: string;
+    firstName: string;
+    lastName: string;
+
+    public static parseCustomerSensitiveData(csd: CustomerSensitiveData) : BankAccount {
+        let ba = new BankAccount({
+            lastFour: csd.lastFour,
+            bankName: csd.bankName,
+            accountType: csd.accountType,
+            id: csd.id,
+            firstName: csd.firstName,
+            lastName: csd.lastName
+        })
+        return ba
+    }
+
+    public async validateBankAccount() {
+        //Here we need to create a customer sensitive data object and submit a request
+        //to the backend to validate the bank account
+
+
+        let sensitiveData = new CustomerSensitiveData()
+
+
+        let xPubEncKey = Cookies.get('X-Pub-Enc-Key')
+
+        let f: Flux<SecurityHandler> = await fluxBrowser()
+
+
+        let secH: SecurityHandler = f.securityHandle
+
+        let aesKey = SecurityHandlerBase.genAesKey()
+        let aesNonce = SecurityHandlerBase.generateNonce();
+
+
+        let encAesKey = await SecurityHandlerBase.encryptRsaBrowser(xPubEncKey, aesKey)
+
+        let encSensitiveData = await SecurityHandlerBase.encryptAESBrowser(aesKey, aesNonce, JSON.stringify(sensitiveData))
+
+
+        sensitiveData.encryptedAESKey = encAesKey
+        sensitiveData.nonce = aesNonce
+        sensitiveData.encryptedPayload = encSensitiveData
+        sensitiveData.lastFour = this.lastFour
+        sensitiveData.accountType = this.accountType
+        sensitiveData.type = "BANK_ACCOUNT"
+
+
+
+
+        let secHandle = undefined
+        if (this.accountSession) {
+            secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, this.accountSession)
+        } else {
+            throw new Error("must have an account session");
+        }
+
+
+        await f.validateAndCreatePaymentMethod(sensitiveData, secHandle)
+
+    }
 
     public getDispName(): string {
         return this.lastFour

@@ -158,11 +158,13 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
 
   public static encryptRsa(publicKeyPem: string, plaintext: string): string {
     const publicKey = `-----BEGIN PUBLIC KEY-----\n${publicKeyPem}\n-----END PUBLIC KEY-----`;
+    //here is the java algo         Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA-256AndMGF1Padding");
 
     const encrypted = crypto.publicEncrypt(
       {
         key: publicKey,
-        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING
+        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+        oaepHash: "sha256"
       },
       Buffer.from(plaintext)
     );
@@ -177,7 +179,7 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
       SecurityHandlerBase.pemToBuffer(publicKeyPem),
       {
         name: "RSA-OAEP",
-        hash: "SHA-1"
+        hash: "SHA-256",
       },
       true,
       ["encrypt"]
@@ -236,7 +238,7 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
 
       return { publicKey: publicKeyBase64, privateKey: privateKeyBase64 };
     } catch (error) {
-      console.error("Error generating RSA key pair:", error);
+      console.log("Error generating RSA key pair:", error);
       throw error;
     }
   }
@@ -253,6 +255,7 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
         },
         privateKeyEncoding: {
           type: 'pkcs8',
+
           format: 'pem'
         }
       });
@@ -266,15 +269,16 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
 
   public static decryptRsa(privateKeyPem: string, encryptedText: string): string {
     const privateKey = `-----BEGIN PRIVATE KEY-----\n${privateKeyPem}\n-----END PRIVATE KEY-----`;
-
     const decrypted = crypto.privateDecrypt(
       {
         key: privateKey,
         // Ensure the padding matches the one used in the encryption
-        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING
+        padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+        oaepHash: "sha256"
       },
       Buffer.from(encryptedText, 'base64') // The encrypted text should be in base64 as per your encryption function
     );
+
 
     return decrypted.toString();
   }
@@ -286,7 +290,7 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
       SecurityHandlerBase.pemToBuffer(privateKeyPem),
       {
         name: "RSA-OAEP",
-        hash: "SHA-1"
+        hash: "SHA-256"
       },
       false,
       ["decrypt"]
@@ -298,7 +302,8 @@ export abstract class SecurityHandlerBase implements SecurityHandler {
     // Decrypt the text
     const decrypted = await window.crypto.subtle.decrypt(
       {
-        name: "RSA-OAEP"
+        name: "RSA-OAEP",
+        
       },
       privateKey,
       encryptedBuffer

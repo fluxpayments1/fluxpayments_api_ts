@@ -41,6 +41,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
     public getDispName(): string {
         return this.lastFour
     }
+    
 
     public obName: string = "PaymentMethod";
     public serialize() {
@@ -215,9 +216,9 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         this.id = c.id
         this.uniqueId = c.uniqueId
         this.metadata = c.metadata
-        this.address = new Address(c.address)
+        // this.address = new Address(c.address)
         this.accountSession = c.accountSession
-        this.addressId = c.addressId
+        // this.addressId = c.addressId
         this.firstName = c.firstName
         this.lastName = c.lastName
         this.payType = c.payType

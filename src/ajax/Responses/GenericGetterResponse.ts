@@ -25,6 +25,7 @@ import { ResponseBodyBase } from "./ResponseBodyBase";
 
 export class GenericGetterResponse<T extends FluxType> extends ResponseBodyBase {
     _objects: T[];
+    _count: number;
     type: new (fbo: FluxType) => T;
     get objects() {
         return this._objects;
@@ -41,16 +42,17 @@ export class GenericGetterResponse<T extends FluxType> extends ResponseBodyBase 
 
     public getClientReturnValue(): T[] {
 
+
         if (this._objects)
 
             this._objects = this._objects.map(prod => {
                 let t = new this.type(prod);
                 t.dataTableMetadata = this._metadata
-
+                t
                 return t;
             });
 
-
+        this._objects["count"] = this._count;
         return this._objects
     }
 

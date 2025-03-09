@@ -1,30 +1,49 @@
-import { SecurityHandler } from "../ajax/security/SecurityHandler";
-import { Flux } from "../lib/Flux";
 import { Address } from "./Address";
-import { BaseQuery } from "./BaseQuery";
+import { CustomerSensitiveData } from "./CustomerSensitiveData";
 import { FluxType } from "./FluxType";
 import { ICard } from "./ICard";
-import { PaymentMethod } from "./PaymentMethod";
-export declare class Card extends PaymentMethod implements ICard {
+export declare class Card extends FluxType implements ICard {
+    obName: string;
+    objectType: string;
     constructor(c: Partial<ICard>);
     accountSession: string;
-    expMonth: string;
-    expYear: string;
+    expiryDate: string;
     address: Address;
     cardNumber: string;
     cvv: string;
+    cardBrand: string;
+    lastFour: string;
+    address1: string;
+    address2: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+    uniqueId: string;
+    metadata: string;
+    firstName: string;
+    lastName: string;
+    id: number;
+    payType: string;
+    serialize(): {
+        objectType: string;
+        lastFour: string;
+        cardBrand: string;
+        address1: string;
+        address2: string;
+        city: string;
+        state: string;
+        zip: string;
+        country: string;
+        expiryDate: string;
+        cardNumber: string;
+        cvv: string;
+        firstName: string;
+        lastName: string;
+        uniqueId: string;
+        metadata: string;
+    };
     getDispName(): string;
     static createInstanceLazy(acc: Partial<ICard>): Promise<Card>;
-    /**
-     * Will not create a card if working outside of the browser,
-     * will just load the card if it exists.
-     *
-     * @param acc
-     * @param accountSession
-     * @returns
-     */
-    static createInstanceSafe(acc: Partial<ICard>): Promise<PaymentMethod>;
-    static createCard(acc: Partial<ICard>): Promise<PaymentMethod>;
-    static validateCard(acc: Partial<ICard>): Promise<import("./EmissionData").EmissionData>;
-    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]>;
+    static parseCustomerSensitiveData(csd: CustomerSensitiveData): Card;
 }

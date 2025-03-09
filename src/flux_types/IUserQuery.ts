@@ -20,32 +20,8 @@
  * SOFTWARE.
  */
 
-import { Currency } from "./Currency";
-import { Product } from "./Product";
-import { Wallet } from "./Wallet";
+import { ISearchOptions } from "./ISearchOptions";
+import IUser from "./IUser";
 
-export interface IPaymentLink {
-    id?: number;
-    metadata?: string;
-    uniqueId?: string;
-    isReusable?: boolean;
-    redirectUrl: string;
-    oneTimeUse: boolean;
-    disableACH: boolean;
-    disableCard: boolean;
-    taxRatesId: number;
-    requireShippingAddress: boolean;
-    reusableLinkId: number
-    currentStatus: string
-    serviceFeeRate: number;
-    liveStatus?: any;
-    wallets?: Wallet[];
-    currencies?: Currency[]
-    products?: Product[]
-    requireAccountInformation: boolean
-    confidenceLevel: number
-    removeOnSuccess?: any;
-    paymentLink?: string;
-    accountId?: number;
-    emailNotificationDisabled: boolean;
-}
+
+export type IUserQuery = Partial<IUser> & Partial<ISearchOptions>;

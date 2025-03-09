@@ -20,32 +20,40 @@
  * SOFTWARE.
  */
 
-import { Currency } from "./Currency";
-import { Product } from "./Product";
-import { Wallet } from "./Wallet";
+import { IPermissions } from "./IPermissions";
+import { FluxType } from "./FluxType";
 
-export interface IPaymentLink {
-    id?: number;
-    metadata?: string;
-    uniqueId?: string;
-    isReusable?: boolean;
-    redirectUrl: string;
-    oneTimeUse: boolean;
-    disableACH: boolean;
-    disableCard: boolean;
-    taxRatesId: number;
-    requireShippingAddress: boolean;
-    reusableLinkId: number
-    currentStatus: string
-    serviceFeeRate: number;
-    liveStatus?: any;
-    wallets?: Wallet[];
-    currencies?: Currency[]
-    products?: Product[]
-    requireAccountInformation: boolean
-    confidenceLevel: number
-    removeOnSuccess?: any;
-    paymentLink?: string;
-    accountId?: number;
-    emailNotificationDisabled: boolean;
+export class Permissions extends FluxType implements IPermissions {
+    id: number;
+    uniqueId: string;
+    metadata: string;
+    permissionObjectType: string;
+    permissionAction: string;
+
+    public getDispName(): string {
+        return this.permissionObjectType.slice(0, 5) + ":" + this.permissionAction.slice(0, 5);
+    }
+    
+    protected objectType: string = "permissions";
+
+    public obName: string = "Permissions";
+    public serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            objectType: this.objectType,
+            permissionObjectType: this.permissionObjectType,
+            permissionAction: this.permissionAction,
+        }
+    }
+
+    public constructor(c?: Partial<IPermissions>) {
+        super(c, Permissions)
+        if (!c) return;
+        Object.assign(this, c);
+    }
+
+
+
 }

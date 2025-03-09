@@ -25,29 +25,62 @@ import { SensitiveClientDataSecurityHandle } from "../ajax/security/SensitiveCli
 import { Flux } from "../lib/Flux";
 import { Address } from "./Address";
 import { BaseQuery } from "./BaseQuery";
+import { CustomerSensitiveData } from "./CustomerSensitiveData";
 import { FluxType } from "./FluxType";
 import { ICard } from "./ICard";
 import { IPaymentMethodQuery } from "./IPaymentMethodQuery";
 import { PaymentMethod } from "./PaymentMethod";
 
 
-export class Card extends PaymentMethod implements ICard {
+export class Card extends FluxType implements ICard {
+    public obName: string = "Card";
+    public objectType: string = "card";
+
     public constructor (c : Partial<ICard>) {
-        super(c)
-        this.payType = "CARD"
-        this.lastFour = c.lastFour;
-        this.expMonth = c.expMonth
-        this.expYear = c.expYear
-        this.cardNumber = c.cardNumber
-        this.cvv = c.cvv
+        super(c, Card)
+        Object.assign(this, c)
     }
     accountSession: string;
-    expMonth: string;
-    expYear: string;
+    expiryDate: string;
     address: Address;
     cardNumber: string;
     cvv: string;
+    cardBrand: string;
+    lastFour: string;
+    address1: string;
+    address2: string;
+    city: string;
+    state: string;
+    zip: string;
+    country: string;
+    uniqueId: string;
+    metadata: string;
+    firstName: string;
+    lastName: string;
+    id: number;
+    payType: string;
 
+
+    public serialize() {
+        return {
+            objectType: this.objectType,
+            lastFour: this.lastFour,
+            cardBrand: this.cardBrand,
+            address1: this.address1,
+            address2: this.address2,
+            city: this.city,
+            state: this.state,
+            zip: this.zip,
+            country: this.country,
+            expiryDate: this.expiryDate,
+            cardNumber: this.cardNumber,
+            cvv: this.cvv,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+        }
+    }
     public getDispName(): string {
         return this.lastFour
     }
@@ -57,51 +90,16 @@ export class Card extends PaymentMethod implements ICard {
     }
 
 
-    /**
-     * Will not create a card if working outside of the browser,
-     * will just load the card if it exists.
-     * 
-     * @param acc 
-     * @param accountSession 
-     * @returns 
-     */
-    public static async createInstanceSafe(acc: Partial<ICard>) {
-        let instance: Card = new Card(acc);
-        let retVal = await PaymentMethod.createInstanceSafeDbCall(instance, acc)
-        return retVal;
-    }
 
-    public static async createCard(acc: Partial<ICard>) {
-        let accCopy = JSON.parse(JSON.stringify(acc))
-        let instance: Card = new Card(acc);
-        let instance2: Card = new Card(accCopy);
-        let l = await PaymentMethod.validatePaymentMethod(instance, acc)
-        let additionalData = JSON.parse(l.additionalDataString)
-        if (additionalData?.success) {
-            let retVal = await PaymentMethod.createInstanceSafeDbCall(instance2, accCopy)
-            return retVal;
-        } else {
-            throw new Error("Card validation failed")
-        }
-
-
-    }
-
-    public static async validateCard(acc: Partial<ICard>) {
-        let instance: Card = new Card(acc);
-        let retVal = await PaymentMethod.validatePaymentMethod(instance, acc)
-        return retVal;
-    }
-
-    public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]> {
-        let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
-        let secHandle = undefined;
-        if ((q as IPaymentMethodQuery).accountSession) {
-            secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (q as IPaymentMethodQuery).accountSession)
-        }
-
-        let obs = await f.getObjects<T, U>(q, secHandle)
-        return obs;
+    public static parseCustomerSensitiveData(csd: CustomerSensitiveData) : Card {
+        let card = new Card({
+            lastFour: csd.lastFour,
+            cardBrand: csd.accountType,
+            firstName: csd.firstName,
+            lastName: csd.lastName,
+            
+        })
+        return card
     }
 
 
