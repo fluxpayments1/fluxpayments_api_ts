@@ -27,6 +27,7 @@ export interface ICustomerSensitiveData {
     token?: string,
     email?: string,
     accountType?: string,
+    oneTimeUseToken?: string,
     type?: string,
     isAuthorized?: boolean,
     firstName?: string,

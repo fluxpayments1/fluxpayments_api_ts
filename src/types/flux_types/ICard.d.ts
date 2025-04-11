@@ -1,4 +1,5 @@
 export interface ICard {
+    oneTimeUseToken?: string;
     id?: number;
     uniqueId?: string;
     metadata?: string;

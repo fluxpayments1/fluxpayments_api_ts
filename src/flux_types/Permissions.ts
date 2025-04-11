@@ -31,7 +31,7 @@ export class Permissions extends FluxType implements IPermissions {
     permissionAction: string;
 
     public getDispName(): string {
-        return this.permissionObjectType.slice(0, 5) + ":" + this.permissionAction.slice(0, 5);
+        return this.permissionObjectType.slice(0, 15) + ":" + this.permissionAction.slice(0, 10);
     }
     
     protected objectType: string = "permissions";

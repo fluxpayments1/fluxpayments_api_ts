@@ -20,4 +20,6 @@ export interface ITransaction {
     shippingAddress: Address;
     products: Product | Product[];
     inventoryOnlyOrder?: boolean;
+    accountSession?: string;
+    oneTimeUseToken?: string;
 }

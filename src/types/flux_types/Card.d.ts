@@ -25,6 +25,7 @@ export declare class Card extends FluxType implements ICard {
     lastName: string;
     id: number;
     payType: string;
+    oneTimeUseToken: string;
     serialize(): {
         objectType: string;
         lastFour: string;
@@ -36,6 +37,7 @@ export declare class Card extends FluxType implements ICard {
         zip: string;
         country: string;
         expiryDate: string;
+        oneTimeUseToken: string;
         cardNumber: string;
         cvv: string;
         firstName: string;

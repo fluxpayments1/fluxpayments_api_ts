@@ -54,7 +54,8 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
             firstName: this.firstName,
             lastName: this.lastName,
             nonce: this.nonce,
-            objectType: this.objectType
+            objectType: this.objectType,
+            oneTimeUseToken: this.oneTimeUseToken
         }
     }
 
@@ -67,6 +68,7 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
     encryptedAESKey: string;
     accountSession?: string;
     bankName: string;
+    oneTimeUseToken: string;
     encryptedPayload: string;
     nonce: string;
     firstName: string;

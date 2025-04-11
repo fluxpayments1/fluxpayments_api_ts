@@ -25,6 +25,7 @@ import { IAddress } from "./IAddress";
 
 
 export interface ICard {
+    oneTimeUseToken?: string,
     id?: number,
     uniqueId?: string;
     metadata?: string;

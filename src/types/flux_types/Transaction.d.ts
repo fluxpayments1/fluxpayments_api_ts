@@ -42,6 +42,8 @@ export declare class Transaction extends FluxType implements ITransaction {
     objectType: string;
     products: Product[];
     id: number;
+    oneTimeUseToken?: string;
+    accountSession?: string;
     /**
      * Fetches the account that was used
      * at the time of purchase
@@ -144,6 +146,8 @@ export declare class Transaction extends FluxType implements ITransaction {
         taxRate: number;
         taxRateId: number;
         approvalStatus: string;
+        accountSession: string;
+        oneTimeUseToken: string;
         createdAt: number;
         currency: string;
         currencyId: number;

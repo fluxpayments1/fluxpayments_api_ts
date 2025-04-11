@@ -59,7 +59,7 @@ export class Card extends FluxType implements ICard {
     lastName: string;
     id: number;
     payType: string;
-
+    oneTimeUseToken: string;
 
     public serialize() {
         return {
@@ -73,6 +73,7 @@ export class Card extends FluxType implements ICard {
             zip: this.zip,
             country: this.country,
             expiryDate: this.expiryDate,
+            oneTimeUseToken: this.oneTimeUseToken,
             cardNumber: this.cardNumber,
             cvv: this.cvv,
             firstName: this.firstName,
@@ -97,7 +98,7 @@ export class Card extends FluxType implements ICard {
             cardBrand: csd.accountType,
             firstName: csd.firstName,
             lastName: csd.lastName,
-            
+            oneTimeUseToken: csd.oneTimeUseToken,
         })
         return card
     }

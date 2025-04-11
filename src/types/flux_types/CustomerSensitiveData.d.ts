@@ -20,6 +20,7 @@ export declare class CustomerSensitiveData extends FluxType implements ICustomer
         lastName: string;
         nonce: string;
         objectType: string;
+        oneTimeUseToken: string;
     };
     lastFour: string;
     token: string;
@@ -30,6 +31,7 @@ export declare class CustomerSensitiveData extends FluxType implements ICustomer
     encryptedAESKey: string;
     accountSession?: string;
     bankName: string;
+    oneTimeUseToken: string;
     encryptedPayload: string;
     nonce: string;
     firstName: string;

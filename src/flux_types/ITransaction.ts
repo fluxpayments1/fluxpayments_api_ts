@@ -43,5 +43,7 @@ export interface ITransaction {
     currencyId: number;
     shippingAddress: Address,
     products: Product | Product[],
-    inventoryOnlyOrder?: boolean
+    inventoryOnlyOrder?: boolean,
+    accountSession?: string,
+    oneTimeUseToken?: string
 }
