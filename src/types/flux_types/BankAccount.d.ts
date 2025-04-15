@@ -7,10 +7,14 @@ export declare class BankAccount extends FluxType implements IBankAccount {
     serialize(): {
         objectType: string;
         lastFour: string;
+        accountNumber: string;
+        oneTimeUseToken: string;
+        routingNumber: string;
         bankName: string;
     };
     constructor(c: Partial<IBankAccount>);
     lastFour: string;
+    oneTimeUseToken: string;
     bankName: string;
     routingNumber: string;
     bankBrand: string;

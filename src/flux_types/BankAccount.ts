@@ -36,6 +36,9 @@ export class BankAccount extends FluxType implements IBankAccount {
         return {
             objectType: this.objectType,
             lastFour: this.lastFour,
+            accountNumber: this.accountNumber,
+            oneTimeUseToken: this.oneTimeUseToken,
+            routingNumber: this.routingNumber,
             bankName: this.bankName,
         }
     }
@@ -44,6 +47,7 @@ export class BankAccount extends FluxType implements IBankAccount {
         Object.assign(this, c)
     }
     lastFour: string;
+    oneTimeUseToken: string;
     bankName: string;
     routingNumber: string;
     bankBrand: string;
@@ -59,6 +63,7 @@ export class BankAccount extends FluxType implements IBankAccount {
             lastFour: csd.lastFour,
             bankName: csd.bankName,
             accountType: csd.accountType,
+            oneTimeUseToken: csd.oneTimeUseToken,
             id: csd.id,
             firstName: csd.firstName,
             lastName: csd.lastName
