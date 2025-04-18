@@ -62,6 +62,7 @@ export class Transaction extends FluxType implements ITransaction {
     paymentMethodAddressId: number;
     createdAt: number;
     accountId: number;
+    isRefund: boolean;
     accountUniqueId: string;
     accountDumpId: number;
     taxRateId: number;
@@ -71,6 +72,7 @@ export class Transaction extends FluxType implements ITransaction {
     uniqueId: string;
     chainNumber: number;
     defaultCurrencyAmount: number;
+    amount: number;
     paymentLinkId: number;
     taxRate: number;
     currency: string;
@@ -303,6 +305,8 @@ export class Transaction extends FluxType implements ITransaction {
             defaultCurrencyAmount: this.defaultCurrencyAmount,
             confidenceLevel: this.confidenceLevel,
             txnHash: this.txnHash,
+            isRefund: this.isRefund,
+            amount: this.amount,
             taxRate: this.taxRate,
             taxRateId: this.taxRateId,
             approvalStatus: this.approvalStatus,

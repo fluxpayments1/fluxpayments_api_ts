@@ -29,6 +29,7 @@ import { Product } from "./Product";
 export interface ITransaction {
     account: Account;
     paymentMethod: PaymentMethod;
+    isRefund?: boolean;
     id: number
     uniqueId: string;
     taxRate?: number;
