@@ -60,6 +60,8 @@ export class Transaction extends FluxType implements ITransaction {
     shippingAddress: Address;
     paymentMethod: PaymentMethod;
     paymentMethodAddressId: number;
+    isReprocessRequest: boolean;
+    baseTransaction: number;
     createdAt: number;
     accountId: number;
     isRefund: boolean;
@@ -306,10 +308,12 @@ export class Transaction extends FluxType implements ITransaction {
             confidenceLevel: this.confidenceLevel,
             txnHash: this.txnHash,
             isRefund: this.isRefund,
+            isReprocessRequest: this.isReprocessRequest,
             amount: this.amount,
             taxRate: this.taxRate,
             taxRateId: this.taxRateId,
             approvalStatus: this.approvalStatus,
+            baseTransaction: this.baseTransaction,
             accountSession: this.accountSession,
             oneTimeUseToken: this.oneTimeUseToken,
             createdAt: this.createdAt,
