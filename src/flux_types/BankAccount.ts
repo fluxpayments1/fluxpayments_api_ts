@@ -79,7 +79,7 @@ export class BankAccount extends FluxType implements IBankAccount {
         let sensitiveData = new CustomerSensitiveData()
 
 
-        let xPubEncKey = Cookies.get('X-Pub-Enc-Key')
+        let xPubEncKey = localStorage.getItem('X-Pub-Enc-Key')
 
         let f: Flux<SecurityHandler> = await fluxBrowser()
 

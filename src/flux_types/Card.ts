@@ -99,6 +99,7 @@ export class Card extends FluxType implements ICard {
             firstName: csd.firstName,
             lastName: csd.lastName,
             oneTimeUseToken: csd.oneTimeUseToken,
+            id: csd.id
         })
         return card
     }

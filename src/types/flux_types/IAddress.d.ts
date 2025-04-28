@@ -4,6 +4,7 @@ export interface IAddress {
     metadata?: string;
     streetAddress?: string;
     country?: string;
+    accountId?: number;
     zipCode?: string;
     addressState?: string;
     city?: string;

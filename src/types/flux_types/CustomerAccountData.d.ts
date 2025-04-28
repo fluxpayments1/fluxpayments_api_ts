@@ -1,0 +1,47 @@
+import { CustomerAddressData } from './CustomerAddressData';
+import { CustomerSensitiveData } from './CustomerSensitiveData';
+import { FluxType } from './FluxType';
+import { ICustomerAccountData } from './ICustomerAccountData';
+export declare class CustomerAccountData extends FluxType implements ICustomerAccountData {
+    getDispName(): string;
+    obName: string;
+    id: number;
+    email: string;
+    streetAddress: string;
+    activeStatus: boolean;
+    customerAddressData: CustomerAddressData[];
+    customerSensitiveData: CustomerSensitiveData[];
+    defaultShippingAddressId: number;
+    defaultPaymentMethodId: number;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    uniqueid: string;
+    defaultShippingAddress: CustomerAddressData;
+    defaultPaymentMethod: CustomerSensitiveData;
+    metadata: string;
+    objectType: string;
+    constructor(c?: Partial<CustomerAccountData>);
+    accountSession: string;
+    serialize(): {
+        id: number;
+        email: string;
+        streetAddress: string;
+        activeStatus: boolean;
+        customerAddressData: CustomerAddressData[];
+        customerSensitiveData: CustomerSensitiveData[];
+        defaultShippingAddressId: number;
+        defaultPaymentMethodId: number;
+        createdAt: number;
+        updatedAt: Date;
+        defaultShippingAddress: CustomerAddressData;
+        defaultPaymentMethod: CustomerSensitiveData;
+        uniqueid: string;
+        firstName: string;
+        lastName: string;
+        objectType: string;
+        phoneNumber: string;
+        accountSession: string;
+        metadata: string;
+    };
+}

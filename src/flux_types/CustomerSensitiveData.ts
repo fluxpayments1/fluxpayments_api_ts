@@ -118,11 +118,11 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
         
         this.nonce = nonce
 
-        if (!Cookies.get("X-Pub-Enc-Key")) {
+        if (!localStorage.getItem("X-Pub-Enc-Key")) {
             throw new Error("No public encryption key found - data transmission key not found")
         }
 
-        let encryptedAESKey = await SecurityHandlerBase.encryptRsaBrowser(Cookies.get("X-Pub-Enc-Key"), aesKey)
+        let encryptedAESKey = await SecurityHandlerBase.encryptRsaBrowser(localStorage.getItem("X-Pub-Enc-Key"), aesKey)
         this.encryptedAESKey = encryptedAESKey
         
 
@@ -147,11 +147,11 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
         
         this.nonce = nonce
 
-        if (!Cookies.get("X-Pub-Enc-Key")) {
+        if (!localStorage.getItem("X-Pub-Enc-Key")) {
             throw new Error("No public encryption key found - data transmission key not found")
         }
 
-        let encryptedAESKey = await SecurityHandlerBase.encryptRsaBrowser(Cookies.get("X-Pub-Enc-Key"), aesKey)
+        let encryptedAESKey = await SecurityHandlerBase.encryptRsaBrowser(localStorage.getItem("X-Pub-Enc-Key"), aesKey)
         this.encryptedAESKey = encryptedAESKey
         
 

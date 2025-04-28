@@ -20,59 +20,51 @@
  * SOFTWARE.
  */
 
+import { FluxType } from './FluxType';
+import { ICustomerAddressData } from './ICustomerAddressData';
 
-import { IAddress } from "./IAddress";
-import { FluxType } from "./FluxType";
-
-export class Address extends FluxType implements IAddress {
-    public obName: string = "Address";
-    public serialize() {
-        return {
-            uniqueId: this.uniqueId,
-            id: this.id,
-            metadata: this.metadata,
-            streetAddress: this.streetAddress,
-            country: this.country,
-            zipCode: this.zipCode,
-            addressState: this.addressState,
-            city: this.city,
-            accountId: this.accountId,
-            objectType: "address"
-        }
-    }
-
+export class CustomerAddressData extends FluxType implements ICustomerAddressData {
     public getDispName(): string {
         return this.streetAddress
     }
+    public obName: string = "CustomerAddressData";
 
-    accountId: number;
-    uniqueId: string;
     id: number;
-    metadata: string;
+    email: string;
     streetAddress: string;
+    activeStatus: boolean = true;
     country: string;
-    zipCode: string;
+    zipcode: string;
     addressState: string;
     city: string;
-    protected objectType = "address"
+    uniqueid: string;
+    makeDefault: boolean;
+    metadata: string;
+    objectType: string = "customer_address_data";
 
-    constructor(add?: Partial<IAddress>) {
-        super(add, Address)
-        Object.assign(this, add);
+    constructor(c?: Partial<CustomerAddressData>) {
+        super(c, CustomerAddressData);
+        Object.assign(this, c);
     }
+    accountSession: string;
 
-    public static async createInstanceLazy(acc: Partial<IAddress>) {
-        return await FluxType.instantiateLazyInstance(acc, this)
+    public serialize() {
+        return {
+            id: this.id,
+            email: this.email,
+            streetAddress: this.streetAddress,
+            activeStatus: this.activeStatus,
+            country: this.country,
+            makeDefault: this.makeDefault,
+            zipcode: this.zipcode,
+            addressState: this.addressState,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            city: this.city,
+            uniqueid: this.uniqueid,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
     }
-
-    public static async createInstanceSafe(acc: Partial<IAddress>) {
-        return await FluxType.instantiateInstance(acc, this)
-    }
-
-    
-
-
-
-
 
 }

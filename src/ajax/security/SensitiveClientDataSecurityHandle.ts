@@ -91,7 +91,7 @@ export class SensitiveClientDataSecurityHandle extends SecurityHandlerBase {
         let base64LookupNonce = headers.get('X-Lookup-Nonce');
         let base64Nonce = headers.get('X-Nonce');
 
-        Cookies.set("X-Pub-Enc-Key", headers.get("X-Pub-Enc-Key"))        
+        localStorage.setItem("X-Pub-Enc-Key", headers.get("X-Pub-Enc-Key"))        
 
         let base64AesKey = SensitiveClientDataSecurityHandle.nonceKeyMap.get(base64LookupNonce);
 

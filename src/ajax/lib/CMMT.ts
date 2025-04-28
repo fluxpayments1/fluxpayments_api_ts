@@ -192,10 +192,12 @@ export class CMMT {
                 let hdrs = await arh.securityHandler.createHeaders();
                 let config: AxiosRequestConfig<string> = {
                     url: CMMT.getPath(arh.path),
+
                     method: arh.method,
+                    withCredentials: true,
                     headers: {
                         ...Object.fromEntries(hdrs.entries()),
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     data: await arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs),
                     httpsAgent: new https.Agent({
@@ -245,9 +247,10 @@ export class CMMT {
                 let config: AxiosRequestConfig<string> = {
                     url: CMMT.getPath(arh.path),
                     method: arh.method,
+                    withCredentials: true,
                     headers: {
                         ...Object.fromEntries(hdrs.entries()),
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
                     },
                     data: await arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs),
                     httpsAgent: new https.Agent({

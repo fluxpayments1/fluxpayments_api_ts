@@ -93,7 +93,7 @@ export class AccountDataSecurityHandle extends SecurityHandlerBase {
         let base64Nonce = headers.get('X-Nonce');
         let pubEncKey = headers.get('X-Pub-Enc-Key');
 
-        Cookies.set('X-Pub-Enc-Key', pubEncKey);
+        localStorage.setItem('X-Pub-Enc-Key', pubEncKey);
         
 
         let base64AesKey = AccountDataSecurityHandle.nonceKeyMap.get(base64LookupNonce);

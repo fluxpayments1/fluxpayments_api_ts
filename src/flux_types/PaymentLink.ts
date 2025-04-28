@@ -57,6 +57,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             accountId: this.accountId,
             createdAt: this.createdAt,
             products: this.products,
+            enableCrypto: this.enableCrypto,
             emailNotificationDisabled: this.emailNotificationDisabled,
             updateAccInfo: this.updateAccInfo,
             updateAddInfo: this.updateAddInfo,
@@ -80,6 +81,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     wallets: Wallet[]
     id: number;
     metadata: string;
+    enableCrypto: boolean;
     uniqueId: string;
     updateAccInfo: boolean;
     updateAddInfo: boolean

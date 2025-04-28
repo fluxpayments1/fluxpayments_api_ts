@@ -31,6 +31,7 @@ export interface IPaymentLink {
     isReusable?: boolean;
     redirectUrl: string;
     oneTimeUse: boolean;
+    enableCrypto: boolean;
     disableACH: boolean;
     disableCard: boolean;
     taxRatesId: number;

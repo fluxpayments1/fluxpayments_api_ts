@@ -1,6 +1,6 @@
 import { IAddress } from "./IAddress";
 import { FluxType } from "./FluxType";
-export declare class Address extends FluxType {
+export declare class Address extends FluxType implements IAddress {
     obName: string;
     serialize(): {
         uniqueId: string;
@@ -11,9 +11,11 @@ export declare class Address extends FluxType {
         zipCode: string;
         addressState: string;
         city: string;
+        accountId: number;
         objectType: string;
     };
     getDispName(): string;
+    accountId: number;
     uniqueId: string;
     id: number;
     metadata: string;
