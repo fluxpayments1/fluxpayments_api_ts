@@ -32,6 +32,7 @@ export interface ICustomerSensitiveData {
     isAuthorized?: boolean,
     firstName?: string,
     lastName?: string,
+    shippingAddressId?: number,
     bankName?: string,
     accountSession?: string,
     encryptedAESKey?: string,
