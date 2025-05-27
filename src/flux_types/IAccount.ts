@@ -37,5 +37,4 @@ export interface IAccount {
     isTaxExempt?: boolean
     lastName?: string
     phoneNumber?: string
-    accountUserType: AccountUserType // NOT NULL constraint
 }

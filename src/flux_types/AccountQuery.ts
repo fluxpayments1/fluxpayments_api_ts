@@ -40,7 +40,6 @@ export class AccountQuery extends BaseQuery<Account> implements IAccountQuery {
             objectType: this.objectType,
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions,
-            accountUserType: this.accountUserType,
             defaultShippingAddressId: this.defaultShippingAddressId,
             defaultShippingAddressUniqueId: this.defaultShippingAddressUniqueId,
             defaultPaymentMethodId: this.defaultPaymentMethodId,
@@ -57,7 +56,6 @@ export class AccountQuery extends BaseQuery<Account> implements IAccountQuery {
     firstName: string;
     middleName: string;
     lastName: string;
-    accountUserType: AccountUserType;
     defaultShippingAddressId: number;
     defaultShippingAddressUniqueId: string;
     defaultPaymentMethodId: number;
