@@ -42,8 +42,7 @@ export class GenericGetterResponse<T extends FluxType> extends ResponseBodyBase 
 
     public getClientReturnValue(): T[] {
 
-
-        if (this._objects)
+        if (this._objects) {
 
             this._objects = this._objects.map(prod => {
                 let t = new this.type(prod);
@@ -52,7 +51,9 @@ export class GenericGetterResponse<T extends FluxType> extends ResponseBodyBase 
                 return t;
             });
 
-        this._objects["count"] = this._count;
+            this._objects["count"] = this._count;
+        }
+        
         return this._objects
     }
 

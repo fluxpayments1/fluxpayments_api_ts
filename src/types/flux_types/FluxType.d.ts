@@ -11,6 +11,7 @@ export declare abstract class FluxType {
     obType: new (o?: any) => this;
     abstract obName: string;
     protected abstract objectType: string;
+    protected documentMap: Map<string, string>[];
     getObjectType(): string;
     constructor(fbo: any, t: new (o?: any) => any);
     id: number;

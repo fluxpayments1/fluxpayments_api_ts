@@ -55,6 +55,8 @@ export abstract class FluxType {
   public abstract obName: string
   protected abstract objectType: string;
 
+  protected documentMap: Map<string, string>[] = [];
+
   getObjectType() { return this.objectType }
 
   constructor(fbo: any, t: new (o?: any) => any) {
