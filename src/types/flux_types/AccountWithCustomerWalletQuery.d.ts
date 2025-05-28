@@ -15,7 +15,6 @@ export declare class AccountWithCustomerWalletQuery extends AccountQuery {
         objectType: string;
         pagination: import("./PaginationSupport").PaginationSupport;
         additionalSearchOptions: import("./AdditionalSearchOptions").AdditionalSearchOptions[];
-        accountUserType: import("./AccountUserType").AccountUserType;
         defaultShippingAddressId: number;
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;

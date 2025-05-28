@@ -1,5 +1,4 @@
 import { Account } from "./Account";
-import { AccountUserType } from "./AccountUserType";
 import { BaseQuery } from "./BaseQuery";
 import { IAccountQuery } from "./IAccountQuery";
 export declare class AccountQuery extends BaseQuery<Account> implements IAccountQuery {
@@ -15,7 +14,6 @@ export declare class AccountQuery extends BaseQuery<Account> implements IAccount
         objectType: string;
         pagination: import("./PaginationSupport").PaginationSupport;
         additionalSearchOptions: import("./AdditionalSearchOptions").AdditionalSearchOptions[];
-        accountUserType: AccountUserType;
         defaultShippingAddressId: number;
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;
@@ -30,7 +28,6 @@ export declare class AccountQuery extends BaseQuery<Account> implements IAccount
     firstName: string;
     middleName: string;
     lastName: string;
-    accountUserType: AccountUserType;
     defaultShippingAddressId: number;
     defaultShippingAddressUniqueId: string;
     defaultPaymentMethodId: number;

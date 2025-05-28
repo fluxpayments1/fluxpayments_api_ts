@@ -1,4 +1,3 @@
-import { AccountUserType } from "./AccountUserType";
 import { Address } from "./Address";
 import { CustomerWallet } from "./CustomerWallet";
 export interface IAccount {
@@ -14,5 +13,4 @@ export interface IAccount {
     isTaxExempt?: boolean;
     lastName?: string;
     phoneNumber?: string;
-    accountUserType: AccountUserType;
 }

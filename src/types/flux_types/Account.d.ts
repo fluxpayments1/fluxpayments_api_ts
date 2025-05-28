@@ -1,4 +1,3 @@
-import { AccountUserType } from './AccountUserType';
 import { Address } from './Address';
 import { FluxIdentifier } from './FluxIdentifier';
 import { FluxType } from './FluxType';
@@ -36,7 +35,6 @@ export declare class Account extends FluxType implements IAccount {
         firstName: string;
         middleName: string;
         lastName: string;
-        accountUserType: AccountUserType;
         defaultShippingAddressId: number;
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;
@@ -60,7 +58,6 @@ export declare class Account extends FluxType implements IAccount {
     /**
      * Describes the type of the account
      */
-    accountUserType: AccountUserType;
     defaultShippingAddressId: number;
     private defaultShippingAddressUniqueId;
     private defaultPaymentMethodId;

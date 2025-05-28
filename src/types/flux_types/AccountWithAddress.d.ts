@@ -13,7 +13,6 @@ export declare class AccountWithAddress extends Account {
         firstName: string;
         middleName: string;
         lastName: string;
-        accountUserType: import("./AccountUserType").AccountUserType;
         defaultShippingAddressId: number;
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;
