@@ -22,6 +22,7 @@ export declare class CustomerSensitiveData extends FluxType implements ICustomer
         shippingAddressId: number;
         objectType: string;
         oneTimeUseToken: string;
+        transactionId: number;
     };
     lastFour: string;
     token: string;
@@ -37,7 +38,13 @@ export declare class CustomerSensitiveData extends FluxType implements ICustomer
     encryptedPayload: string;
     nonce: string;
     firstName: string;
+    country: string;
     lastName: string;
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    transactionId: number;
     objectType: string;
     constructor(c?: Partial<ICustomerSensitiveData>);
     static createInstanceLazy(acc: Partial<ICustomerSensitiveData>): Promise<CustomerSensitiveData>;

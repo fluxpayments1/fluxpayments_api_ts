@@ -41,6 +41,7 @@ export class AjaxRequestHandle<T extends RequestBody, U extends ResponseBody, V 
     constructor(req: new () => T, res: new (r?: any) => U, sec: V, type?: any) {
         if (req) this._req = new req();
         if (res) this._res = new res(type);
+
         this._sec = sec
     }
 

@@ -181,6 +181,7 @@ export class CMMT {
         secHandle: SecurityHandler,
         ...arg: any
     ): Promise<T> {
+
         arg = cloneDeep(arg);
         return new Promise<T>(async (resolve, reject) => {
             try {
@@ -188,6 +189,7 @@ export class CMMT {
                 arh.request.loadClientData(...arg);
                 arh.method = mtd;
                 arh.path = url;
+
 
                 let hdrs = await arh.securityHandler.createHeaders();
                 let config: AxiosRequestConfig<string> = {
@@ -203,7 +205,7 @@ export class CMMT {
                     httpsAgent: new https.Agent({
                         rejectUnauthorized: false
                     }),
-                    timeout: 100000
+                    timeout: 150000
                 };
 
                 let axios = new Axios(config)
@@ -244,6 +246,7 @@ export class CMMT {
                 let hdrs = await arh.securityHandler.createHeaders();
 
 
+
                 let config: AxiosRequestConfig<string> = {
                     url: CMMT.getPath(arh.path),
                     method: arh.method,
@@ -256,7 +259,7 @@ export class CMMT {
                     httpsAgent: new https.Agent({
                         rejectUnauthorized: false
                     }),
-                    timeout: 100000
+                    timeout: 150000
                 };
 
                 let axios = new Axios(config)

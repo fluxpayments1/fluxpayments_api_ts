@@ -68,7 +68,10 @@ export class Account extends FluxType implements IAccount {
             defaultPaymentMethodId: this.defaultPaymentMethodId,
             defaultPaymentMethodUniqueId: this.defaultPaymentMethodUniqueId,
             objectType : this.objectType,
-            phoneNumber: this.phoneNumber
+            phoneNumber: this.phoneNumber,
+            businessName: this.businessName,
+            processingFeeExempt: this.processingFeeExempt,
+            serviceFeeExempt: this.serviceFeeExempt
         }
     }
 
@@ -82,11 +85,14 @@ export class Account extends FluxType implements IAccount {
     id: number;
     uniqueId: string;
     metadata: string;
+    processingFeeExempt: boolean;
+    serviceFeeExempt: boolean;
     accountEmail: string;
     firstName: string;
     middleName: string;
     lastName: string;
     phoneNumber: string;
+    businessName: string;
     addresses: Address[];
     customerWallets: CustomerWallet[];
     /**

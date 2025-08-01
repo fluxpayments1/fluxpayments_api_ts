@@ -19,6 +19,9 @@ export declare class AccountWithAddress extends Account {
         defaultPaymentMethodUniqueId: string;
         objectType: string;
         phoneNumber: string;
+        businessName: string;
+        processingFeeExempt: boolean;
+        serviceFeeExempt: boolean;
     };
     addresses: Address[];
     protected objectType: string;

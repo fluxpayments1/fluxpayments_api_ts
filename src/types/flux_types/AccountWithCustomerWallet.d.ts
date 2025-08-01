@@ -19,6 +19,9 @@ export declare class AccountWithCustomerWallet extends Account {
         defaultPaymentMethodUniqueId: string;
         objectType: string;
         phoneNumber: string;
+        businessName: string;
+        processingFeeExempt: boolean;
+        serviceFeeExempt: boolean;
     };
     getDispName(): string;
     customerWallets: CustomerWallet[];

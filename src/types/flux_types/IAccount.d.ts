@@ -8,9 +8,12 @@ export interface IAccount {
     metadata?: string;
     accountEmail?: string;
     currency?: string;
+    processingFeeExempt?: boolean;
+    serviceFeeExempt?: boolean;
     firstName?: string;
     middleName?: string;
     isTaxExempt?: boolean;
     lastName?: string;
     phoneNumber?: string;
+    businessName?: string;
 }

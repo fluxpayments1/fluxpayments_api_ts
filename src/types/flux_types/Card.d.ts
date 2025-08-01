@@ -1,4 +1,3 @@
-import { Address } from "./Address";
 import { CustomerSensitiveData } from "./CustomerSensitiveData";
 import { FluxType } from "./FluxType";
 import { ICard } from "./ICard";
@@ -8,7 +7,7 @@ export declare class Card extends FluxType implements ICard {
     constructor(c: Partial<ICard>);
     accountSession: string;
     expiryDate: string;
-    address: Address;
+    address: string;
     cardNumber: string;
     cvv: string;
     cardBrand: string;
@@ -17,8 +16,9 @@ export declare class Card extends FluxType implements ICard {
     address2: string;
     city: string;
     state: string;
-    zip: string;
+    zipCode: string;
     country: string;
+    email: string;
     uniqueId: string;
     metadata: string;
     firstName: string;
@@ -34,9 +34,10 @@ export declare class Card extends FluxType implements ICard {
         address2: string;
         city: string;
         state: string;
-        zip: string;
+        zipCode: string;
         country: string;
         expiryDate: string;
+        email: string;
         oneTimeUseToken: string;
         cardNumber: string;
         cvv: string;

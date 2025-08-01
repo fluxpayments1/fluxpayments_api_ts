@@ -56,7 +56,8 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
             nonce: this.nonce,
             shippingAddressId: this.shippingAddressId,
             objectType: this.objectType,
-            oneTimeUseToken: this.oneTimeUseToken
+            oneTimeUseToken: this.oneTimeUseToken,
+            transactionId: this.transactionId
         }
     }
 
@@ -74,8 +75,13 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
     encryptedPayload: string;
     nonce: string;
     firstName: string;
+    country: string;
     lastName: string;
-
+    address: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    transactionId: number;
     objectType: string = "customer_sensitive_data";
 
 

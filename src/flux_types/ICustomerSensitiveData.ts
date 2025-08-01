@@ -37,7 +37,12 @@ export interface ICustomerSensitiveData {
     accountSession?: string,
     encryptedAESKey?: string,
     encryptedPayload?: string,
+    address?: string,
+    city?: string,
+    state?: string,
+    zipCode?: string,
+    country?: string,
     nonce?: string,
     objectType?: string,
-
+    transactionId?: number,
 }

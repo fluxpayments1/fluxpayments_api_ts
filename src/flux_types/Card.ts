@@ -42,7 +42,7 @@ export class Card extends FluxType implements ICard {
     }
     accountSession: string;
     expiryDate: string;
-    address: Address;
+    address: string;
     cardNumber: string;
     cvv: string;
     cardBrand: string;
@@ -51,8 +51,9 @@ export class Card extends FluxType implements ICard {
     address2: string;
     city: string;
     state: string;
-    zip: string;
+    zipCode: string;
     country: string;
+    email: string;
     uniqueId: string;
     metadata: string;
     firstName: string;
@@ -70,9 +71,10 @@ export class Card extends FluxType implements ICard {
             address2: this.address2,
             city: this.city,
             state: this.state,
-            zip: this.zip,
+            zipCode: this.zipCode,
             country: this.country,
             expiryDate: this.expiryDate,
+            email: this.email,
             oneTimeUseToken: this.oneTimeUseToken,
             cardNumber: this.cardNumber,
             cvv: this.cvv,
@@ -99,6 +101,12 @@ export class Card extends FluxType implements ICard {
             firstName: csd.firstName,
             lastName: csd.lastName,
             oneTimeUseToken: csd.oneTimeUseToken,
+            email: csd.email,
+            address1: csd.address,
+            city: csd.city,
+            state: csd.state,
+            zipCode: csd.zipCode,
+            country: csd.country,
             id: csd.id
         })
         return card

@@ -39,24 +39,38 @@ export class BankAccount extends FluxType implements IBankAccount {
             accountNumber: this.accountNumber,
             oneTimeUseToken: this.oneTimeUseToken,
             routingNumber: this.routingNumber,
+            accountType: this.accountType,
             bankName: this.bankName,
+            email: this.email,
+            address1: this.address1,
+            city: this.city,
+            state: this.state,
+            country: this.country,
+            zipCode: this.zipCode,
         }
     }
     public constructor(c: Partial<IBankAccount>) {
         super(c, BankAccount)
         Object.assign(this, c)
     }
+
     lastFour: string;
     oneTimeUseToken: string;
     bankName: string;
     routingNumber: string;
     bankBrand: string;
+    email: string;
     accountNumber: string;
     accountType: string;
     accountSession: string;
     metadata: string;
     firstName: string;
     lastName: string;
+    address1: string;
+    city: string;
+    state: string;
+    country: string;
+    zipCode: string;
 
     public static parseCustomerSensitiveData(csd: CustomerSensitiveData) : BankAccount {
         let ba = new BankAccount({

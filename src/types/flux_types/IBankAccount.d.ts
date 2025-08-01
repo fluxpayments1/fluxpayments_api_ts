@@ -3,6 +3,7 @@ export interface IBankAccount {
     bankName: string;
     routingNumber: string;
     oneTimeUseToken: string;
+    email: string;
     bankBrand: string;
     accountType: string;
     accountNumber: string;
@@ -11,4 +12,9 @@ export interface IBankAccount {
     lastName: string;
     uniqueId: string;
     metadata: string;
+    address1: string;
+    city: string;
+    state: string;
+    country: string;
+    zipCode: string;
 }

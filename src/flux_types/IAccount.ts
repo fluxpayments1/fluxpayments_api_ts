@@ -31,10 +31,13 @@ export interface IAccount {
     uniqueId?: string
     metadata?: string
     accountEmail?: string
-    currency?: string
+    currency?: string   
+    processingFeeExempt?: boolean    
+    serviceFeeExempt?: boolean
     firstName?: string
     middleName?: string
     isTaxExempt?: boolean
     lastName?: string
     phoneNumber?: string
+    businessName?: string
 }
