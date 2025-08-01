@@ -15,7 +15,8 @@ module.exports = [
         "https": require.resolve("https-browserify"),
         "http": require.resolve("stream-http"),
         "process": require.resolve("process/browser"), // Add this line
-        "vm": require.resolve("vm-browserify")
+        "vm": require.resolve("vm-browserify"),
+        "buffer": require.resolve("buffer/") // ✅ Add this
 
       },
       extensions: ['.js', '.ts', '.tsx']
@@ -47,7 +48,8 @@ module.exports = [
         "https": require.resolve("https-browserify"),
         "http": require.resolve("stream-http"),
         "process": require.resolve("process/browser"), // Add this line
-        "vm": require.resolve("vm-browserify")
+        "vm": require.resolve("vm-browserify"),
+        "buffer": require.resolve("buffer/") // ✅ Add this
       },
       extensions: ['.js', '.ts', '.tsx']
     },
@@ -82,12 +84,18 @@ module.exports = [
         "https": require.resolve("https-browserify"),
         "http": require.resolve("stream-http"),
         "process": require.resolve("process/browser"), // Add this line
-        "vm": require.resolve("vm-browserify")
+        "vm": require.resolve("vm-browserify"),
+        "buffer": require.resolve("buffer/") // ✅ Add this
 
 
       },
       extensions: ['.js', '.ts', '.tsx']
     },
+    plugins: [
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'] // ✅ Add this
+      })
+    ],
     module: {
         rules: [
             {
