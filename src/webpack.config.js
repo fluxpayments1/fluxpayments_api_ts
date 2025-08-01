@@ -1,3 +1,6 @@
+const webpack = require('webpack');
+const path = require("path");
+
 module.exports = [
   {
     entry: ['./polyfills.ts','./lib/index.ts'],
