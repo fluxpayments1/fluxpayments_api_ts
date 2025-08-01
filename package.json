@@ -33,6 +33,7 @@
         "ajax": "0.0.4",
         "axios": "^1.4.0",
         "babel-plugin-module-resolver": "^5.0.0",
+        "buffer": "^6.0.3",
         "chai": "^4.3.7",
         "class-transformer": "^0.5.1",
         "cookie-js": "^0.0.1",
