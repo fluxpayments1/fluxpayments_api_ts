@@ -24,7 +24,7 @@
 export interface ICustomerSensitiveData {
     id?: number,
     lastFour?: string,
-    token?: string,
+    token?: string,     
     email?: string,
     accountType?: string,
     oneTimeUseToken?: string,
@@ -45,4 +45,5 @@ export interface ICustomerSensitiveData {
     nonce?: string,
     objectType?: string,
     transactionId?: number,
+    approvalStatus?: string,
 }
