@@ -22,4 +22,5 @@ export interface ICustomerSensitiveData {
     nonce?: string;
     objectType?: string;
     transactionId?: number;
+    approvalStatus?: string;
 }

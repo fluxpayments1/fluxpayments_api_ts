@@ -7,6 +7,7 @@ export interface IPaymentLink {
     uniqueId?: string;
     isReusable?: boolean;
     redirectUrl: string;
+    minutesToExpire: number;
     oneTimeUse: boolean;
     enableCrypto: boolean;
     disableACH: boolean;

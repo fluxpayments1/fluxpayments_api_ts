@@ -32,6 +32,7 @@ export declare class CustomerSensitiveData extends FluxType implements ICustomer
     isAuthorized: boolean;
     encryptedAESKey: string;
     shippingAddressId: number;
+    approvalStatus: string;
     accountSession?: string;
     bankName: string;
     oneTimeUseToken: string;

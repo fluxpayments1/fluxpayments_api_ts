@@ -75,7 +75,8 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             currentStatus: this.currentStatus,
             redirectUrl: this.redirectUrl,
             oneTimeUse: this.oneTimeUse,
-            isReusable: this.isReusable
+            isReusable: this.isReusable,
+            minutesToExpire: this.minutesToExpire
         };
     }
     wallets: Wallet[]
@@ -94,6 +95,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     confidenceLevel: number;
     currentStatus
     taxAmount: number;
+    minutesToExpire: number;
     paymentLink: string;
     requireShippingAddress: boolean;
     redirectUrl: string;
