@@ -57,6 +57,7 @@ export interface FluxSockets {
     closeSocketAndListeners();
     subscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
     unSubscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>
+    websocketClosedEvent(listener: (data: any) => void): void
 }
 
 export class FluxWebsockets extends EventEmitter implements FluxSockets {
@@ -135,6 +136,11 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
     }
 
 
+    public websocketClosedEvent(listener: (data: any) => void) {
+        this.on("websocketClosed", listener)
+    }
+
+
     public async closeSocketAndListeners() {
         this.expectingConnectionClose = true;
         this.websocketConnection.removeAllListeners()
@@ -194,7 +200,8 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
             this.websocketConnection.onclose = () => {
                 console.log('websocket closed, reopening')
                 if (!this.expectingConnectionClose) {
-                    setTimeout(() => this.initializeConnection(), 1000)
+                    // setTimeout(() => this.initializeConnection(), 1000)
+                    this.emit("websocketClosed")
                 }
             }
 
@@ -202,7 +209,8 @@ export class FluxWebsockets extends EventEmitter implements FluxSockets {
                 console.log("websocket error", err)
                 console.log('websocket closed, reopening')
                 if (!this.expectingConnectionClose) {
-                    setTimeout(() => this.initializeConnection(), 1000)
+                    // setTimeout(() => this.initializeConnection(), 1000)
+                    this.emit("websocketClosed")
                 }
             }
 
