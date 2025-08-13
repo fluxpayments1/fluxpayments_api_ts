@@ -125,7 +125,9 @@ export class CMMT {
         const arh = new AjaxRequestHandle(undefined, undefined, secHandle);
         arh.path = url;
         const hdrs = await arh.securityHandler.createHeaders();
+        //encode the request
         const headersObject = Object.fromEntries(hdrs.entries());
+        const encodedRequest = await arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs);
 
         if (typeof window !== 'undefined') {
             return await CMMT.initializeBrowserWebsocketConnection(url, headersObject);
