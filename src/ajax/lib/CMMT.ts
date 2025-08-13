@@ -124,7 +124,7 @@ export class CMMT {
     ): Promise<any> {
         const arh = new AjaxRequestHandle(undefined, undefined, secHandle);
         arh.path = url;
-        const hdrs = await arh.securityHandler.createHeaders();
+        const hdrs = await arh.securityHandler.createHeaders(true);
         //encode the request
         const headersObject = Object.fromEntries(hdrs.entries());
 
