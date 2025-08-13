@@ -127,7 +127,6 @@ export class CMMT {
         const hdrs = await arh.securityHandler.createHeaders();
         //encode the request
         const headersObject = Object.fromEntries(hdrs.entries());
-        const encodedRequest = await arh.securityHandler.encodeRequest("{}", hdrs);
 
         if (typeof window !== 'undefined') {
             return await CMMT.initializeBrowserWebsocketConnection(url, headersObject);
