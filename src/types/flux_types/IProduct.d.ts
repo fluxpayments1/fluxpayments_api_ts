@@ -16,5 +16,6 @@ export interface IProduct {
     currency?: string;
     enableBackorderedProducts: boolean;
     enableInventoryManagement: boolean;
+    hasDynamicPrice: boolean;
     orderQuantity?: number;
 }

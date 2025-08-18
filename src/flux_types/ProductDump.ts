@@ -52,6 +52,7 @@ export class ProductDump extends FluxType implements IProduct {
     public enableBackorderedProducts: boolean;
     public enableInventoryManagement: boolean;
     public orderQuantity: number
+    public hasDynamicPrice: boolean;
 
     public getInterface(): IProduct {
         return {
@@ -69,7 +70,8 @@ export class ProductDump extends FluxType implements IProduct {
             category: this.category,
             enableBackorderedProducts: this.enableBackorderedProducts,
             enableInventoryManagement: this.enableInventoryManagement,
-            orderQuantity: this.orderQuantity
+            orderQuantity: this.orderQuantity,
+            hasDynamicPrice: this.hasDynamicPrice
         } as IProduct
     }
 

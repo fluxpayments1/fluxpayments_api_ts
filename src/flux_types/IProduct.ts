@@ -38,5 +38,6 @@ export interface IProduct {
     currency?: string,
     enableBackorderedProducts: boolean,
     enableInventoryManagement: boolean,
+    hasDynamicPrice: boolean,
     orderQuantity?: number //Must be included in a transaction.
 }

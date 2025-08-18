@@ -52,6 +52,7 @@ export class Product extends FluxType implements IProduct {
             category: this.category,
             enableBackorderedProducts: this.enableBackorderedProducts,
             enableInventoryManagement: this.enableInventoryManagement,
+            hasDynamicPrice: this.hasDynamicPrice,
             objectType: "product",
             orderQuantity: this.orderQuantity
         }
@@ -73,6 +74,7 @@ export class Product extends FluxType implements IProduct {
     enableInventoryManagement: boolean;
     shippingFee: number;
     enableBackorderedProducts: boolean;
+    hasDynamicPrice: boolean;
     protected objectType: string = "product";
 
     constructor(prod?: Partial<IProduct>) {

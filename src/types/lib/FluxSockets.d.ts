@@ -29,6 +29,7 @@ export interface FluxSockets {
     closeSocketAndListeners(): any;
     subscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
     unSubscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
+    websocketClosedEvent(listener: (data: any) => void): void;
 }
 export declare class FluxWebsockets extends EventEmitter implements FluxSockets {
     private websocketConnection;
@@ -38,6 +39,7 @@ export declare class FluxWebsockets extends EventEmitter implements FluxSockets 
     constructor();
     subscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
     unSubscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
+    websocketClosedEvent(listener: (data: any) => void): void;
     closeSocketAndListeners(): Promise<void>;
     static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string): void;
     static initializeWebSecHandle(x: SecurityHandlerBase): void;

@@ -20,6 +20,7 @@ export declare class Product extends FluxType implements IProduct {
         category: string;
         enableBackorderedProducts: boolean;
         enableInventoryManagement: boolean;
+        hasDynamicPrice: boolean;
         objectType: string;
         orderQuantity: number;
     };
@@ -40,6 +41,7 @@ export declare class Product extends FluxType implements IProduct {
     enableInventoryManagement: boolean;
     shippingFee: number;
     enableBackorderedProducts: boolean;
+    hasDynamicPrice: boolean;
     protected objectType: string;
     constructor(prod?: Partial<IProduct>);
     incrementInventoryCount(quantity: number): Promise<Product>;
