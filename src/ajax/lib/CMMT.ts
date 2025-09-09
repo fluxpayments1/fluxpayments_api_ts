@@ -36,6 +36,12 @@ export class CMMT {
     private static readonly WEBSOCKET_BASE_URL: string = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD
     private static isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
     private static getPath(arg): string {
+
+        if (window && (window as any).isReactNative) {
+            return CMMT.BASE_URL.concat(arg).concat("ReactNative");
+        }
+
+
         return CMMT.BASE_URL.concat(arg).concat(this.isBrowser ? "Web" : "");
     }
 
@@ -182,6 +188,9 @@ export class CMMT {
         secHandle: SecurityHandler,
         ...arg: any
     ): Promise<T> {
+
+
+
 
         arg = cloneDeep(arg);
         return new Promise<T>(async (resolve, reject) => {
