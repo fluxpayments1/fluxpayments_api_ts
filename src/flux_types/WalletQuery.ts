@@ -45,7 +45,7 @@ export class WalletQuery extends BaseQuery<Wallet> implements IWalletQuery{
     metadata: string;
     id: number;
     uniqueId?: string;
-    protected objectType: string = "wallet";
+    objectType: string = "wallet";
 
     constructor(tokQ?: IWallet) {
         super(Wallet);

@@ -21,10 +21,10 @@
  */
 
 import { AdditionalSearchOptions } from "./AdditionalSearchOptions";
-import { FluxType } from "./FluxType";
 import { PaginationSupport } from "./PaginationSupport";
+import { IBaseQuery } from "./IBaseQuery";
 
-export abstract class BaseQuery<T extends FluxType> {
+export abstract class BaseQuery<T> implements IBaseQuery<T> {
     constructor (attObject: new (o?: any) => T) {
         this.attachedObject = attObject
     }
@@ -34,6 +34,6 @@ export abstract class BaseQuery<T extends FluxType> {
     pagination : PaginationSupport;
     additionalSearchOptions: AdditionalSearchOptions[];
     lookupPage: string | undefined;
-    protected abstract objectType: string;
+    abstract objectType: string;
     public abstract serialize();
 }

@@ -20,10 +20,10 @@
  * SOFTWARE.
  */
 import { ResponseBodyBase } from "./ResponseBodyBase";
-import { FluxType } from "../../flux_types/FluxType";
+import { IFlux } from "../../lib/IFlux";
 
-export class GenericUpdaterResponse<T extends FluxType> extends ResponseBodyBase {
-    type: new (fbo) => T
+export class GenericUpdaterResponse<T extends IFlux> extends ResponseBodyBase {
+    type: new (fbo: IFlux) => T
     _updatedObjects: T[];
 
     constructor(type: new (fbo) => T) {

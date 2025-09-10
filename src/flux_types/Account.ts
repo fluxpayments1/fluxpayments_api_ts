@@ -22,7 +22,6 @@
 
 import _cloneDeep from 'lodash/cloneDeep';
 import { AccountAddress } from './AccountAddress';
-import { AccountAddressQuery } from './AccountAddressQuery';
 import { AccountUserType } from './AccountUserType';
 import { Address } from './Address';
 import { FluxIdentifier } from './FluxIdentifier';
@@ -111,17 +110,6 @@ export class Account extends FluxType implements IAccount {
      * of the current context.
      * 
      */
-    async getAddresses(): Promise<Address[]> {
-        let accountAddresses: AccountAddress[] = await FluxType.queryObjects(
-            AccountAddressQuery.createQuery({
-                accountId: this.id,
-                accountUniqueId: this.uniqueId
-            })
-        );
-        if (accountAddresses.length === 0) return [];
-        let accAddFI: FluxIdentifier[] = accountAddresses.map(i => new FluxIdentifier(i.addressUniqueId, i.addressId, "address"));
-        return await Address.getObjectsById(accAddFI);
-    }
 
     /** 
      * Adds addresses to the current context. 
@@ -185,35 +173,7 @@ export class Account extends FluxType implements IAccount {
      * Returns the addresses that were passed for removal
      * 
      */
-    async removeAddress(address: Address | Address[]): Promise<Address[]> {
-
-        if (!address) return undefined;
-
-        let adArr = Array.isArray(address) ? address : [address];
-
-        let adMapId: Map<number, Address> = new Map();
-        let adMapUniqueId: Map<string, Address> = new Map();
-        let undefinedId = undefined;
-        adArr.forEach(e => {
-            e.id ? adMapId.set(e.id, e) : (
-                e.uniqueId ? adMapUniqueId.set(e.uniqueId, e) : undefinedId = e
-            )
-        })
-
-        if (undefinedId) throw new Error(`${undefinedId} does not have an identifier`)
-
-        let fiAdd: AccountAddressQuery = new AccountAddressQuery({
-            accountId: this.id,
-            accountUniqueId: this.uniqueId
-        })
-
-        let accAddToDelete: AccountAddress[] = await FluxType.queryObjects<AccountAddress, AccountAddressQuery>(fiAdd);
-
-        let fiAccAdd = accAddToDelete.filter((e) => adMapId.has(e.addressId) || adMapUniqueId.has(e.addressUniqueId)).map(e => e.getId())
-        await AccountAddress.deleteObjects(fiAccAdd)
-        return adArr
-    }
-
+ 
 
     /**
      * Sets the Default shipping address of the 

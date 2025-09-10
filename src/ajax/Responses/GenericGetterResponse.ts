@@ -20,13 +20,13 @@
  * SOFTWARE.
  */
 
-import { FluxType } from "../../flux_types/FluxType";
+import { IFlux } from "../../lib/IFlux";
 import { ResponseBodyBase } from "./ResponseBodyBase";
 
-export class GenericGetterResponse<T extends FluxType> extends ResponseBodyBase {
+export class GenericGetterResponse<T extends IFlux> extends ResponseBodyBase {
     _objects: T[];
     _count: number;
-    type: new (fbo: FluxType) => T;
+    type: new (fbo: IFlux) => T;
     get objects() {
         return this._objects;
     }
@@ -47,7 +47,7 @@ export class GenericGetterResponse<T extends FluxType> extends ResponseBodyBase 
             this._objects = this._objects.map(prod => {
                 let t = new this.type(prod);
                 t.dataTableMetadata = this._metadata
-                t
+                
                 return t;
             });
 

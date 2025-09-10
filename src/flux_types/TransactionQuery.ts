@@ -107,7 +107,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
     updatedAt: Date;
     hasBackOrderedProducts: any;
     baseTransaction: number;
-    protected objectType: string = "transaction";
+    objectType: string = "transaction";
 
     public constructor(tokQ?: ITransactionQuery) {
         super(Transaction);

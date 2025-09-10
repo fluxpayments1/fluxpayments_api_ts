@@ -42,7 +42,7 @@ export class TokenQuery extends BaseQuery<Token> implements ITokenQuery{
     metadata: string;
     id: number;
     uniqueId?: string;
-    protected objectType: string = "token";
+    objectType: string = "token";
     /**
      * @returns The token associated with the
      */

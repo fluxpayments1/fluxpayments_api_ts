@@ -50,7 +50,7 @@ export class PaymentMethodQuery extends BaseQuery<PaymentMethod> implements IPay
     addressId: number;
     firstName: string;
     lastName: string;
-    protected objectType: string = "payment_method";
+    objectType: string = "payment_method";
 
     public constructor(tokQ?: IPaymentMethodQuery) {
         super(PaymentMethod);

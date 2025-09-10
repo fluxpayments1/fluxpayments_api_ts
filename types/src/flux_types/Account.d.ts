@@ -1,0 +1,133 @@
+import { Address } from './Address';
+import { FluxIdentifier } from './FluxIdentifier';
+import { FluxType } from './FluxType';
+import { IAccount } from './IAccount';
+import { PaymentMethod } from './PaymentMethod';
+import { CustomerWallet } from './CustomerWallet';
+/**
+ * Class for managing accounts
+ * stored in the flux system.
+ * Use:
+ * ```typescript
+ * import { flux } from "fluxpayments/lib";
+ * import { Account } from "fluxpayments/flux_types";
+ * await flux (
+ *   "public_key",
+ *   "private_key",
+ *   "username",
+ *   "password"
+ * );
+ * let firstAccount : Account = await Account.createInstanceSafe({
+ *     accountUserType: AccountUserType.CUSTOMER,
+ *     uniqueId: "TESTACCOUNT"
+ * });
+ * ```
+ */
+export declare class Account extends FluxType implements IAccount {
+    obName: string;
+    serialize(): {
+        id: number;
+        uniqueId: string;
+        currency: string;
+        metadata: string;
+        accountEmail: string;
+        isTaxExempt: boolean;
+        firstName: string;
+        middleName: string;
+        lastName: string;
+        defaultShippingAddressId: number;
+        defaultShippingAddressUniqueId: string;
+        defaultPaymentMethodId: number;
+        defaultPaymentMethodUniqueId: string;
+        objectType: string;
+        phoneNumber: string;
+        businessName: string;
+        processingFeeExempt: boolean;
+        serviceFeeExempt: boolean;
+    };
+    getDispName(): string;
+    isTaxExempt: boolean;
+    currency: string;
+    id: number;
+    uniqueId: string;
+    metadata: string;
+    processingFeeExempt: boolean;
+    serviceFeeExempt: boolean;
+    accountEmail: string;
+    firstName: string;
+    middleName: string;
+    lastName: string;
+    phoneNumber: string;
+    businessName: string;
+    addresses: Address[];
+    customerWallets: CustomerWallet[];
+    /**
+     * Describes the type of the account
+     */
+    defaultShippingAddressId: number;
+    private defaultShippingAddressUniqueId;
+    private defaultPaymentMethodId;
+    private defaultPaymentMethodUniqueId;
+    protected objectType: string;
+    /**'
+     * Gets the addresses of the current context.
+     *
+     * @returns Promise resolving to the addresses
+     * of the current context.
+     *
+     */
+    /**
+     * Adds addresses to the current context.
+     *
+     * Automatically merges the addresses into the
+     * account, no need to call merge.
+     *
+     * @param address An address or list of addresses
+     *
+     */
+    addAddress(address: Address | Address[]): Promise<void>;
+    getPurchasedProducts(): Promise<void>;
+    getRecurringTransactions(): Promise<void>;
+    getInstallmentTransactions(): Promise<void>;
+    getPaymentMethods(): Promise<void>;
+    getTransactions(): Promise<void>;
+    /**
+     * Removes addresses from the current context.
+     *
+     * This method DOES NOT delete the underlying addresses.
+     * If you need to delete the address, call delete() on
+     * the address object.
+     *
+     * @param address An address or list of addresses which are already
+     * persisted / merged to the flux system.
+     *
+     * Returns the addresses that were passed for removal
+     *
+     */
+    /**
+     * Sets the Default shipping address of the
+     * current context.
+     *
+     * Automatically merges the changes into the
+     * account, no need to call merge.
+     *
+     * @param fi FluxIdentifier
+     * @returns Promise that resolves to the updated account
+     */
+    setDefaultShippingAddress(ob: FluxIdentifier | Address): Promise<void>;
+    /**
+     * Gets the default shipping address of the current
+     * context. Returns undefined if there is no shipping
+     * address
+     *
+     * @returns A promise resolving to the default shipping address for the account
+     */
+    getDefaultShippingAddress(): Promise<Address>;
+    setDefaultPaymentMethod(ob: PaymentMethod | FluxIdentifier): Promise<void>;
+    getDefaultPaymentMethod(): Promise<PaymentMethod>;
+    constructor(account?: Partial<IAccount>, overrideClass?: any);
+    static generateSession(arg: Account | IAccount): Promise<string>;
+    generateAccountSession(): Promise<string>;
+    static createInstanceLazy(acc: Partial<IAccount>): Promise<Account>;
+    static createInstanceSafe(acc: Partial<IAccount>): Promise<Account>;
+}

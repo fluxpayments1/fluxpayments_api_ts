@@ -52,7 +52,7 @@ export class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> i
     productDumpId: number;
     otplId: number;
     status: any;
-    protected objectType: string = "recurring_transaction";
+    objectType: string = "recurring_transaction";
 
     public constructor(tokQ?: IRecurringTransactionQuery) {
         super(RecurringTransaction);

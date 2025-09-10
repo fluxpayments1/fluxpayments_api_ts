@@ -48,7 +48,7 @@ export class AccountAddressQuery extends BaseQuery<AccountAddress> implements IA
 
     uniqueId: string;
     id: number;
-    protected objectType: string = "account_address";
+    objectType: string = "account_address";
     accountId: number;
     addressId: number;
     accountUniqueId: string;

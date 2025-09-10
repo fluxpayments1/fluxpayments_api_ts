@@ -50,7 +50,7 @@ export class ProductQuery extends BaseQuery<Product> implements IProductQuery {
     type?: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT';
     subscriptionInterval?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
     category?: string;
-    protected objectType: string = "product";
+    objectType: string = "product";
 
     constructor(productQuery?: IProductQuery) {
         super(Product);

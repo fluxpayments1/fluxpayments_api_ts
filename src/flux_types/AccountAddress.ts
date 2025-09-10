@@ -20,7 +20,6 @@
  * SOFTWARE.
  */
 
-import { Address } from "./Address";
 import { FluxType } from "./FluxType";
 import { IAccountAddress } from "./IAccountAddress";
 

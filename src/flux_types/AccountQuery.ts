@@ -60,7 +60,7 @@ export class AccountQuery extends BaseQuery<Account> implements IAccountQuery {
     defaultShippingAddressUniqueId: string;
     defaultPaymentMethodId: number;
     defaultPaymentMethodUniqueId: string;
-    protected objectType: string = "account";
+    objectType: string = "account";
 
     constructor(accQ?: any, overrideClass? : any){
         super(overrideClass ? overrideClass : Account);

@@ -1,0 +1,45 @@
+import { BaseQuery } from './';
+import { FluxType } from './FluxType';
+export declare class MerchantAccessCredentials extends FluxType {
+    obName: string;
+    getDispName(): string;
+    serialize(): {
+        id: number;
+        privateKey: string;
+        customerPublicKey: string;
+        publicKey: string;
+        publicDataKey: string;
+        aesKey: string;
+        username: string;
+        password: string;
+        userEmail: string;
+        merchantId: number;
+        twoFactAuthCode: string;
+        twoFactAuthCodeUpdateTime: Date;
+        passwordResetCode: string;
+        passwordResetTries: number;
+        passwordResetCodeUpdateTime: Date;
+        activationStatus: any;
+        isAccountLocked: any;
+    };
+    id: number;
+    privateKey: string;
+    customerPublicKey: string;
+    publicKey: string;
+    publicDataKey: string;
+    aesKey: string;
+    username: string;
+    password: string;
+    userEmail: string;
+    merchantId: number;
+    twoFactAuthCode: string;
+    twoFactAuthCodeUpdateTime: Date;
+    passwordResetCode: string;
+    passwordResetTries: number;
+    passwordResetCodeUpdateTime: Date;
+    activationStatus: any;
+    isAccountLocked: any;
+    protected objectType: string;
+    static queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: any): Promise<any[]>;
+    constructor(merchantAccessCredentials?: Partial<MerchantAccessCredentials>);
+}

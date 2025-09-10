@@ -46,7 +46,7 @@ export class CustomerWalletQuery extends BaseQuery<CustomerWallet> implements IC
     metadata: string;
     id: number;
     uniqueId?: string;
-    protected objectType: string = "customer_wallet";
+    objectType: string = "customer_wallet";
 
     constructor(tokQ?: ICustomerWallet) {
         super(CustomerWallet);

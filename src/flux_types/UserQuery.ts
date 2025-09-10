@@ -26,7 +26,7 @@ import { User } from "./User";
 
 
 export class UserQuery extends BaseQuery<User> implements IUserQuery{
-    protected objectType: string = "user";
+    objectType: string = "user";
     uniqueId?: string;
     id?: number;
     metadata?: string;

@@ -22,7 +22,7 @@
 
 import { SensitiveClientDataSecurityHandle } from "../ajax/security/SensitiveClientDataSecurityHandle";
 import { SecurityHandler } from "../ajax/security/SecurityHandler";
-import { Flux } from "../lib/Flux";
+import { FluxComms } from "../lib/Flux";
 import { Address } from "./Address";
 import { FluxIdentifier } from "./FluxIdentifier";
 import { FluxType } from "./FluxType";
@@ -97,7 +97,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
             delete pt.lastName
             delete pt.payType
     
-            let f: Flux<SecurityHandler> = await fluxBrowser()
+            let f: FluxComms<SecurityHandler> = await fluxBrowser()
     
     
             let secH: SecurityHandler = f.securityHandle
@@ -170,7 +170,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         
         let instance: PaymentMethod =  inst
 
-        let f: Flux<SecurityHandler> = await fluxBrowser()
+        let f: FluxComms<SecurityHandler> = await fluxBrowser()
     
     
         let secH: SecurityHandler = f.securityHandle
@@ -226,7 +226,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
     }
 
     public static async updateObjects<T extends FluxType>(ob: T | T[]): Promise<T[]> {
-        let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+        let f: FluxComms<SecurityHandler> = await FluxType.getBackendConn()
         let firstOb = ob[0] as PaymentMethod
         let secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, firstOb.accountSession)
         let obs = await f.updateObjects<T>(ob, secHandle)
@@ -234,7 +234,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
     }
 
     public static async createObjects<T extends FluxType>(ob: T | T[]): Promise<FluxIdentifier[]> {
-        let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+        let f: FluxComms<SecurityHandler> = await FluxType.getBackendConn()
         let firstOb = ob[0] as PaymentMethod
         let secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, firstOb.accountSession)
         let obs: FluxIdentifier[] = await f.createObjectGeneric<T>(ob, secHandle)
@@ -242,7 +242,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
     }
 
     public async delete(): Promise<void> {
-        let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+        let f: FluxComms<SecurityHandler> = await FluxType.getBackendConn()
         await f.deleteObjects(this.getId(), this.obType)
         Object.keys(this).forEach(e => {
             this[e] = undefined
@@ -252,7 +252,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
 
     public async merge(): Promise<void> {
         let t = this.obType
-        let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+        let f: FluxComms<SecurityHandler> = await FluxType.getBackendConn()
         let obs = await f.updateObjects(this)
         if (obs.length !== 1) throw new Error("couldn't persist the object");
         Object.assign(this, obs[0])
@@ -269,8 +269,8 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         Object.assign(this, obs[0])
     };
 
-    public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: Flux<SecurityHandler>): Promise<T[]> {
-        let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
+    public static async queryObjects<T extends FluxType, U extends BaseQuery<T>>(q: U, cfs?: FluxComms<SecurityHandler>): Promise<T[]> {
+        let f: FluxComms<SecurityHandler> = cfs || await FluxType.getBackendConn()
         let secHandle = undefined;
         if ((q as IPaymentMethodQuery).accountSession) {
             secHandle = new SensitiveClientDataSecurityHandle(f.securityHandle.publicKey, (q as IPaymentMethodQuery).accountSession)
@@ -280,8 +280,8 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
         return obs;
     }
 
-    public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], cfs?: Flux<SecurityHandler>, accountSession?: string): Promise<FluxIdentifier[]> {
-        let f: Flux<SecurityHandler> = cfs || await FluxType.getBackendConn()
+    public static async deleteObjects<T extends FluxType>(this: new (o?: any) => T, fi: FluxIdentifier | FluxIdentifier[], cfs?: FluxComms<SecurityHandler>, accountSession?: string): Promise<FluxIdentifier[]> {
+        let f: FluxComms<SecurityHandler> = cfs || await FluxType.getBackendConn()
         let secHandle = undefined;
 
 
@@ -294,7 +294,7 @@ export class PaymentMethod extends FluxType implements IPaymentMethod {
 
 
     protected static async createObjectsSafe<T extends FluxType>(ob: T | T[], secHandle?: SecurityHandler): Promise<T[]> {
-        let f: Flux<SecurityHandler> = await FluxType.getBackendConn()
+        let f: FluxComms<SecurityHandler> = await FluxType.getBackendConn()
         let obs: T[] = await f.createObjectGenericSafe<T>(ob, secHandle)
         return obs;
     }

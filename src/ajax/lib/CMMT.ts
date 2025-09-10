@@ -30,7 +30,8 @@ import { WebSocket, WebSocketServer } from 'ws'
 import * as https from 'https'
 
 import * as env from '../../env.json';
-import { FluxType } from "../../flux_types/FluxType";
+import { IFlux } from "../../lib/IFlux";
+
 export class CMMT {
     private static readonly BASE_URL: string = env.API_CONNECTION_ENDPOINT_PROD
     private static readonly WEBSOCKET_BASE_URL: string = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD
@@ -193,6 +194,7 @@ export class CMMT {
 
 
         arg = cloneDeep(arg);
+
         return new Promise<T>(async (resolve, reject) => {
             try {
                 let arh = new AjaxRequestHandle(req, res, secHandle);
@@ -236,7 +238,7 @@ export class CMMT {
         });
     }
 
-    public static fetchGeneric<U extends RequestBody, V extends ResponseBody, W extends FluxType>(
+    public static fetchGeneric<U extends RequestBody, V extends ResponseBody, W extends IFlux>(
         req: new () => U,
         res: new (t?: any) => V,
         type: new (fbo?: any) => W,

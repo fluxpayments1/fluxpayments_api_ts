@@ -26,3 +26,6 @@ export { MerchantEndpointsSecurityHandle } from "./MerchantEndpointsSecurityHand
 export { GenAuthDataSecurityHandle } from './GenAuthDataSecurityHandle'
 export { SensitiveClientDataSecurityHandle } from './SensitiveClientDataSecurityHandle'
 export { AccountDataSecurityHandle } from './AccountDataSecurityHandle'
+export { WebsiteSignUpSecurityHandle } from './WebsiteSignUpSecurityHandle'
+export { ReactNativeSecurityHandle } from './ReactNativeSecurityHandle'
+export { WebsiteSecurityHandle } from './WebsiteSecurityHandle'

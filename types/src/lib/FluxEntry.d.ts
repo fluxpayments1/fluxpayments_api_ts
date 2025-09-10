@@ -1,0 +1,86 @@
+import { MerchantEndpointsSecurityHandle } from "../ajax/security/MerchantEndpointsSecurityHandle";
+import { FluxComms } from "./Flux";
+import { FluxSockets } from "./FluxSockets";
+import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
+import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityHandle";
+/**
+ * Initializes a connection to the flux websocket.
+ *
+ *
+ * @param publicKey
+ * @param privateKey
+ * @param username
+ * @param passphrase
+ * @returns
+ */
+export declare function fluxSocket(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<FluxSockets>;
+/**
+ * Resolves a Flux object that can be used to interact with the Flux API
+ *
+ * @param publicKey Public key displayed in the Flux dashboard
+ * @param privateKey Private key displayed in the Flux dashboard
+ * @param username Username displayed in the Flux dashboard
+ * @param passphrase Passphrase displayed in the Flux dashboard
+ * @returns A Promise resolving to a Flux object that can be used to interact with the Flux API
+ */
+export declare function flux(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<FluxComms<MerchantEndpointsSecurityHandle>>;
+export declare function fluxBrowser(publicKey?: string): Promise<FluxComms<GeneralSecurityHandle>>;
+export declare function fluxGetter(): FluxComms<import("../ajax/security/SecurityHandler").SecurityHandler>;
+export declare function fluxSocketBrowserSessionBased(secHandle: AccountDataSecurityHandle): Promise<FluxSockets>;
+import { WebsiteSecurityHandle } from "../ajax/security/WebsiteSecurityHandle";
+import { ReactNativeSecurityHandle } from "../ajax/security/ReactNativeSecurityHandle";
+import { FluxTokenBackend } from "./FluxTokenBackend";
+/**
+ * How does web auth work
+ *
+ *
+ * From the user email we get the public key
+ *
+ * We then use the public key to encrypt a jwt
+ *
+ * and validate the password
+ *
+ * if validation occurs we send an auth cookie that
+ * is good for 15 minutes.
+ *
+ * With each successive request that auth cookie is
+ * updated
+ *
+ * If the user uses an expired token it should take them
+ * back to the initial page
+ *
+ *
+ * @param email
+ * @param password
+ */
+export declare function fluxWebsiteSignInAuthorization(email: any, password: any, token?: string): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
+export declare function resetPassword(email: string, token: string): Promise<boolean>;
+export declare function updatePassword(email: string, password: string, passwordResetCode: string, token: string): Promise<boolean>;
+export declare function fluxWebsite2fa(number: string, token: string): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
+export declare function fluxWebsiteSignUp(email: string, password: string, token: string, additionalInfo: any): Promise<void>;
+import { ResponseBodyBase } from "../ajax/Responses";
+export declare function fluxWebsiteCookieAuthorization(): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
+export declare function fluxSocketBrowser(secHandle: WebsiteSecurityHandle): Promise<FluxSockets>;
+export declare function fluxTokGetter(): FluxComms<import("../ajax/security/SecurityHandler").SecurityHandler>;
+export declare function getAccountSessionFromOTPL(otpl: string): Promise<ResponseBodyBase>;
+export declare function getMerchantPublicKeyFromOTPL(otpl: string): Promise<ResponseBodyBase>;
+/**
+ * React Native Sign-In Authorization
+ *
+ * Similar to fluxWebsiteSignInAuthorization but uses ReactNativeSecurityHandle
+ * with session management via Expo SecureStore
+ *
+ * @param email - User email/username
+ * @param password - User password (will be hashed)
+ * @param token - Optional reCAPTCHA token
+ */
+export declare function fluxReactNativeSignInAuthorization(email: string, password: string, token?: string): Promise<FluxTokenBackend<ReactNativeSecurityHandle>>;
+/**
+ * React Native Session Authorization
+ *
+ * Attempts to authenticate using existing session token from SecureStore
+ * Falls back to sign-in if no valid session
+ *
+ * @param email - User email/username (needed for public key lookup)
+ */
+export declare function fluxReactNativeSessionAuthorization(email: string, sessionToken: string): Promise<FluxTokenBackend<ReactNativeSecurityHandle>>;

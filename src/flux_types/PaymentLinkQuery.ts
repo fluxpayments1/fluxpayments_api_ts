@@ -57,7 +57,7 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
     paymentLink: string;
     isReusable: boolean;
     accountId: number;
-    protected objectType: string = "payment_link";
+    objectType: string = "payment_link";
 
     public constructor(tokQ?: IPaymentLinkQuery) {
         super(PaymentLink);

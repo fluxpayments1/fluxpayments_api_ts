@@ -47,7 +47,7 @@ export class CurrencyQuery extends BaseQuery<Currency> implements ICurrencyQuery
     uniqueId: string;
     metadata: string;
     issuer: string;
-    protected objectType: string = "currency";
+    objectType: string = "currency";
 
 
 

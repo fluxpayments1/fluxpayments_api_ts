@@ -20,14 +20,14 @@
  * SOFTWARE.
  */
 
-import { BaseQuery } from "../../flux_types/BaseQuery";
 import { RequestBodyBase } from "./RequestBodyBase";
 import { AdditionalSearchOptions } from "../../flux_types/AdditionalSearchOptions";
 import { PaginationSupport } from "../../flux_types/PaginationSupport";
-import { FluxType } from "../../flux_types/FluxType";
+import { IFlux } from "../../lib/IFlux";
+import { IBaseQuery } from "../../flux_types/IBaseQuery";
 
 
-export class GenericGetterRequest<U extends FluxType,T extends BaseQuery<U>> extends RequestBodyBase {
+export class GenericGetterRequest<U extends IFlux,T extends IBaseQuery<U>> extends RequestBodyBase {
     _queryObj: T;
     _additionalSearchOptions: AdditionalSearchOptions[];
     _pagination: PaginationSupport;

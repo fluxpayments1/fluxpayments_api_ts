@@ -51,7 +51,7 @@ export class AddressQuery extends BaseQuery<Address> implements IAddressQuery {
     zipCode : string;
     addressState : string;
     city : string;
-    protected objectType: string = "address"
+    objectType: string = "address"
 
     constructor(addressQuery?: IAddressQuery){
         super(Address);

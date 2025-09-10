@@ -29,7 +29,7 @@ import { Product } from "./Product";
  * This is an object that is used to query for products.
  */
 export class PermissionsQuery extends BaseQuery<Permissions> implements IPermissionsQuery {
-    protected objectType: string = "permissions";
+    objectType: string = "permissions";
     public serialize() {
         return {
             id: this.id,

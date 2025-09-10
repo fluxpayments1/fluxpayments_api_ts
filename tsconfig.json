@@ -5,12 +5,13 @@
         "lib": ["es2017", "dom"],                   
         "allowJs": false,                             
         "checkJs": false,                           
-        "declaration": false,
-        "sourceMap": false,                           
-        "outDir": "./tests/dist",  
+        "outDir": "./dist",
+        "baseUrl":".",
+        "declaration": true,
+        "declarationDir": "./types",
+        "sourceMap": true,
         "resolveJsonModule": true,                     
         "rootDir": ".", 
-        "baseUrl":".",
         "paths": {
         },           
         "strict": true,                             
@@ -32,10 +33,12 @@
         "experimentalDecorators": true,              
         "emitDecoratorMetadata": true
     },
+    
     "include": [
-        "./src/types/flux_types/**/*.ts",
-        "./tests/**/*"
+        "./src/**/*",
+        "./polyfills.rn.ts",
+        "./polyfills.ts",
     ],
     // "include": ["./polyfills.ts"],
-    "exclude": ["./types", "./dist", "./dist_web", "./tests"]
+    "exclude": ["./types", "./dist", "./dist_web", "./dist_rn"]
 }

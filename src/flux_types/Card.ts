@@ -22,7 +22,7 @@
 
 import { SecurityHandler } from "../ajax/security/SecurityHandler";
 import { SensitiveClientDataSecurityHandle } from "../ajax/security/SensitiveClientDataSecurityHandle";
-import { Flux } from "../lib/Flux";
+import { FluxComms } from "../lib/Flux";
 import { Address } from "./Address";
 import { BaseQuery } from "./BaseQuery";
 import { CustomerSensitiveData } from "./CustomerSensitiveData";

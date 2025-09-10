@@ -12,7 +12,7 @@ export class AccountWithCustomerWalletQuery extends AccountQuery {
     }
 
     customerWallets: CustomerWallet[];
-    protected objectType = "account_with_customer_wallet"
+    objectType = "account_with_customer_wallet"
 
     constructor(acc?: Partial<AccountWithCustomerWalletQuery>) {
         super(acc, AccountWithCustomerWallet)

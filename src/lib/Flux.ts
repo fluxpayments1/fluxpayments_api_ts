@@ -31,28 +31,27 @@ import { GenAuthReq } from "../ajax/Requests/GenAuthReq";
 import { GenAuthRes, CreateSessionResponse, GenericCreatorResponse, GenericGetterResponse, GenericDeleterResponse, GenericUpdaterResponse, UpdateProductResponse, GetMetadataResponse } from "../ajax/Responses";
 import { CMMT } from "../ajax/lib";
 import { MerchantEndpointsSecurityHandle, GenAuthDataSecurityHandle, SecurityHandler } from "../ajax/security";
-import { FluxIdentifier, FluxType, BaseQuery, Product } from "../flux_types";
-import { IFlux } from "./IFlux";
+import { FluxIdentifier, Product } from "../flux_types";
 import { GetMetadataRequest } from "../ajax/Requests/GetMetadataRequest";
+import { IFlux } from "../lib/IFlux";
+import { IBaseQuery } from "../flux_types/IBaseQuery";
 
 
 
-
-export class Flux<A extends SecurityHandler> implements IFlux {
-    protected tes;
+export class FluxComms<A extends SecurityHandler> {
     protected _isAuthenticated: boolean = false;
     protected _securityHandle: A;
-    protected static fb: Flux<any>;
+    protected static fb: FluxComms<any>;
     public constructor() {
 
     }
 
-    public static getInstance<T extends SecurityHandler>(): Flux<T> {
-        if (Flux.fb) {
-            return Flux.fb;
+    public static getInstance<T extends SecurityHandler>(): FluxComms<T> {
+        if (FluxComms.fb) {
+            return FluxComms.fb;
         }
-        Flux.fb = new Flux<T>();
-        return Flux.fb
+        FluxComms.fb = new FluxComms<T>();
+        return FluxComms.fb
     }
 
     get isAuthenticated(): boolean {
@@ -127,7 +126,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
-    async validatePaymentMethod<T extends FluxType>(
+    async validatePaymentMethod<T extends IFlux>(
         ob: T,
         secHandle?: SecurityHandler
     ) : Promise<FluxIdentifier[]> {
@@ -141,7 +140,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
-    async validateAndCreatePaymentMethod<T extends FluxType>(
+    async validateAndCreatePaymentMethod<T extends IFlux>(
         ob: T,
         secHandle?: SecurityHandler
     ) : Promise<FluxIdentifier[]> {
@@ -155,7 +154,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
-    async createObjectGeneric<T extends FluxType>(
+    async createObjectGeneric<T extends IFlux>(
         ob: T | T[],
         secHandle? : SecurityHandler
     ): Promise<FluxIdentifier[]> {
@@ -173,7 +172,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
-    async createObjectGenericSafe<T extends FluxType>(
+    async createObjectGenericSafe<T extends IFlux>(
         ob: T | T[],
         secHandle?: SecurityHandler
     ): Promise<T[]> {
@@ -200,7 +199,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
     }
 
 
-    public async getObjects<T extends FluxType, U extends BaseQuery<T>>(
+    public async getObjects<T extends IFlux, U extends IBaseQuery<T>>(
         query: U,
         secHandle?: SecurityHandler
     ): Promise<T[]> {
@@ -222,7 +221,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
-    public async deleteObjects<T extends FluxType>(
+    public async deleteObjects<T extends IFlux>(
         ids: FluxIdentifier | FluxIdentifier[],
         obType: new (o?: any) => T,
         secHandle?: SecurityHandler
@@ -238,7 +237,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         );
     }
 
-    public async getObjectsById<T extends FluxType>(
+    public async getObjectsById<T extends IFlux>(
         fi: FluxIdentifier | FluxIdentifier[],
         obType: new (o?: any) => T
     ): Promise<T[]> {
@@ -254,7 +253,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
         )
     }
 
-    public async getLinkedObjectsById<T extends FluxType, U extends FluxType>(
+    public async getLinkedObjectsById<T extends IFlux, U extends IFlux>(
         fi: FluxIdentifier | FluxIdentifier[],
         obType: new (o?: any) => T,
         obType2: new (o?: any) => U
@@ -273,7 +272,7 @@ export class Flux<A extends SecurityHandler> implements IFlux {
     }
 
 
-    public async updateObjects<T extends FluxType>(
+    public async updateObjects<T extends IFlux>(
         ob: T | T[],
         securityHandle?: SecurityHandler
     ): Promise<T[]> {

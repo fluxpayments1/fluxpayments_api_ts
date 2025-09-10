@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-import { Flux } from "../lib/Flux";
+import { FluxComms } from "../lib/Flux";
 import { FluxType } from "./FluxType";
 import { IProduct } from "./IProduct";
 import { SecurityHandler } from "../ajax/security";
@@ -83,7 +83,7 @@ export class Product extends FluxType implements IProduct {
     }
 
     public async incrementInventoryCount(quantity: number): Promise<Product> {
-        let fi = await FluxType.getBackendConn() as Flux<SecurityHandler>;
+        let fi = await FluxType.getBackendConn() as FluxComms<SecurityHandler>;
         let prod = await fi.updateProductQuantity(1, quantity, this.getId());
 
         if (!prod || prod.length !== 1) throw new Error("couldnt increment inventory count")
@@ -95,7 +95,7 @@ export class Product extends FluxType implements IProduct {
     }
 
     public async decrementInventoryCount(quantity: number): Promise<Product> {
-        let fi = await FluxType.getBackendConn() as Flux<SecurityHandler>;
+        let fi = await FluxType.getBackendConn() as FluxComms<SecurityHandler>;
         let prod = await fi.updateProductQuantity(-1, quantity, this.getId());
 
         if (!prod || prod.length !== 1) throw new Error("couldnt decrement inventory count")

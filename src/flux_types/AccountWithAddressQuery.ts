@@ -12,7 +12,7 @@ export class AccountWithAddressQuery extends AccountQuery {
     }
 
     addresses: Address[];
-    protected objectType = "account_with_address"
+    objectType = "account_with_address"
 
     constructor(acc?: Partial<AccountWithAddressQuery>) {
         super(acc, AccountWithAddress)

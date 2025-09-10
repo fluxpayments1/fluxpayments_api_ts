@@ -51,7 +51,7 @@ export class InstallmentTransactionQuery extends BaseQuery<InstallmentTransactio
     otplId: number;
     installmentPeriod: any;
     status: any;
-    protected objectType: string = "installment_transaction";
+    objectType: string = "installment_transaction";
 
     public constructor(tokQ?: IInstallmentTransactionQuery){
         super(InstallmentTransaction);
