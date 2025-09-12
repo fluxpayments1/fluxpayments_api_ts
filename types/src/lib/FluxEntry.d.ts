@@ -1,6 +1,6 @@
 import { MerchantEndpointsSecurityHandle } from "../ajax/security/MerchantEndpointsSecurityHandle";
 import { FluxComms } from "./Flux";
-import { FluxSockets } from "./FluxSockets";
+import { FluxSocketImpl } from "./FluxSockets";
 import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
 import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityHandle";
 /**
@@ -13,7 +13,7 @@ import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityH
  * @param passphrase
  * @returns
  */
-export declare function fluxSocket(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<FluxSockets>;
+export declare function fluxSocket(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<FluxSocketImpl>;
 /**
  * Resolves a Flux object that can be used to interact with the Flux API
  *
@@ -26,10 +26,11 @@ export declare function fluxSocket(publicKey: string, privateKey: string, userna
 export declare function flux(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<FluxComms<MerchantEndpointsSecurityHandle>>;
 export declare function fluxBrowser(publicKey?: string): Promise<FluxComms<GeneralSecurityHandle>>;
 export declare function fluxGetter(): FluxComms<import("../ajax/security/SecurityHandler").SecurityHandler>;
-export declare function fluxSocketBrowserSessionBased(secHandle: AccountDataSecurityHandle): Promise<FluxSockets>;
+export declare function fluxSocketBrowserSessionBased(secHandle: AccountDataSecurityHandle): Promise<FluxSocketImpl>;
 import { WebsiteSecurityHandle } from "../ajax/security/WebsiteSecurityHandle";
 import { ReactNativeSecurityHandle } from "../ajax/security/ReactNativeSecurityHandle";
 import { FluxTokenBackend } from "./FluxTokenBackend";
+import { CreateSessionResponse } from "../ajax/Responses/CreateSessionResponse";
 /**
  * How does web auth work
  *
@@ -58,12 +59,11 @@ export declare function resetPassword(email: string, token: string): Promise<boo
 export declare function updatePassword(email: string, password: string, passwordResetCode: string, token: string): Promise<boolean>;
 export declare function fluxWebsite2fa(number: string, token: string): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
 export declare function fluxWebsiteSignUp(email: string, password: string, token: string, additionalInfo: any): Promise<void>;
-import { ResponseBodyBase } from "../ajax/Responses";
 export declare function fluxWebsiteCookieAuthorization(): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
-export declare function fluxSocketBrowser(secHandle: WebsiteSecurityHandle): Promise<FluxSockets>;
+export declare function fluxSocketBrowser(secHandle: WebsiteSecurityHandle): Promise<FluxSocketImpl>;
 export declare function fluxTokGetter(): FluxComms<import("../ajax/security/SecurityHandler").SecurityHandler>;
-export declare function getAccountSessionFromOTPL(otpl: string): Promise<ResponseBodyBase>;
-export declare function getMerchantPublicKeyFromOTPL(otpl: string): Promise<ResponseBodyBase>;
+export declare function getAccountSessionFromOTPL(otpl: string): Promise<CreateSessionResponse>;
+export declare function getMerchantPublicKeyFromOTPL(otpl: string): Promise<CreateSessionResponse>;
 /**
  * React Native Sign-In Authorization
  *

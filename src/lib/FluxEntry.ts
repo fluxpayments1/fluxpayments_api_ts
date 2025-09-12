@@ -23,7 +23,7 @@
 import { platform } from "os";
 import { MerchantEndpointsSecurityHandle } from "../ajax/security/MerchantEndpointsSecurityHandle";
 import { FluxComms } from "./Flux";
-import { FluxSockets, FluxWebsockets } from "./FluxSockets";
+import { FluxSocketImpl, FluxWebsockets } from "./FluxSockets";
 import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
 import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityHandle";
 
@@ -39,7 +39,7 @@ import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityH
  * @returns 
  */
 export async function fluxSocket(publicKey: string, privateKey: string, username: string, passphrase: string) {
-    return new Promise<FluxSockets>(async (resolve, reject) => {
+    return new Promise<FluxSocketImpl>(async (resolve, reject) => {
         try {
 
             let fma = FluxComms.getInstance();
@@ -134,7 +134,7 @@ function isBrowserEnv() {
 }
 
 
-export async function fluxSocketBrowserSessionBased(secHandle: AccountDataSecurityHandle): Promise<FluxSockets> {
+export async function fluxSocketBrowserSessionBased(secHandle: AccountDataSecurityHandle): Promise<FluxSocketImpl> {
     FluxWebsockets.initializeWebSecHandle(secHandle)
     let fm = await FluxWebsockets.getInstance();
     return fm
@@ -150,7 +150,7 @@ import {
 
 import Cookies from "js-cookie";
 import { WebsiteSignUpSecurityHandle } from "../ajax/security/WebsiteSignUpSecurityHandle";
-import { CreateSessionResponse as SessionRes } from "../ajax/Responses/CreateSessionResponse";
+import { CreateSessionResponse, CreateSessionResponse as SessionRes } from "../ajax/Responses/CreateSessionResponse";
 /**
  * How does web auth work
  *
@@ -354,9 +354,6 @@ export async function fluxWebsiteSignUp(
 }
 
 
-import {
-  ResponseBodyBase,
-} from "../ajax/Responses";
 export async function fluxWebsiteCookieAuthorization() {
   return new Promise<FluxTokenBackend<WebsiteSecurityHandle>>(
     async (resolve, reject) => {
@@ -389,7 +386,7 @@ export async function fluxWebsiteCookieAuthorization() {
 
 export async function fluxSocketBrowser(
   secHandle: WebsiteSecurityHandle
-): Promise<FluxSockets> {
+): Promise<FluxSocketImpl> {
   FluxWebsockets.initializeWebSecHandle(secHandle);
   let fm = await FluxWebsockets.getInstance();
   return fm;
@@ -407,13 +404,13 @@ export function fluxTokGetter() {
 
 export async function getAccountSessionFromOTPL(
   otpl: string
-): Promise<ResponseBodyBase> {
+): Promise<CreateSessionResponse> {
   return FluxTokenBackend.exchangeOTPLForSession(otpl);
 }
 
 export async function getMerchantPublicKeyFromOTPL(
   otpl: string
-): Promise<ResponseBodyBase> {
+): Promise<CreateSessionResponse> {
   return FluxTokenBackend.getMerchantPublicKeyFromOTPL(otpl);
 }
 

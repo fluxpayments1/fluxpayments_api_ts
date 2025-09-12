@@ -27,50 +27,16 @@ const commonExtensions = ['.js', '.ts', '.tsx'];
 
 module.exports = [
   {
-    entry: ['./polyfills.ts', './lib/index.ts'],
+    entry: ['./polyfills.ts', './src/lib/index.rn.standalone.ts'],
     output: {
       filename: 'lib.js',
       path: path.join(__dirname, '/dist_web'),
-      library: 'MyLibrary',
-      libraryTarget: 'umd',
-    },
-    devtool: 'source-map',
-    resolve: {
-      fallback: commonFallback,
-      extensions: commonExtensions
-    },
-    plugins: [provideBufferPlugin],
-    module: { rules: commonRules }
-  },
-  {
-    entry: ['./polyfills.ts', './ajax/index.ts'],
-    output: {
-      filename: 'ajax.js',
-      path: path.join(__dirname, '/dist_web'),
-      library: 'MyLibrary',
-      libraryTarget: 'umd',
-    },
-    devtool: 'source-map',
-    resolve: {
-      fallback: commonFallback,
-      extensions: commonExtensions
-    },
-    plugins: [provideBufferPlugin],
-    module: { rules: commonRules }
-  },
-  {
-    entry: ['./polyfills.ts', './flux_types/index.ts'],
-    output: {
-      filename: 'flux_types.js',
-      path: path.join(__dirname, '/dist_web'),
-      library: 'MyLibrary',
-      libraryTarget: 'umd',
-    },
-    devtool: 'source-map',
-    resolve: {
-      alias: {
-        events: require.resolve('events/')
+      library: {
+        type: 'umd'
       },
+    },
+    devtool: 'source-map',
+    resolve: {
       fallback: commonFallback,
       extensions: commonExtensions
     },

@@ -1,94 +1,40 @@
 // TypeScript declarations for fluxpayments_api_ts React Native bundle
-import { FluxTokenBackend } from "./src/types/lib/FluxTokenBackend";
-import { ReactNativeSecurityHandle } from "./src/types/ajax/security/ReactNativeSecurityHandle";
-import { WebsiteSecurityHandle } from "./src/types/ajax/security/WebsiteSecurityHandle";
+import { FluxTokenBackend } from "./types/src/lib/FluxTokenBackend";
+import { ReactNativeSecurityHandle } from "./types/src/ajax/security/ReactNativeSecurityHandle";
+import { WebsiteSecurityHandle } from "./types/src/ajax/security/WebsiteSecurityHandle";
+import { ResponseBodyBase } from "./types/src/ajax/Responses/ResponseBodyBase";
+import * as FluxType from './types/src/flux_types';
+import { Subscription, FluxSockets } from "./types/src/lib/FluxSockets";
+import { SecurityHandler } from "./types/src/ajax/security/SecurityHandler";
+import { GenAuthDataSecurityHandle } from "./types/src/ajax/security/GenAuthDataSecurityHandle";
+import { SensitiveClientDataSecurityHandle } from "./types/src/ajax/security/SensitiveClientDataSecurityHandle";
+import { FluxComms } from "./types/src/lib/Flux";
+import * as Functions from "./types/src/lib/index.rn.standalone";
+import * as Responses from "./types/src/ajax/Responses";
+import * as SecurityHandles from "./types/src/ajax/security";
 
 export declare module "fluxpayments_api_ts" {
-  export const FluxWebsiteAPI: {
-    // React Native Functions
-    fluxReactNativeSignInAuthorization(
-      email: string,
-      password: string,
-      token?: string
-    ): Promise<FluxTokenBackend<ReactNativeSecurityHandle>>;
+  // Define AuthResult type first
+  export type AuthResult = FluxComms<any>;
+  export * from './types/src/lib/index.rn.standalone';
 
-    fluxReactNativeSessionAuthorization(
-      email: string,
-      sessionToken: string
-    ): Promise<AuthResult>;
+  export namespace SecurityHandles {
+    export * from './types/src/ajax/security';
+  }
 
-    fluxReactNativeResetPassword(
-      email: string,
-      token: string
-    ): Promise<boolean>;
+  // FluxTypes namespace - export all flux types
+  export namespace FluxTypes {
+    export * from './types/src/flux_types';
+  }
 
-    fluxReactNativeUpdatePassword(
-      email: string,
-      password: string,
-      passwordResetCode: string,
-      token: string
-    ): Promise<boolean>;
+  export namespace Responses {
+    export * from './types/src/ajax/Responses';
+  }
 
-    fluxReactNativeLogout(): Promise<void>;
+  export const Flux = FluxComms;
 
-    fluxReactNativeHasValidSession(): Promise<boolean>;
-
-    // Website Functions (for compatibility)
-    fluxWebsiteSignInAuthorization(
-      email: string,
-      password: string,
-      token?: string
-    ): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
-
-    fluxWebsiteCookieAuthorization(): Promise<
-      FluxTokenBackend<WebsiteSecurityHandle>
-    >;
-
-    fluxWebsite2fa(
-      number: string,
-      token: string
-    ): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
-
-    resetPassword(email: string, token: string): Promise<boolean>;
-
-    updatePassword(
-      email: string,
-      password: string,
-      passwordResetCode: string,
-      token: string
-    ): Promise<boolean>;
-
-    // any key
-    [key: string]: any;
-
-    fluxWebsiteSignUp(
-      email: string,
-      password: string,
-      token: string,
-      additionalInfo: any
-    ): Promise<void>;
-
-    getAccountSessionFromOTPL(otpl: string): Promise<any>;
-
-    getMerchantPublicKeyFromOTPL(otpl: string): Promise<any>;
-
-    // React Native specific
-    isReactNative: boolean;
-  };
-
-  // Export all flux types
-  export * from './src/types/flux_types';
-  
-  // Export ajax types
-  export * from './src/ajax';
-  
-  // Export AuthResult type alias for convenience
-  export type AuthResult = FluxTokenBackend<ReactNativeSecurityHandle>;
-  
-  // Export isReactNative flag
+  // Additional exports
   export const isReactNative: boolean;
   
-  
   // Default export
-  export default FluxWebsiteAPI;
 }

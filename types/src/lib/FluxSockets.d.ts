@@ -25,13 +25,13 @@ export declare enum Subscription {
     PAYMENT_LINK_UPDATE = "PAYMENT_LINK.UPDATE",
     REUSABLE_PAYMENT_LINK_UPDATE = "REUSABLE_PAYMENT_LINK.UPDATE"
 }
-export interface FluxSockets {
+export interface FluxSocketImpl {
     closeSocketAndListeners(): any;
     subscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
     unSubscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
     websocketClosedEvent(listener: (data: any) => void): void;
 }
-export declare class FluxWebsockets extends EventEmitter implements FluxSockets {
+export declare class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
     private websocketConnection;
     private static initializationSecHandler;
     private generalSecHandler;

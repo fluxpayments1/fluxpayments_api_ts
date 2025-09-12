@@ -17,7 +17,7 @@
         "compile-src": "cd src && tsc --removeComments --sourceMap false",
         "compile-src-dev": "cd src && tsc --watch",
         "compile-web": "cd src && npx webpack --mode production",
-        "compile-web-dev": "cd src && npx webpack -w --mode development",
+        "compile-web-dev": "npx webpack -w --mode development",
         "compile-rn": "npx webpack --config webpack.rn.config.js --mode production",
         "compile-rn-dev": "npx webpack --config webpack.rn.config.js --watch",
         "compile-docs": "npx typedoc --plugin typedoc-plugin-markdown --out docs ./src/types/flux_types/*.ts --excludePrivate"

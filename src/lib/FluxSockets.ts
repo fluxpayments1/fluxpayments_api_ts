@@ -53,14 +53,14 @@ export enum Subscription {
     REUSABLE_PAYMENT_LINK_UPDATE = "REUSABLE_PAYMENT_LINK.UPDATE"
 }
 
-export interface FluxSockets {
+export interface FluxSocketImpl {
     closeSocketAndListeners();
     subscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
     unSubscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>
     websocketClosedEvent(listener: (data: any) => void): void
 }
 
-export class FluxWebsockets extends EventEmitter implements FluxSockets {
+export class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
 
     private websocketConnection: WebSocket;
     private static initializationSecHandler: SecurityHandlerBase;
