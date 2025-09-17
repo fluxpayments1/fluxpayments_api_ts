@@ -1,0 +1,45 @@
+import { FluxType } from './FluxType';
+import { ITransactionDetails } from './ITransactionDetails';
+export declare class TransactionDetails extends FluxType implements ITransactionDetails {
+    obName: string;
+    getDispName(): string;
+    serialize(): {
+        id: number;
+        transactionId: number;
+        accountId: number;
+        amount: number;
+        transactionType: string;
+        transactionStatus: string;
+        description: string;
+        timestamp: Date;
+        dateCreated: Date;
+        timeCreated: string;
+        paymentMethodId: number;
+        currency: string;
+        merchantId: number;
+        createdAt: Date;
+        updatedAt: Date;
+        uniqueId: string;
+        metadata: string;
+        objectType: string;
+    };
+    id: number;
+    transactionId: number;
+    accountId: number;
+    amount: number;
+    transactionType: string;
+    transactionStatus: string;
+    description: string;
+    timestamp: Date;
+    dateCreated: Date;
+    timeCreated: string;
+    paymentMethodId: number;
+    currency: string;
+    merchantId: number;
+    createdAt: Date;
+    updatedAt: Date;
+    uniqueId: string;
+    metadata: string;
+    protected objectType: string;
+    constructor(transactionDetails?: Partial<TransactionDetails>);
+}
