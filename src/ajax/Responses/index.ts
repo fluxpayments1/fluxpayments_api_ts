@@ -30,3 +30,13 @@ export { UpdateProductResponse } from './UpdateProductResponse'
 export { GenericUpdaterResponse } from './GenericUpdaterResponse'
 export { AddSubscriptionResponse } from './Websockets/AddSubscriptionResponse'
 export { GetMetadataResponse } from './GetMetadataResponse'
+
+// Export user-facing web service responses
+export { SendConfirmationEmailResponse } from './SendConfirmationEmailResponse'
+export { ConfirmEmailCodeResponse, CustomerTransactionsData, TransactionDetails } from './ConfirmEmailCodeResponse'
+export { DownloadTransactionResponse, TransactionData } from './DownloadTransactionResponse'
+export { UpdatePaymentMethodSubscriptionResponse } from './UpdatePaymentMethodSubscriptionResponse'
+export { CreatePaymentMethodResponse, PaymentMethod } from './CreatePaymentMethodResponse'
+export { CancelSubscriptionResponse } from './CancelSubscriptionResponse'
+export { RemovePaymentMethodResponse } from './RemovePaymentMethodResponse'
+export { UpdateAccountInformationResponse } from './UpdateAccountInformationResponse'

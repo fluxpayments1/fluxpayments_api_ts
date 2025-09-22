@@ -7,7 +7,7 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in all
  * copies or substantial portions of the Software.
  *
@@ -23,125 +23,152 @@
 import { platform } from "os";
 import { MerchantEndpointsSecurityHandle } from "../ajax/security/MerchantEndpointsSecurityHandle";
 import { FluxComms } from "./Flux";
-import { FluxSockets, FluxWebsockets } from "./FluxSockets";
+import { FluxSocketImpl, FluxWebsockets } from "./FluxSockets";
 import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
 import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityHandle";
 
-
 /**
  * Initializes a connection to the flux websocket.
- * 
- * 
- * @param publicKey 
- * @param privateKey 
- * @param username 
- * @param passphrase 
- * @returns 
+ *
+ *
+ * @param publicKey
+ * @param privateKey
+ * @param username
+ * @param passphrase
+ * @returns
  */
-export async function fluxSocket(publicKey: string, privateKey: string, username: string, passphrase: string) {
-    return new Promise<FluxSockets>(async (resolve, reject) => {
-        try {
+export async function fluxSocket(
+  publicKey: string,
+  privateKey: string,
+  username: string,
+  passphrase: string
+) {
+  return new Promise<FluxSocketImpl>(async (resolve, reject) => {
+    try {
+      let fma = FluxComms.getInstance();
+      let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
+      passphrase = SecurityHandlerBase.sha256(passphrase, exchangedKey);
 
-            let fma = FluxComms.getInstance();
-            let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
-            passphrase = SecurityHandlerBase.sha256(passphrase, exchangedKey);
-
-            FluxWebsockets.initializeSecurityHandle(exchangedKey, privateKey, username, passphrase)
-            let fm = await FluxWebsockets.getInstance();
-            resolve(fm);
-        } catch (e) {
-            reject(e);
-        }
-
-    });
+      FluxWebsockets.initializeSecurityHandle(
+        exchangedKey,
+        privateKey,
+        username,
+        passphrase
+      );
+      let fm = await FluxWebsockets.getInstance();
+      resolve(fm);
+    } catch (e) {
+      reject(e);
+    }
+  });
 }
 
 /**
  * Resolves a Flux object that can be used to interact with the Flux API
- * 
+ *
  * @param publicKey Public key displayed in the Flux dashboard
  * @param privateKey Private key displayed in the Flux dashboard
  * @param username Username displayed in the Flux dashboard
  * @param passphrase Passphrase displayed in the Flux dashboard
  * @returns A Promise resolving to a Flux object that can be used to interact with the Flux API
  */
-export async function flux(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<FluxComms<MerchantEndpointsSecurityHandle>> {
-    return new Promise<FluxComms<MerchantEndpointsSecurityHandle>>(async (resolve, reject) => {
-        try {
+export async function flux(
+  publicKey: string,
+  privateKey: string,
+  username: string,
+  passphrase: string
+): Promise<FluxComms<MerchantEndpointsSecurityHandle>> {
+  return new Promise<FluxComms<MerchantEndpointsSecurityHandle>>(
+    async (resolve, reject) => {
+      try {
+        let fma = FluxComms.getInstance<MerchantEndpointsSecurityHandle>();
+        let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
+        passphrase = SecurityHandlerBase.sha256(passphrase, exchangedKey);
 
-            let fma = FluxComms.getInstance<MerchantEndpointsSecurityHandle>();
-            let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
-            passphrase = SecurityHandlerBase.sha256(passphrase, exchangedKey);
-
-            fma.securityHandle = new MerchantEndpointsSecurityHandle(exchangedKey, privateKey, username, passphrase);
-            fma.isAuthenticated = true;
-            resolve(fma);
-        } catch (e) {
-            reject(e);
-        }
-
-    });
-
+        fma.securityHandle = new MerchantEndpointsSecurityHandle(
+          exchangedKey,
+          privateKey,
+          username,
+          passphrase
+        );
+        fma.isAuthenticated = true;
+        resolve(fma);
+      } catch (e) {
+        reject(e);
+      }
+    }
+  );
 }
 
-export async function fluxBrowser(publicKey?: string): Promise<FluxComms<GeneralSecurityHandle>> {
-    
-    if (sessionStorage.getItem('exchangedKey')) {
-        let fma = FluxComms.getInstance<GeneralSecurityHandle>()
-        fma.securityHandle = new GeneralSecurityHandle(sessionStorage.getItem('exchangedKey'));
-        fma.isAuthenticated = true;
-        return fma;
-    }
-
-    let fma = FluxComms.getInstance<GeneralSecurityHandle>()
-    let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
-    fma.securityHandle = new GeneralSecurityHandle(exchangedKey);
+export async function fluxBrowser(
+  publicKey?: string
+): Promise<FluxComms<GeneralSecurityHandle>> {
+  if (sessionStorage.getItem("exchangedKey")) {
+    let fma = FluxComms.getInstance<GeneralSecurityHandle>();
+    fma.securityHandle = new GeneralSecurityHandle(
+      sessionStorage.getItem("exchangedKey")
+    );
     fma.isAuthenticated = true;
+    return fma;
+  }
 
-    if (isBrowserEnv()) {
-        sessionStorage.setItem('publicKey', publicKey);
-        sessionStorage.setItem('exchangedKey', exchangedKey);
-    }
+  let fma = FluxComms.getInstance<GeneralSecurityHandle>();
+  let exchangedKey = await fma.getGeneralAuthorizationAccess(publicKey);
+  fma.securityHandle = new GeneralSecurityHandle(exchangedKey);
+  fma.isAuthenticated = true;
 
-    return fma
-};
+  if (isBrowserEnv()) {
+    sessionStorage.setItem("publicKey", publicKey);
+    sessionStorage.setItem("exchangedKey", exchangedKey);
+  }
 
-
-
+  return fma;
+}
 
 export function fluxGetter() {
+  if (isBrowserEnv()) {
+    let exchangedKey = sessionStorage.getItem("exchangedKey");
 
-    if (isBrowserEnv()) {
-        let exchangedKey = sessionStorage.getItem('exchangedKey')
+    if (!exchangedKey)
+      throw new Error(
+        "no flux connection established, please authenticate by invoking fluxBrowser with public key"
+      );
 
-        if (!exchangedKey)throw new Error("no flux connection established, please authenticate by invoking fluxBrowser with public key")
+    let fma = FluxComms.getInstance<GeneralSecurityHandle>();
+    fma.securityHandle = new GeneralSecurityHandle(exchangedKey);
+    fma.isAuthenticated = true;
+    return fma;
+  }
 
-        let fma = FluxComms.getInstance<GeneralSecurityHandle>()
-        fma.securityHandle = new GeneralSecurityHandle(exchangedKey);
-        fma.isAuthenticated = true;
-        return fma;
-    }
+  let fi = FluxComms.getInstance();
 
-    let fi = FluxComms.getInstance()
+  if (!fi.isAuthenticated)
+    throw new Error(
+      "no flux connection established, please authenticate by invoking flux with your credentials"
+    );
 
-    if (!fi.isAuthenticated) throw new Error("no flux connection established, please authenticate by invoking flux with your credentials")
-
-    return fi;
+  return fi;
 }
 
 function isBrowserEnv() {
-    return typeof window !== "undefined" && typeof window.document !== "undefined";
+  return (
+    typeof window !== "undefined" && typeof window.document !== "undefined"
+  );
 }
 
-
-export async function fluxSocketBrowserSessionBased(secHandle: AccountDataSecurityHandle): Promise<FluxSockets> {
-    FluxWebsockets.initializeWebSecHandle(secHandle)
-    let fm = await FluxWebsockets.getInstance();
-    return fm
+export async function fluxSocketBrowserSessionBased(
+  secHandle: AccountDataSecurityHandle
+): Promise<FluxSocketImpl> {
+  FluxWebsockets.initializeWebSecHandle(secHandle);
+  let fm = await FluxWebsockets.getInstance();
+  return fm;
 }
 
 import { WebsiteSecurityHandle } from "../ajax/security/WebsiteSecurityHandle";
-import { ReactNativeSecurityHandle, RequestType } from "../ajax/security/ReactNativeSecurityHandle";
+import {
+  ReactNativeSecurityHandle,
+  RequestType,
+} from "../ajax/security/ReactNativeSecurityHandle";
 import { FluxTokenBackend } from "./FluxTokenBackend";
 import {
   SecurityHandlerBase,
@@ -150,7 +177,11 @@ import {
 
 import Cookies from "js-cookie";
 import { WebsiteSignUpSecurityHandle } from "../ajax/security/WebsiteSignUpSecurityHandle";
-import { CreateSessionResponse as SessionRes } from "../ajax/Responses/CreateSessionResponse";
+import {
+  CreateSessionResponse,
+  CreateSessionResponse as SessionRes,
+} from "../ajax/Responses/CreateSessionResponse";
+import { UserSecurityHandle } from "../../src/ajax/security/UserSecurityHandle";
 /**
  * How does web auth work
  *
@@ -297,7 +328,7 @@ export async function fluxWebsite2fa(number: string, token: string) {
 
         await fma.authorizeWebsiteUser();
 
-        localStorage.setItem("2FA", "PRESENT")
+        localStorage.setItem("2FA", "PRESENT");
 
         fma.isAuthenticated = true;
 
@@ -353,10 +384,6 @@ export async function fluxWebsiteSignUp(
   await fma.signUp();
 }
 
-
-import {
-  ResponseBodyBase,
-} from "../ajax/Responses";
 export async function fluxWebsiteCookieAuthorization() {
   return new Promise<FluxTokenBackend<WebsiteSecurityHandle>>(
     async (resolve, reject) => {
@@ -389,7 +416,7 @@ export async function fluxWebsiteCookieAuthorization() {
 
 export async function fluxSocketBrowser(
   secHandle: WebsiteSecurityHandle
-): Promise<FluxSockets> {
+): Promise<FluxSocketImpl> {
   FluxWebsockets.initializeWebSecHandle(secHandle);
   let fm = await FluxWebsockets.getInstance();
   return fm;
@@ -407,13 +434,13 @@ export function fluxTokGetter() {
 
 export async function getAccountSessionFromOTPL(
   otpl: string
-): Promise<ResponseBodyBase> {
+): Promise<CreateSessionResponse> {
   return FluxTokenBackend.exchangeOTPLForSession(otpl);
 }
 
 export async function getMerchantPublicKeyFromOTPL(
   otpl: string
-): Promise<ResponseBodyBase> {
+): Promise<CreateSessionResponse> {
   return FluxTokenBackend.getMerchantPublicKeyFromOTPL(otpl);
 }
 
@@ -423,10 +450,10 @@ export async function getMerchantPublicKeyFromOTPL(
 
 /**
  * React Native Sign-In Authorization
- * 
+ *
  * Similar to fluxWebsiteSignInAuthorization but uses ReactNativeSecurityHandle
  * with session management via Expo SecureStore
- * 
+ *
  * @param email - User email/username
  * @param password - User password (will be hashed)
  * @param token - Optional reCAPTCHA token
@@ -446,15 +473,13 @@ export async function fluxReactNativeSignInAuthorization(
 
         password = SecurityHandlerBase.sha256(password, publicKey);
 
-
         let handle = new ReactNativeSecurityHandle(
           publicKey,
           password,
           undefined,
           email, // username
-          token  // optional reCAPTCHA token
+          token // optional reCAPTCHA token
         );
-
 
         handle.requestType = RequestType.SIGNIN_REQUEST;
 
@@ -475,10 +500,10 @@ export async function fluxReactNativeSignInAuthorization(
 
 /**
  * React Native Session Authorization
- * 
+ *
  * Attempts to authenticate using existing session token from SecureStore
  * Falls back to sign-in if no valid session
- * 
+ *
  * @param email - User email/username (needed for public key lookup)
  */
 export async function fluxReactNativeSessionAuthorization(
@@ -488,10 +513,8 @@ export async function fluxReactNativeSessionAuthorization(
   return new Promise<FluxTokenBackend<ReactNativeSecurityHandle>>(
     async (resolve, reject) => {
       try {
-
         let fma =
           FluxTokenBackend.getFluxTokebBackendInstance<ReactNativeSecurityHandle>();
-
 
         // Create handler for data request (with session)
         let handle = new ReactNativeSecurityHandle(
@@ -503,7 +526,6 @@ export async function fluxReactNativeSessionAuthorization(
 
         handle.requestType = RequestType.AUTH_REQUEST;
 
-        
         fma.securityHandle = handle;
 
         await fma.authorizeWebsiteUser();
@@ -512,11 +534,84 @@ export async function fluxReactNativeSessionAuthorization(
 
         fma.isAuthenticated = true;
 
-
         resolve(fma);
       } catch (e) {
         reject(e);
       }
     }
   );
+}
+
+export async function fluxSendConfirmationEmail(email: string, token: string) {
+  return new Promise<void>(async (resolve, reject) => {
+    try {
+      let fma =
+        FluxTokenBackend.getFluxTokebBackendInstance<WebsiteSecurityHandle>();
+      await fma.sendConfirmationEmail(email, token);
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+export async function fluxConfirmEmailCode(
+  email: string,
+  code: string,
+  token: string
+): Promise<FluxComms<UserSecurityHandle>> {
+  return new Promise<FluxComms<UserSecurityHandle>>(async (resolve, reject) => {
+    try {
+      let fma =
+        FluxTokenBackend.getFluxTokebBackendInstance<UserSecurityHandle>();
+      await fma.confirmEmailCode(email, code, token);
+      resolve(fma);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+export async function fluxUpdatePaymentMethodSubscription(
+  fma: FluxTokenBackend<UserSecurityHandle>,
+  subscriptionId: number,
+  paymentMethodId: number
+) {
+  return new Promise<void>(async (resolve, reject) => {
+    try {
+      await fma.updatePaymentMethodSubscription(
+        subscriptionId,
+        paymentMethodId
+      );
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+export async function fluxCancelSubscription(
+  fma: FluxTokenBackend<UserSecurityHandle>,
+  subscriptionId: number
+) {
+  return new Promise<FluxComms<UserSecurityHandle>>(async (resolve, reject) => {
+    try {
+      await fma.cancelSubscription(subscriptionId);
+      resolve(fma);
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+
+export async function fluxRemovePaymentMethod(fma: FluxTokenBackend<UserSecurityHandle>, paymentMethodId: string) {
+  return new Promise<FluxComms<UserSecurityHandle>>(async (resolve, reject) => {
+    try {
+      await fma.removePaymentMethod(paymentMethodId);
+      resolve(fma);
+    } catch (e) {
+      reject(e);
+    }
+  });
 }

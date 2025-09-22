@@ -64,6 +64,7 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
     productDumpId: number;
     otplId: number;
     status: any;
+    
     protected objectType: string = "recurring_transaction";
 
     public constructor(recurringTransaction?: Partial<RecurringTransaction>) {

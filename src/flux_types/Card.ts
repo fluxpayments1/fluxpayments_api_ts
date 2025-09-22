@@ -60,6 +60,7 @@ export class Card extends FluxType implements ICard {
     lastName: string;
     id: number;
     payType: string;
+    phoneNumber: string;
     oneTimeUseToken: string;
 
     public serialize() {
@@ -82,6 +83,7 @@ export class Card extends FluxType implements ICard {
             lastName: this.lastName,
             uniqueId: this.uniqueId,
             metadata: this.metadata,
+            phoneNumber: this.phoneNumber,
         }
     }
     public getDispName(): string {
@@ -98,6 +100,7 @@ export class Card extends FluxType implements ICard {
         let card = new Card({
             lastFour: csd.lastFour,
             cardBrand: csd.accountType,
+            phoneNumber: csd.phoneNumber,
             firstName: csd.firstName,
             lastName: csd.lastName,
             oneTimeUseToken: csd.oneTimeUseToken,

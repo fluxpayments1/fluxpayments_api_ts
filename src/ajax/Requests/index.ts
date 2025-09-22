@@ -16,3 +16,13 @@ export { RequestBodyBase } from "./RequestBodyBase";
 
 // Export websocket requests
 export { AddSubscriptionRequest } from "./Websockets/AddSubscriptionRequest";
+
+// Export user-facing web service requests
+export { SendConfirmationEmailRequest } from "./SendConfirmationEmailRequest";
+export { ConfirmEmailCodeRequest } from "./ConfirmEmailCodeRequest";
+export { DownloadTransactionRequest } from "./DownloadTransactionRequest";
+export { UpdatePaymentMethodSubscriptionRequest } from "./UpdatePaymentMethodSubscriptionRequest";
+export { CreatePaymentMethodRequest } from "./CreatePaymentMethodRequest";
+export { CancelSubscriptionRequest } from "./CancelSubscriptionRequest";
+export { RemovePaymentMethodRequest } from "./RemovePaymentMethodRequest";
+export { UpdateAccountInformationRequest } from "./UpdateAccountInformationRequest";

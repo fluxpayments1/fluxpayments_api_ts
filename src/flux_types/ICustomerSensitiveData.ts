@@ -33,6 +33,7 @@ export interface ICustomerSensitiveData {
     firstName?: string,
     lastName?: string,
     shippingAddressId?: number,
+    phoneNumber?: string,
     bankName?: string,
     accountSession?: string,
     encryptedAESKey?: string,

@@ -89,7 +89,6 @@ module.exports = [
       filename: 'lib.rn.js',
       path: path.join(__dirname, '/dist_rn'),
       library: {
-        name: 'FluxWebsiteAPI',
         type: 'commonjs2'
       },
       environment: {

@@ -14,6 +14,7 @@ export declare class BankAccount extends FluxType implements IBankAccount {
         bankName: string;
         email: string;
         address1: string;
+        phoneNumber: string;
         city: string;
         state: string;
         country: string;
@@ -24,6 +25,7 @@ export declare class BankAccount extends FluxType implements IBankAccount {
     oneTimeUseToken: string;
     bankName: string;
     routingNumber: string;
+    phoneNumber: string;
     bankBrand: string;
     email: string;
     accountNumber: string;

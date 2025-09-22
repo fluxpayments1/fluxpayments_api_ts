@@ -10,11 +10,74 @@ import { MerchantAccessCredentials } from "../flux_types/MerchantAccessCredentia
 import { GetMacRequest } from "../ajax/Requests/GetMacRequest";
 import { GenericGetterResponse } from '../ajax/Responses/GenericGetterResponse'
 import { GenAuthReq } from "../ajax/Requests/GenAuthReq";
+import { SendConfirmationEmailRequest } from "../../src/ajax/Requests/SendConfirmationEmailRequest";
+import { CancelSubscriptionRequest, ConfirmEmailCodeRequest, RemovePaymentMethodRequest, UpdatePaymentMethodSubscriptionRequest } from "../../src/ajax/Requests";
+import { CancelSubscriptionResponse, ConfirmEmailCodeResponse, RemovePaymentMethodResponse, UpdatePaymentMethodSubscriptionResponse } from "../../src/ajax/Responses";
 
 export class FluxTokenBackend<T extends SecurityHandlerBase> extends FluxComms<T> {
 
     protected fb: T;
 
+
+
+    public sendConfirmationEmail(email: string, token: string): Promise<void> {
+        return CMMT.fetch<void, SendConfirmationEmailRequest, GenAuthRes>(
+            SendConfirmationEmailRequest,
+            GenAuthRes,
+            "sendConfirmationEmail",
+            "POST",
+            this._securityHandle,
+            email,
+            token
+        );
+    }
+
+    public confirmEmailCode(email: string, code: string, token: string): Promise<void> {
+        return CMMT.fetch<void, ConfirmEmailCodeRequest, ConfirmEmailCodeResponse>(
+            ConfirmEmailCodeRequest,
+            ConfirmEmailCodeResponse,
+            "confirmEmailCode",
+            "POST",
+            this._securityHandle,
+            email,
+            code, 
+            token
+        );
+    }
+
+
+    updatePaymentMethodSubscription(subscriptionId: number, paymentMethodId: number): Promise<void> {
+        return CMMT.fetch<void, UpdatePaymentMethodSubscriptionRequest, UpdatePaymentMethodSubscriptionResponse>(
+            UpdatePaymentMethodSubscriptionRequest,
+            UpdatePaymentMethodSubscriptionResponse,
+            "updatePaymentMethodSubscription",
+            "POST",
+            this._securityHandle,
+            subscriptionId, 
+            paymentMethodId
+        );
+    }
+    
+    cancelSubscription(subscriptionId: number): Promise<void> {
+        return CMMT.fetch<void, CancelSubscriptionRequest, CancelSubscriptionResponse>(
+            CancelSubscriptionRequest,
+            CancelSubscriptionResponse,
+            "cancelSubscription",
+            "POST",
+            this._securityHandle, subscriptionId
+        );
+    }
+
+
+    removePaymentMethod(paymentMethodId: string): Promise<void> {
+        return CMMT.fetch<void, RemovePaymentMethodRequest, RemovePaymentMethodResponse>(
+            RemovePaymentMethodRequest,
+            RemovePaymentMethodResponse,
+            "removePaymentMethod",
+            "POST",
+            this._securityHandle, paymentMethodId
+        );
+    }   
 
 
 

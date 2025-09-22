@@ -35,6 +35,7 @@ export interface IBankAccount {
     accountNumber: string,
     id: number,
     firstName: string,
+    phoneNumber: string,
     lastName: string,
     uniqueId: string,
     metadata: string,

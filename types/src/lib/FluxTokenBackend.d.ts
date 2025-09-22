@@ -4,6 +4,11 @@ import { MerchantAccessCredentialsQuery } from "../flux_types/MerchantAccessCred
 import { MerchantAccessCredentials } from "../flux_types/MerchantAccessCredentials";
 export declare class FluxTokenBackend<T extends SecurityHandlerBase> extends FluxComms<T> {
     protected fb: T;
+    sendConfirmationEmail(email: string, token: string): Promise<void>;
+    confirmEmailCode(email: string, code: string, token: string): Promise<void>;
+    updatePaymentMethodSubscription(subscriptionId: number, paymentMethodId: number): Promise<void>;
+    cancelSubscription(subscriptionId: number): Promise<void>;
+    removePaymentMethod(paymentMethodId: string): Promise<void>;
     getWebsitePublicKey(email: any): Promise<string>;
     getMacs(query: MerchantAccessCredentialsQuery): Promise<MerchantAccessCredentials[]>;
     submitIdentityDocument(pubK: any, password: any, fileNonce: any, document: any): Promise<void>;

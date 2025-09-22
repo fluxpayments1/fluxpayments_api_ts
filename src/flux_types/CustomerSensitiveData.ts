@@ -48,6 +48,7 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
             accountType: this.accountType,
             type: this.type,
             isAuthorized: this.isAuthorized,
+            phoneNumber: this.phoneNumber,
             encryptedAESKey: this.encryptedAESKey,
             encryptedPayload: this.encryptedPayload,
             accountSession: this.accountSession,
@@ -67,6 +68,7 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
     accountType: string;
     type: string;
     isAuthorized: boolean;
+    phoneNumber: string;
     encryptedAESKey: string;
     shippingAddressId: number;
     approvalStatus: string;

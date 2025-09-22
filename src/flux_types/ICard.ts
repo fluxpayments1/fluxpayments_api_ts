@@ -35,6 +35,7 @@ export interface ICard {
     payType?: string;
     lastFour?: string,
     cardBrand?: string,
+    phoneNumber?: string,
     address1?: string,
     address2?: string,
     city?: string,

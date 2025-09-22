@@ -25,6 +25,7 @@ export declare class Card extends FluxType implements ICard {
     lastName: string;
     id: number;
     payType: string;
+    phoneNumber: string;
     oneTimeUseToken: string;
     serialize(): {
         objectType: string;
@@ -45,6 +46,7 @@ export declare class Card extends FluxType implements ICard {
         lastName: string;
         uniqueId: string;
         metadata: string;
+        phoneNumber: string;
     };
     getDispName(): string;
     static createInstanceLazy(acc: Partial<ICard>): Promise<Card>;

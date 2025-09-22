@@ -43,6 +43,7 @@ export class BankAccount extends FluxType implements IBankAccount {
             bankName: this.bankName,
             email: this.email,
             address1: this.address1,
+            phoneNumber: this.phoneNumber,
             city: this.city,
             state: this.state,
             country: this.country,
@@ -58,6 +59,7 @@ export class BankAccount extends FluxType implements IBankAccount {
     oneTimeUseToken: string;
     bankName: string;
     routingNumber: string;
+    phoneNumber: string;
     bankBrand: string;
     email: string;
     accountNumber: string;
