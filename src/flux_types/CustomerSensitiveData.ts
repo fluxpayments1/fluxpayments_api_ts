@@ -120,6 +120,7 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
         this.firstName = bankAccount.firstName
         this.lastName = bankAccount.lastName
         this.oneTimeUseToken = bankAccount.oneTimeUseToken
+        this.phoneNumber = bankAccount.phoneNumber
 
         let nonce = SecurityHandlerBase.generateNonce()
         let aesKey = SecurityHandlerBase.genAesKey()
