@@ -44,7 +44,7 @@ export class TransactionDetails extends FluxType implements ITransactionDetails 
     paymentMethodId: number;
     currency: string;
     merchantId: number;
-    createdAt: Date;
+    createdAt: number;
     updatedAt: Date;
     uniqueId: string;
     metadata: string;
@@ -55,3 +55,5 @@ export class TransactionDetails extends FluxType implements ITransactionDetails 
         Object.assign(this, transactionDetails);
     }
 }
+
+

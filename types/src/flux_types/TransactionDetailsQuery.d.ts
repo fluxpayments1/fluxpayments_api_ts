@@ -19,7 +19,7 @@ export declare class TransactionDetailsQuery extends BaseQuery<TransactionDetail
         paymentMethodId: number;
         currency: string;
         merchantId: number;
-        createdAt: Date;
+        createdAt: number;
         updatedAt: Date;
         uniqueId: string;
         metadata: string;
@@ -38,7 +38,7 @@ export declare class TransactionDetailsQuery extends BaseQuery<TransactionDetail
     paymentMethodId: number;
     currency: string;
     merchantId: number;
-    createdAt: Date;
+    createdAt: number;
     updatedAt: Date;
     uniqueId: string;
     metadata: string;

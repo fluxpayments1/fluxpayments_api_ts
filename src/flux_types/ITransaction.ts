@@ -40,6 +40,7 @@ export interface ITransaction {
     defaultCurrencyAmount: number;
     confidenceLevel: number;
     currency: string;
+    transactionType: string;
     approvalStatus: string;
     txnHash: string;
     currencyId: number;

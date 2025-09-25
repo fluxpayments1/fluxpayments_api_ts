@@ -42,7 +42,7 @@ export class TransactionDetailsQuery extends BaseQuery<TransactionDetails> {
     paymentMethodId: number;
     currency: string;
     merchantId: number;
-    createdAt: Date;
+    createdAt: number;
     updatedAt: Date;
     uniqueId: string;
     metadata: string;
@@ -57,3 +57,5 @@ export class TransactionDetailsQuery extends BaseQuery<TransactionDetails> {
         return new TransactionDetailsQuery(ipq);
     }
 }
+
+

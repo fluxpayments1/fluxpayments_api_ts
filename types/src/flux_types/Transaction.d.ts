@@ -43,6 +43,7 @@ export declare class Transaction extends FluxType implements ITransaction {
     transactionStatus: string;
     shippingAddressId: number;
     shippingAddressUniqueId: string;
+    transactionType: string;
     objectType: string;
     products: Product[];
     id: number;

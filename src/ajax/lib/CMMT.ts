@@ -193,7 +193,7 @@ export class CMMT {
 
 
         arg = cloneDeep(arg);
-
+console.log("CMMT.fetch", url, mtd, secHandle, arg);
         return new Promise<T>(async (resolve, reject) => {
             try {
                 let arh = new AjaxRequestHandle(req, res, secHandle);
@@ -247,6 +247,7 @@ export class CMMT {
         ...arg: any
     ): Promise<W[]> {
         arg = cloneDeep(arg);
+        console.log("CMMT.fetchGeneric", url, mtd, secHandle, arg);
         return new Promise<W[]>(async (resolve, reject) => {
             try {
                 let arh = new AjaxRequestHandle(req, res, secHandle, type);

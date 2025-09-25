@@ -17,7 +17,7 @@ export declare class TransactionDetails extends FluxType implements ITransaction
         paymentMethodId: number;
         currency: string;
         merchantId: number;
-        createdAt: Date;
+        createdAt: number;
         updatedAt: Date;
         uniqueId: string;
         metadata: string;
@@ -36,7 +36,7 @@ export declare class TransactionDetails extends FluxType implements ITransaction
     paymentMethodId: number;
     currency: string;
     merchantId: number;
-    createdAt: Date;
+    createdAt: number;
     updatedAt: Date;
     uniqueId: string;
     metadata: string;

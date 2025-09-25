@@ -17,5 +17,3 @@ export interface ITransactionDetails {
     uniqueId: string;
     metadata: string;
 }
-
-

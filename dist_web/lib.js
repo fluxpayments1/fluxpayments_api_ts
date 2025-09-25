@@ -68050,6 +68050,7 @@ class CMMT {
     }
     static fetch(req, res, url, mtd, secHandle, ...arg) {
         arg = (0, cloneDeep_1.default)(arg);
+        console.log("CMMT.fetch", url, mtd, secHandle, arg);
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
                 let arh = new AjaxRequestHandle_1.AjaxRequestHandle(req, res, secHandle);
@@ -68086,6 +68087,7 @@ class CMMT {
     }
     static fetchGeneric(req, res, type, url, mtd, secHandle, ...arg) {
         arg = (0, cloneDeep_1.default)(arg);
+        console.log("CMMT.fetchGeneric", url, mtd, secHandle, arg);
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
                 let arh = new AjaxRequestHandle_1.AjaxRequestHandle(req, res, secHandle, type);
@@ -69483,7 +69485,7 @@ Object.defineProperty(exports, "WebsiteSecurityHandle", ({ enumerable: true, get
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"API_BASE":"https://localhost:12010/","API_CONNECTION_ENDPOINT_PROD":"https://localhost:12010/api/post/","WEBSOCKET_CONNECTION_ENDPOINT_PROD":"wss://localhost:12011/","MODE":"TESTING","PROD":false}');
+module.exports = /*#__PURE__*/JSON.parse('{"API_BASE":"http://localhost:12012/","API_CONNECTION_ENDPOINT_PROD":"http://localhost:12012/api/post/","WEBSOCKET_CONNECTION_ENDPOINT_PROD":"wss://localhost:12011/","MODE":"DEV","PROD":false}');
 
 /***/ }),
 
@@ -74691,6 +74693,107 @@ exports.Transaction = Transaction;
 
 /***/ }),
 
+/***/ "./src/flux_types/TransactionDetails.ts":
+/*!**********************************************!*\
+  !*** ./src/flux_types/TransactionDetails.ts ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionDetails = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class TransactionDetails extends FluxType_1.FluxType {
+    getDispName() {
+        return this.description || `Transaction #${this.transactionId}`;
+    }
+    serialize() {
+        return {
+            id: this.id,
+            transactionId: this.transactionId,
+            accountId: this.accountId,
+            amount: this.amount,
+            transactionType: this.transactionType,
+            transactionStatus: this.transactionStatus,
+            description: this.description,
+            timestamp: this.timestamp,
+            dateCreated: this.dateCreated,
+            timeCreated: this.timeCreated,
+            paymentMethodId: this.paymentMethodId,
+            currency: this.currency,
+            merchantId: this.merchantId,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            objectType: this.objectType
+        };
+    }
+    constructor(transactionDetails) {
+        super(transactionDetails, TransactionDetails);
+        this.obName = "TransactionDetails";
+        this.objectType = "transaction_details";
+        Object.assign(this, transactionDetails);
+    }
+}
+exports.TransactionDetails = TransactionDetails;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/TransactionDetailsQuery.ts":
+/*!***************************************************!*\
+  !*** ./src/flux_types/TransactionDetailsQuery.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionDetailsQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const TransactionDetails_1 = __webpack_require__(/*! ./TransactionDetails */ "./src/flux_types/TransactionDetails.ts");
+/**
+ * This is an object that is used to query for transaction details.
+ */
+class TransactionDetailsQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            transactionId: this.transactionId,
+            accountId: this.accountId,
+            amount: this.amount,
+            transactionType: this.transactionType,
+            transactionStatus: this.transactionStatus,
+            description: this.description,
+            timestamp: this.timestamp,
+            dateCreated: this.dateCreated,
+            timeCreated: this.timeCreated,
+            paymentMethodId: this.paymentMethodId,
+            currency: this.currency,
+            merchantId: this.merchantId,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            objectType: this.objectType
+        };
+    }
+    constructor(tokQ) {
+        super(TransactionDetails_1.TransactionDetails);
+        this.objectType = "transaction_details";
+        Object.assign(this, tokQ);
+    }
+    static createQuery(ipq) {
+        return new TransactionDetailsQuery(ipq);
+    }
+}
+exports.TransactionDetailsQuery = TransactionDetailsQuery;
+
+
+/***/ }),
+
 /***/ "./src/flux_types/TransactionQuery.ts":
 /*!********************************************!*\
   !*** ./src/flux_types/TransactionQuery.ts ***!
@@ -75113,7 +75216,7 @@ exports.WalletQuery = WalletQuery;
 // Do not edit manually - run npm run compile-rn to regenerate
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.PaymentLinkQuery = exports.PaymentLink = exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
-exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = void 0;
+exports.TransactionDetailsQuery = exports.TransactionDetails = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -75262,6 +75365,10 @@ var FluxSockets_1 = __webpack_require__(/*! ../lib/FluxSockets */ "./src/lib/Flu
 Object.defineProperty(exports, "Subscription", ({ enumerable: true, get: function () { return FluxSockets_1.Subscription; } }));
 var AdditionalSearchOptions_1 = __webpack_require__(/*! ./AdditionalSearchOptions */ "./src/flux_types/AdditionalSearchOptions.ts");
 Object.defineProperty(exports, "AdditionalSearchOptions", ({ enumerable: true, get: function () { return AdditionalSearchOptions_1.AdditionalSearchOptions; } }));
+var TransactionDetails_1 = __webpack_require__(/*! ./TransactionDetails */ "./src/flux_types/TransactionDetails.ts");
+Object.defineProperty(exports, "TransactionDetails", ({ enumerable: true, get: function () { return TransactionDetails_1.TransactionDetails; } }));
+var TransactionDetailsQuery_1 = __webpack_require__(/*! ./TransactionDetailsQuery */ "./src/flux_types/TransactionDetailsQuery.ts");
+Object.defineProperty(exports, "TransactionDetailsQuery", ({ enumerable: true, get: function () { return TransactionDetailsQuery_1.TransactionDetailsQuery; } }));
 
 
 /***/ }),
