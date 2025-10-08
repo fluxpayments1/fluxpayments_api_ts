@@ -66,6 +66,9 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             walletId: this.walletId,
             baseTransaction: this.baseTransaction,
             approvalStatus: this.approvalStatus,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
+            quickbooksTransactionId: this.quickbooksTransactionId,
+            quickbooksSyncDate: this.quickbooksSyncDate,
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions
         }
@@ -107,6 +110,9 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
     updatedAt: Date;
     hasBackOrderedProducts: any;
     baseTransaction: number;
+    hasBeenSyncedToQuickbooks: boolean;
+    quickbooksTransactionId: string;
+    quickbooksSyncDate: number;
     objectType: string = "transaction";
 
     public constructor(tokQ?: ITransactionQuery) {

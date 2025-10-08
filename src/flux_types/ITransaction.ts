@@ -47,5 +47,8 @@ export interface ITransaction {
     products: Product | Product[],
     inventoryOnlyOrder?: boolean,
     accountSession?: string,
-    oneTimeUseToken?: string
+    oneTimeUseToken?: string,
+    hasBeenSyncedToQuickbooks?: boolean,
+    quickbooksTransactionId?: string,
+    quickbooksSyncDate?: number
 }
