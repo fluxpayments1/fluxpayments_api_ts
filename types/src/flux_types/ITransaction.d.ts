@@ -24,4 +24,7 @@ export interface ITransaction {
     inventoryOnlyOrder?: boolean;
     accountSession?: string;
     oneTimeUseToken?: string;
+    hasBeenSyncedToQuickbooks?: boolean;
+    quickbooksTransactionId?: string;
+    quickbooksSyncDate?: number;
 }

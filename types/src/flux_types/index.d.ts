@@ -16,6 +16,10 @@ export { IMerchantAccessCredentialsQuery } from './IMerchantAccessCredentialsQue
 export { IMerchantNetworkCounts } from './IMerchantNetworkCounts';
 export { IMerchantNetworkCountsQuery } from './IMerchantNetworkCountsQuery';
 export { IMerchantQuery } from './IMerchantQuery';
+export { IQuickBooksAuthUrl } from './IQuickBooksAuthUrl';
+export { IQuickBooksAuthUrlQuery } from './IQuickBooksAuthUrlQuery';
+export { IQuickBooksIntegrationInformation } from './IQuickBooksIntegrationInformation';
+export { IQuickBooksIntegrationInformationQuery } from './IQuickBooksIntegrationInformationQuery';
 export { INotification } from './INotification';
 export { INotificationQuery } from './INotificationQuery';
 export { IObjectCounts } from './IObjectCounts';
@@ -33,6 +37,10 @@ export { MerchantAccessCredentialsQuery } from './MerchantAccessCredentialsQuery
 export { MerchantNetworkCounts } from './MerchantNetworkCounts';
 export { MerchantNetworkCountsQuery } from './MerchantNetworkCountsQuery';
 export { MerchantQuery } from './MerchantQuery';
+export { QuickBooksAuthUrl } from './QuickBooksAuthUrl';
+export { QuickBooksAuthUrlQuery } from './QuickBooksAuthUrlQuery';
+export { QuickBooksIntegrationInformation } from './QuickBooksIntegrationInformation';
+export { QuickBooksIntegrationInformationQuery } from './QuickBooksIntegrationInformationQuery';
 export { Notification } from './Notification';
 export { NotificationQuery } from './NotificationQuery';
 export { ObjectCounts } from './ObjectCounts';

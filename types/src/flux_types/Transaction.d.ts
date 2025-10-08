@@ -48,6 +48,9 @@ export declare class Transaction extends FluxType implements ITransaction {
     id: number;
     oneTimeUseToken?: string;
     accountSession?: string;
+    hasBeenSyncedToQuickbooks?: boolean;
+    quickbooksTransactionId?: string;
+    quickbooksSyncDate?: number;
     /**
      * Fetches the account that was used
      * at the time of purchase
@@ -165,5 +168,8 @@ export declare class Transaction extends FluxType implements ITransaction {
         shippingAddressUniqueId: string;
         inventoryOnlyOrder: boolean;
         products: Product[];
+        hasBeenSyncedToQuickbooks: boolean;
+        quickbooksTransactionId: string;
+        quickbooksSyncDate: number;
     };
 }
