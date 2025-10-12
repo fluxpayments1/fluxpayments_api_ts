@@ -81,7 +81,11 @@ export class GuestPaymentLink extends FluxType implements IGuestPaymentLink {
             authAttempts: this.authAttempts,
             paymentLinkUrl: this.paymentLinkUrl,
             minutesToExpire: this.minutesToExpire,
-            processingFeeInversion: this.processingFeeInversion
+            processingFeeInversion: this.processingFeeInversion,
+            isInvoice: this.isInvoice,
+            dueDate: this.dueDate,
+            qbInvoiceId: this.qbInvoiceId,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
     }
 
@@ -134,6 +138,10 @@ export class GuestPaymentLink extends FluxType implements IGuestPaymentLink {
     total: number;
     authAttempts: number;
     processingFeeInversion: boolean;
+    isInvoice: boolean;
+    dueDate: number;
+    qbInvoiceId: string;
+    hasBeenSyncedToQuickbooks: boolean;
     protected objectType: string = "payment_link";
 
     public constructor(oneTimePaymentLink?: Partial<IGuestPaymentLink>) {

@@ -25,7 +25,11 @@ export class GuestPaymentLinkQuery extends BaseQuery<GuestPaymentLink> {
             merchant: this.merchant,
             products: this.products,
             objectType: this.objectType,
-            isReusable: this.isReusable
+            isReusable: this.isReusable,
+            isInvoice: this.isInvoice,
+            dueDate: this.dueDate,
+            qbInvoiceId: this.qbInvoiceId,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
     }
 
@@ -43,6 +47,10 @@ export class GuestPaymentLinkQuery extends BaseQuery<GuestPaymentLink> {
     products: Product[]; // Assuming the Product type has been imported and defined elsewhere
     wallets: Wallet[]
     currencies: Currency[]
+    isInvoice: boolean;
+    dueDate: number;
+    qbInvoiceId: string;
+    hasBeenSyncedToQuickbooks: boolean;
     objectType: string = "payment_link";
 
     public constructor(otplQ?: IGuestPaymentLinkQuery) {

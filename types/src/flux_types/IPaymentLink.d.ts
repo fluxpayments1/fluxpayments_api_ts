@@ -27,4 +27,8 @@ export interface IPaymentLink {
     paymentLink?: string;
     accountId?: number;
     emailNotificationDisabled: boolean;
+    isInvoice?: boolean;
+    dueDate?: number;
+    qbInvoiceId?: string;
+    hasBeenSyncedToQuickbooks?: boolean;
 }

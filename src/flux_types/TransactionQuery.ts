@@ -27,7 +27,8 @@ import { Transaction } from "./Transaction";
 
 export class TransactionQuery extends BaseQuery<Transaction> implements ITransactionQuery{
     public serialize() {
-        return {
+        
+        let x =  {
             id: this.id,
             email: this.email,
             cardBrandId: this.cardBrandId,
@@ -72,6 +73,9 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions
         }
+
+        console.log(x)
+        return x
     }
     txnHash: string;
     id: number;

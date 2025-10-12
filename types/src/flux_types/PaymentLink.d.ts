@@ -35,6 +35,10 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         oneTimeUse: boolean;
         isReusable: boolean;
         minutesToExpire: number;
+        isInvoice: boolean;
+        dueDate: number;
+        qbInvoiceId: string;
+        hasBeenSyncedToQuickbooks: boolean;
     };
     wallets: Wallet[];
     id: number;
@@ -64,6 +68,10 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     accountEmail: string;
     products: Product[];
     currencies: Currency[];
+    isInvoice: boolean;
+    dueDate: number;
+    qbInvoiceId: string;
+    hasBeenSyncedToQuickbooks: boolean;
     protected objectType: string;
     constructor(pl?: Partial<PaymentLink>);
     static createInstanceLazy(acc: Partial<IPaymentLink>): Promise<PaymentLink>;

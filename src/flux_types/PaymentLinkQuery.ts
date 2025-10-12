@@ -44,6 +44,10 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
             removeOnSuccess: this.removeOnSuccess,
             paymentLink: this.paymentLink,
             accountId: this.accountId,
+            isInvoice: this.isInvoice,
+            dueDate: this.dueDate,
+            qbInvoiceId: this.qbInvoiceId,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         }
     }
     id: number;
@@ -57,6 +61,10 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
     paymentLink: string;
     isReusable: boolean;
     accountId: number;
+    isInvoice: boolean;
+    dueDate: number;
+    qbInvoiceId: string;
+    hasBeenSyncedToQuickbooks: boolean;
     objectType: string = "payment_link";
 
     public constructor(tokQ?: IPaymentLinkQuery) {

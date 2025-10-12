@@ -24,6 +24,10 @@ export declare class GuestPaymentLinkQuery extends BaseQuery<GuestPaymentLink> {
         products: Product[];
         objectType: string;
         isReusable: boolean;
+        isInvoice: boolean;
+        dueDate: number;
+        qbInvoiceId: string;
+        hasBeenSyncedToQuickbooks: boolean;
     };
     paymentLink: string;
     isReusable: boolean;
@@ -39,6 +43,10 @@ export declare class GuestPaymentLinkQuery extends BaseQuery<GuestPaymentLink> {
     products: Product[];
     wallets: Wallet[];
     currencies: Currency[];
+    isInvoice: boolean;
+    dueDate: number;
+    qbInvoiceId: string;
+    hasBeenSyncedToQuickbooks: boolean;
     objectType: string;
     constructor(otplQ?: IGuestPaymentLinkQuery);
     static createQuery(ipq: IGuestPaymentLinkQuery): GuestPaymentLinkQuery;

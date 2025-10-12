@@ -53,6 +53,10 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
         paymentLinkUrl: string;
         minutesToExpire: number;
         processingFeeInversion: boolean;
+        isInvoice: boolean;
+        dueDate: number;
+        qbInvoiceId: string;
+        hasBeenSyncedToQuickbooks: boolean;
     };
     id: number;
     metadata: string;
@@ -103,6 +107,10 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
     total: number;
     authAttempts: number;
     processingFeeInversion: boolean;
+    isInvoice: boolean;
+    dueDate: number;
+    qbInvoiceId: string;
+    hasBeenSyncedToQuickbooks: boolean;
     protected objectType: string;
     constructor(oneTimePaymentLink?: Partial<IGuestPaymentLink>);
     static createInstanceLazy(acc: Partial<IGuestPaymentLink>): Promise<GuestPaymentLink>;

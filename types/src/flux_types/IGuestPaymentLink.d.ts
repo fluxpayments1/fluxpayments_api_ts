@@ -41,4 +41,8 @@ export interface IGuestPaymentLink {
     accountId?: number;
     oneTimeUseToken?: string;
     accountSession?: string;
+    isInvoice?: boolean;
+    dueDate?: number;
+    qbInvoiceId?: string;
+    hasBeenSyncedToQuickbooks?: boolean;
 }

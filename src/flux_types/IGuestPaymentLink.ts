@@ -63,5 +63,9 @@ export interface IGuestPaymentLink {
     serviceFeeRate: number
     accountId?: number;
     oneTimeUseToken?: string;
-    accountSession?: string
+    accountSession?: string;
+    isInvoice?: boolean;
+    dueDate?: number;
+    qbInvoiceId?: string;
+    hasBeenSyncedToQuickbooks?: boolean;
 }

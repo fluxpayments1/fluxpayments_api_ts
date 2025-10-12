@@ -19,6 +19,10 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
         removeOnSuccess: any;
         paymentLink: string;
         accountId: number;
+        isInvoice: boolean;
+        dueDate: number;
+        qbInvoiceId: string;
+        hasBeenSyncedToQuickbooks: boolean;
     };
     id: number;
     metadata: string;
@@ -31,6 +35,10 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
     paymentLink: string;
     isReusable: boolean;
     accountId: number;
+    isInvoice: boolean;
+    dueDate: number;
+    qbInvoiceId: string;
+    hasBeenSyncedToQuickbooks: boolean;
     objectType: string;
     constructor(tokQ?: IPaymentLinkQuery);
     static createQuery(ipq: IPaymentLinkQuery): PaymentLinkQuery;

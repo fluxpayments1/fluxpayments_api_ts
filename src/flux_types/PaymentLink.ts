@@ -76,7 +76,11 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             redirectUrl: this.redirectUrl,
             oneTimeUse: this.oneTimeUse,
             isReusable: this.isReusable,
-            minutesToExpire: this.minutesToExpire
+            minutesToExpire: this.minutesToExpire,
+            isInvoice: this.isInvoice,
+            dueDate: this.dueDate,
+            qbInvoiceId: this.qbInvoiceId,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
     }
     wallets: Wallet[]
@@ -107,6 +111,10 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     accountEmail: string;
     products: Product[];
     currencies : Currency[];
+    isInvoice: boolean;
+    dueDate: number;
+    qbInvoiceId: string;
+    hasBeenSyncedToQuickbooks: boolean;
     protected objectType: string = "payment_link";
 
     public constructor(pl?: Partial<PaymentLink>) {
