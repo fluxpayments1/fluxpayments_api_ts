@@ -26,9 +26,9 @@ export class GetMetadataResponse extends ResponseBodyBase {
         super();
     }
 
-    _metadata: any;
+    _metadataMap: Record<string, any>;
 
-    public getClientReturnValue(): any {
-        return this._metadata
+    public getClientReturnValue(): Record<string, any> {
+        return this._metadataMap
     }
 }

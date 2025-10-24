@@ -297,14 +297,14 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
-    public async getMetadata(metadataName: string) {
-        return CMMT.fetch<string, GetMetadataRequest, GetMetadataResponse>(
+    public async getMetadata(metadataNames: string[]) {
+        return CMMT.fetch<string[], GetMetadataRequest, GetMetadataResponse>(
             GetMetadataRequest,
             GetMetadataResponse,
             "getMetadata",
             "POST",
             this._securityHandle,
-            metadataName
+            metadataNames
         )
     }
 

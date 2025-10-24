@@ -28,10 +28,10 @@ export class GetMetadataRequest extends RequestBodyBase {
         super();
     }
 
-    private _metadataName: string
+    private _metadataNames: string[]
 
     
-    public loadClientData(metadataName: string): void {
-        this._metadataName = metadataName
+    public loadClientData(metadataNames: string[]): void {
+        this._metadataNames = metadataNames
     }
 }
