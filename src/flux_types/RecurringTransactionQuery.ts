@@ -40,6 +40,10 @@ export class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> i
             productDumpId: this.productDumpId,
             otplId: this.otplId,
             status: this.status,
+            cancelled: this.cancelled,
+            isInstallmentType: this.isInstallmentType,
+            totalInstallments: this.totalInstallments,
+            installmentsLeft: this.installmentsLeft,
         }
     }
     id: number;
@@ -52,6 +56,10 @@ export class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> i
     productDumpId: number;
     otplId: number;
     status: any;
+    cancelled: boolean;
+    isInstallmentType: boolean;
+    totalInstallments: number;
+    installmentsLeft: number;
     objectType: string = "recurring_transaction";
 
     public constructor(tokQ?: IRecurringTransactionQuery) {

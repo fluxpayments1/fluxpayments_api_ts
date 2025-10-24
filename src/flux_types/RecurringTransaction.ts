@@ -48,6 +48,10 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
             nextProcessDate: this.nextProcessDate,
             paymentLinks : this.paymentLinks,
             status: this.status,
+            cancelled: this.cancelled,
+            isInstallmentType: this.isInstallmentType,
+            totalInstallments: this.totalInstallments,
+            installmentsLeft: this.installmentsLeft,
         };
     }
 
@@ -64,6 +68,10 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
     productDumpId: number;
     otplId: number;
     status: any;
+    cancelled: boolean;
+    isInstallmentType: boolean;
+    totalInstallments: number;
+    installmentsLeft: number;
     
     protected objectType: string = "recurring_transaction";
 
