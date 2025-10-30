@@ -28,7 +28,7 @@ export interface IProduct {
     description?: string,
     price: number,
     sku?: string,
-    type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT',
+    type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT',
     subscriptionInterval?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY',
     inventoryCount?: number,
     imageUrl?: string,
@@ -39,5 +39,6 @@ export interface IProduct {
     enableBackorderedProducts: boolean,
     enableInventoryManagement: boolean,
     hasDynamicPrice: boolean,
+    installments?: number,
     orderQuantity?: number //Must be included in a transaction.
 }

@@ -1,6 +1,7 @@
 import { FluxType } from './FluxType';
 import { IRecurringTransaction } from './IRecurringTransaction';
 import { PaymentLink } from './PaymentLink';
+import { Transaction } from './Transaction';
 export declare class RecurringTransaction extends FluxType implements IRecurringTransaction {
     obName: string;
     getDispName(): string;
@@ -17,8 +18,15 @@ export declare class RecurringTransaction extends FluxType implements IRecurring
         productDumpId: number;
         otplId: number;
         nextProcessDate: Date;
-        paymentLinks: PaymentLink[];
+        paymentLinkId: number;
+        paymentLink: PaymentLink;
+        transactions: Transaction[];
+        installmentPeriod: "MONTHLY" | "QUARTERLY" | "ANNUALLY";
         status: any;
+        cancelled: boolean;
+        isInstallmentType: boolean;
+        totalInstallments: number;
+        installmentsMade: number;
     };
     id: number;
     metadata: string;
@@ -28,11 +36,18 @@ export declare class RecurringTransaction extends FluxType implements IRecurring
     nextProcessDate: Date;
     originalTransactionId: number;
     accountId: number;
-    paymentLinks: PaymentLink[];
+    paymentLinkId: number;
+    paymentLink: PaymentLink;
+    transactions: Transaction[];
     productId: number;
     productDumpId: number;
     otplId: number;
+    installmentPeriod: 'MONTHLY' | 'QUARTERLY' | 'ANNUALLY';
     status: any;
+    cancelled: boolean;
+    isInstallmentType: boolean;
+    totalInstallments: number;
+    installmentsMade: number;
     protected objectType: string;
     constructor(recurringTransaction?: Partial<RecurringTransaction>);
     static createInstanceLazy(acc: Partial<IRecurringTransaction>): Promise<RecurringTransaction>;

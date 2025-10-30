@@ -42,6 +42,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             transactionType: this.transactionType,
             paymentMethodUniqueid: this.paymentMethodUniqueid,
             accountVersion: this.accountVersion,
+            paymentLinkId: this.paymentLinkId,
             paymentMethodAddressVersion: this.paymentMethodAddressVersion,
             inventoryOnlyOrder: this.inventoryOnlyOrder,
             confidenceLevel: this.confidenceLevel,
@@ -74,7 +75,6 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             additionalSearchOptions: this.additionalSearchOptions
         }
 
-        console.log(x)
         return x
     }
     txnHash: string;
@@ -109,6 +109,7 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
     defaultCurrencyAmount: number;
     shippingAddressId: number;
     shippingAddressDumpId: number;
+    paymentLinkId: number;
     shippingAddressVersion: number;
     createdAt: number;
     updatedAt: Date;

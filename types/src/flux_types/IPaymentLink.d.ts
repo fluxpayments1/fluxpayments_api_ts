@@ -31,4 +31,5 @@ export interface IPaymentLink {
     dueDate?: number;
     qbInvoiceId?: string;
     hasBeenSyncedToQuickbooks?: boolean;
+    processingFeeInversion: boolean;
 }

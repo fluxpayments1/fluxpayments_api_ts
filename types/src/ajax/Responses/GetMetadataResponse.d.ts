@@ -1,6 +1,6 @@
 import { ResponseBodyBase } from "./ResponseBodyBase";
 export declare class GetMetadataResponse extends ResponseBodyBase {
     constructor();
-    _metadata: any;
-    getClientReturnValue(): any;
+    _metadataMap: Record<string, any>;
+    getClientReturnValue(): Record<string, any>;
 }

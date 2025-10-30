@@ -13,7 +13,7 @@ export declare class Product extends FluxType implements IProduct {
         price: number;
         sku: string;
         currency: string;
-        type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT";
+        type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT" | "INSTALLMENT";
         subscriptionInterval: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
         inventoryCount: number;
         imageUrl: string;
@@ -21,6 +21,7 @@ export declare class Product extends FluxType implements IProduct {
         enableBackorderedProducts: boolean;
         enableInventoryManagement: boolean;
         hasDynamicPrice: boolean;
+        installments: number;
         objectType: string;
         orderQuantity: number;
     };
@@ -33,7 +34,7 @@ export declare class Product extends FluxType implements IProduct {
     description: string;
     price: number;
     sku: string;
-    type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT';
+    type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT';
     subscriptionInterval: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
     inventoryCount: number;
     imageUrl: string;
@@ -42,6 +43,7 @@ export declare class Product extends FluxType implements IProduct {
     shippingFee: number;
     enableBackorderedProducts: boolean;
     hasDynamicPrice: boolean;
+    installments: number;
     protected objectType: string;
     constructor(prod?: Partial<IProduct>);
     incrementInventoryCount(quantity: number): Promise<Product>;

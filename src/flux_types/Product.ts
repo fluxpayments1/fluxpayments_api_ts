@@ -53,6 +53,7 @@ export class Product extends FluxType implements IProduct {
             enableBackorderedProducts: this.enableBackorderedProducts,
             enableInventoryManagement: this.enableInventoryManagement,
             hasDynamicPrice: this.hasDynamicPrice,
+            installments: this.installments,
             objectType: "product",
             orderQuantity: this.orderQuantity
         }
@@ -66,7 +67,7 @@ export class Product extends FluxType implements IProduct {
     description: string;
     price: number;
     sku: string;
-    type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT';
+    type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT';
     subscriptionInterval: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
     inventoryCount: number;
     imageUrl: string;
@@ -75,6 +76,7 @@ export class Product extends FluxType implements IProduct {
     shippingFee: number;
     enableBackorderedProducts: boolean;
     hasDynamicPrice: boolean;
+    installments: number;
     protected objectType: string = "product";
 
     constructor(prod?: Partial<IProduct>) {

@@ -1,10 +1,13 @@
 import { PaymentLink } from "./PaymentLink";
+import { Transaction } from "./Transaction";
 export interface IRecurringTransaction {
     id?: number;
     metadata?: string;
     uniqueid?: string;
     accountId?: number;
-    paymentLinks: PaymentLink[];
+    paymentLinkId?: number;
+    paymentLink?: PaymentLink;
+    transactions?: Transaction[];
     recurringAmount?: number;
     recurringTaxAmount?: number;
     originalTransactionId?: number;
@@ -12,5 +15,10 @@ export interface IRecurringTransaction {
     productId?: number;
     productDumpId?: number;
     otplId?: number;
+    installmentPeriod?: 'MONTHLY' | 'QUARTERLY' | 'ANNUALLY';
     status?: any;
+    cancelled?: boolean;
+    isInstallmentType?: boolean;
+    totalInstallments?: number;
+    installmentsMade?: number;
 }

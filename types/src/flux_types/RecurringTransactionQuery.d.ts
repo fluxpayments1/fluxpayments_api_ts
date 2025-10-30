@@ -15,6 +15,10 @@ export declare class RecurringTransactionQuery extends BaseQuery<RecurringTransa
         productDumpId: number;
         otplId: number;
         status: any;
+        cancelled: boolean;
+        isInstallmentType: boolean;
+        totalInstallments: number;
+        installmentsLeft: number;
     };
     id: number;
     metadata: string;
@@ -26,6 +30,10 @@ export declare class RecurringTransactionQuery extends BaseQuery<RecurringTransa
     productDumpId: number;
     otplId: number;
     status: any;
+    cancelled: boolean;
+    isInstallmentType: boolean;
+    totalInstallments: number;
+    installmentsLeft: number;
     objectType: string;
     constructor(tokQ?: IRecurringTransactionQuery);
     static createQuery(ipq: IRecurringTransactionQuery): RecurringTransactionQuery;

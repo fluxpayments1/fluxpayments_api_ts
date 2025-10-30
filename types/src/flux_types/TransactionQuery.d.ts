@@ -16,6 +16,7 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
         transactionType: any;
         paymentMethodUniqueid: string;
         accountVersion: number;
+        paymentLinkId: number;
         paymentMethodAddressVersion: number;
         inventoryOnlyOrder: any;
         confidenceLevel: number;
@@ -79,6 +80,7 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
     defaultCurrencyAmount: number;
     shippingAddressId: number;
     shippingAddressDumpId: number;
+    paymentLinkId: number;
     shippingAddressVersion: number;
     createdAt: number;
     updatedAt: Date;

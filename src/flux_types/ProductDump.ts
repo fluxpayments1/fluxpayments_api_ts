@@ -44,7 +44,7 @@ export class ProductDump extends FluxType implements IProduct {
     public description: string;
     public price: number;
     public sku: string;
-    public type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT';
+    public type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT';
     public subscriptionInterval: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
     public inventoryCount: number;
     public imageUrl: string;

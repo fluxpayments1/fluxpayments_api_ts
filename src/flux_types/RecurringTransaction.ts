@@ -24,6 +24,7 @@ import _cloneDeep from 'lodash/cloneDeep';
 import { FluxType } from './FluxType';
 import { IRecurringTransaction } from './IRecurringTransaction';
 import { PaymentLink } from './PaymentLink';
+import { Transaction } from './Transaction';
 
 export class RecurringTransaction extends FluxType implements IRecurringTransaction {
     public obName: string = "RecurringTransaction";
@@ -46,12 +47,15 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
             productDumpId: this.productDumpId,
             otplId: this.otplId,
             nextProcessDate: this.nextProcessDate,
-            paymentLinks : this.paymentLinks,
+            paymentLinkId: this.paymentLinkId,
+            paymentLink: this.paymentLink,
+            transactions: this.transactions,
+            installmentPeriod: this.installmentPeriod,
             status: this.status,
-            cancelled: this.cancelled,
-            isInstallmentType: this.isInstallmentType,
-            totalInstallments: this.totalInstallments,
-            installmentsLeft: this.installmentsLeft,
+                cancelled: this.cancelled,
+                isInstallmentType: this.isInstallmentType,
+                totalInstallments: this.totalInstallments,
+                installmentsMade: this.installmentsMade,
         };
     }
 
@@ -63,15 +67,18 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
     nextProcessDate: Date;
     originalTransactionId: number;
     accountId: number;
-    paymentLinks : PaymentLink[]
+    paymentLinkId: number;
+    paymentLink: PaymentLink;
+    transactions: Transaction[];
     productId: number;
     productDumpId: number;
     otplId: number;
+    installmentPeriod: 'MONTHLY' | 'QUARTERLY' | 'ANNUALLY';
     status: any;
     cancelled: boolean;
     isInstallmentType: boolean;
     totalInstallments: number;
-    installmentsLeft: number;
+    installmentsMade: number;
     
     protected objectType: string = "recurring_transaction";
 

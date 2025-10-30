@@ -113,3 +113,7 @@ export { FluxSocketImpl } from '../lib/FluxSockets';
 export { Subscription } from '../lib/FluxSockets';
 export { AdditionalSearchOptions } from './AdditionalSearchOptions';
 export { IBaseQuery } from './IBaseQuery';
+export { ITransactionProduct } from './ITransactionProduct';
+export { ITransactionProductQuery } from './ITransactionProductQuery';
+export { TransactionProduct } from './TransactionProduct';
+export { TransactionProductQuery } from './TransactionProductQuery';
