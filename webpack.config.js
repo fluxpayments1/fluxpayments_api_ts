@@ -2,54 +2,61 @@ const webpack = require("webpack");
 const path = require("path");
 const TerserPlugin = require("terser-webpack-plugin");
 
+// ---- Plugins ----
+const provideBufferPlugin = new webpack.ProvidePlugin({
+  Buffer: ["buffer", "Buffer"],
+});
+
+// ---- Fallbacks (same as before, just safe ordering) ----
+const commonFallback = {
+  buffer: require.resolve("buffer/"),
+  process: require.resolve("process/browser"),
+  crypto: require.resolve("crypto-browserify"),
+  stream: require.resolve("stream-browserify"),
+  https: require.resolve("https-browserify"),
+  http: require.resolve("stream-http"),
+  vm: require.resolve("vm-browserify"),
+};
+
+// ---- Rules ----
+const commonRules = [
+  {
+    test: /\.tsx?$/,
+    use: "ts-loader",
+    exclude: /node_modules/,
+  },
+];
+
+// ---- Extensions ----
+const commonExtensions = [".js", ".ts", ".tsx"];
+
 module.exports = [
   {
     entry: ["./polyfills.ts", "./src/lib/index.rn.standalone.ts"],
+
     output: {
       filename: "lib.js",
       path: path.join(__dirname, "/dist_web"),
-      library: {
-        type: "umd",
-      },
+      library: { type: "umd" },
       clean: true,
     },
 
     mode: "production",
-
-    // ✅ Only include sourcemaps in dev
-    devtool: false,
+    devtool: false, // disable source map for smaller size
 
     resolve: {
-      extensions: [".js", ".ts", ".tsx"],
-      fallback: {
-        crypto: false,
-        stream: false,
-        https: false,
-        http: false,
-        vm: false,
-        buffer: require.resolve("buffer/"),
-        process: require.resolve("process/browser"),
-      },
+      fallback: commonFallback,
+      extensions: commonExtensions,
     },
 
     plugins: [
-      new webpack.ProvidePlugin({
-        Buffer: ["buffer", "Buffer"],
-      }),
+      provideBufferPlugin,
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify("production"),
       }),
     ],
 
-    module: {
-      rules: [
-        {
-          test: /\.tsx?$/,
-          use: "ts-loader",
-          exclude: /node_modules/,
-        },
-      ],
-    },
+    module: { rules: commonRules },
 
     optimization: {
       minimize: true,
@@ -61,19 +68,17 @@ module.exports = [
               drop_console: true,
               passes: 2,
             },
+            mangle: true,
             format: {
               comments: false,
             },
           },
         }),
       ],
-      splitChunks: false, // avoid multiple outputs since it's a library
     },
 
     performance: {
       hints: false,
-      maxEntrypointSize: 600000,
-      maxAssetSize: 600000,
     },
   },
 ];
