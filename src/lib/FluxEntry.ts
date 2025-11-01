@@ -182,6 +182,7 @@ import {
   CreateSessionResponse as SessionRes,
 } from "../ajax/Responses/CreateSessionResponse";
 import { UserSecurityHandle } from "../../src/ajax/security/UserSecurityHandle";
+import { SessionStorage } from "../ajax/security/SessionStorage";
 /**
  * How does web auth work
  *
@@ -328,7 +329,7 @@ export async function fluxWebsite2fa(number: string, token: string) {
 
         await fma.authorizeWebsiteUser();
 
-        localStorage.setItem("2FA", "PRESENT");
+        SessionStorage.set2FAPresent();
 
         fma.isAuthenticated = true;
 
@@ -358,7 +359,8 @@ export async function fluxWebsiteSignUp(
   fma.securityHandle = handle;
   await fma.signUp();
 
-  let publicKey = localStorage.getItem("PUB_KEY");
+  const creds = SessionStorage.getSessionCredentials();
+  let publicKey = creds.clientEncryptionKey;
 
   if (!publicKey || publicKey === "" || publicKey === "null") {
     throw "Email already in use, please sign in";
@@ -388,19 +390,28 @@ export async function fluxWebsiteCookieAuthorization() {
   return new Promise<FluxTokenBackend<WebsiteSecurityHandle>>(
     async (resolve, reject) => {
       try {
-        let privKey, pubKey, publicKey;
-        privKey = localStorage.getItem("XAUTH_KEY_PRIV");
-        pubKey = localStorage.getItem("XAUTH_KEY_PUB");
-        publicKey = localStorage.getItem("PUB_KEY");
+        const creds = SessionStorage.getSessionCredentials();
+        
+        if (!creds.clientDecryptionKey || !creds.serverEncryptionKey || !creds.clientEncryptionKey) {
+          reject(new Error("No valid session credentials found"));
+          return;
+        }
 
         let fma =
           FluxTokenBackend.getFluxTokebBackendInstance<WebsiteSecurityHandle>();
-        let handle = new WebsiteSecurityHandle(publicKey, undefined, {
-          publicKey: pubKey,
-          privateKey: privKey,
-        });
+        
+        // Create a new handle with saved auth token loaded
+        let handle = new WebsiteSecurityHandle(
+          creds.clientEncryptionKey, 
+          undefined, 
+          {
+            publicKey: creds.serverEncryptionKey,
+            privateKey: creds.clientDecryptionKey,
+          },
+          undefined,
+          true // Load saved auth token from SessionStorage
+        );
 
-        await handle.establishReauth();
         fma.securityHandle = handle;
 
         await fma.authorizeWebsiteUser();

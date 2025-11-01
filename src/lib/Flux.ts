@@ -162,12 +162,16 @@ export class FluxComms<A extends SecurityHandler> {
         if (Array.isArray(ob)) obName = ob[0].obName
         else obName = ob.obName
 
+        // Clone security handle for request isolation
+        const handleToUse = secHandle || this._securityHandle;
+        const isolatedHandle = (handleToUse as any).clone ? (handleToUse as any).clone() : handleToUse;
+
         return CMMT.fetch<FluxIdentifier[], GenericCreatorRequest, GenericCreatorResponse>(
             GenericCreatorRequest,
             GenericCreatorResponse,
             `create${obName}`,
             "POST",
-            secHandle || this._securityHandle,
+            isolatedHandle,
             ob
         );
     }
@@ -187,13 +191,17 @@ export class FluxComms<A extends SecurityHandler> {
             obType = ob.obType
         }
 
+        // Clone security handle for request isolation
+        const handleToUse = secHandle || this._securityHandle;
+        const isolatedHandle = (handleToUse as any).clone ? (handleToUse as any).clone() : handleToUse;
+
         return CMMT.fetchGeneric<GenericCreatorRequest, GenericGetterResponse<T>, T>(
             GenericCreatorRequest,
             GenericGetterResponse<T>,
             obType,
             `create${obName}InstanceSafe`,
             "POST",
-            secHandle || this._securityHandle,
+            isolatedHandle,
             ob
         );
     }
@@ -210,13 +218,17 @@ export class FluxComms<A extends SecurityHandler> {
             name += "SensitiveData"
         }
 
+        // Clone security handle for request isolation (parallel requests support)
+        const handleToUse = secHandle || this._securityHandle;
+        const isolatedHandle = (handleToUse as any).clone ? (handleToUse as any).clone() : handleToUse;
+
         return CMMT.fetchGeneric<GenericGetterRequest<T, U>, GenericGetterResponse<T>, T>(
             GenericGetterRequest<T, U>,
             GenericGetterResponse<T>,
             obType,
             `get${name}`,
             "POST",
-            secHandle || this._securityHandle,
+            isolatedHandle,
             query
         );
     }
@@ -227,12 +239,17 @@ export class FluxComms<A extends SecurityHandler> {
         secHandle?: SecurityHandler
     ): Promise<FluxIdentifier[]> {
         let obName = new obType().obName
+        
+        // Clone security handle for request isolation
+        const handleToUse = secHandle || this._securityHandle;
+        const isolatedHandle = (handleToUse as any).clone ? (handleToUse as any).clone() : handleToUse;
+        
         return CMMT.fetch<FluxIdentifier[], GenericDeleterRequest, GenericDeleterResponse>(
             GenericDeleterRequest,
             GenericDeleterResponse,
             `delete${obName}`,
             "POST",
-            secHandle || this._securityHandle,
+            isolatedHandle,
             ids
         );
     }
@@ -242,13 +259,17 @@ export class FluxComms<A extends SecurityHandler> {
         obType: new (o?: any) => T
     ): Promise<T[]> {
         let obName = new obType().obName
+        
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
         return CMMT.fetchGeneric<GenericGetByIdRequest, GenericGetterResponse<T>, T>(
             GenericGetByIdRequest,
             GenericGetterResponse<T>,
             obType,
             `get${obName}ById`,
             "POST",
-            this._securityHandle,
+            isolatedHandle,
             fi
         )
     }
@@ -260,13 +281,17 @@ export class FluxComms<A extends SecurityHandler> {
     ): Promise<U[]> {
         let obName = new obType().obName
         let obName2 = new obType2().obName
+        
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
         return CMMT.fetchGeneric<GenericGetByIdRequest, GenericGetterResponse<U>, U>(
             GenericGetByIdRequest,
             GenericGetterResponse<U>,
             obType2,
             `get${obName.concat(obName2)}ById`,
             "POST",
-            this._securityHandle,
+            isolatedHandle,
             fi
         )
     }
@@ -286,24 +311,32 @@ export class FluxComms<A extends SecurityHandler> {
             obName = ob.obName
             obType = ob.obType
         }
+        
+        // Clone security handle for request isolation
+        const handleToUse = securityHandle || this._securityHandle;
+        const isolatedHandle = (handleToUse as any).clone ? (handleToUse as any).clone() : handleToUse;
+        
         return CMMT.fetchGeneric<GenericUpdaterRequest<T>, GenericUpdaterResponse<T>, T>(
             GenericUpdaterRequest<T>,
             GenericUpdaterResponse<T>,
             obType,
             `update${obName}`,
             "POST",
-            securityHandle || this._securityHandle,
+            isolatedHandle,
             ob
         );
     }
 
     public async getMetadata(metadataNames: string[]) {
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
         return CMMT.fetch<string[], GetMetadataRequest, GetMetadataResponse>(
             GetMetadataRequest,
             GetMetadataResponse,
             "getMetadata",
             "POST",
-            this._securityHandle,
+            isolatedHandle,
             metadataNames
         )
     }

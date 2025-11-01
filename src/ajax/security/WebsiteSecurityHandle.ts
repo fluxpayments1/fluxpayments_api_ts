@@ -2,6 +2,7 @@ import { Observable, of } from "rxjs";
 import { SecurityHandlerBase } from "./SecurityHandlerBase";
 import { AxiosHeaders } from "axios";
 import Cookies from 'js-cookie'
+import { SessionStorage } from './SessionStorage';
 
 class JWTAuthHeader {
     private generatedAESEncryptionKey: string;
@@ -102,15 +103,21 @@ class JWTAuthHeader {
 
 
 export class WebsiteSecurityHandle extends SecurityHandlerBase {
+    // Request-scoped data (unique per request, stored in memory)
+    private _requestXAes: string;
+    private _requestXNonce: string;
+    private _requestXAuth: string;
+    private _requestEncryptedRequest: string;
+
     public async encodeRequest(request: string, headers: Map<string, string>): Promise<string> {
 
         if (this._reAuth) {
             this._reAuth = false
-            return localStorage.getItem("XENCREQ")
+            return this._requestEncryptedRequest
         }
 
-
-        localStorage.setItem("XENCREQ", '{"encData":'
+        // Store the empty request for potential reauth
+        this._requestEncryptedRequest = '{"encData":'
             + '"' +
             await SecurityHandlerBase.encryptAESBrowser(
                 this._authToken.getGeneratedAESEncryptionKey(),
@@ -118,8 +125,7 @@ export class WebsiteSecurityHandle extends SecurityHandlerBase {
                 "{}"
             )
             + '"'
-            + "}",
-        )
+            + "}"
 
         return '{"encData":'
             + '"' +
@@ -154,19 +160,33 @@ export class WebsiteSecurityHandle extends SecurityHandlerBase {
     constructor(pk: string, pw: string, rsaKeyPair: {
         publicKey: string,
         privateKey: string
-    }, token?: string) {
+    }, token?: string, loadSavedAuthToken: boolean = false) {
         super()
         this._clientEncryptionKey = pk
         this._password = pw
         this._serverEncryptionKey = rsaKeyPair.publicKey
         this._clientDecryptionKey = rsaKeyPair.privateKey
-        this._authToken = new JWTAuthHeader()
+        
+        // Load saved auth token for cookie-based auth, or create new for login
+        if (loadSavedAuthToken) {
+            const savedToken = SessionStorage.getAuthToken();
+            if (savedToken) {
+                this._authToken = Object.assign(new JWTAuthHeader(), savedToken);
+            } else {
+                this._authToken = new JWTAuthHeader();
+            }
+        } else {
+            this._authToken = new JWTAuthHeader();
+        }
+        
         this._token = token;
-        localStorage.setItem("XAUTH_KEY_PRIV", this._clientDecryptionKey)
-        localStorage.setItem("XAUTH_KEY_PUB", this._serverEncryptionKey)
-        localStorage.setItem("PUB_KEY", pk)
-
-
+        
+        // Save session credentials (persistent across requests)
+        SessionStorage.saveSessionCredentials(
+            this._clientDecryptionKey,
+            this._serverEncryptionKey,
+            pk
+        );
     }
 
     set passwordCode(s: string) {
@@ -193,7 +213,30 @@ export class WebsiteSecurityHandle extends SecurityHandlerBase {
         this._token = t;
     }
 
-
+    /**
+     * Create a clone of this security handle with the same session credentials
+     * but fresh request-scoped crypto state. This enables parallel requests.
+     */
+    public clone(): WebsiteSecurityHandle {
+        const cloned = new WebsiteSecurityHandle(
+            this._clientEncryptionKey,
+            undefined, // No password for cloned instance
+            {
+                publicKey: this._serverEncryptionKey,
+                privateKey: this._clientDecryptionKey
+            },
+            undefined,
+            true // Load saved auth token
+        );
+        
+        // Copy any session-level state that's not in SessionStorage
+        cloned._resetPassword = this._resetPassword;
+        cloned._passwordResetRequest = this._passwordResetRequest;
+        cloned._passwordCode = this._passwordCode;
+        cloned._newPassword = this._newPassword;
+        
+        return cloned;
+    }
 
     async establishReauth(): Promise<void> {
         this._reAuth = true
@@ -207,9 +250,13 @@ export class WebsiteSecurityHandle extends SecurityHandlerBase {
 
         Object.assign(this._authToken, JSON.parse(auth))
 
-        localStorage.setItem("XAUTH_KEY_PRIV", this._clientDecryptionKey)
-        localStorage.setItem("XAUTH_KEY_PUB", this._serverEncryptionKey)
-        localStorage.setItem("PUB_KEY", this._clientEncryptionKey)
+        // Save updated session credentials and auth token
+        SessionStorage.saveSessionCredentials(
+            this._clientDecryptionKey,
+            this._serverEncryptionKey,
+            this._clientEncryptionKey
+        );
+        SessionStorage.saveAuthToken(this._authToken);
 
         let res = SecurityHandlerBase.decryptAESBrowser(
             this._authToken.getGeneratedAESEncryptionKey(),
@@ -244,10 +291,10 @@ export class WebsiteSecurityHandle extends SecurityHandlerBase {
         }
 
         if (this._reAuth || optional) {
-
-            headersMap.set("X-AES", localStorage.getItem("XAES"));
-            headersMap.set("X-Nonce", localStorage.getItem("XNONCE"));
-            headersMap.set("X-Auth", localStorage.getItem("XAUTH"));
+            // Use stored request-scoped data from this instance
+            headersMap.set("X-AES", this._requestXAes);
+            headersMap.set("X-Nonce", this._requestXNonce);
+            headersMap.set("X-Auth", this._requestXAuth);
             return headersMap
         }
 
@@ -274,11 +321,11 @@ export class WebsiteSecurityHandle extends SecurityHandlerBase {
         let encString = await SecurityHandlerBase.encryptAESBrowser(xAes, xNonce, authHeaderStr)
         headersMap.set("X-Auth", encString)
 
-
-
-        localStorage.setItem("XNONCE", xNonce)
-        localStorage.setItem("XAES", encAes)
-        localStorage.setItem("XAUTH", encString)
+        // Store in request-scoped instance variables (not localStorage)
+        this._requestXNonce = xNonce
+        this._requestXAes = encAes
+        this._requestXAuth = encString
+        
         return headersMap
     }
 
