@@ -30,6 +30,7 @@ export declare class SessionStorage {
     static hasValidSession(): boolean;
     /**
      * Clear all session data (logout)
+     * This clears both localStorage and in-memory auth cache
      */
     static clearSession(): void;
     /**

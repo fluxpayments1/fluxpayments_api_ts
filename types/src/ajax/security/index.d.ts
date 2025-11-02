@@ -7,3 +7,5 @@ export { AccountDataSecurityHandle } from './AccountDataSecurityHandle';
 export { WebsiteSignUpSecurityHandle } from './WebsiteSignUpSecurityHandle';
 export { ReactNativeSecurityHandle } from './ReactNativeSecurityHandle';
 export { WebsiteSecurityHandle } from './WebsiteSecurityHandle';
+export { SessionStorage } from './SessionStorage';
+export { AuthCache } from './AuthCache';

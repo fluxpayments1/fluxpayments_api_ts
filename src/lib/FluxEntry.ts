@@ -183,6 +183,7 @@ import {
 } from "../ajax/Responses/CreateSessionResponse";
 import { UserSecurityHandle } from "../../src/ajax/security/UserSecurityHandle";
 import { SessionStorage } from "../ajax/security/SessionStorage";
+import { AuthCache } from "../ajax/security/AuthCache";
 /**
  * How does web auth work
  *
@@ -211,6 +212,9 @@ export async function fluxWebsiteSignInAuthorization(
   password,
   token?: string
 ) {
+  // Clear any existing cached auth for fresh sign-in
+  AuthCache.clearCache();
+  
   return new Promise<FluxTokenBackend<WebsiteSecurityHandle>>(
     async (resolve, reject) => {
       try {
@@ -333,6 +337,9 @@ export async function fluxWebsite2fa(number: string, token: string) {
 
         fma.isAuthenticated = true;
 
+        // Cache the authenticated instance after 2FA
+        AuthCache.clearCache(); // Clear any partial auth
+        
         resolve(fma);
       } catch (e) {
         reject(e);
@@ -387,40 +394,46 @@ export async function fluxWebsiteSignUp(
 }
 
 export async function fluxWebsiteCookieAuthorization() {
-  return new Promise<FluxTokenBackend<WebsiteSecurityHandle>>(
-    async (resolve, reject) => {
-      try {
-        const creds = SessionStorage.getSessionCredentials();
-        
-        if (!creds.clientDecryptionKey || !creds.serverEncryptionKey || !creds.clientEncryptionKey) {
-          reject(new Error("No valid session credentials found"));
-          return;
+  return AuthCache.getOrCreateAuthenticatedInstance<WebsiteSecurityHandle>(
+    async () => {
+      return new Promise<FluxTokenBackend<WebsiteSecurityHandle>>(
+        async (resolve, reject) => {
+          try {
+            const creds = SessionStorage.getSessionCredentials();
+            
+            if (!creds.clientDecryptionKey || !creds.serverEncryptionKey || !creds.clientEncryptionKey) {
+              reject(new Error("No valid session credentials found"));
+              return;
+            }
+
+            let fma =
+              FluxTokenBackend.getFluxTokebBackendInstance<WebsiteSecurityHandle>();
+            
+            // Create a new handle with saved auth token loaded
+            let handle = new WebsiteSecurityHandle(
+              creds.clientEncryptionKey, 
+              undefined, 
+              {
+                publicKey: creds.serverEncryptionKey,
+                privateKey: creds.clientDecryptionKey,
+              },
+              undefined,
+              true // Load saved auth token from SessionStorage
+            );
+
+            fma.securityHandle = handle;
+
+            await fma.authorizeWebsiteUser();
+            fma.isAuthenticated = true;
+
+            resolve(fma);
+          } catch (e) {
+            // Clear cache on auth failure
+            AuthCache.clearCache();
+            reject(e);
+          }
         }
-
-        let fma =
-          FluxTokenBackend.getFluxTokebBackendInstance<WebsiteSecurityHandle>();
-        
-        // Create a new handle with saved auth token loaded
-        let handle = new WebsiteSecurityHandle(
-          creds.clientEncryptionKey, 
-          undefined, 
-          {
-            publicKey: creds.serverEncryptionKey,
-            privateKey: creds.clientDecryptionKey,
-          },
-          undefined,
-          true // Load saved auth token from SessionStorage
-        );
-
-        fma.securityHandle = handle;
-
-        await fma.authorizeWebsiteUser();
-        fma.isAuthenticated = true;
-
-        resolve(fma);
-      } catch (e) {
-        reject(e);
-      }
+      );
     }
   );
 }
@@ -625,4 +638,12 @@ export async function fluxRemovePaymentMethod(fma: FluxTokenBackend<UserSecurity
       reject(e);
     }
   });
+}
+
+/**
+ * Logout and clear all session data
+ * Clears both localStorage (session credentials, auth token) and in-memory cache
+ */
+export function fluxWebsiteLogout(): void {
+  SessionStorage.clearSession();
 }

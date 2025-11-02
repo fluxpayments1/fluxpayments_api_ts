@@ -2,6 +2,9 @@
  * Manages persistent session data across requests
  * Separates session-level state (persistent) from request-level state (ephemeral)
  */
+
+import { AuthCache } from './AuthCache';
+
 export class SessionStorage {
     private static readonly KEYS = {
         AUTH_KEY_PRIV: 'XAUTH_KEY_PRIV',
@@ -77,6 +80,7 @@ export class SessionStorage {
 
     /**
      * Clear all session data (logout)
+     * This clears both localStorage and in-memory auth cache
      */
     static clearSession(): void {
         if (typeof localStorage === 'undefined') return;
@@ -84,6 +88,9 @@ export class SessionStorage {
         Object.values(this.KEYS).forEach(key => {
             localStorage.removeItem(key);
         });
+        
+        // Also clear in-memory auth cache
+        AuthCache.clearCache();
     }
 
     /**

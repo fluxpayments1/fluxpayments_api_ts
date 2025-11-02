@@ -90,3 +90,8 @@ export declare function fluxConfirmEmailCode(email: string, code: string, token:
 export declare function fluxUpdatePaymentMethodSubscription(fma: FluxTokenBackend<UserSecurityHandle>, subscriptionId: number, paymentMethodId: number): Promise<void>;
 export declare function fluxCancelSubscription(fma: FluxTokenBackend<UserSecurityHandle>, subscriptionId: number): Promise<FluxComms<UserSecurityHandle>>;
 export declare function fluxRemovePaymentMethod(fma: FluxTokenBackend<UserSecurityHandle>, paymentMethodId: string): Promise<FluxComms<UserSecurityHandle>>;
+/**
+ * Logout and clear all session data
+ * Clears both localStorage (session credentials, auth token) and in-memory cache
+ */
+export declare function fluxWebsiteLogout(): void;
