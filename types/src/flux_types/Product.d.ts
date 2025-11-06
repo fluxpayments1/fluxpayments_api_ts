@@ -14,7 +14,7 @@ export declare class Product extends FluxType implements IProduct {
         sku: string;
         currency: string;
         type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT" | "INSTALLMENT";
-        subscriptionInterval: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+        subscriptionInterval: "MONTHLY" | "DAILY" | "WEEKLY" | "YEARLY";
         inventoryCount: number;
         imageUrl: string;
         category: string;

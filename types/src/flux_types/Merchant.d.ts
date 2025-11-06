@@ -1,5 +1,7 @@
+import { Currency } from './Currency';
 import { FluxType } from './FluxType';
 import { IMerchant } from './IMerchant';
+import { Wallet } from './Wallet';
 export declare class Merchant extends FluxType implements IMerchant {
     obName: string;
     getDispName(): string;
@@ -47,6 +49,10 @@ export declare class Merchant extends FluxType implements IMerchant {
         displayEmail: string;
         processingFeeAuthAmount: number;
         processingFeeFlatAmount: number;
+        paymentLinkColor: string;
+        defaultTaxRateId: number;
+        cryptoWallets: Wallet[];
+        cryptoCurrencies: Currency[];
     };
     id: number;
     merchantApproved: boolean;
@@ -90,6 +96,10 @@ export declare class Merchant extends FluxType implements IMerchant {
     serviceCategory: string;
     documentName: string;
     documentToken: string;
+    paymentLinkColor: string;
+    defaultTaxRateId: number;
+    cryptoWallets: Wallet[];
+    cryptoCurrencies: Currency[];
     protected objectType: string;
     constructor(merchant?: Partial<Merchant>);
 }

@@ -1,5 +1,7 @@
+import { Currency } from './Currency';
 import { FluxType } from './FluxType';
 import { IMerchant } from './IMerchant';
+import { Wallet } from './Wallet';
 
 export class Merchant extends FluxType implements IMerchant {
     obName: string = "Merchant";
@@ -52,7 +54,11 @@ export class Merchant extends FluxType implements IMerchant {
             documentToken: this.documentToken,
             displayEmail: this.displayEmail,
             processingFeeAuthAmount: this.processingFeeAuthAmount,
-            processingFeeFlatAmount: this.processingFeeFlatAmount
+            processingFeeFlatAmount: this.processingFeeFlatAmount,
+            paymentLinkColor: this.paymentLinkColor,
+            defaultTaxRateId: this.defaultTaxRateId,
+            cryptoWallets: this.cryptoWallets,
+            cryptoCurrencies: this.cryptoCurrencies
         };
     }
 
@@ -98,6 +104,10 @@ export class Merchant extends FluxType implements IMerchant {
     serviceCategory: string;
     documentName: string;
     documentToken: string;
+    paymentLinkColor: string;
+    defaultTaxRateId: number;
+    cryptoWallets: Wallet   [];
+    cryptoCurrencies: Currency[];
     protected objectType: string = "merchant";
 
     public constructor(merchant?: Partial<Merchant>) {

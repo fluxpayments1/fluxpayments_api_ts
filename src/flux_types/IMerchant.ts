@@ -1,9 +1,13 @@
+import { Currency } from './Currency';
+import { Wallet } from './Wallet';
+
 export interface IMerchant {
     id: number;
     merchantApproved: boolean;
     isTaxEnabled: boolean;
     passwordHash: string;
     ssnToken: string;
+    displayEmail: string;
     firstName: string;
     middleName: string;
     lastName: string;
@@ -39,4 +43,9 @@ export interface IMerchant {
     documentName: string;
     documentToken: string;
     processingFeeFlatAmount: number;
+    merchantLogo: string;
+    paymentLinkColor: string;
+    defaultTaxRateId: number;
+    cryptoWallets: Wallet[];
+    cryptoCurrencies: Currency[];
 }
