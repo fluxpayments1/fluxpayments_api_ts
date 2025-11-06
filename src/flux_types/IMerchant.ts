@@ -5,6 +5,7 @@ export interface IMerchant {
     id: number;
     merchantApproved: boolean;
     isTaxEnabled: boolean;
+    enableACH: boolean;
     passwordHash: string;
     ssnToken: string;
     displayEmail: string;

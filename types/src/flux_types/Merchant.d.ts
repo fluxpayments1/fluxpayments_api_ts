@@ -9,6 +9,7 @@ export declare class Merchant extends FluxType implements IMerchant {
         id: number;
         merchantApproved: boolean;
         isTaxEnabled: boolean;
+        enableACH: boolean;
         passwordHash: string;
         ssnToken: string;
         firstName: string;
@@ -57,6 +58,7 @@ export declare class Merchant extends FluxType implements IMerchant {
     id: number;
     merchantApproved: boolean;
     isTaxEnabled: boolean;
+    enableACH: boolean;
     processingFeeEnabled: boolean;
     processingFeeRate: number;
     achProcessingFeeRate: number;

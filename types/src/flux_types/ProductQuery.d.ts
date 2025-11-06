@@ -11,7 +11,7 @@ export declare class ProductQuery extends BaseQuery<Product> implements IProduct
         metadata: string;
         name: string;
         type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT";
-        subscriptionInterval: "MONTHLY" | "DAILY" | "WEEKLY" | "YEARLY";
+        subscriptionInterval: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
         category: string;
         createdAt: number;
         objectType: string;
