@@ -66503,6 +66503,37 @@ exports.CancelSubscriptionRequest = CancelSubscriptionRequest;
 
 /***/ }),
 
+/***/ "./src/ajax/Requests/ChatRequest.ts":
+/*!******************************************!*\
+  !*** ./src/ajax/Requests/ChatRequest.ts ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChatRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class ChatRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(message, conversationId) {
+        this.message = message;
+        this.conversationId = conversationId;
+    }
+    getRequestAsString() {
+        return JSON.stringify({
+            message: this.message,
+            conversationId: this.conversationId,
+        });
+    }
+}
+exports.ChatRequest = ChatRequest;
+
+
+/***/ }),
+
 /***/ "./src/ajax/Requests/CheckWebsiteAuthCookieRequest.ts":
 /*!************************************************************!*\
   !*** ./src/ajax/Requests/CheckWebsiteAuthCookieRequest.ts ***!
@@ -67272,8 +67303,8 @@ class GetMetadataRequest extends RequestBodyBase_1.RequestBodyBase {
     constructor() {
         super();
     }
-    loadClientData(metadataName) {
-        this._metadataName = metadataName;
+    loadClientData(metadataNames) {
+        this._metadataNames = metadataNames;
     }
 }
 exports.GetMetadataRequest = GetMetadataRequest;
@@ -67681,7 +67712,7 @@ exports.AddSubscriptionRequest = AddSubscriptionRequest;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UpdateAccountInformationRequest = exports.RemovePaymentMethodRequest = exports.CancelSubscriptionRequest = exports.CreatePaymentMethodRequest = exports.UpdatePaymentMethodSubscriptionRequest = exports.DownloadTransactionRequest = exports.ConfirmEmailCodeRequest = exports.SendConfirmationEmailRequest = exports.AddSubscriptionRequest = exports.RequestBodyBase = exports.GetMetadataRequest = exports.GenericUpdaterRequest = exports.GenericGetterRequest = exports.GenericGetByIdRequest = exports.GenericDeleterRequest = exports.GenericCreatorRequest = exports.GenAuthReq = exports.CreateTransactionRequest = exports.CreateSessionRequest = exports.ChngProdInvCntRequest = exports.CheckWebsiteAuthCookieRequest = exports.AuthCookieRequst = void 0;
+exports.UpdateAccountInformationRequest = exports.RemovePaymentMethodRequest = exports.CancelSubscriptionRequest = exports.CreatePaymentMethodRequest = exports.UpdatePaymentMethodSubscriptionRequest = exports.DownloadTransactionRequest = exports.ConfirmEmailCodeRequest = exports.SendConfirmationEmailRequest = exports.AddSubscriptionRequest = exports.RequestBodyBase = exports.GetMetadataRequest = exports.GenericUpdaterRequest = exports.GenericGetterRequest = exports.GenericGetByIdRequest = exports.GenericDeleterRequest = exports.GenericCreatorRequest = exports.GenAuthReq = exports.CreateTransactionRequest = exports.CreateSessionRequest = exports.ChatRequest = exports.ChngProdInvCntRequest = exports.CheckWebsiteAuthCookieRequest = exports.AuthCookieRequst = void 0;
 // Export available request types
 var AuthCookieRequest_1 = __webpack_require__(/*! ./AuthCookieRequest */ "./src/ajax/Requests/AuthCookieRequest.ts");
 Object.defineProperty(exports, "AuthCookieRequst", ({ enumerable: true, get: function () { return AuthCookieRequest_1.AuthCookieRequst; } }));
@@ -67689,6 +67720,8 @@ var CheckWebsiteAuthCookieRequest_1 = __webpack_require__(/*! ./CheckWebsiteAuth
 Object.defineProperty(exports, "CheckWebsiteAuthCookieRequest", ({ enumerable: true, get: function () { return CheckWebsiteAuthCookieRequest_1.CheckWebsiteAuthCookieRequest; } }));
 var ChngProdInvCntRequest_1 = __webpack_require__(/*! ./ChngProdInvCntRequest */ "./src/ajax/Requests/ChngProdInvCntRequest.ts");
 Object.defineProperty(exports, "ChngProdInvCntRequest", ({ enumerable: true, get: function () { return ChngProdInvCntRequest_1.ChngProdInvCntRequest; } }));
+var ChatRequest_1 = __webpack_require__(/*! ./ChatRequest */ "./src/ajax/Requests/ChatRequest.ts");
+Object.defineProperty(exports, "ChatRequest", ({ enumerable: true, get: function () { return ChatRequest_1.ChatRequest; } }));
 var CreateSessionRequest_1 = __webpack_require__(/*! ./CreateSessionRequest */ "./src/ajax/Requests/CreateSessionRequest.ts");
 Object.defineProperty(exports, "CreateSessionRequest", ({ enumerable: true, get: function () { return CreateSessionRequest_1.CreateSessionRequest; } }));
 var CreateTransactionRequest_1 = __webpack_require__(/*! ./CreateTransactionRequest */ "./src/ajax/Requests/CreateTransactionRequest.ts");
@@ -67783,6 +67816,43 @@ class CancelSubscriptionResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.CancelSubscriptionResponse = CancelSubscriptionResponse;
+
+
+/***/ }),
+
+/***/ "./src/ajax/Responses/ChatResponse.ts":
+/*!********************************************!*\
+  !*** ./src/ajax/Responses/ChatResponse.ts ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ChatResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ChatResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.content = parsed.content || parsed.responseText || parsed.message || '';
+        this.done = parsed.done || false;
+        this.conversationId = parsed.conversationId || null;
+        this.title = parsed.title || null;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            content: this.content,
+            done: this.done,
+            conversationId: this.conversationId,
+            title: this.title
+        };
+    }
+}
+exports.ChatResponse = ChatResponse;
 
 
 /***/ }),
@@ -68258,7 +68328,7 @@ class GetMetadataResponse extends ResponseBodyBase_1.ResponseBodyBase {
         super();
     }
     getClientReturnValue() {
-        return this._metadata;
+        return this._metadataMap;
     }
 }
 exports.GetMetadataResponse = GetMetadataResponse;
@@ -68618,7 +68688,7 @@ exports.AddSubscriptionResponse = AddSubscriptionResponse;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.UpdateAccountInformationResponse = exports.RemovePaymentMethodResponse = exports.CancelSubscriptionResponse = exports.CreatePaymentMethodResponse = exports.UpdatePaymentMethodSubscriptionResponse = exports.DownloadTransactionResponse = exports.ConfirmEmailCodeResponse = exports.SendConfirmationEmailResponse = exports.GetMetadataResponse = exports.AddSubscriptionResponse = exports.GenericUpdaterResponse = exports.UpdateProductResponse = exports.CreateSessionResponse = exports.GenericDeleterResponse = exports.GenericGetterResponse = exports.GenAuthRes = exports.GenericCreatorResponse = exports.ResponseBodyBase = void 0;
+exports.UpdateAccountInformationResponse = exports.RemovePaymentMethodResponse = exports.CancelSubscriptionResponse = exports.CreatePaymentMethodResponse = exports.UpdatePaymentMethodSubscriptionResponse = exports.DownloadTransactionResponse = exports.ConfirmEmailCodeResponse = exports.SendConfirmationEmailResponse = exports.GetMetadataResponse = exports.AddSubscriptionResponse = exports.GenericUpdaterResponse = exports.UpdateProductResponse = exports.CreateSessionResponse = exports.GenericDeleterResponse = exports.GenericGetterResponse = exports.GenAuthRes = exports.GenericCreatorResponse = exports.ChatResponse = exports.ResponseBodyBase = void 0;
 /*
  * Copyright (c) 2024 Flux Payment Solutions Company
  *
@@ -68642,6 +68712,8 @@ exports.UpdateAccountInformationResponse = exports.RemovePaymentMethodResponse =
  */
 var ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
 Object.defineProperty(exports, "ResponseBodyBase", ({ enumerable: true, get: function () { return ResponseBodyBase_1.ResponseBodyBase; } }));
+var ChatResponse_1 = __webpack_require__(/*! ./ChatResponse */ "./src/ajax/Responses/ChatResponse.ts");
+Object.defineProperty(exports, "ChatResponse", ({ enumerable: true, get: function () { return ChatResponse_1.ChatResponse; } }));
 var GenericCreatorResponse_1 = __webpack_require__(/*! ./GenericCreatorResponse */ "./src/ajax/Responses/GenericCreatorResponse.ts");
 Object.defineProperty(exports, "GenericCreatorResponse", ({ enumerable: true, get: function () { return GenericCreatorResponse_1.GenericCreatorResponse; } }));
 var GenAuthRes_1 = __webpack_require__(/*! ./GenAuthRes */ "./src/ajax/Responses/GenAuthRes.ts");
@@ -68871,6 +68943,10 @@ class CMMT {
         }
         return CMMT.BASE_URL.concat(arg).concat(this.isBrowser ? "Web" : "");
     }
+    static getAIPath(arg) {
+        // AI endpoints don't use the "Web" suffix
+        return CMMT.AI_BASE_URL.concat(arg);
+    }
     static sendWsCommMessage(ws, req, res, secHandle, ...args) {
         return __awaiter(this, void 0, void 0, function* () {
             args = (0, cloneDeep_1.default)(args);
@@ -69051,9 +69127,96 @@ class CMMT {
             }
         }));
     }
+    static fetchStreaming(req, res, url, mtd, secHandle, onChunk, ...arg) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            arg = (0, cloneDeep_1.default)(arg);
+            try {
+                let arh = new AjaxRequestHandle_1.AjaxRequestHandle(req, res, secHandle);
+                arh.request.loadClientData(...arg);
+                arh.method = mtd;
+                arh.path = url;
+                let hdrs = yield arh.securityHandler.createHeaders();
+                const requestData = yield arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs);
+                // Use native fetch API for streaming support
+                const fetchOptions = {
+                    method: arh.method,
+                    credentials: 'include',
+                    headers: Object.assign(Object.assign({}, Object.fromEntries(hdrs.entries())), { 'Content-Type': 'application/json' }),
+                    body: requestData
+                };
+                const response = yield fetch(env.AI_CONNECTION_ENDPOINT_PROD + arh.path, fetchOptions);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                // Get the response headers for decryption
+                const responseHeaders = {};
+                response.headers.forEach((value, key) => {
+                    responseHeaders[key] = value;
+                });
+                // Process the streaming response
+                const reader = (_a = response.body) === null || _a === void 0 ? void 0 : _a.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                if (!reader) {
+                    throw new Error('Response body is not readable');
+                }
+                while (true) {
+                    const { done, value } = yield reader.read();
+                    if (done) {
+                        // Process any remaining data in buffer
+                        if (buffer.trim()) {
+                            yield this.processAndEmitChunk(buffer, arh, res, responseHeaders, onChunk);
+                        }
+                        break;
+                    }
+                    // Decode the chunk and add to buffer
+                    buffer += decoder.decode(value, { stream: true });
+                    // Process complete messages (delimited by \n)
+                    let newlineIndex;
+                    while ((newlineIndex = buffer.indexOf('\n')) !== -1) {
+                        let chunk = buffer.substring(0, newlineIndex).trim();
+                        buffer = buffer.substring(newlineIndex + 1);
+                        // Only process non-empty chunks that look like JSON
+                        if (chunk && chunk.startsWith('data:{')) {
+                            yield this.processAndEmitChunk(chunk.substring(5), arh, res, responseHeaders, onChunk);
+                        }
+                    }
+                }
+            }
+            catch (error) {
+                console.error('Streaming error:', error);
+                throw error;
+            }
+        });
+    }
+    static processAndEmitChunk(encryptedChunk, arh, resConstructor, responseHeaders, onChunk) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                //turn responseHeaders to map (case-insensitive)
+                const responseHeadersMap = new axios_1.AxiosHeaders();
+                for (const [key, value] of Object.entries(responseHeaders)) {
+                    responseHeadersMap.set(key, value);
+                }
+                // Decrypt the chunk immediately
+                const decodedResponse = yield arh.securityHandler.decodeResponse(encryptedChunk, responseHeadersMap);
+                // Parse the decrypted response and create a response object
+                const responseObj = new resConstructor();
+                responseObj.setResponseJSON(decodedResponse);
+                // Get the client return value and pass it to the callback
+                const clientValue = responseObj.getClientReturnValue();
+                onChunk(clientValue, false);
+            }
+            catch (error) {
+                console.error('Error processing chunk:', error);
+                // Continue processing other chunks even if one fails
+            }
+        });
+    }
 }
 exports.CMMT = CMMT;
 CMMT.BASE_URL = env.API_CONNECTION_ENDPOINT_PROD;
+CMMT.AI_BASE_URL = env.AI_CONNECTION_ENDPOINT_PROD;
 CMMT.WEBSOCKET_BASE_URL = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD;
 CMMT.isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
 
@@ -69200,6 +69363,95 @@ class AccountDataSecurityHandle extends SecurityHandlerBase_1.SecurityHandlerBas
 }
 exports.AccountDataSecurityHandle = AccountDataSecurityHandle;
 AccountDataSecurityHandle.nonceKeyMap = new Map();
+
+
+/***/ }),
+
+/***/ "./src/ajax/security/AuthCache.ts":
+/*!****************************************!*\
+  !*** ./src/ajax/security/AuthCache.ts ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, exports) {
+
+"use strict";
+
+/**
+ * In-memory cache for authenticated Flux instances
+ * Prevents redundant authorization calls within the same page session
+ */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AuthCache = void 0;
+class AuthCache {
+    /**
+     * Get cached authenticated instance or trigger new authorization
+     * Returns the same instance for all calls within the same page session
+     */
+    static getOrCreateAuthenticatedInstance(authFunction) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Return cached instance if available
+            if (this.authenticatedInstance) {
+                return this.authenticatedInstance;
+            }
+            // If authorization is in progress, wait for it
+            if (this.authPromise) {
+                return this.authPromise;
+            }
+            // Start new authorization
+            this.authPromise = authFunction();
+            try {
+                this.authenticatedInstance = yield this.authPromise;
+                return this.authenticatedInstance;
+            }
+            finally {
+                // Clear the promise so we can distinguish between "in progress" and "completed"
+                this.authPromise = null;
+            }
+        });
+    }
+    /**
+     * Check if we have a cached authenticated instance
+     */
+    static hasCachedInstance() {
+        return this.authenticatedInstance !== null;
+    }
+    /**
+     * Get cached instance without triggering authorization
+     */
+    static getCachedInstance() {
+        return this.authenticatedInstance;
+    }
+    /**
+     * Clear cached instance (call on logout or auth error)
+     */
+    static clearCache() {
+        this.authenticatedInstance = null;
+        this.authPromise = null;
+    }
+    /**
+     * Force re-authorization on next request (e.g., after session expired)
+     */
+    static invalidate() {
+        this.clearCache();
+    }
+}
+exports.AuthCache = AuthCache;
+AuthCache.authenticatedInstance = null;
+AuthCache.authPromise = null;
+// Clear cache when page unloads (browser only)
+if (typeof window !== 'undefined') {
+    window.addEventListener('beforeunload', () => {
+        AuthCache.clearCache();
+    });
+}
 
 
 /***/ }),
@@ -69950,6 +70202,115 @@ SensitiveClientDataSecurityHandle.nonceKeyMap = new Map();
 
 /***/ }),
 
+/***/ "./src/ajax/security/SessionStorage.ts":
+/*!*********************************************!*\
+  !*** ./src/ajax/security/SessionStorage.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/**
+ * Manages persistent session data across requests
+ * Separates session-level state (persistent) from request-level state (ephemeral)
+ */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SessionStorage = void 0;
+const AuthCache_1 = __webpack_require__(/*! ./AuthCache */ "./src/ajax/security/AuthCache.ts");
+class SessionStorage {
+    /**
+     * Save session credentials (persistent across requests)
+     */
+    static saveSessionCredentials(clientDecryptionKey, serverEncryptionKey, clientEncryptionKey) {
+        if (typeof localStorage === 'undefined')
+            return;
+        localStorage.setItem(this.KEYS.AUTH_KEY_PRIV, clientDecryptionKey);
+        localStorage.setItem(this.KEYS.AUTH_KEY_PUB, serverEncryptionKey);
+        localStorage.setItem(this.KEYS.PUB_KEY, clientEncryptionKey);
+    }
+    /**
+     * Get session credentials
+     */
+    static getSessionCredentials() {
+        if (typeof localStorage === 'undefined') {
+            return {
+                clientDecryptionKey: null,
+                serverEncryptionKey: null,
+                clientEncryptionKey: null
+            };
+        }
+        return {
+            clientDecryptionKey: localStorage.getItem(this.KEYS.AUTH_KEY_PRIV),
+            serverEncryptionKey: localStorage.getItem(this.KEYS.AUTH_KEY_PUB),
+            clientEncryptionKey: localStorage.getItem(this.KEYS.PUB_KEY)
+        };
+    }
+    /**
+     * Save the auth token (the session state)
+     */
+    static saveAuthToken(authToken) {
+        if (typeof localStorage === 'undefined')
+            return;
+        localStorage.setItem(this.KEYS.AUTH_TOKEN, JSON.stringify(authToken));
+    }
+    /**
+     * Get the auth token (the session state)
+     */
+    static getAuthToken() {
+        if (typeof localStorage === 'undefined')
+            return null;
+        const token = localStorage.getItem(this.KEYS.AUTH_TOKEN);
+        return token ? JSON.parse(token) : null;
+    }
+    /**
+     * Check if we have valid session credentials
+     */
+    static hasValidSession() {
+        const creds = this.getSessionCredentials();
+        return !!(creds.clientDecryptionKey && creds.serverEncryptionKey && creds.clientEncryptionKey);
+    }
+    /**
+     * Clear all session data (logout)
+     * This clears both localStorage and in-memory auth cache
+     */
+    static clearSession() {
+        if (typeof localStorage === 'undefined')
+            return;
+        Object.values(this.KEYS).forEach(key => {
+            localStorage.removeItem(key);
+        });
+        // Also clear in-memory auth cache
+        AuthCache_1.AuthCache.clearCache();
+    }
+    /**
+     * Mark 2FA as present
+     */
+    static set2FAPresent() {
+        if (typeof localStorage === 'undefined')
+            return;
+        localStorage.setItem(this.KEYS.TWO_FA_PRESENT, 'PRESENT');
+    }
+    /**
+     * Check if 2FA is present
+     */
+    static is2FAPresent() {
+        if (typeof localStorage === 'undefined')
+            return false;
+        return localStorage.getItem(this.KEYS.TWO_FA_PRESENT) === 'PRESENT';
+    }
+}
+exports.SessionStorage = SessionStorage;
+SessionStorage.KEYS = {
+    AUTH_KEY_PRIV: 'XAUTH_KEY_PRIV',
+    AUTH_KEY_PUB: 'XAUTH_KEY_PUB',
+    PUB_KEY: 'PUB_KEY',
+    AUTH_TOKEN: 'XAUTH_TOKEN', // Store the serialized auth token
+    TWO_FA_PRESENT: '2FA'
+};
+
+
+/***/ }),
+
 /***/ "./src/ajax/security/WebsiteSecurityHandle.ts":
 /*!****************************************************!*\
   !*** ./src/ajax/security/WebsiteSecurityHandle.ts ***!
@@ -69970,6 +70331,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.WebsiteSecurityHandle = void 0;
 const SecurityHandlerBase_1 = __webpack_require__(/*! ./SecurityHandlerBase */ "./src/ajax/security/SecurityHandlerBase.ts");
+const SessionStorage_1 = __webpack_require__(/*! ./SessionStorage */ "./src/ajax/security/SessionStorage.ts");
 class JWTAuthHeader {
     constructor() {
     }
@@ -70039,13 +70401,14 @@ class WebsiteSecurityHandle extends SecurityHandlerBase_1.SecurityHandlerBase {
         return __awaiter(this, void 0, void 0, function* () {
             if (this._reAuth) {
                 this._reAuth = false;
-                return localStorage.getItem("XENCREQ");
+                return this._requestEncryptedRequest;
             }
-            localStorage.setItem("XENCREQ", '{"encData":'
+            // Store the empty request for potential reauth
+            this._requestEncryptedRequest = '{"encData":'
                 + '"' +
                 (yield SecurityHandlerBase_1.SecurityHandlerBase.encryptAESBrowser(this._authToken.getGeneratedAESEncryptionKey(), this._authToken.getGeneratedNonce(), "{}"))
                 + '"'
-                + "}");
+                + "}";
             return '{"encData":'
                 + '"' +
                 (yield SecurityHandlerBase_1.SecurityHandlerBase.encryptAESBrowser(this._authToken.getGeneratedAESEncryptionKey(), this._authToken.getGeneratedNonce(), request))
@@ -70053,7 +70416,7 @@ class WebsiteSecurityHandle extends SecurityHandlerBase_1.SecurityHandlerBase {
                 + "}";
         });
     }
-    constructor(pk, pw, rsaKeyPair, token) {
+    constructor(pk, pw, rsaKeyPair, token, loadSavedAuthToken = false) {
         super();
         this.minutes = 180;
         this.days = this.minutes / (24 * 60);
@@ -70064,11 +70427,22 @@ class WebsiteSecurityHandle extends SecurityHandlerBase_1.SecurityHandlerBase {
         this._password = pw;
         this._serverEncryptionKey = rsaKeyPair.publicKey;
         this._clientDecryptionKey = rsaKeyPair.privateKey;
-        this._authToken = new JWTAuthHeader();
+        // Load saved auth token for cookie-based auth, or create new for login
+        if (loadSavedAuthToken) {
+            const savedToken = SessionStorage_1.SessionStorage.getAuthToken();
+            if (savedToken) {
+                this._authToken = Object.assign(new JWTAuthHeader(), savedToken);
+            }
+            else {
+                this._authToken = new JWTAuthHeader();
+            }
+        }
+        else {
+            this._authToken = new JWTAuthHeader();
+        }
         this._token = token;
-        localStorage.setItem("XAUTH_KEY_PRIV", this._clientDecryptionKey);
-        localStorage.setItem("XAUTH_KEY_PUB", this._serverEncryptionKey);
-        localStorage.setItem("PUB_KEY", pk);
+        // Save session credentials (persistent across requests)
+        SessionStorage_1.SessionStorage.saveSessionCredentials(this._clientDecryptionKey, this._serverEncryptionKey, pk);
     }
     set passwordCode(s) {
         this._passwordCode = s;
@@ -70088,6 +70462,24 @@ class WebsiteSecurityHandle extends SecurityHandlerBase_1.SecurityHandlerBase {
     set token(t) {
         this._token = t;
     }
+    /**
+     * Create a clone of this security handle with the same session credentials
+     * but fresh request-scoped crypto state. This enables parallel requests.
+     */
+    clone() {
+        const cloned = new WebsiteSecurityHandle(this._clientEncryptionKey, undefined, // No password for cloned instance
+        {
+            publicKey: this._serverEncryptionKey,
+            privateKey: this._clientDecryptionKey
+        }, undefined, true // Load saved auth token
+        );
+        // Copy any session-level state that's not in SessionStorage
+        cloned._resetPassword = this._resetPassword;
+        cloned._passwordResetRequest = this._passwordResetRequest;
+        cloned._passwordCode = this._passwordCode;
+        cloned._newPassword = this._newPassword;
+        return cloned;
+    }
     establishReauth() {
         return __awaiter(this, void 0, void 0, function* () {
             this._reAuth = true;
@@ -70099,9 +70491,9 @@ class WebsiteSecurityHandle extends SecurityHandlerBase_1.SecurityHandlerBase {
             let aes = yield SecurityHandlerBase_1.SecurityHandlerBase.decryptRsaBrowser(this._clientDecryptionKey, headers.get("X-AES").toString());
             let auth = yield SecurityHandlerBase_1.SecurityHandlerBase.decryptAESBrowser(aes, nonce, headers.get("X-Auth").toString());
             Object.assign(this._authToken, JSON.parse(auth));
-            localStorage.setItem("XAUTH_KEY_PRIV", this._clientDecryptionKey);
-            localStorage.setItem("XAUTH_KEY_PUB", this._serverEncryptionKey);
-            localStorage.setItem("PUB_KEY", this._clientEncryptionKey);
+            // Save updated session credentials and auth token
+            SessionStorage_1.SessionStorage.saveSessionCredentials(this._clientDecryptionKey, this._serverEncryptionKey, this._clientEncryptionKey);
+            SessionStorage_1.SessionStorage.saveAuthToken(this._authToken);
             let res = SecurityHandlerBase_1.SecurityHandlerBase.decryptAESBrowser(this._authToken.getGeneratedAESEncryptionKey(), this._authToken.getGeneratedNonce(), JSON.parse(response).encData);
             return res;
         });
@@ -70123,9 +70515,10 @@ class WebsiteSecurityHandle extends SecurityHandlerBase_1.SecurityHandlerBase {
                 delete this._token;
             }
             if (this._reAuth || optional) {
-                headersMap.set("X-AES", localStorage.getItem("XAES"));
-                headersMap.set("X-Nonce", localStorage.getItem("XNONCE"));
-                headersMap.set("X-Auth", localStorage.getItem("XAUTH"));
+                // Use stored request-scoped data from this instance
+                headersMap.set("X-AES", this._requestXAes);
+                headersMap.set("X-Nonce", this._requestXNonce);
+                headersMap.set("X-Auth", this._requestXAuth);
                 return headersMap;
             }
             if (this._password) {
@@ -70143,9 +70536,10 @@ class WebsiteSecurityHandle extends SecurityHandlerBase_1.SecurityHandlerBase {
             headersMap.set("X-Nonce", xNonce);
             let encString = yield SecurityHandlerBase_1.SecurityHandlerBase.encryptAESBrowser(xAes, xNonce, authHeaderStr);
             headersMap.set("X-Auth", encString);
-            localStorage.setItem("XNONCE", xNonce);
-            localStorage.setItem("XAES", encAes);
-            localStorage.setItem("XAUTH", encString);
+            // Store in request-scoped instance variables (not localStorage)
+            this._requestXNonce = xNonce;
+            this._requestXAes = encAes;
+            this._requestXAuth = encString;
             return headersMap;
         });
     }
@@ -70386,7 +70780,7 @@ exports.WebsiteSignUpSecurityHandle = WebsiteSignUpSecurityHandle;
  * SOFTWARE.
  */
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.WebsiteSecurityHandle = exports.ReactNativeSecurityHandle = exports.WebsiteSignUpSecurityHandle = exports.AccountDataSecurityHandle = exports.SensitiveClientDataSecurityHandle = exports.GenAuthDataSecurityHandle = exports.MerchantEndpointsSecurityHandle = exports.SecurityHandlerBase = void 0;
+exports.AuthCache = exports.SessionStorage = exports.WebsiteSecurityHandle = exports.ReactNativeSecurityHandle = exports.WebsiteSignUpSecurityHandle = exports.AccountDataSecurityHandle = exports.SensitiveClientDataSecurityHandle = exports.GenAuthDataSecurityHandle = exports.MerchantEndpointsSecurityHandle = exports.SecurityHandlerBase = void 0;
 var SecurityHandlerBase_1 = __webpack_require__(/*! ./SecurityHandlerBase */ "./src/ajax/security/SecurityHandlerBase.ts");
 Object.defineProperty(exports, "SecurityHandlerBase", ({ enumerable: true, get: function () { return SecurityHandlerBase_1.SecurityHandlerBase; } }));
 var MerchantEndpointsSecurityHandle_1 = __webpack_require__(/*! ./MerchantEndpointsSecurityHandle */ "./src/ajax/security/MerchantEndpointsSecurityHandle.ts");
@@ -70403,6 +70797,10 @@ var ReactNativeSecurityHandle_1 = __webpack_require__(/*! ./ReactNativeSecurityH
 Object.defineProperty(exports, "ReactNativeSecurityHandle", ({ enumerable: true, get: function () { return ReactNativeSecurityHandle_1.ReactNativeSecurityHandle; } }));
 var WebsiteSecurityHandle_1 = __webpack_require__(/*! ./WebsiteSecurityHandle */ "./src/ajax/security/WebsiteSecurityHandle.ts");
 Object.defineProperty(exports, "WebsiteSecurityHandle", ({ enumerable: true, get: function () { return WebsiteSecurityHandle_1.WebsiteSecurityHandle; } }));
+var SessionStorage_1 = __webpack_require__(/*! ./SessionStorage */ "./src/ajax/security/SessionStorage.ts");
+Object.defineProperty(exports, "SessionStorage", ({ enumerable: true, get: function () { return SessionStorage_1.SessionStorage; } }));
+var AuthCache_1 = __webpack_require__(/*! ./AuthCache */ "./src/ajax/security/AuthCache.ts");
+Object.defineProperty(exports, "AuthCache", ({ enumerable: true, get: function () { return AuthCache_1.AuthCache; } }));
 
 
 /***/ }),
@@ -70414,7 +70812,7 @@ Object.defineProperty(exports, "WebsiteSecurityHandle", ({ enumerable: true, get
 /***/ ((module) => {
 
 "use strict";
-module.exports = /*#__PURE__*/JSON.parse('{"API_BASE":"https://localhost:12010/","API_CONNECTION_ENDPOINT_PROD":"https://localhost:12010/api/post/","WEBSOCKET_CONNECTION_ENDPOINT_PROD":"wss://localhost:12011/","MODE":"TESTING","PROD":false}');
+module.exports = /*#__PURE__*/JSON.parse('{"API_BASE":"https://localhost:12010/","API_CONNECTION_ENDPOINT_PROD":"https://localhost:12010/api/post/","WEBSOCKET_CONNECTION_ENDPOINT_PROD":"wss://localhost:12011/","AI_CONNECTION_ENDPOINT_PROD":"https://localhost:12013/api/ai/","MODE":"TESTING","PROD":false}');
 
 /***/ }),
 
@@ -71725,6 +72123,109 @@ exports.Card = Card;
 
 /***/ }),
 
+/***/ "./src/flux_types/Conversation.ts":
+/*!****************************************!*\
+  !*** ./src/flux_types/Conversation.ts ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Conversation = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class Conversation extends FluxType_1.FluxType {
+    getDispName() {
+        return this.title || `Conversation #${this.id}`;
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            title: this.title,
+            chatType: this.chatType,
+            lastMessageAt: this.lastMessageAt,
+            lastMessageText: this.lastMessageText,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, Conversation);
+        this.obName = "Conversation";
+        this.objectType = "conversation";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.Conversation = Conversation;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/ConversationQuery.ts":
+/*!*********************************************!*\
+  !*** ./src/flux_types/ConversationQuery.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ConversationQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const Conversation_1 = __webpack_require__(/*! ./Conversation */ "./src/flux_types/Conversation.ts");
+/**
+ * This is an object that is used to query for conversations.
+ */
+class ConversationQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            title: this.title,
+            chatType: this.chatType,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(conversationQuery) {
+        super(Conversation_1.Conversation);
+        this.objectType = "conversation";
+        Object.assign(this, conversationQuery);
+    }
+    static createQuery(icq) {
+        return new ConversationQuery(icq);
+    }
+}
+exports.ConversationQuery = ConversationQuery;
+
+
+/***/ }),
+
 /***/ "./src/flux_types/Currency.ts":
 /*!************************************!*\
   !*** ./src/flux_types/Currency.ts ***!
@@ -72234,6 +72735,7 @@ class CustomerSensitiveData extends FluxType_1.FluxType {
             this.firstName = bankAccount.firstName;
             this.lastName = bankAccount.lastName;
             this.oneTimeUseToken = bankAccount.oneTimeUseToken;
+            this.phoneNumber = bankAccount.phoneNumber;
             let nonce = security_1.SecurityHandlerBase.generateNonce();
             let aesKey = security_1.SecurityHandlerBase.genAesKey();
             let encryptedPayload = yield security_1.SecurityHandlerBase.encryptAESBrowser(aesKey, nonce, JSON.stringify(bankAccount.serialize()));
@@ -73096,7 +73598,11 @@ class GuestPaymentLink extends FluxType_1.FluxType {
             authAttempts: this.authAttempts,
             paymentLinkUrl: this.paymentLinkUrl,
             minutesToExpire: this.minutesToExpire,
-            processingFeeInversion: this.processingFeeInversion
+            processingFeeInversion: this.processingFeeInversion,
+            isInvoice: this.isInvoice,
+            dueDate: this.dueDate,
+            qbInvoiceId: this.qbInvoiceId,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
     }
     constructor(oneTimePaymentLink) {
@@ -73152,7 +73658,11 @@ class GuestPaymentLinkQuery extends BaseQuery_1.BaseQuery {
             merchant: this.merchant,
             products: this.products,
             objectType: this.objectType,
-            isReusable: this.isReusable
+            isReusable: this.isReusable,
+            isInvoice: this.isInvoice,
+            dueDate: this.dueDate,
+            qbInvoiceId: this.qbInvoiceId,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
     }
     constructor(otplQ) {
@@ -73316,6 +73826,121 @@ exports.InstallmentTransactionQuery = InstallmentTransactionQuery;
 
 /***/ }),
 
+/***/ "./src/flux_types/Invoice.ts":
+/*!***********************************!*\
+  !*** ./src/flux_types/Invoice.ts ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+/*
+ * Copyright (c) 2024 Flux Payment Solutions Company
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Invoice = void 0;
+const PaymentLink_1 = __webpack_require__(/*! ./PaymentLink */ "./src/flux_types/PaymentLink.ts");
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class Invoice extends PaymentLink_1.PaymentLink {
+    constructor(invoice) {
+        super(invoice);
+        this.obName = "Invoice";
+        // Always set isInvoice to true for Invoice types
+        this.isInvoice = true;
+        Object.assign(this, invoice);
+    }
+    static createInstanceLazy(inv) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(inv, this);
+        });
+    }
+    static createInstanceSafe(inv) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(inv, this);
+        });
+    }
+}
+exports.Invoice = Invoice;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/InvoiceQuery.ts":
+/*!****************************************!*\
+  !*** ./src/flux_types/InvoiceQuery.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*
+ * Copyright (c) 2024 Flux Payment Solutions Company
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.InvoiceQuery = void 0;
+const PaymentLinkQuery_1 = __webpack_require__(/*! ./PaymentLinkQuery */ "./src/flux_types/PaymentLinkQuery.ts");
+class InvoiceQuery extends PaymentLinkQuery_1.PaymentLinkQuery {
+    constructor(query) {
+        super(query);
+        this.obName = "InvoiceQuery";
+        // Default to filtering for invoices only
+        this.isInvoice = true;
+        Object.assign(this, query);
+    }
+    serialize() {
+        return Object.assign(Object.assign({}, super.serialize()), { isInvoice: this.isInvoice });
+    }
+}
+exports.InvoiceQuery = InvoiceQuery;
+
+
+/***/ }),
+
 /***/ "./src/flux_types/Merchant.ts":
 /*!************************************!*\
   !*** ./src/flux_types/Merchant.ts ***!
@@ -73336,6 +73961,7 @@ class Merchant extends FluxType_1.FluxType {
             id: this.id,
             merchantApproved: this.merchantApproved,
             isTaxEnabled: this.isTaxEnabled,
+            enableACH: this.enableACH,
             passwordHash: this.passwordHash,
             ssnToken: this.ssnToken,
             firstName: this.firstName,
@@ -73375,7 +74001,11 @@ class Merchant extends FluxType_1.FluxType {
             documentToken: this.documentToken,
             displayEmail: this.displayEmail,
             processingFeeAuthAmount: this.processingFeeAuthAmount,
-            processingFeeFlatAmount: this.processingFeeFlatAmount
+            processingFeeFlatAmount: this.processingFeeFlatAmount,
+            paymentLinkColor: this.paymentLinkColor,
+            defaultTaxRateId: this.defaultTaxRateId,
+            cryptoWallets: this.cryptoWallets,
+            cryptoCurrencies: this.cryptoCurrencies
         };
     }
     constructor(merchant) {
@@ -73662,6 +74292,117 @@ class MerchantQuery extends BaseQuery_1.BaseQuery {
     }
 }
 exports.MerchantQuery = MerchantQuery;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/Message.ts":
+/*!***********************************!*\
+  !*** ./src/flux_types/Message.ts ***!
+  \***********************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Message = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class Message extends FluxType_1.FluxType {
+    getDispName() {
+        return this.messageText || `Message #${this.id}`;
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            conversationId: this.conversationId,
+            messageText: this.messageText,
+            isUserMessage: this.isUserMessage,
+            createdObjects: this.createdObjects,
+            updatedObjects: this.updatedObjects,
+            deletedObjects: this.deletedObjects,
+            returnedObjects: this.returnedObjects,
+            todoList: this.todoList,
+            pendingApproval: this.pendingApproval,
+            activeStatus: this.activeStatus,
+            createdAt: this.createdAt,
+            updatedAt: this.updatedAt,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, Message);
+        this.obName = "Message";
+        this.objectType = "message";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.Message = Message;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/MessageQuery.ts":
+/*!****************************************!*\
+  !*** ./src/flux_types/MessageQuery.ts ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MessageQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const Message_1 = __webpack_require__(/*! ./Message */ "./src/flux_types/Message.ts");
+/**
+ * This is an object that is used to query for messages.
+ */
+class MessageQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            conversationId: this.conversationId,
+            isUserMessage: this.isUserMessage,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+            version: this.version,
+        };
+    }
+    constructor(messageQuery) {
+        super(Message_1.Message);
+        this.objectType = "message";
+        Object.assign(this, messageQuery);
+    }
+    static createQuery(imq) {
+        return new MessageQuery(imq);
+    }
+}
+exports.MessageQuery = MessageQuery;
 
 
 /***/ }),
@@ -74003,7 +74744,12 @@ class PaymentLink extends FluxType_1.FluxType {
             redirectUrl: this.redirectUrl,
             oneTimeUse: this.oneTimeUse,
             isReusable: this.isReusable,
-            minutesToExpire: this.minutesToExpire
+            minutesToExpire: this.minutesToExpire,
+            isInvoice: this.isInvoice,
+            processingFeeInversion: this.processingFeeInversion,
+            dueDate: this.dueDate,
+            qbInvoiceId: this.qbInvoiceId,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
     }
     constructor(pl) {
@@ -74079,6 +74825,11 @@ class PaymentLinkQuery extends BaseQuery_1.BaseQuery {
             removeOnSuccess: this.removeOnSuccess,
             paymentLink: this.paymentLink,
             accountId: this.accountId,
+            isInvoice: this.isInvoice,
+            dueDate: this.dueDate,
+            currentStatus: this.currentStatus,
+            qbInvoiceId: this.qbInvoiceId,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
     }
     constructor(tokQ) {
@@ -74612,6 +75363,7 @@ class Product extends FluxType_1.FluxType {
             enableBackorderedProducts: this.enableBackorderedProducts,
             enableInventoryManagement: this.enableInventoryManagement,
             hasDynamicPrice: this.hasDynamicPrice,
+            installments: this.installments,
             objectType: "product",
             orderQuantity: this.orderQuantity
         };
@@ -74814,6 +75566,184 @@ exports.ProductQuery = ProductQuery;
 
 /***/ }),
 
+/***/ "./src/flux_types/QuickBooksAuthUrl.ts":
+/*!*********************************************!*\
+  !*** ./src/flux_types/QuickBooksAuthUrl.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QuickBooksAuthUrl = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class QuickBooksAuthUrl extends FluxType_1.FluxType {
+    getDispName() {
+        return "QuickBooks Auth URL";
+    }
+    serialize() {
+        return {
+            id: this.id,
+            authUrl: this.authUrl,
+            state: this.state,
+            objectType: this.objectType
+        };
+    }
+    constructor(quickBooksAuthUrl) {
+        super(quickBooksAuthUrl, QuickBooksAuthUrl);
+        this.obName = "QuickBooksAuthUrl";
+        this.objectType = "quickbooks_auth_url";
+        Object.assign(this, quickBooksAuthUrl);
+    }
+}
+exports.QuickBooksAuthUrl = QuickBooksAuthUrl;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/QuickBooksAuthUrlQuery.ts":
+/*!**************************************************!*\
+  !*** ./src/flux_types/QuickBooksAuthUrlQuery.ts ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QuickBooksAuthUrlQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const QuickBooksAuthUrl_1 = __webpack_require__(/*! ./QuickBooksAuthUrl */ "./src/flux_types/QuickBooksAuthUrl.ts");
+/**
+ * This is an object that is used to query for QuickBooks auth URLs.
+ */
+class QuickBooksAuthUrlQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            authUrl: this.authUrl,
+            state: this.state,
+            objectType: this.objectType
+        };
+    }
+    constructor(qbQ) {
+        super(QuickBooksAuthUrl_1.QuickBooksAuthUrl);
+        this.objectType = "quickbooks_auth_url";
+        Object.assign(this, qbQ);
+    }
+    static createQuery(qbQ) {
+        return new QuickBooksAuthUrlQuery(qbQ);
+    }
+}
+exports.QuickBooksAuthUrlQuery = QuickBooksAuthUrlQuery;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/QuickBooksIntegrationInformation.ts":
+/*!************************************************************!*\
+  !*** ./src/flux_types/QuickBooksIntegrationInformation.ts ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QuickBooksIntegrationInformation = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class QuickBooksIntegrationInformation extends FluxType_1.FluxType {
+    getDispName() {
+        return `QuickBooks Integration #${this.id}`;
+    }
+    serialize() {
+        return {
+            id: this.id,
+            merchantId: this.merchantId,
+            accessToken: this.accessToken,
+            refreshToken: this.refreshToken,
+            realmId: this.realmId,
+            qbCustomerId: this.qbCustomerId,
+            qbItemSale: this.qbItemSale,
+            qbItemRefund: this.qbItemRefund,
+            qbItemChargeback: this.qbItemChargeback,
+            qbItemAdjustment: this.qbItemAdjustment,
+            qbItemAuthFee: this.qbItemAuthFee,
+            qbItemProcessingFee: this.qbItemProcessingFee,
+            qbExpenseAccountId: this.qbExpenseAccountId,
+            qbIncomeAccountId: this.qbIncomeAccountId,
+            qbIncomeItemId: this.qbIncomeItemId,
+            qbBankAccountId: this.qbBankAccountId,
+            qbTaxLiabilityAccountId: this.qbTaxLiabilityAccountId,
+            qbTaxItemId: this.qbTaxItemId,
+            activeStatus: this.activeStatus,
+            objectType: this.objectType
+        };
+    }
+    constructor(qbInfo) {
+        super(qbInfo, QuickBooksIntegrationInformation);
+        this.obName = "QuickBooksIntegrationInformation";
+        this.objectType = "quickbooks_info";
+        Object.assign(this, qbInfo);
+    }
+}
+exports.QuickBooksIntegrationInformation = QuickBooksIntegrationInformation;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/QuickBooksIntegrationInformationQuery.ts":
+/*!*****************************************************************!*\
+  !*** ./src/flux_types/QuickBooksIntegrationInformationQuery.ts ***!
+  \*****************************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.QuickBooksIntegrationInformationQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const QuickBooksIntegrationInformation_1 = __webpack_require__(/*! ./QuickBooksIntegrationInformation */ "./src/flux_types/QuickBooksIntegrationInformation.ts");
+/**
+ * This is an object that is used to query for QuickBooks integration information.
+ */
+class QuickBooksIntegrationInformationQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            merchantId: this.merchantId,
+            accessToken: this.accessToken,
+            refreshToken: this.refreshToken,
+            realmId: this.realmId,
+            qbCustomerId: this.qbCustomerId,
+            qbItemSale: this.qbItemSale,
+            qbItemRefund: this.qbItemRefund,
+            qbItemChargeback: this.qbItemChargeback,
+            qbItemAdjustment: this.qbItemAdjustment,
+            qbItemAuthFee: this.qbItemAuthFee,
+            qbItemProcessingFee: this.qbItemProcessingFee,
+            qbExpenseAccountId: this.qbExpenseAccountId,
+            qbIncomeAccountId: this.qbIncomeAccountId,
+            qbIncomeItemId: this.qbIncomeItemId,
+            qbBankAccountId: this.qbBankAccountId,
+            qbTaxLiabilityAccountId: this.qbTaxLiabilityAccountId,
+            qbTaxItemId: this.qbTaxItemId,
+            activeStatus: this.activeStatus,
+            objectType: this.objectType
+        };
+    }
+    constructor(qbInfoQuery) {
+        super(QuickBooksIntegrationInformation_1.QuickBooksIntegrationInformation);
+        this.objectType = "quickbooks_info";
+        Object.assign(this, qbInfoQuery);
+    }
+    static createQuery(qbInfoQuery) {
+        return new QuickBooksIntegrationInformationQuery(qbInfoQuery);
+    }
+}
+exports.QuickBooksIntegrationInformationQuery = QuickBooksIntegrationInformationQuery;
+
+
+/***/ }),
+
 /***/ "./src/flux_types/RecurringTransaction.ts":
 /*!************************************************!*\
   !*** ./src/flux_types/RecurringTransaction.ts ***!
@@ -74873,8 +75803,15 @@ class RecurringTransaction extends FluxType_1.FluxType {
             productDumpId: this.productDumpId,
             otplId: this.otplId,
             nextProcessDate: this.nextProcessDate,
-            paymentLinks: this.paymentLinks,
+            paymentLinkId: this.paymentLinkId,
+            paymentLink: this.paymentLink,
+            transactions: this.transactions,
+            installmentPeriod: this.installmentPeriod,
             status: this.status,
+            cancelled: this.cancelled,
+            isInstallmentType: this.isInstallmentType,
+            totalInstallments: this.totalInstallments,
+            installmentsMade: this.installmentsMade,
         };
     }
     constructor(recurringTransaction) {
@@ -74947,6 +75884,10 @@ class RecurringTransactionQuery extends BaseQuery_1.BaseQuery {
             productDumpId: this.productDumpId,
             otplId: this.otplId,
             status: this.status,
+            cancelled: this.cancelled,
+            isInstallmentType: this.isInstallmentType,
+            totalInstallments: this.totalInstallments,
+            installmentsLeft: this.installmentsLeft,
         };
     }
     constructor(tokQ) {
@@ -74959,6 +75900,121 @@ class RecurringTransactionQuery extends BaseQuery_1.BaseQuery {
     }
 }
 exports.RecurringTransactionQuery = RecurringTransactionQuery;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/ReusableLink.ts":
+/*!****************************************!*\
+  !*** ./src/flux_types/ReusableLink.ts ***!
+  \****************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+/*
+ * Copyright (c) 2024 Flux Payment Solutions Company
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReusableLink = void 0;
+const PaymentLink_1 = __webpack_require__(/*! ./PaymentLink */ "./src/flux_types/PaymentLink.ts");
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class ReusableLink extends PaymentLink_1.PaymentLink {
+    constructor(reusableLink) {
+        super(reusableLink);
+        this.obName = "ReusableLink";
+        // Always set isReusable to true for ReusableLink types
+        this.isReusable = true;
+        Object.assign(this, reusableLink);
+    }
+    static createInstanceLazy(rl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(rl, this);
+        });
+    }
+    static createInstanceSafe(rl) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(rl, this);
+        });
+    }
+}
+exports.ReusableLink = ReusableLink;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/ReusableLinkQuery.ts":
+/*!*********************************************!*\
+  !*** ./src/flux_types/ReusableLinkQuery.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*
+ * Copyright (c) 2024 Flux Payment Solutions Company
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReusableLinkQuery = void 0;
+const PaymentLinkQuery_1 = __webpack_require__(/*! ./PaymentLinkQuery */ "./src/flux_types/PaymentLinkQuery.ts");
+class ReusableLinkQuery extends PaymentLinkQuery_1.PaymentLinkQuery {
+    constructor(query) {
+        super(query);
+        this.obName = "ReusableLinkQuery";
+        // Default to filtering for reusable links only
+        this.isReusable = true;
+        Object.assign(this, query);
+    }
+    serialize() {
+        return Object.assign(Object.assign({}, super.serialize()), { isReusable: this.isReusable });
+    }
+}
+exports.ReusableLinkQuery = ReusableLinkQuery;
 
 
 /***/ }),
@@ -75617,11 +76673,167 @@ class Transaction extends FluxType_1.FluxType {
             shippingAddressId: this.shippingAddressId,
             shippingAddressUniqueId: this.shippingAddressUniqueId,
             inventoryOnlyOrder: this.inventoryOnlyOrder,
-            products: this.products
+            products: this.products,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
+            quickbooksTransactionId: this.quickbooksTransactionId,
+            quickbooksSyncDate: this.quickbooksSyncDate
         };
     }
 }
 exports.Transaction = Transaction;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/TransactionProduct.ts":
+/*!**********************************************!*\
+  !*** ./src/flux_types/TransactionProduct.ts ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+/*
+ * Copyright (c) 2024 Flux Payment Solutions Company
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionProduct = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class TransactionProduct extends FluxType_1.FluxType {
+    getDispName() {
+        return this.productUniqueId || `Transaction Product ${this.id}`;
+    }
+    serialize() {
+        return {
+            uniqueId: this.uniqueId,
+            id: this.id,
+            metadata: this.metadata,
+            productId: this.productId,
+            productVersion: this.productVersion,
+            productDumpId: this.productDumpId,
+            productUniqueId: this.productUniqueId,
+            transactionId: this.transactionId,
+            transactionUniqueId: this.transactionUniqueId,
+            quantity: this.quantity,
+            backOrdered: this.backOrdered,
+            objectType: "transaction_product"
+        };
+    }
+    constructor(transactionProduct) {
+        super(transactionProduct, TransactionProduct);
+        this.obName = "TransactionProduct";
+        this.objectType = "transaction_product";
+        Object.assign(this, transactionProduct);
+    }
+    static createInstanceLazy(tp) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(tp, this);
+        });
+    }
+    static createInstanceSafe(tp) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(tp, this);
+        });
+    }
+}
+exports.TransactionProduct = TransactionProduct;
+
+
+/***/ }),
+
+/***/ "./src/flux_types/TransactionProductQuery.ts":
+/*!***************************************************!*\
+  !*** ./src/flux_types/TransactionProductQuery.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+"use strict";
+
+/*
+ * Copyright (c) 2024 Flux Payment Solutions Company
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionProductQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const TransactionProduct_1 = __webpack_require__(/*! ./TransactionProduct */ "./src/flux_types/TransactionProduct.ts");
+/**
+ * This is an object that is used to query for transaction products.
+ */
+class TransactionProductQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            productId: this.productId,
+            productVersion: this.productVersion,
+            productDumpId: this.productDumpId,
+            productUniqueId: this.productUniqueId,
+            transactionId: this.transactionId,
+            transactionUniqueId: this.transactionUniqueId,
+            quantity: this.quantity,
+            backOrdered: this.backOrdered,
+            createdAt: this.createdAt,
+            objectType: this.objectType,
+            pagination: this.pagination,
+            additionalSearchOptions: this.additionalSearchOptions
+        };
+    }
+    constructor(transactionProductQuery) {
+        super(TransactionProduct_1.TransactionProduct);
+        this.objectType = "transaction_product";
+        Object.assign(this, transactionProductQuery);
+    }
+    static createQuery(itpq) {
+        return new TransactionProductQuery(itpq);
+    }
+}
+exports.TransactionProductQuery = TransactionProductQuery;
 
 
 /***/ }),
@@ -75661,7 +76873,7 @@ const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/Bas
 const Transaction_1 = __webpack_require__(/*! ./Transaction */ "./src/flux_types/Transaction.ts");
 class TransactionQuery extends BaseQuery_1.BaseQuery {
     serialize() {
-        return {
+        let x = {
             id: this.id,
             email: this.email,
             cardBrandId: this.cardBrandId,
@@ -75675,6 +76887,7 @@ class TransactionQuery extends BaseQuery_1.BaseQuery {
             transactionType: this.transactionType,
             paymentMethodUniqueid: this.paymentMethodUniqueid,
             accountVersion: this.accountVersion,
+            paymentLinkId: this.paymentLinkId,
             paymentMethodAddressVersion: this.paymentMethodAddressVersion,
             inventoryOnlyOrder: this.inventoryOnlyOrder,
             confidenceLevel: this.confidenceLevel,
@@ -75700,9 +76913,13 @@ class TransactionQuery extends BaseQuery_1.BaseQuery {
             walletId: this.walletId,
             baseTransaction: this.baseTransaction,
             approvalStatus: this.approvalStatus,
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
+            quickbooksTransactionId: this.quickbooksTransactionId,
+            quickbooksSyncDate: this.quickbooksSyncDate,
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions
         };
+        return x;
     }
     constructor(tokQ) {
         super(Transaction_1.Transaction);
@@ -76047,8 +77264,8 @@ exports.WalletQuery = WalletQuery;
 // This file is automatically generated by scripts/generate-types.js
 // Do not edit manually - run npm run compile-rn to regenerate
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.PaymentLinkQuery = exports.PaymentLink = exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
-exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = void 0;
+exports.ReusableLinkQuery = exports.ReusableLink = exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
+exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -76073,6 +77290,14 @@ var MerchantNetworkCountsQuery_1 = __webpack_require__(/*! ./MerchantNetworkCoun
 Object.defineProperty(exports, "MerchantNetworkCountsQuery", ({ enumerable: true, get: function () { return MerchantNetworkCountsQuery_1.MerchantNetworkCountsQuery; } }));
 var MerchantQuery_1 = __webpack_require__(/*! ./MerchantQuery */ "./src/flux_types/MerchantQuery.ts");
 Object.defineProperty(exports, "MerchantQuery", ({ enumerable: true, get: function () { return MerchantQuery_1.MerchantQuery; } }));
+var QuickBooksAuthUrl_1 = __webpack_require__(/*! ./QuickBooksAuthUrl */ "./src/flux_types/QuickBooksAuthUrl.ts");
+Object.defineProperty(exports, "QuickBooksAuthUrl", ({ enumerable: true, get: function () { return QuickBooksAuthUrl_1.QuickBooksAuthUrl; } }));
+var QuickBooksAuthUrlQuery_1 = __webpack_require__(/*! ./QuickBooksAuthUrlQuery */ "./src/flux_types/QuickBooksAuthUrlQuery.ts");
+Object.defineProperty(exports, "QuickBooksAuthUrlQuery", ({ enumerable: true, get: function () { return QuickBooksAuthUrlQuery_1.QuickBooksAuthUrlQuery; } }));
+var QuickBooksIntegrationInformation_1 = __webpack_require__(/*! ./QuickBooksIntegrationInformation */ "./src/flux_types/QuickBooksIntegrationInformation.ts");
+Object.defineProperty(exports, "QuickBooksIntegrationInformation", ({ enumerable: true, get: function () { return QuickBooksIntegrationInformation_1.QuickBooksIntegrationInformation; } }));
+var QuickBooksIntegrationInformationQuery_1 = __webpack_require__(/*! ./QuickBooksIntegrationInformationQuery */ "./src/flux_types/QuickBooksIntegrationInformationQuery.ts");
+Object.defineProperty(exports, "QuickBooksIntegrationInformationQuery", ({ enumerable: true, get: function () { return QuickBooksIntegrationInformationQuery_1.QuickBooksIntegrationInformationQuery; } }));
 var Notification_1 = __webpack_require__(/*! ./Notification */ "./src/flux_types/Notification.ts");
 Object.defineProperty(exports, "Notification", ({ enumerable: true, get: function () { return Notification_1.Notification; } }));
 var NotificationQuery_1 = __webpack_require__(/*! ./NotificationQuery */ "./src/flux_types/NotificationQuery.ts");
@@ -76133,6 +77358,14 @@ var PaymentLink_1 = __webpack_require__(/*! ./PaymentLink */ "./src/flux_types/P
 Object.defineProperty(exports, "PaymentLink", ({ enumerable: true, get: function () { return PaymentLink_1.PaymentLink; } }));
 var PaymentLinkQuery_1 = __webpack_require__(/*! ./PaymentLinkQuery */ "./src/flux_types/PaymentLinkQuery.ts");
 Object.defineProperty(exports, "PaymentLinkQuery", ({ enumerable: true, get: function () { return PaymentLinkQuery_1.PaymentLinkQuery; } }));
+var Invoice_1 = __webpack_require__(/*! ./Invoice */ "./src/flux_types/Invoice.ts");
+Object.defineProperty(exports, "Invoice", ({ enumerable: true, get: function () { return Invoice_1.Invoice; } }));
+var InvoiceQuery_1 = __webpack_require__(/*! ./InvoiceQuery */ "./src/flux_types/InvoiceQuery.ts");
+Object.defineProperty(exports, "InvoiceQuery", ({ enumerable: true, get: function () { return InvoiceQuery_1.InvoiceQuery; } }));
+var ReusableLink_1 = __webpack_require__(/*! ./ReusableLink */ "./src/flux_types/ReusableLink.ts");
+Object.defineProperty(exports, "ReusableLink", ({ enumerable: true, get: function () { return ReusableLink_1.ReusableLink; } }));
+var ReusableLinkQuery_1 = __webpack_require__(/*! ./ReusableLinkQuery */ "./src/flux_types/ReusableLinkQuery.ts");
+Object.defineProperty(exports, "ReusableLinkQuery", ({ enumerable: true, get: function () { return ReusableLinkQuery_1.ReusableLinkQuery; } }));
 var Token_1 = __webpack_require__(/*! ./Token */ "./src/flux_types/Token.ts");
 Object.defineProperty(exports, "Token", ({ enumerable: true, get: function () { return Token_1.Token; } }));
 var TokenQuery_1 = __webpack_require__(/*! ./TokenQuery */ "./src/flux_types/TokenQuery.ts");
@@ -76191,12 +77424,24 @@ var BankAccountQuery_1 = __webpack_require__(/*! ./BankAccountQuery */ "./src/fl
 Object.defineProperty(exports, "BankAccountQuery", ({ enumerable: true, get: function () { return BankAccountQuery_1.BankAccountQuery; } }));
 var Card_1 = __webpack_require__(/*! ./Card */ "./src/flux_types/Card.ts");
 Object.defineProperty(exports, "Card", ({ enumerable: true, get: function () { return Card_1.Card; } }));
+var Conversation_1 = __webpack_require__(/*! ./Conversation */ "./src/flux_types/Conversation.ts");
+Object.defineProperty(exports, "Conversation", ({ enumerable: true, get: function () { return Conversation_1.Conversation; } }));
+var ConversationQuery_1 = __webpack_require__(/*! ./ConversationQuery */ "./src/flux_types/ConversationQuery.ts");
+Object.defineProperty(exports, "ConversationQuery", ({ enumerable: true, get: function () { return ConversationQuery_1.ConversationQuery; } }));
+var Message_1 = __webpack_require__(/*! ./Message */ "./src/flux_types/Message.ts");
+Object.defineProperty(exports, "Message", ({ enumerable: true, get: function () { return Message_1.Message; } }));
+var MessageQuery_1 = __webpack_require__(/*! ./MessageQuery */ "./src/flux_types/MessageQuery.ts");
+Object.defineProperty(exports, "MessageQuery", ({ enumerable: true, get: function () { return MessageQuery_1.MessageQuery; } }));
 var CustomerSensitiveDataQuery_1 = __webpack_require__(/*! ./CustomerSensitiveDataQuery */ "./src/flux_types/CustomerSensitiveDataQuery.ts");
 Object.defineProperty(exports, "CustomerSensitiveDataQuery", ({ enumerable: true, get: function () { return CustomerSensitiveDataQuery_1.CustomerSensitiveDataQuery; } }));
 var FluxSockets_1 = __webpack_require__(/*! ../lib/FluxSockets */ "./src/lib/FluxSockets.ts");
 Object.defineProperty(exports, "Subscription", ({ enumerable: true, get: function () { return FluxSockets_1.Subscription; } }));
 var AdditionalSearchOptions_1 = __webpack_require__(/*! ./AdditionalSearchOptions */ "./src/flux_types/AdditionalSearchOptions.ts");
 Object.defineProperty(exports, "AdditionalSearchOptions", ({ enumerable: true, get: function () { return AdditionalSearchOptions_1.AdditionalSearchOptions; } }));
+var TransactionProduct_1 = __webpack_require__(/*! ./TransactionProduct */ "./src/flux_types/TransactionProduct.ts");
+Object.defineProperty(exports, "TransactionProduct", ({ enumerable: true, get: function () { return TransactionProduct_1.TransactionProduct; } }));
+var TransactionProductQuery_1 = __webpack_require__(/*! ./TransactionProductQuery */ "./src/flux_types/TransactionProductQuery.ts");
+Object.defineProperty(exports, "TransactionProductQuery", ({ enumerable: true, get: function () { return TransactionProductQuery_1.TransactionProductQuery; } }));
 
 
 /***/ }),
@@ -76209,6 +77454,29 @@ Object.defineProperty(exports, "AdditionalSearchOptions", ({ enumerable: true, g
 
 "use strict";
 
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -76322,7 +77590,10 @@ class FluxComms {
                 obName = ob[0].obName;
             else
                 obName = ob.obName;
-            return lib_1.CMMT.fetch(GenericCreatorRequest_1.GenericCreatorRequest, Responses_1.GenericCreatorResponse, `create${obName}`, "POST", secHandle || this._securityHandle, ob);
+            // Clone security handle for request isolation
+            const handleToUse = secHandle || this._securityHandle;
+            const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
+            return lib_1.CMMT.fetch(GenericCreatorRequest_1.GenericCreatorRequest, Responses_1.GenericCreatorResponse, `create${obName}`, "POST", isolatedHandle, ob);
         });
     }
     createObjectGenericSafe(ob, secHandle) {
@@ -76337,7 +77608,10 @@ class FluxComms {
                 obName = ob.obName;
                 obType = ob.obType;
             }
-            return lib_1.CMMT.fetchGeneric(GenericCreatorRequest_1.GenericCreatorRequest, (Responses_1.GenericGetterResponse), obType, `create${obName}InstanceSafe`, "POST", secHandle || this._securityHandle, ob);
+            // Clone security handle for request isolation
+            const handleToUse = secHandle || this._securityHandle;
+            const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
+            return lib_1.CMMT.fetchGeneric(GenericCreatorRequest_1.GenericCreatorRequest, (Responses_1.GenericGetterResponse), obType, `create${obName}InstanceSafe`, "POST", isolatedHandle, ob);
         });
     }
     getObjects(query, secHandle) {
@@ -76347,26 +77621,36 @@ class FluxComms {
             if (query.accountSession) {
                 name += "SensitiveData";
             }
-            return lib_1.CMMT.fetchGeneric((GenericGetterRequest_1.GenericGetterRequest), (Responses_1.GenericGetterResponse), obType, `get${name}`, "POST", secHandle || this._securityHandle, query);
+            // Clone security handle for request isolation (parallel requests support)
+            const handleToUse = secHandle || this._securityHandle;
+            const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
+            return lib_1.CMMT.fetchGeneric((GenericGetterRequest_1.GenericGetterRequest), (Responses_1.GenericGetterResponse), obType, `get${name}`, "POST", isolatedHandle, query);
         });
     }
     deleteObjects(ids, obType, secHandle) {
         return __awaiter(this, void 0, void 0, function* () {
             let obName = new obType().obName;
-            return lib_1.CMMT.fetch(GenericDeleterRequest_1.GenericDeleterRequest, Responses_1.GenericDeleterResponse, `delete${obName}`, "POST", secHandle || this._securityHandle, ids);
+            // Clone security handle for request isolation
+            const handleToUse = secHandle || this._securityHandle;
+            const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
+            return lib_1.CMMT.fetch(GenericDeleterRequest_1.GenericDeleterRequest, Responses_1.GenericDeleterResponse, `delete${obName}`, "POST", isolatedHandle, ids);
         });
     }
     getObjectsById(fi, obType) {
         return __awaiter(this, void 0, void 0, function* () {
             let obName = new obType().obName;
-            return lib_1.CMMT.fetchGeneric(GenericGetByIdRequest_1.GenericGetByIdRequest, (Responses_1.GenericGetterResponse), obType, `get${obName}ById`, "POST", this._securityHandle, fi);
+            // Clone security handle for request isolation
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetchGeneric(GenericGetByIdRequest_1.GenericGetByIdRequest, (Responses_1.GenericGetterResponse), obType, `get${obName}ById`, "POST", isolatedHandle, fi);
         });
     }
     getLinkedObjectsById(fi, obType, obType2) {
         return __awaiter(this, void 0, void 0, function* () {
             let obName = new obType().obName;
             let obName2 = new obType2().obName;
-            return lib_1.CMMT.fetchGeneric(GenericGetByIdRequest_1.GenericGetByIdRequest, (Responses_1.GenericGetterResponse), obType2, `get${obName.concat(obName2)}ById`, "POST", this._securityHandle, fi);
+            // Clone security handle for request isolation
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetchGeneric(GenericGetByIdRequest_1.GenericGetByIdRequest, (Responses_1.GenericGetterResponse), obType2, `get${obName.concat(obName2)}ById`, "POST", isolatedHandle, fi);
         });
     }
     updateObjects(ob, securityHandle) {
@@ -76381,12 +77665,17 @@ class FluxComms {
                 obName = ob.obName;
                 obType = ob.obType;
             }
-            return lib_1.CMMT.fetchGeneric((GenericUpdaterRequest_1.GenericUpdaterRequest), (Responses_1.GenericUpdaterResponse), obType, `update${obName}`, "POST", securityHandle || this._securityHandle, ob);
+            // Clone security handle for request isolation
+            const handleToUse = securityHandle || this._securityHandle;
+            const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
+            return lib_1.CMMT.fetchGeneric((GenericUpdaterRequest_1.GenericUpdaterRequest), (Responses_1.GenericUpdaterResponse), obType, `update${obName}`, "POST", isolatedHandle, ob);
         });
     }
-    getMetadata(metadataName) {
+    getMetadata(metadataNames) {
         return __awaiter(this, void 0, void 0, function* () {
-            return lib_1.CMMT.fetch(GetMetadataRequest_1.GetMetadataRequest, Responses_1.GetMetadataResponse, "getMetadata", "POST", this._securityHandle, metadataName);
+            // Clone security handle for request isolation
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetMetadataRequest_1.GetMetadataRequest, Responses_1.GetMetadataResponse, "getMetadata", "POST", isolatedHandle, metadataNames);
         });
     }
     updateProductQuantity(multiplier, quantity, fi) {
@@ -76394,6 +77683,13 @@ class FluxComms {
             if (!(this._securityHandle instanceof security_1.MerchantEndpointsSecurityHandle))
                 throw new Error("inventory must be changed server side");
             return lib_1.CMMT.fetch(ChngProdInvCntRequest_1.ChngProdInvCntRequest, Responses_1.UpdateProductResponse, "updateProductQuantity", "POST", this._securityHandle, multiplier, quantity, fi);
+        });
+    }
+    sendChatStreamingMessage(message, onChunk, conversationId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ChatRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ChatRequest */ "./src/ajax/Requests/ChatRequest.ts")));
+            const { ChatResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ChatResponse */ "./src/ajax/Responses/ChatResponse.ts")));
+            return lib_1.CMMT.fetchStreaming(ChatRequest, ChatResponse, "chat", "POST", this._securityHandle, onChunk, message, conversationId);
         });
     }
 }
@@ -76441,7 +77737,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.fluxRemovePaymentMethod = exports.fluxCancelSubscription = exports.fluxUpdatePaymentMethodSubscription = exports.fluxConfirmEmailCode = exports.fluxSendConfirmationEmail = exports.fluxReactNativeSessionAuthorization = exports.fluxReactNativeSignInAuthorization = exports.getMerchantPublicKeyFromOTPL = exports.getAccountSessionFromOTPL = exports.fluxTokGetter = exports.fluxSocketBrowser = exports.fluxWebsiteCookieAuthorization = exports.fluxWebsiteSignUp = exports.fluxWebsite2fa = exports.updatePassword = exports.resetPassword = exports.fluxWebsiteSignInAuthorization = exports.fluxSocketBrowserSessionBased = exports.fluxGetter = exports.fluxBrowser = exports.flux = exports.fluxSocket = void 0;
+exports.fluxWebsiteLogout = exports.fluxRemovePaymentMethod = exports.fluxCancelSubscription = exports.fluxUpdatePaymentMethodSubscription = exports.fluxConfirmEmailCode = exports.fluxSendConfirmationEmail = exports.fluxReactNativeSessionAuthorization = exports.fluxReactNativeSignInAuthorization = exports.getMerchantPublicKeyFromOTPL = exports.getAccountSessionFromOTPL = exports.fluxTokGetter = exports.fluxSocketBrowser = exports.fluxWebsiteCookieAuthorization = exports.fluxWebsiteSignUp = exports.fluxWebsite2fa = exports.updatePassword = exports.resetPassword = exports.fluxWebsiteSignInAuthorization = exports.fluxSocketBrowserSessionBased = exports.fluxGetter = exports.fluxBrowser = exports.flux = exports.fluxSocket = void 0;
 const MerchantEndpointsSecurityHandle_1 = __webpack_require__(/*! ../ajax/security/MerchantEndpointsSecurityHandle */ "./src/ajax/security/MerchantEndpointsSecurityHandle.ts");
 const Flux_1 = __webpack_require__(/*! ./Flux */ "./src/lib/Flux.ts");
 const FluxSockets_1 = __webpack_require__(/*! ./FluxSockets */ "./src/lib/FluxSockets.ts");
@@ -76553,6 +77849,8 @@ const ReactNativeSecurityHandle_1 = __webpack_require__(/*! ../ajax/security/Rea
 const FluxTokenBackend_1 = __webpack_require__(/*! ./FluxTokenBackend */ "./src/lib/FluxTokenBackend.ts");
 const security_1 = __webpack_require__(/*! ../ajax/security/ */ "./src/ajax/security/index.ts");
 const WebsiteSignUpSecurityHandle_1 = __webpack_require__(/*! ../ajax/security/WebsiteSignUpSecurityHandle */ "./src/ajax/security/WebsiteSignUpSecurityHandle.ts");
+const SessionStorage_1 = __webpack_require__(/*! ../ajax/security/SessionStorage */ "./src/ajax/security/SessionStorage.ts");
+const AuthCache_1 = __webpack_require__(/*! ../ajax/security/AuthCache */ "./src/ajax/security/AuthCache.ts");
 /**
  * How does web auth work
  *
@@ -76578,6 +77876,8 @@ const WebsiteSignUpSecurityHandle_1 = __webpack_require__(/*! ../ajax/security/W
  */
 function fluxWebsiteSignInAuthorization(email, password, token) {
     return __awaiter(this, void 0, void 0, function* () {
+        // Clear any existing cached auth for fresh sign-in
+        AuthCache_1.AuthCache.clearCache();
         return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
             try {
                 let fma = FluxTokenBackend_1.FluxTokenBackend.getFluxTokebBackendInstance();
@@ -76650,8 +77950,10 @@ function fluxWebsite2fa(number, token) {
                 const days = minutes / (24 * 60);
                 handle.twoFa = number;
                 yield fma.authorizeWebsiteUser();
-                localStorage.setItem("2FA", "PRESENT");
+                SessionStorage_1.SessionStorage.set2FAPresent();
                 fma.isAuthenticated = true;
+                // Cache the authenticated instance after 2FA
+                AuthCache_1.AuthCache.clearCache(); // Clear any partial auth
                 resolve(fma);
             }
             catch (e) {
@@ -76668,7 +77970,8 @@ function fluxWebsiteSignUp(email, password, token, additionalInfo) {
         //Setup email creation and checks
         fma.securityHandle = handle;
         yield fma.signUp();
-        let publicKey = localStorage.getItem("PUB_KEY");
+        const creds = SessionStorage_1.SessionStorage.getSessionCredentials();
+        let publicKey = creds.clientEncryptionKey;
         if (!publicKey || publicKey === "" || publicKey === "null") {
             throw "Email already in use, please sign in";
         }
@@ -76691,26 +77994,32 @@ function fluxWebsiteSignUp(email, password, token, additionalInfo) {
 exports.fluxWebsiteSignUp = fluxWebsiteSignUp;
 function fluxWebsiteCookieAuthorization() {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                let privKey, pubKey, publicKey;
-                privKey = localStorage.getItem("XAUTH_KEY_PRIV");
-                pubKey = localStorage.getItem("XAUTH_KEY_PUB");
-                publicKey = localStorage.getItem("PUB_KEY");
-                let fma = FluxTokenBackend_1.FluxTokenBackend.getFluxTokebBackendInstance();
-                let handle = new WebsiteSecurityHandle_1.WebsiteSecurityHandle(publicKey, undefined, {
-                    publicKey: pubKey,
-                    privateKey: privKey,
-                });
-                yield handle.establishReauth();
-                fma.securityHandle = handle;
-                yield fma.authorizeWebsiteUser();
-                fma.isAuthenticated = true;
-                resolve(fma);
-            }
-            catch (e) {
-                reject(e);
-            }
+        return AuthCache_1.AuthCache.getOrCreateAuthenticatedInstance(() => __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+                try {
+                    const creds = SessionStorage_1.SessionStorage.getSessionCredentials();
+                    if (!creds.clientDecryptionKey || !creds.serverEncryptionKey || !creds.clientEncryptionKey) {
+                        reject(new Error("No valid session credentials found"));
+                        return;
+                    }
+                    let fma = FluxTokenBackend_1.FluxTokenBackend.getFluxTokebBackendInstance();
+                    // Create a new handle with saved auth token loaded
+                    let handle = new WebsiteSecurityHandle_1.WebsiteSecurityHandle(creds.clientEncryptionKey, undefined, {
+                        publicKey: creds.serverEncryptionKey,
+                        privateKey: creds.clientDecryptionKey,
+                    }, undefined, true // Load saved auth token from SessionStorage
+                    );
+                    fma.securityHandle = handle;
+                    yield fma.authorizeWebsiteUser();
+                    fma.isAuthenticated = true;
+                    resolve(fma);
+                }
+                catch (e) {
+                    // Clear cache on auth failure
+                    AuthCache_1.AuthCache.clearCache();
+                    reject(e);
+                }
+            }));
         }));
     });
 }
@@ -76881,6 +78190,14 @@ function fluxRemovePaymentMethod(fma, paymentMethodId) {
     });
 }
 exports.fluxRemovePaymentMethod = fluxRemovePaymentMethod;
+/**
+ * Logout and clear all session data
+ * Clears both localStorage (session credentials, auth token) and in-memory cache
+ */
+function fluxWebsiteLogout() {
+    SessionStorage_1.SessionStorage.clearSession();
+}
+exports.fluxWebsiteLogout = fluxWebsiteLogout;
 
 
 /***/ }),

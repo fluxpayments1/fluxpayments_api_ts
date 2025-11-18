@@ -355,5 +355,25 @@ export class FluxComms<A extends SecurityHandler> {
             fi
         )
     }
+
+    public async sendChatStreamingMessage(
+        message: string,
+        onChunk: (chunk: { content: string; done: boolean; conversationId?: number; title?: string }) => void,
+        conversationId?: number
+    ): Promise<void> {
+        const { ChatRequest } = await import('../ajax/Requests/ChatRequest');
+        const { ChatResponse } = await import('../ajax/Responses/ChatResponse');
+        
+        return CMMT.fetchStreaming(
+            ChatRequest,
+            ChatResponse,
+            "chat",
+            "POST",
+            this._securityHandle,
+            onChunk,
+            message,
+            conversationId
+        );
+    }
 }
 

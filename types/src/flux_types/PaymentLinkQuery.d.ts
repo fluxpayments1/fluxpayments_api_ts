@@ -21,6 +21,7 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
         accountId: number;
         isInvoice: boolean;
         dueDate: number;
+        currentStatus: string;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
     };
@@ -37,6 +38,7 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
     accountId: number;
     isInvoice: boolean;
     dueDate: number;
+    currentStatus: string;
     qbInvoiceId: string;
     hasBeenSyncedToQuickbooks: boolean;
     objectType: string;

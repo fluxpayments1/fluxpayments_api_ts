@@ -35,4 +35,10 @@ export declare class FluxComms<A extends SecurityHandler> {
     updateObjects<T extends IFlux>(ob: T | T[], securityHandle?: SecurityHandler): Promise<T[]>;
     getMetadata(metadataNames: string[]): Promise<string[]>;
     updateProductQuantity(multiplier: number, quantity: number, fi: FluxIdentifier): Promise<Product[]>;
+    sendChatStreamingMessage(message: string, onChunk: (chunk: {
+        content: string;
+        done: boolean;
+        conversationId?: number;
+        title?: string;
+    }) => void, conversationId?: number): Promise<void>;
 }

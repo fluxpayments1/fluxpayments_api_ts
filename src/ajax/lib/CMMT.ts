@@ -24,7 +24,7 @@ import { SecurityHandler } from "../../ajax/security/SecurityHandler";
 import { AjaxRequestHandle } from "./AjaxRequestHandle";
 import { RequestBody } from "../../ajax/Requests/RequestBody";
 import { ResponseBody } from "../../ajax/Responses/ResponseBody";
-import { AxiosRequestConfig, Axios, HttpStatusCode } from "axios";
+import { AxiosRequestConfig, Axios, HttpStatusCode, AxiosHeaders } from "axios";
 import cloneDeep from 'lodash/cloneDeep';
 import { WebSocket, WebSocketServer } from 'ws'
 import * as https from 'https'
@@ -34,6 +34,7 @@ import { IFlux } from "../../lib/IFlux";
 
 export class CMMT {
     private static readonly BASE_URL: string = env.API_CONNECTION_ENDPOINT_PROD
+    private static readonly AI_BASE_URL: string = env.AI_CONNECTION_ENDPOINT_PROD
     private static readonly WEBSOCKET_BASE_URL: string = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD
     private static isBrowser = typeof window !== 'undefined' && typeof window.document !== 'undefined';
     private static getPath(arg): string {
@@ -44,6 +45,11 @@ export class CMMT {
 
 
         return CMMT.BASE_URL.concat(arg).concat(this.isBrowser ? "Web" : "");
+    }
+
+    private static getAIPath(arg): string {
+        // AI endpoints don't use the "Web" suffix
+        return CMMT.AI_BASE_URL.concat(arg);
     }
 
     public static async sendWsCommMessage<U extends RequestBody, V extends ResponseBody>(
@@ -277,6 +283,8 @@ export class CMMT {
 
                 let axiosResponse = await axios.request<string, any>(config);
 
+
+
                 if (axiosResponse.status === 200) {
                     let decodedResponse = await arh.securityHandler.decodeResponse(axiosResponse.data as string, axiosResponse.headers);
                     let retVal = arh.response.setResponseJSON(decodedResponse);
@@ -288,6 +296,122 @@ export class CMMT {
                 reject(error);
             }
         });
+    }
+
+    public static async fetchStreaming<U extends RequestBody, V extends ResponseBody>(
+        req: new () => U,
+        res: new () => V,
+        url: string,
+        mtd: string,
+        secHandle: SecurityHandler,
+        onChunk: (chunk: any, done: boolean) => void,
+        ...arg: any
+    ): Promise<void> {
+        arg = cloneDeep(arg);
+
+        try {
+            let arh = new AjaxRequestHandle(req, res, secHandle);
+            arh.request.loadClientData(...arg);
+            arh.method = mtd;
+            arh.path = url;
+
+            let hdrs = await arh.securityHandler.createHeaders();
+            const requestData = await arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs);
+
+            // Use native fetch API for streaming support
+            const fetchOptions: RequestInit = {
+                method: arh.method,
+                credentials: 'include',
+                headers: {
+                    ...Object.fromEntries(hdrs.entries()),
+                    'Content-Type': 'application/json',
+                },
+                body: requestData
+            };
+
+            const response = await fetch(env.AI_CONNECTION_ENDPOINT_PROD + arh.path, fetchOptions);
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+
+            // Get the response headers for decryption
+            const responseHeaders: Record<string, string> = {};
+            response.headers.forEach((value, key) => {
+                responseHeaders[key] = value;
+            });
+
+
+            // Process the streaming response
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+            let buffer = '';
+
+            if (!reader) {
+                throw new Error('Response body is not readable');
+            }
+
+            while (true) {
+                const { done, value } = await reader.read();
+
+                if (done) {
+                    // Process any remaining data in buffer
+                    if (buffer.trim()) {
+                        await this.processAndEmitChunk(buffer, arh, res, responseHeaders, onChunk);
+                    }
+                    break;
+                }
+
+
+                // Decode the chunk and add to buffer
+                buffer += decoder.decode(value, { stream: true });
+
+                // Process complete messages (delimited by \n)
+                let newlineIndex;
+                while ((newlineIndex = buffer.indexOf('\n')) !== -1) {
+                    let chunk = buffer.substring(0, newlineIndex).trim();
+                    buffer = buffer.substring(newlineIndex + 1);
+
+                    // Only process non-empty chunks that look like JSON
+                    if (chunk && chunk.startsWith('data:{')) {
+                        await this.processAndEmitChunk(chunk.substring(5), arh, res, responseHeaders, onChunk);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error('Streaming error:', error);
+            throw error;
+        }
+    }
+
+    private static async processAndEmitChunk<U extends RequestBody, V extends ResponseBody>(
+        encryptedChunk: string,
+        arh: AjaxRequestHandle<U, V, SecurityHandler>,
+        resConstructor: new () => V,
+        responseHeaders: Record<string, string>,
+        onChunk: (chunk: any, done: boolean) => void
+    ): Promise<void> {
+        try {
+            //turn responseHeaders to map (case-insensitive)
+            const responseHeadersMap: AxiosHeaders = new AxiosHeaders();
+            for (const [key, value] of Object.entries(responseHeaders)) {
+                responseHeadersMap.set(key, value);
+            }
+
+            // Decrypt the chunk immediately
+            const decodedResponse = await arh.securityHandler.decodeResponse(encryptedChunk, responseHeadersMap);
+            
+            // Parse the decrypted response and create a response object
+            const responseObj = new resConstructor();
+            responseObj.setResponseJSON(decodedResponse);
+            // Get the client return value and pass it to the callback
+            const clientValue = responseObj.getClientReturnValue();
+            onChunk(clientValue, false);
+        } catch (error) {
+            console.error('Error processing chunk:', error);
+            // Continue processing other chunks even if one fails
+        }
     }
 
 

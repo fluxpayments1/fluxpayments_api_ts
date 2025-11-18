@@ -21,6 +21,7 @@
  */
 export { ResponseBodyBase } from "./ResponseBodyBase";
 export { ResponseBody } from "./ResponseBody";
+export { ChatResponse } from "./ChatResponse";
 export { GenericCreatorResponse } from "./GenericCreatorResponse";
 export { GenAuthRes } from "./GenAuthRes";
 export { GenericGetterResponse } from "./GenericGetterResponse";

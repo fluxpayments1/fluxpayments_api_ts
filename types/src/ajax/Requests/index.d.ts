@@ -1,6 +1,7 @@
 export { AuthCookieRequst } from "./AuthCookieRequest";
 export { CheckWebsiteAuthCookieRequest } from "./CheckWebsiteAuthCookieRequest";
 export { ChngProdInvCntRequest } from "./ChngProdInvCntRequest";
+export { ChatRequest } from "./ChatRequest";
 export { CreateSessionRequest } from "./CreateSessionRequest";
 export { CreateTransactionRequest } from "./CreateTransactionRequest";
 export { GenAuthReq } from "./GenAuthReq";
