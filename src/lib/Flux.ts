@@ -359,7 +359,8 @@ export class FluxComms<A extends SecurityHandler> {
     public async sendChatStreamingMessage(
         message: string,
         onChunk: (chunk: { content: string; done: boolean; conversationId?: number; title?: string }) => void,
-        conversationId?: number
+        conversationId?: number,
+        isSupportTicket?: boolean
     ): Promise<void> {
         const { ChatRequest } = await import('../ajax/Requests/ChatRequest');
         const { ChatResponse } = await import('../ajax/Responses/ChatResponse');
@@ -372,7 +373,8 @@ export class FluxComms<A extends SecurityHandler> {
             this._securityHandle,
             onChunk,
             message,
-            conversationId
+            conversationId,
+            isSupportTicket
         );
     }
 }

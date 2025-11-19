@@ -40,5 +40,5 @@ export declare class FluxComms<A extends SecurityHandler> {
         done: boolean;
         conversationId?: number;
         title?: string;
-    }) => void, conversationId?: number): Promise<void>;
+    }) => void, conversationId?: number, isSupportTicket?: boolean): Promise<void>;
 }

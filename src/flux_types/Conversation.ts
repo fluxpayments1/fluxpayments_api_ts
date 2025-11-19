@@ -17,6 +17,7 @@ export class Conversation extends FluxType implements IConversation {
             chatType: this.chatType,
             lastMessageAt: this.lastMessageAt,
             lastMessageText: this.lastMessageText,
+            isSupportTicket: this.isSupportTicket,
             activeStatus: this.activeStatus,
             metadata: this.metadata,
             version: this.version,
@@ -31,6 +32,7 @@ export class Conversation extends FluxType implements IConversation {
     public chatType?: 'ask' | 'support' | 'agent';
     public lastMessageAt?: Date | string;
     public lastMessageText?: string;
+    public isSupportTicket?: boolean;
     public activeStatus?: boolean;
     public metadata?: string;
     public version?: number;
