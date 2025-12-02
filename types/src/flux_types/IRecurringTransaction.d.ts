@@ -8,6 +8,7 @@ export interface IRecurringTransaction {
     paymentLinkId?: number;
     paymentLink?: PaymentLink;
     transactions?: Transaction[];
+    isCurrent: boolean;
     recurringAmount?: number;
     recurringTaxAmount?: number;
     originalTransactionId?: number;

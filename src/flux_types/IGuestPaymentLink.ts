@@ -32,6 +32,7 @@ export interface IGuestPaymentLink {
     updateAccInfo: boolean;
     isReusable: boolean;
     processingFeeInversion: boolean;
+    isProcessingFeeEnabled?: boolean;
     authAttempts: number;
     updateAddInfo: boolean;
     enableCrypto: boolean;

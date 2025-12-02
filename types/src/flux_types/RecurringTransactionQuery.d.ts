@@ -12,6 +12,7 @@ export declare class RecurringTransactionQuery extends BaseQuery<RecurringTransa
         originalTransactionId: number;
         productId: number;
         createdAt: number;
+        isCurrent: boolean;
         productDumpId: number;
         otplId: number;
         status: any;
@@ -27,6 +28,7 @@ export declare class RecurringTransactionQuery extends BaseQuery<RecurringTransa
     recurringTaxAmount: number;
     originalTransactionId: number;
     productId: number;
+    isCurrent: boolean;
     productDumpId: number;
     otplId: number;
     status: any;

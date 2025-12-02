@@ -8,6 +8,7 @@ import { ITransaction } from "./ITransaction";
 import { PaymentMethod } from "./PaymentMethod";
 import { Product } from "./Product";
 export declare class Transaction extends FluxType implements ITransaction {
+    transactionType: string;
     getDispName(): string;
     obName: string;
     txnHash: string;
@@ -159,6 +160,7 @@ export declare class Transaction extends FluxType implements ITransaction {
         baseTransaction: number;
         accountSession: string;
         oneTimeUseToken: string;
+        transactionType: string;
         createdAt: number;
         currency: string;
         currencyId: number;

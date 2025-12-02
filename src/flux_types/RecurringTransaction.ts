@@ -66,6 +66,7 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
     recurringTaxAmount: number;
     nextProcessDate: Date;
     originalTransactionId: number;
+    isCurrent: boolean;
     accountId: number;
     paymentLinkId: number;
     paymentLink: PaymentLink;

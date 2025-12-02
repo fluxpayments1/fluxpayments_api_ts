@@ -55,4 +55,5 @@ export interface IPaymentLink {
     qbInvoiceId?: string;
     hasBeenSyncedToQuickbooks?: boolean;
     processingFeeInversion: boolean;
+    isProcessingFeeEnabled?: boolean;
 }

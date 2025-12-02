@@ -70,7 +70,7 @@ export class AuthCache {
 }
 
 // Clear cache when page unloads (browser only)
-if (typeof window !== 'undefined') {
+if (typeof window !== 'undefined' && window.addEventListener) {
     window.addEventListener('beforeunload', () => {
         AuthCache.clearCache();
     });

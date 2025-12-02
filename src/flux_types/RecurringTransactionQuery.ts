@@ -37,6 +37,7 @@ export class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> i
             originalTransactionId: this.originalTransactionId,
             productId: this.productId,
             createdAt: this.createdAt,
+            isCurrent: this.isCurrent,
             productDumpId: this.productDumpId,
             otplId: this.otplId,
             status: this.status,
@@ -53,6 +54,7 @@ export class RecurringTransactionQuery extends BaseQuery<RecurringTransaction> i
     recurringTaxAmount: number;
     originalTransactionId: number;
     productId: number;
+    isCurrent: boolean;
     productDumpId: number;
     otplId: number;
     status: any;

@@ -37,7 +37,7 @@ import { ProductDump } from "./ProductDump";
 
 
 export class Transaction extends FluxType implements ITransaction {
-
+    transactionType: string;
     public getDispName(): string {
         return this.txnHash
     }
@@ -319,6 +319,7 @@ export class Transaction extends FluxType implements ITransaction {
             baseTransaction: this.baseTransaction,
             accountSession: this.accountSession,
             oneTimeUseToken: this.oneTimeUseToken,
+            transactionType: this.transactionType,
             createdAt: this.createdAt,
             currency: this.currency,
             currencyId: this.currencyId,

@@ -18,6 +18,7 @@ export interface ITransaction {
     currency: string;
     approvalStatus: string;
     txnHash: string;
+    transactionType: string;
     currencyId: number;
     shippingAddress: Address;
     products: Product | Product[];
