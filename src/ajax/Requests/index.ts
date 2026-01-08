@@ -27,3 +27,4 @@ export { CreatePaymentMethodRequest } from "./CreatePaymentMethodRequest";
 export { CancelSubscriptionRequest } from "./CancelSubscriptionRequest";
 export { RemovePaymentMethodRequest } from "./RemovePaymentMethodRequest";
 export { UpdateAccountInformationRequest } from "./UpdateAccountInformationRequest";
+export { ResendTransactionEmailRequest } from "./ResendTransactionEmailRequest";

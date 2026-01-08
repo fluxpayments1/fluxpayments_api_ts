@@ -377,5 +377,28 @@ export class FluxComms<A extends SecurityHandler> {
             isSupportTicket
         );
     }
+
+    /**
+     * Resend transaction confirmation email with PDF attachments
+     * @param transactionId The ID of the transaction to resend email for
+     * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email
+     */
+    public async resendTransactionEmail(transactionId: number, recipientType: "MERCHANT" | "CUSTOMER"): Promise<{ message: string }> {
+        const { ResendTransactionEmailRequest } = await import('../ajax/Requests/ResendTransactionEmailRequest');
+        const { ResendTransactionEmailResponse } = await import('../ajax/Responses/ResendTransactionEmailResponse');
+        
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
+        return CMMT.fetch<{ message: string }, typeof ResendTransactionEmailRequest.prototype, typeof ResendTransactionEmailResponse.prototype>(
+            ResendTransactionEmailRequest,
+            ResendTransactionEmailResponse,
+            "resendTransactionEmail",
+            "POST",
+            isolatedHandle,
+            transactionId,
+            recipientType
+        );
+    }
 }
 

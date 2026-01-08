@@ -41,3 +41,4 @@ export { CreatePaymentMethodResponse, PaymentMethod } from './CreatePaymentMetho
 export { CancelSubscriptionResponse } from './CancelSubscriptionResponse'
 export { RemovePaymentMethodResponse } from './RemovePaymentMethodResponse'
 export { UpdateAccountInformationResponse } from './UpdateAccountInformationResponse'
+export { ResendTransactionEmailResponse } from './ResendTransactionEmailResponse'
