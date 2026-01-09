@@ -400,5 +400,49 @@ export class FluxComms<A extends SecurityHandler> {
             recipientType
         );
     }
+
+    /**
+     * Resend payment request email for an unpaid payment link
+     * @param paymentLinkId The ID of the payment link
+     */
+    public async resendPaymentRequest(paymentLinkId: number): Promise<{ message: string }> {
+        const { ResendPaymentRequestRequest } = await import("../ajax/Requests/ResendPaymentRequestRequest");
+        const { ResendPaymentRequestResponse } = await import("../ajax/Responses/ResendPaymentRequestResponse");
+        
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
+        return CMMT.fetch<{ message: string }, typeof ResendPaymentRequestRequest.prototype, typeof ResendPaymentRequestResponse.prototype>(
+            ResendPaymentRequestRequest,
+            ResendPaymentRequestResponse,
+            "resendPaymentRequest",
+            "POST",
+            isolatedHandle,
+            paymentLinkId
+        );
+    }
+
+    /**
+     * Send invoice email for an unpaid payment link
+     * @param paymentLinkId The ID of the payment link
+     * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email
+     */
+    public async sendInvoiceEmail(paymentLinkId: number, recipientType: "MERCHANT" | "CUSTOMER"): Promise<{ message: string }> {
+        const { SendInvoiceEmailRequest } = await import("../ajax/Requests/SendInvoiceEmailRequest");
+        const { SendInvoiceEmailResponse } = await import("../ajax/Responses/SendInvoiceEmailResponse");
+        
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
+        return CMMT.fetch<{ message: string }, typeof SendInvoiceEmailRequest.prototype, typeof SendInvoiceEmailResponse.prototype>(
+            SendInvoiceEmailRequest,
+            SendInvoiceEmailResponse,
+            "sendInvoiceEmail",
+            "POST",
+            isolatedHandle,
+            paymentLinkId,
+            recipientType
+        );
+    }
 }
 

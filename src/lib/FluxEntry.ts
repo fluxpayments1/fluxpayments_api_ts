@@ -509,6 +509,8 @@ export async function fluxReactNativeSignInAuthorization(
 
         fma.securityHandle = handle;
 
+        console.log("authorizeWebsiteUser", fma.securityHandle);
+
         let res = await fma.authorizeWebsiteUser();
         fma.isAuthenticated = true;
 
