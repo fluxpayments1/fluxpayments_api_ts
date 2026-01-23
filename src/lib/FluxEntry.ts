@@ -647,5 +647,7 @@ export async function fluxRemovePaymentMethod(fma: FluxTokenBackend<UserSecurity
  * Clears both localStorage (session credentials, auth token) and in-memory cache
  */
 export function fluxWebsiteLogout(): void {
+  // Clear websocket connection
+  FluxWebsockets.clearInstance();
   SessionStorage.clearSession();
 }

@@ -64,6 +64,8 @@ export class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
 
     private websocketConnection: WebSocket;
     private static initializationSecHandler: SecurityHandlerBase;
+    private static cachedInstance: FluxWebsockets | null = null;
+    private static instancePromise: Promise<FluxWebsockets> | null = null;
     private generalSecHandler: GenAuthDataSecurityHandle = new GenAuthDataSecurityHandle()
     private expectingConnectionClose: Boolean = false;
     constructor() {
@@ -146,6 +148,9 @@ export class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
         this.websocketConnection.removeAllListeners()
         this.websocketConnection.close()
         this.removeAllListeners()
+        // Clear the cached instance since we're closing
+        FluxWebsockets.cachedInstance = null;
+        FluxWebsockets.instancePromise = null;
     }
 
     public static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string) {
@@ -154,7 +159,11 @@ export class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
     }
 
     public static initializeWebSecHandle(x: SecurityHandlerBase) {
-        FluxWebsockets.initializationSecHandler = x
+        // Only update if not already set - the security handle should remain the same
+        // for the duration of the session. If we need a new handle, use clearInstance() first.
+        if (!FluxWebsockets.initializationSecHandler) {
+            FluxWebsockets.initializationSecHandler = x;
+        }
     }
 
 
@@ -198,18 +207,21 @@ export class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
             }
 
             this.websocketConnection.onclose = () => {
-                console.log('websocket closed, reopening')
+                console.log('websocket closed')
+                // Clear cached instance so next getInstance() creates a fresh connection
+                FluxWebsockets.cachedInstance = null;
+                FluxWebsockets.instancePromise = null;
                 if (!this.expectingConnectionClose) {
-                    // setTimeout(() => this.initializeConnection(), 1000)
                     this.emit("websocketClosed")
                 }
             }
 
             this.websocketConnection.onerror = (err) => {
                 console.log("websocket error", err)
-                console.log('websocket closed, reopening')
+                // Clear cached instance on error
+                FluxWebsockets.cachedInstance = null;
+                FluxWebsockets.instancePromise = null;
                 if (!this.expectingConnectionClose) {
-                    // setTimeout(() => this.initializeConnection(), 1000)
                     this.emit("websocketClosed")
                 }
             }
@@ -227,6 +239,9 @@ export class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
             })
 
             this.websocketConnection.on('close', () => {
+                // Clear cached instance so next getInstance() creates a fresh connection
+                FluxWebsockets.cachedInstance = null;
+                FluxWebsockets.instancePromise = null;
                 if (!this.expectingConnectionClose) {
                     setTimeout(() => this.initializeConnection(), 1000)
                 }
@@ -238,12 +253,59 @@ export class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
         }
     }
 
-    public static async getInstance() {
+    public static async getInstance(): Promise<FluxWebsockets> {
         if (!FluxWebsockets.initializationSecHandler) throw new Error("must initialize security handle")
-        let instance = new FluxWebsockets();
-        await instance.initializeConnection();
-
-        return instance;
+        
+        // Return cached instance if it exists and connection is open
+        if (FluxWebsockets.cachedInstance) {
+            const ws = FluxWebsockets.cachedInstance.websocketConnection;
+            // Check if websocket is still connected (browser vs Node.js have different APIs)
+            const isOpen = typeof window !== 'undefined' 
+                ? ws && ws.readyState === WebSocket.OPEN
+                : ws && ws.readyState === 1; // WebSocket.OPEN = 1
+            
+            if (isOpen) {
+                return FluxWebsockets.cachedInstance;
+            }
+            // Connection is closed, clear the cache
+            FluxWebsockets.cachedInstance = null;
+        }
+        
+        // If there's already an initialization in progress, wait for it
+        if (FluxWebsockets.instancePromise) {
+            return FluxWebsockets.instancePromise;
+        }
+        
+        // Create new instance and cache the promise to prevent concurrent initializations
+        FluxWebsockets.instancePromise = (async () => {
+            try {
+                const instance = new FluxWebsockets();
+                await instance.initializeConnection();
+                FluxWebsockets.cachedInstance = instance;
+                return instance;
+            } finally {
+                FluxWebsockets.instancePromise = null;
+            }
+        })();
+        
+        return FluxWebsockets.instancePromise;
+    }
+    
+    /**
+     * Clear the cached instance. Call this when you want to force a new connection.
+     */
+    public static clearInstance(): void {
+        if (FluxWebsockets.cachedInstance) {
+            FluxWebsockets.cachedInstance.expectingConnectionClose = true;
+            try {
+                FluxWebsockets.cachedInstance.websocketConnection?.close();
+            } catch (e) {
+                // Ignore close errors
+            }
+            FluxWebsockets.cachedInstance.removeAllListeners();
+            FluxWebsockets.cachedInstance = null;
+        }
+        FluxWebsockets.instancePromise = null;
     }
 
 }
