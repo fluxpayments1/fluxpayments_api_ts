@@ -59,7 +59,9 @@ export class Merchant extends FluxType implements IMerchant {
             paymentLinkColor: this.paymentLinkColor,
             defaultTaxRateId: this.defaultTaxRateId,
             cryptoWallets: this.cryptoWallets,
-            cryptoCurrencies: this.cryptoCurrencies
+            cryptoCurrencies: this.cryptoCurrencies,
+            passthroughAchFeeEnabled: this.passthroughAchFeeEnabled,
+            passthroughCardFeeEnabled: this.passthroughCardFeeEnabled
         };
     }
 
@@ -110,6 +112,8 @@ export class Merchant extends FluxType implements IMerchant {
     defaultTaxRateId: number;
     cryptoWallets: Wallet   [];
     cryptoCurrencies: Currency[];
+    passthroughAchFeeEnabled: boolean;
+    passthroughCardFeeEnabled: boolean;
     protected objectType: string = "merchant";
 
     public constructor(merchant?: Partial<Merchant>) {

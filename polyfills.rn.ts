@@ -12,10 +12,6 @@ if (typeof self === 'undefined') {
   (global as any).self = global;
 }
 
-// Define window for browser-specific libraries
-if (typeof window === 'undefined') {
-  (global as any).window = global;
-}
 
 // Minimal process polyfill for React Native
 if (typeof process === 'undefined') {

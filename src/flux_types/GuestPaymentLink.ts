@@ -83,6 +83,10 @@ export class GuestPaymentLink extends FluxType implements IGuestPaymentLink {
             minutesToExpire: this.minutesToExpire,
             processingFeeInversion: this.processingFeeInversion,
             isProcessingFeeEnabled: this.isProcessingFeeEnabled,
+            processingFeeInversionAch: this.processingFeeInversionAch,
+            processingFeeInversionCard: this.processingFeeInversionCard,
+            isProcessingFeeEnabledAch: this.isProcessingFeeEnabledAch,
+            isProcessingFeeEnabledCard: this.isProcessingFeeEnabledCard,
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
             qbInvoiceId: this.qbInvoiceId,
@@ -140,6 +144,10 @@ export class GuestPaymentLink extends FluxType implements IGuestPaymentLink {
     authAttempts: number;
     processingFeeInversion: boolean;
     isProcessingFeeEnabled: boolean;
+    processingFeeInversionAch: boolean;
+    processingFeeInversionCard: boolean;
+    isProcessingFeeEnabledAch: boolean;
+    isProcessingFeeEnabledCard: boolean;
     isInvoice: boolean;
     dueDate: number;
     qbInvoiceId: string;

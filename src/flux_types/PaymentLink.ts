@@ -54,6 +54,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             objectType: this.objectType,
             uniqueId: this.uniqueId,
             paymentLink: this.paymentLink,
+            paymentLinkUrl: this.paymentLinkUrl,
             accountId: this.accountId,
             createdAt: this.createdAt,
             products: this.products,
@@ -80,9 +81,14 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             isInvoice: this.isInvoice,
             processingFeeInversion: this.processingFeeInversion,
             isProcessingFeeEnabled: this.isProcessingFeeEnabled,
+            processingFeeInversionAch: this.processingFeeInversionAch,
+            processingFeeInversionCard: this.processingFeeInversionCard,
+            isProcessingFeeEnabledAch: this.isProcessingFeeEnabledAch,
+            isProcessingFeeEnabledCard: this.isProcessingFeeEnabledCard,
             dueDate: this.dueDate,
             qbInvoiceId: this.qbInvoiceId,
-            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
+            name: this.name
         };
     }
     wallets: Wallet[]
@@ -97,6 +103,10 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     taxRatesId: number;
     processingFeeInversion: boolean;
     isProcessingFeeEnabled: boolean;
+    processingFeeInversionAch: boolean;
+    processingFeeInversionCard: boolean;
+    isProcessingFeeEnabledAch: boolean;
+    isProcessingFeeEnabledCard: boolean;
     requireAccountInformation: boolean
     disableACH: boolean;
     disableCard: boolean;
@@ -105,6 +115,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     taxAmount: number;
     minutesToExpire: number;
     paymentLink: string;
+    paymentLinkUrl: string;
     requireShippingAddress: boolean;
     redirectUrl: string;
     oneTimeUse: boolean;
@@ -119,6 +130,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     dueDate: number;
     qbInvoiceId: string;
     hasBeenSyncedToQuickbooks: boolean;
+    name: string;
     protected objectType: string = "payment_link";
 
     public constructor(pl?: Partial<PaymentLink>) {

@@ -30,3 +30,4 @@ export { UpdateAccountInformationRequest } from "./UpdateAccountInformationReque
 export { ResendTransactionEmailRequest } from "./ResendTransactionEmailRequest";
 export { ResendPaymentRequestRequest } from "./ResendPaymentRequestRequest";
 export { SendInvoiceEmailRequest } from "./SendInvoiceEmailRequest";
+export { DownloadInvoiceRequest } from "./DownloadInvoiceRequest";

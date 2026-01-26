@@ -56,4 +56,9 @@ export interface IPaymentLink {
     hasBeenSyncedToQuickbooks?: boolean;
     processingFeeInversion: boolean;
     isProcessingFeeEnabled?: boolean;
+    processingFeeInversionAch?: boolean;
+    processingFeeInversionCard?: boolean;
+    isProcessingFeeEnabledAch?: boolean;
+    isProcessingFeeEnabledCard?: boolean;
+    name?: string;
 }

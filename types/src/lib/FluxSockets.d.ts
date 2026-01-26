@@ -34,6 +34,8 @@ export interface FluxSocketImpl {
 export declare class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
     private websocketConnection;
     private static initializationSecHandler;
+    private static cachedInstance;
+    private static instancePromise;
     private generalSecHandler;
     private expectingConnectionClose;
     constructor();
@@ -45,4 +47,8 @@ export declare class FluxWebsockets extends EventEmitter implements FluxSocketIm
     static initializeWebSecHandle(x: SecurityHandlerBase): void;
     private initializeConnection;
     static getInstance(): Promise<FluxWebsockets>;
+    /**
+     * Clear the cached instance. Call this when you want to force a new connection.
+     */
+    static clearInstance(): void;
 }

@@ -48,4 +48,6 @@ export interface IMerchant {
     defaultTaxRateId: number;
     cryptoWallets: Wallet[];
     cryptoCurrencies: Currency[];
+    passthroughAchFeeEnabled: boolean;
+    passthroughCardFeeEnabled: boolean;
 }

@@ -54,6 +54,8 @@ export declare class Merchant extends FluxType implements IMerchant {
         defaultTaxRateId: number;
         cryptoWallets: Wallet[];
         cryptoCurrencies: Currency[];
+        passthroughAchFeeEnabled: boolean;
+        passthroughCardFeeEnabled: boolean;
     };
     id: number;
     merchantApproved: boolean;
@@ -102,6 +104,8 @@ export declare class Merchant extends FluxType implements IMerchant {
     defaultTaxRateId: number;
     cryptoWallets: Wallet[];
     cryptoCurrencies: Currency[];
+    passthroughAchFeeEnabled: boolean;
+    passthroughCardFeeEnabled: boolean;
     protected objectType: string;
     constructor(merchant?: Partial<Merchant>);
 }

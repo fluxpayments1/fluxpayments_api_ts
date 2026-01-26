@@ -444,5 +444,29 @@ export class FluxComms<A extends SecurityHandler> {
             recipientType
         );
     }
+
+    /**
+     * Download invoice or receipt PDF for a completed payment
+     * @param paymentLinkId The UUID of the payment link
+     * @param documentType "INVOICE" or "RECEIPT" - type of document to download
+     * @returns Object containing base64 PDF, filename, and message
+     */
+    public async downloadInvoice(paymentLinkId: string, documentType: "INVOICE" | "RECEIPT" = "INVOICE"): Promise<{ pdfBase64: string; filename: string; message: string }> {
+        const { DownloadInvoiceRequest } = await import("../ajax/Requests/DownloadInvoiceRequest");
+        const { DownloadInvoiceResponse } = await import("../ajax/Responses/DownloadInvoiceResponse");
+        
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
+        return CMMT.fetch<{ pdfBase64: string; filename: string; message: string }, typeof DownloadInvoiceRequest.prototype, typeof DownloadInvoiceResponse.prototype>(
+            DownloadInvoiceRequest,
+            DownloadInvoiceResponse,
+            "downloadInvoiceSensitiveData",
+            "POST",
+            isolatedHandle,
+            paymentLinkId,
+            documentType
+        );
+    }
 }
 

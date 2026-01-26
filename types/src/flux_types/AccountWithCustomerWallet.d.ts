@@ -22,6 +22,8 @@ export declare class AccountWithCustomerWallet extends Account {
         businessName: string;
         processingFeeExempt: boolean;
         serviceFeeExempt: boolean;
+        disableAchPassthrough: boolean;
+        disableCardPassthrough: boolean;
     };
     getDispName(): string;
     customerWallets: CustomerWallet[];

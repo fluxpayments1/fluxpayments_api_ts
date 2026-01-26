@@ -41,4 +41,38 @@ export declare class FluxComms<A extends SecurityHandler> {
         conversationId?: number;
         title?: string;
     }) => void, conversationId?: number, isSupportTicket?: boolean): Promise<void>;
+    /**
+     * Resend transaction confirmation email with PDF attachments
+     * @param transactionId The ID of the transaction to resend email for
+     * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email
+     */
+    resendTransactionEmail(transactionId: number, recipientType: "MERCHANT" | "CUSTOMER"): Promise<{
+        message: string;
+    }>;
+    /**
+     * Resend payment request email for an unpaid payment link
+     * @param paymentLinkId The ID of the payment link
+     */
+    resendPaymentRequest(paymentLinkId: number): Promise<{
+        message: string;
+    }>;
+    /**
+     * Send invoice email for an unpaid payment link
+     * @param paymentLinkId The ID of the payment link
+     * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email
+     */
+    sendInvoiceEmail(paymentLinkId: number, recipientType: "MERCHANT" | "CUSTOMER"): Promise<{
+        message: string;
+    }>;
+    /**
+     * Download invoice or receipt PDF for a completed payment
+     * @param paymentLinkId The UUID of the payment link
+     * @param documentType "INVOICE" or "RECEIPT" - type of document to download
+     * @returns Object containing base64 PDF, filename, and message
+     */
+    downloadInvoice(paymentLinkId: string, documentType?: "INVOICE" | "RECEIPT"): Promise<{
+        pdfBase64: string;
+        filename: string;
+        message: string;
+    }>;
 }

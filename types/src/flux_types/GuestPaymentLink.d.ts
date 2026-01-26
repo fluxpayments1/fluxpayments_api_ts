@@ -54,6 +54,10 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
         minutesToExpire: number;
         processingFeeInversion: boolean;
         isProcessingFeeEnabled: boolean;
+        processingFeeInversionAch: boolean;
+        processingFeeInversionCard: boolean;
+        isProcessingFeeEnabledAch: boolean;
+        isProcessingFeeEnabledCard: boolean;
         isInvoice: boolean;
         dueDate: number;
         qbInvoiceId: string;
@@ -109,6 +113,10 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
     authAttempts: number;
     processingFeeInversion: boolean;
     isProcessingFeeEnabled: boolean;
+    processingFeeInversionAch: boolean;
+    processingFeeInversionCard: boolean;
+    isProcessingFeeEnabledAch: boolean;
+    isProcessingFeeEnabledCard: boolean;
     isInvoice: boolean;
     dueDate: number;
     qbInvoiceId: string;

@@ -22,6 +22,8 @@ export declare class AccountWithAddress extends Account {
         businessName: string;
         processingFeeExempt: boolean;
         serviceFeeExempt: boolean;
+        disableAchPassthrough: boolean;
+        disableCardPassthrough: boolean;
     };
     addresses: Address[];
     protected objectType: string;

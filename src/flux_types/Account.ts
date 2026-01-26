@@ -70,7 +70,9 @@ export class Account extends FluxType implements IAccount {
             phoneNumber: this.phoneNumber,
             businessName: this.businessName,
             processingFeeExempt: this.processingFeeExempt,
-            serviceFeeExempt: this.serviceFeeExempt
+            serviceFeeExempt: this.serviceFeeExempt,
+            disableAchPassthrough: this.disableAchPassthrough,
+            disableCardPassthrough: this.disableCardPassthrough
         }
     }
 
@@ -86,6 +88,8 @@ export class Account extends FluxType implements IAccount {
     metadata: string;
     processingFeeExempt: boolean;
     serviceFeeExempt: boolean;
+    disableAchPassthrough: boolean;
+    disableCardPassthrough: boolean;
     accountEmail: string;
     firstName: string;
     middleName: string;

@@ -44,3 +44,4 @@ export { UpdateAccountInformationResponse } from './UpdateAccountInformationResp
 export { ResendTransactionEmailResponse } from './ResendTransactionEmailResponse'
 export { ResendPaymentRequestResponse } from './ResendPaymentRequestResponse'
 export { SendInvoiceEmailResponse } from './SendInvoiceEmailResponse'
+export { DownloadInvoiceResponse, DownloadInvoiceResult } from './DownloadInvoiceResponse'

@@ -34,6 +34,8 @@ export interface IAccount {
     currency?: string   
     processingFeeExempt?: boolean    
     serviceFeeExempt?: boolean
+    disableAchPassthrough?: boolean
+    disableCardPassthrough?: boolean
     firstName?: string
     middleName?: string
     isTaxExempt?: boolean

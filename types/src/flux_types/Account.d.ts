@@ -44,6 +44,8 @@ export declare class Account extends FluxType implements IAccount {
         businessName: string;
         processingFeeExempt: boolean;
         serviceFeeExempt: boolean;
+        disableAchPassthrough: boolean;
+        disableCardPassthrough: boolean;
     };
     getDispName(): string;
     isTaxExempt: boolean;
@@ -53,6 +55,8 @@ export declare class Account extends FluxType implements IAccount {
     metadata: string;
     processingFeeExempt: boolean;
     serviceFeeExempt: boolean;
+    disableAchPassthrough: boolean;
+    disableCardPassthrough: boolean;
     accountEmail: string;
     firstName: string;
     middleName: string;

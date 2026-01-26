@@ -18,3 +18,7 @@ export { CreatePaymentMethodResponse, PaymentMethod } from './CreatePaymentMetho
 export { CancelSubscriptionResponse } from './CancelSubscriptionResponse';
 export { RemovePaymentMethodResponse } from './RemovePaymentMethodResponse';
 export { UpdateAccountInformationResponse } from './UpdateAccountInformationResponse';
+export { ResendTransactionEmailResponse } from './ResendTransactionEmailResponse';
+export { ResendPaymentRequestResponse } from './ResendPaymentRequestResponse';
+export { SendInvoiceEmailResponse } from './SendInvoiceEmailResponse';
+export { DownloadInvoiceResponse, DownloadInvoiceResult } from './DownloadInvoiceResponse';

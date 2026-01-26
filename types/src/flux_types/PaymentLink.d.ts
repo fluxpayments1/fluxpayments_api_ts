@@ -12,6 +12,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         objectType: string;
         uniqueId: string;
         paymentLink: string;
+        paymentLinkUrl: string;
         accountId: number;
         createdAt: number;
         products: Product[];
@@ -38,9 +39,14 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         isInvoice: boolean;
         processingFeeInversion: boolean;
         isProcessingFeeEnabled: boolean;
+        processingFeeInversionAch: boolean;
+        processingFeeInversionCard: boolean;
+        isProcessingFeeEnabledAch: boolean;
+        isProcessingFeeEnabledCard: boolean;
         dueDate: number;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
+        name: string;
     };
     wallets: Wallet[];
     id: number;
@@ -54,6 +60,10 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     taxRatesId: number;
     processingFeeInversion: boolean;
     isProcessingFeeEnabled: boolean;
+    processingFeeInversionAch: boolean;
+    processingFeeInversionCard: boolean;
+    isProcessingFeeEnabledAch: boolean;
+    isProcessingFeeEnabledCard: boolean;
     requireAccountInformation: boolean;
     disableACH: boolean;
     disableCard: boolean;
@@ -62,6 +72,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     taxAmount: number;
     minutesToExpire: number;
     paymentLink: string;
+    paymentLinkUrl: string;
     requireShippingAddress: boolean;
     redirectUrl: string;
     oneTimeUse: boolean;
@@ -76,6 +87,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     dueDate: number;
     qbInvoiceId: string;
     hasBeenSyncedToQuickbooks: boolean;
+    name: string;
     protected objectType: string;
     constructor(pl?: Partial<PaymentLink>);
     static createInstanceLazy(acc: Partial<IPaymentLink>): Promise<PaymentLink>;
