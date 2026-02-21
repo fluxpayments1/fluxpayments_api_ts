@@ -62,6 +62,7 @@ export class Card extends FluxType implements ICard {
     payType: string;
     phoneNumber: string;
     oneTimeUseToken: string;
+    processorError: string; // Last decline error, if any
 
     public serialize() {
         return {
@@ -110,7 +111,8 @@ export class Card extends FluxType implements ICard {
             state: csd.state,
             zipCode: csd.zipCode,
             country: csd.country,
-            id: csd.id
+            id: csd.id,
+            processorError: csd.processorError // Last decline error
         })
         return card
     }

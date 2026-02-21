@@ -47,4 +47,5 @@ export interface ICustomerSensitiveData {
     objectType?: string,
     transactionId?: number,
     approvalStatus?: string,
+    processorError?: string, // Last decline error, if any
 }

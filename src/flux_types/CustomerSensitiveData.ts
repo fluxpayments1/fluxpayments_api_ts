@@ -85,6 +85,7 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
     state: string;
     zipCode: string;
     transactionId: number;
+    processorError: string; // Last decline error, if any
     objectType: string = "customer_sensitive_data";
 
 

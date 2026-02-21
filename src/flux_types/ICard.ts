@@ -46,4 +46,5 @@ export interface ICard {
     expiryDate: string,
     cardNumber: string,
     cvv: string,
+    processorError?: string, // Last decline error, if any
 }
