@@ -1,6 +1,7 @@
 import { FluxType } from './FluxType';
 import { IPaymentLink } from './IPaymentLink';
 import { Product } from './Product';
+import { ProductDump } from './ProductDump';
 import { Currency } from './Currency';
 import { Wallet } from './Wallet';
 export declare class PaymentLink extends FluxType implements IPaymentLink {
@@ -46,6 +47,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         dueDate: number;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
+        needsQbSync: boolean;
         name: string;
     };
     wallets: Wallet[];
@@ -82,11 +84,13 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     reusableLinkId: number;
     accountEmail: string;
     products: Product[];
+    productDumps: ProductDump[];
     currencies: Currency[];
     isInvoice: boolean;
     dueDate: number;
     qbInvoiceId: string;
     hasBeenSyncedToQuickbooks: boolean;
+    needsQbSync: boolean;
     name: string;
     protected objectType: string;
     constructor(pl?: Partial<PaymentLink>);

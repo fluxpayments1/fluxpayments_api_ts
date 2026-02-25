@@ -50,4 +50,6 @@ export interface IMerchant {
     cryptoCurrencies: Currency[];
     passthroughAchFeeEnabled: boolean;
     passthroughCardFeeEnabled: boolean;
+    invoiceThankYouMessage: string;
+    defaultSuppressEmail: boolean;
 }

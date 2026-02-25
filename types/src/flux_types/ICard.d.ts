@@ -20,4 +20,5 @@ export interface ICard {
     expiryDate: string;
     cardNumber: string;
     cvv: string;
+    processorError?: string;
 }

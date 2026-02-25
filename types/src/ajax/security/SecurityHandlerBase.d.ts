@@ -7,13 +7,13 @@ export declare abstract class SecurityHandlerBase implements SecurityHandler {
     static sha256(str: string, salt: string): string;
     static decryptAESBrowser(keyBase64: any, base64Nonce: any, encryptedData: any): Promise<string>;
     static encryptAESBrowser(keyBase64: any, base64Nonce: any, data: any): Promise<string>;
-    static base64ToArrayBuffer(base64: any): Uint8Array;
+    static base64ToArrayBuffer(base64: any): Uint8Array<ArrayBuffer>;
     static encryptAES(keyBase64: any, base64Nonce: any, data: any): string;
     static decryptAES(keyBase64: any, ivBase64: any, encryptedDataWithIVKeyTag: any): string;
     static utf8ToBase64(data: string): string;
     static encryptRsa(publicKeyPem: string, plaintext: string): string;
     static encryptRsaBrowser(publicKeyPem: any, plaintext: any): Promise<string>;
-    static pemToBuffer(pem: any): ArrayBufferLike;
+    static pemToBuffer(pem: any): ArrayBuffer;
     static arrayBufferToBase64(buffer: any): string;
     static generateRsaKeyPairBrowser(): Promise<{
         publicKey: string;

@@ -48,6 +48,7 @@ export declare class CustomerSensitiveData extends FluxType implements ICustomer
     state: string;
     zipCode: string;
     transactionId: number;
+    processorError: string;
     objectType: string;
     constructor(c?: Partial<ICustomerSensitiveData>);
     static createInstanceLazy(acc: Partial<ICustomerSensitiveData>): Promise<CustomerSensitiveData>;

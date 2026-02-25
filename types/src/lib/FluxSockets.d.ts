@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import { SecurityHandlerBase } from '../ajax/security';
 import { EmissionData } from '../flux_types/';
 import { EventEmitter } from 'events';

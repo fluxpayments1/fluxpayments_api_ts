@@ -446,7 +446,7 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
-     * Download invoice or receipt PDF for a completed payment
+     * Download invoice or receipt PDF for a completed payment (customer-facing)
      * @param paymentLinkId The UUID of the payment link
      * @param documentType "INVOICE" or "RECEIPT" - type of document to download
      * @returns Object containing base64 PDF, filename, and message
@@ -466,6 +466,90 @@ export class FluxComms<A extends SecurityHandler> {
             isolatedHandle,
             paymentLinkId,
             documentType
+        );
+    }
+
+    /**
+     * Download invoice or receipt PDF from merchant website
+     * @param documentType "INVOICE" or "RECEIPT" - type of document to download
+     * @param paymentLinkNumericId Optional: The numeric ID of the payment link
+     * @param transactionId Optional: The numeric ID of the transaction
+     * @returns Object containing base64 PDF, filename, and message
+     */
+    public async downloadInvoiceWeb(documentType: "INVOICE" | "RECEIPT" = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): Promise<{ pdfBase64: string; filename: string; message: string }> {
+        const { DownloadInvoiceWebRequest } = await import("../ajax/Requests/DownloadInvoiceWebRequest");
+        const { DownloadInvoiceResponse } = await import("../ajax/Responses/DownloadInvoiceResponse");
+        
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
+        return CMMT.fetch<{ pdfBase64: string; filename: string; message: string }, typeof DownloadInvoiceWebRequest.prototype, typeof DownloadInvoiceResponse.prototype>(
+            DownloadInvoiceWebRequest,
+            DownloadInvoiceResponse,
+            "downloadInvoice",
+            "POST",
+            isolatedHandle,
+            documentType,
+            paymentLinkNumericId,
+            transactionId
+        );
+    }
+
+    /**
+     * Mark an invoice/payment link as paid with an external payment method
+     * @param params Object containing paymentLinkId, paymentMethod, and optional referenceNumber and notes
+     * @returns Object containing the created transaction and a success message
+     */
+    public async markInvoiceAsPaidWeb(params: {
+        paymentLinkId: number;
+        paymentMethod: "WIRE" | "VENMO" | "ZELLE" | "PAYPAL" | "CHECK" | "CASH" | "OTHER";
+        referenceNumber?: string;
+        notes?: string;
+    }): Promise<{ transaction: any; message: string }> {
+        const { MarkInvoiceAsPaidRequest } = await import("../ajax/Requests/MarkInvoiceAsPaidRequest");
+        const { MarkInvoiceAsPaidResponse } = await import("../ajax/Responses/MarkInvoiceAsPaidResponse");
+        
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
+        return CMMT.fetch<{ transaction: any; message: string }, typeof MarkInvoiceAsPaidRequest.prototype, typeof MarkInvoiceAsPaidResponse.prototype>(
+            MarkInvoiceAsPaidRequest,
+            MarkInvoiceAsPaidResponse,
+            "markInvoiceAsPaid",
+            "POST",
+            isolatedHandle,
+            params
+        );
+    }
+
+    /**
+     * Generate invoice HTML preview for display in the merchant website
+     * @param params Object containing preview data (products, customer info, fees, etc.)
+     * @returns Object containing the HTML string
+     */
+    public async getInvoicePreviewHtml(params: {
+        paymentLinkName?: string;
+        customerName?: string;
+        customerEmail?: string;
+        customerPhone?: string;
+        dueDate?: string;
+        products?: Array<{ id?: number; name?: string; price?: number; orderQuantity?: number }>;
+        taxRate?: number;
+        serviceFeeRate?: number;
+        shippingFee?: number;
+    }): Promise<{ html: string }> {
+        const { InvoicePreviewRequest } = await import("../ajax/Requests/InvoicePreviewRequest");
+        const { InvoicePreviewResponse } = await import("../ajax/Responses/InvoicePreviewResponse");
+        
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        
+        return CMMT.fetch<{ html: string }, typeof InvoicePreviewRequest.prototype, typeof InvoicePreviewResponse.prototype>(
+            InvoicePreviewRequest,
+            InvoicePreviewResponse,
+            "invoicePreview",
+            "POST",
+            isolatedHandle,
+            params
         );
     }
 }

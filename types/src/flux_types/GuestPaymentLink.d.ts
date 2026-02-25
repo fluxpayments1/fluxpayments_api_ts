@@ -3,6 +3,7 @@ import { Address } from "./Address";
 import { Currency } from "./Currency";
 import { CustomerAccountData } from "./CustomerAccountData";
 import { Product } from "./Product";
+import { ProductDump } from "./ProductDump";
 import { Wallet } from "./Wallet";
 import { FluxType } from './FluxType';
 import { IGuestPaymentLink } from './IGuestPaymentLink';
@@ -103,6 +104,7 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
     taxRatesId: number;
     merchant: Merchant;
     products: Product[];
+    productDumps: ProductDump[];
     redirectUrl: string;
     currencies: Currency[];
     wallets: Wallet[];

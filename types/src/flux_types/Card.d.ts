@@ -27,6 +27,7 @@ export declare class Card extends FluxType implements ICard {
     payType: string;
     phoneNumber: string;
     oneTimeUseToken: string;
+    processorError: string;
     serialize(): {
         objectType: string;
         lastFour: string;

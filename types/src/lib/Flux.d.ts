@@ -65,7 +65,7 @@ export declare class FluxComms<A extends SecurityHandler> {
         message: string;
     }>;
     /**
-     * Download invoice or receipt PDF for a completed payment
+     * Download invoice or receipt PDF for a completed payment (customer-facing)
      * @param paymentLinkId The UUID of the payment link
      * @param documentType "INVOICE" or "RECEIPT" - type of document to download
      * @returns Object containing base64 PDF, filename, and message
@@ -74,5 +74,54 @@ export declare class FluxComms<A extends SecurityHandler> {
         pdfBase64: string;
         filename: string;
         message: string;
+    }>;
+    /**
+     * Download invoice or receipt PDF from merchant website
+     * @param documentType "INVOICE" or "RECEIPT" - type of document to download
+     * @param paymentLinkNumericId Optional: The numeric ID of the payment link
+     * @param transactionId Optional: The numeric ID of the transaction
+     * @returns Object containing base64 PDF, filename, and message
+     */
+    downloadInvoiceWeb(documentType?: "INVOICE" | "RECEIPT", paymentLinkNumericId?: number, transactionId?: number): Promise<{
+        pdfBase64: string;
+        filename: string;
+        message: string;
+    }>;
+    /**
+     * Mark an invoice/payment link as paid with an external payment method
+     * @param params Object containing paymentLinkId, paymentMethod, and optional referenceNumber and notes
+     * @returns Object containing the created transaction and a success message
+     */
+    markInvoiceAsPaidWeb(params: {
+        paymentLinkId: number;
+        paymentMethod: "WIRE" | "VENMO" | "ZELLE" | "PAYPAL" | "CHECK" | "CASH" | "OTHER";
+        referenceNumber?: string;
+        notes?: string;
+    }): Promise<{
+        transaction: any;
+        message: string;
+    }>;
+    /**
+     * Generate invoice HTML preview for display in the merchant website
+     * @param params Object containing preview data (products, customer info, fees, etc.)
+     * @returns Object containing the HTML string
+     */
+    getInvoicePreviewHtml(params: {
+        paymentLinkName?: string;
+        customerName?: string;
+        customerEmail?: string;
+        customerPhone?: string;
+        dueDate?: string;
+        products?: Array<{
+            id?: number;
+            name?: string;
+            price?: number;
+            orderQuantity?: number;
+        }>;
+        taxRate?: number;
+        serviceFeeRate?: number;
+        shippingFee?: number;
+    }): Promise<{
+        html: string;
     }>;
 }
