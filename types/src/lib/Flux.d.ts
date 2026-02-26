@@ -74,6 +74,7 @@ export declare class FluxComms<A extends SecurityHandler> {
         pdfBase64: string;
         filename: string;
         message: string;
+        compressed: boolean;
     }>;
     /**
      * Download invoice or receipt PDF from merchant website
@@ -86,6 +87,7 @@ export declare class FluxComms<A extends SecurityHandler> {
         pdfBase64: string;
         filename: string;
         message: string;
+        compressed: boolean;
     }>;
     /**
      * Mark an invoice/payment link as paid with an external payment method

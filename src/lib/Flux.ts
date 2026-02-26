@@ -451,14 +451,14 @@ export class FluxComms<A extends SecurityHandler> {
      * @param documentType "INVOICE" or "RECEIPT" - type of document to download
      * @returns Object containing base64 PDF, filename, and message
      */
-    public async downloadInvoice(paymentLinkId: string, documentType: "INVOICE" | "RECEIPT" = "INVOICE"): Promise<{ pdfBase64: string; filename: string; message: string }> {
+    public async downloadInvoice(paymentLinkId: string, documentType: "INVOICE" | "RECEIPT" = "INVOICE"): Promise<{ pdfBase64: string; filename: string; message: string; compressed: boolean }> {
         const { DownloadInvoiceRequest } = await import("../ajax/Requests/DownloadInvoiceRequest");
         const { DownloadInvoiceResponse } = await import("../ajax/Responses/DownloadInvoiceResponse");
         
         // Clone security handle for request isolation
         const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
         
-        return CMMT.fetch<{ pdfBase64: string; filename: string; message: string }, typeof DownloadInvoiceRequest.prototype, typeof DownloadInvoiceResponse.prototype>(
+        return CMMT.fetch<{ pdfBase64: string; filename: string; message: string; compressed: boolean }, typeof DownloadInvoiceRequest.prototype, typeof DownloadInvoiceResponse.prototype>(
             DownloadInvoiceRequest,
             DownloadInvoiceResponse,
             "downloadInvoiceSensitiveData",
@@ -476,14 +476,14 @@ export class FluxComms<A extends SecurityHandler> {
      * @param transactionId Optional: The numeric ID of the transaction
      * @returns Object containing base64 PDF, filename, and message
      */
-    public async downloadInvoiceWeb(documentType: "INVOICE" | "RECEIPT" = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): Promise<{ pdfBase64: string; filename: string; message: string }> {
+    public async downloadInvoiceWeb(documentType: "INVOICE" | "RECEIPT" = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): Promise<{ pdfBase64: string; filename: string; message: string; compressed: boolean }> {
         const { DownloadInvoiceWebRequest } = await import("../ajax/Requests/DownloadInvoiceWebRequest");
         const { DownloadInvoiceResponse } = await import("../ajax/Responses/DownloadInvoiceResponse");
         
         // Clone security handle for request isolation
         const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
         
-        return CMMT.fetch<{ pdfBase64: string; filename: string; message: string }, typeof DownloadInvoiceWebRequest.prototype, typeof DownloadInvoiceResponse.prototype>(
+        return CMMT.fetch<{ pdfBase64: string; filename: string; message: string; compressed: boolean }, typeof DownloadInvoiceWebRequest.prototype, typeof DownloadInvoiceResponse.prototype>(
             DownloadInvoiceWebRequest,
             DownloadInvoiceResponse,
             "downloadInvoice",
