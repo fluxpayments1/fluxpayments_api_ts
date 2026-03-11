@@ -533,7 +533,7 @@ export class FluxComms<A extends SecurityHandler> {
         customerEmail?: string;
         customerPhone?: string;
         dueDate?: string;
-        products?: Array<{ id?: number; name?: string; price?: number; orderQuantity?: number }>;
+        products?: Array<{ id?: number; name?: string; price?: number; orderQuantity?: number; memo?: string }>;
         taxRate?: number;
         serviceFeeRate?: number;
         shippingFee?: number;

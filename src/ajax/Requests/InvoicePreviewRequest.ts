@@ -5,6 +5,7 @@ export interface InvoicePreviewProduct {
     name?: string;
     price?: number;
     orderQuantity?: number;
+    memo?: string;
 }
 
 export interface InvoicePreviewParams {
@@ -13,6 +14,7 @@ export interface InvoicePreviewParams {
     customerEmail?: string;
     customerPhone?: string;
     dueDate?: string;
+    memo?: string;
     products?: InvoicePreviewProduct[];
     taxRate?: number;
     serviceFeeRate?: number;
@@ -37,11 +39,13 @@ export class InvoicePreviewRequest extends RequestBodyBase {
             customerEmail: this.params?.customerEmail,
             customerPhone: this.params?.customerPhone,
             dueDate: this.params?.dueDate,
+            memo: this.params?.memo,
             products: this.params?.products?.map(p => ({
                 id: p.id,
                 name: p.name,
                 price: p.price,
-                orderQuantity: p.orderQuantity || 1
+                orderQuantity: p.orderQuantity || 1,
+                memo: p.memo
             })),
             taxRate: this.params?.taxRate,
             serviceFeeRate: this.params?.serviceFeeRate,

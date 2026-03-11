@@ -19,4 +19,5 @@ export interface IProduct {
     hasDynamicPrice: boolean;
     installments?: number;
     orderQuantity?: number;
+    memo?: string;
 }

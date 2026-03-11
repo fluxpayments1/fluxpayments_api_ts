@@ -58,7 +58,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             paymentLinkUrl: this.paymentLinkUrl,
             accountId: this.accountId,
             createdAt: this.createdAt,
-            products: this.products,
+            products: this.products?.map(p => p.serialize ? p.serialize() : p),
             enableCrypto: this.enableCrypto,
             emailNotificationDisabled: this.emailNotificationDisabled,
             updateAccInfo: this.updateAccInfo,
@@ -90,10 +90,12 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             qbInvoiceId: this.qbInvoiceId,
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
             needsQbSync: this.needsQbSync,
-            name: this.name
+            name: this.name,
+            memo: this.memo
         };
     }
     wallets: Wallet[]
+    memo: string;
     id: number;
     metadata: string;
     enableCrypto: boolean;

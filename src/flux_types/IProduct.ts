@@ -40,5 +40,6 @@ export interface IProduct {
     enableInventoryManagement: boolean,
     hasDynamicPrice: boolean,
     installments?: number,
-    orderQuantity?: number //Must be included in a transaction.
+    orderQuantity?: number, //Must be included in a transaction.
+    memo?: string //Custom memo for this product on a payment link
 }

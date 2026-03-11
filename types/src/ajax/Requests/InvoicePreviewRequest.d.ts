@@ -4,6 +4,7 @@ export interface InvoicePreviewProduct {
     name?: string;
     price?: number;
     orderQuantity?: number;
+    memo?: string;
 }
 export interface InvoicePreviewParams {
     paymentLinkName?: string;
@@ -11,6 +12,7 @@ export interface InvoicePreviewParams {
     customerEmail?: string;
     customerPhone?: string;
     dueDate?: string;
+    memo?: string;
     products?: InvoicePreviewProduct[];
     taxRate?: number;
     serviceFeeRate?: number;

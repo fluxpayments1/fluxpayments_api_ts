@@ -119,6 +119,7 @@ export declare class FluxComms<A extends SecurityHandler> {
             name?: string;
             price?: number;
             orderQuantity?: number;
+            memo?: string;
         }>;
         taxRate?: number;
         serviceFeeRate?: number;

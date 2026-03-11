@@ -61,4 +61,5 @@ export interface IPaymentLink {
     isProcessingFeeEnabledAch?: boolean;
     isProcessingFeeEnabledCard?: boolean;
     name?: string;
+    memo?: string;
 }
