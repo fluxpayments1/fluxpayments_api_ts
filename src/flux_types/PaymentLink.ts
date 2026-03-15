@@ -67,6 +67,11 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             disableACH: this.disableACH,
             disableCard: this.disableCard,
             taxRatesId: this.taxRatesId,
+            discountId: this.discountId,
+            discountAmount: this.discountAmount,
+            discountName: this.discountName,
+            perProductDiscountTotal: this.perProductDiscountTotal,
+            originalSubtotal: this.originalSubtotal,
             wallets: this.wallets,
             currencies: this.currencies,
             accountEmail: this.accountEmail,
@@ -105,6 +110,11 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     serviceFeeRate: number;
     isReusable: boolean;
     taxRatesId: number;
+    discountId: number;
+    discountAmount: number;
+    discountName: string;
+    perProductDiscountTotal: number;
+    originalSubtotal: number;
     processingFeeInversion: boolean;
     isProcessingFeeEnabled: boolean;
     processingFeeInversionAch: boolean;

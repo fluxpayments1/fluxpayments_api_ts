@@ -6,6 +6,7 @@ export interface InvoicePreviewProduct {
     price?: number;
     orderQuantity?: number;
     memo?: string;
+    discountId?: number;
 }
 
 export interface InvoicePreviewParams {
@@ -19,6 +20,7 @@ export interface InvoicePreviewParams {
     taxRate?: number;
     serviceFeeRate?: number;
     shippingFee?: number;
+    discountId?: number;
 }
 
 export class InvoicePreviewRequest extends RequestBodyBase {
@@ -45,11 +47,13 @@ export class InvoicePreviewRequest extends RequestBodyBase {
                 name: p.name,
                 price: p.price,
                 orderQuantity: p.orderQuantity || 1,
-                memo: p.memo
+                memo: p.memo,
+                discountId: p.discountId
             })),
             taxRate: this.params?.taxRate,
             serviceFeeRate: this.params?.serviceFeeRate,
-            shippingFee: this.params?.shippingFee
+            shippingFee: this.params?.shippingFee,
+            discountId: this.params?.discountId
         });
     }
 }

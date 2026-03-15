@@ -36,6 +36,11 @@ export interface IPaymentLink {
     disableACH: boolean;
     disableCard: boolean;
     taxRatesId: number;
+    discountId?: number;
+    discountAmount?: number;
+    discountName?: string;
+    perProductDiscountTotal?: number;
+    originalSubtotal?: number;
     requireShippingAddress: boolean;
     reusableLinkId: number
     currentStatus: string

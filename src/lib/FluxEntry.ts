@@ -243,6 +243,7 @@ export async function fluxWebsiteSignInAuthorization(
 
         resolve(fma);
       } catch (e) {
+        console.log("error", e);
         reject(e);
       }
     }

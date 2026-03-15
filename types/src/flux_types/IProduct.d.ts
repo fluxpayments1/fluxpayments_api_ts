@@ -20,4 +20,7 @@ export interface IProduct {
     installments?: number;
     orderQuantity?: number;
     memo?: string;
+    discountId?: number;
+    discountName?: string;
+    discountValue?: number;
 }

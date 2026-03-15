@@ -22,6 +22,9 @@ export declare class ProductDump extends FluxType implements IProduct {
     orderQuantity: number;
     hasDynamicPrice: boolean;
     memo: string;
+    discountId: number;
+    discountName: string;
+    discountValue: number;
     getInterface(): IProduct;
     constructor(prodDump?: any);
     static createInstanceLazy(acc: Partial<IProduct>): Promise<ProductDump>;

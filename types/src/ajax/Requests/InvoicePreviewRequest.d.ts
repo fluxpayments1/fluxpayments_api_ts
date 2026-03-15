@@ -5,6 +5,7 @@ export interface InvoicePreviewProduct {
     price?: number;
     orderQuantity?: number;
     memo?: string;
+    discountId?: number;
 }
 export interface InvoicePreviewParams {
     paymentLinkName?: string;
@@ -17,6 +18,7 @@ export interface InvoicePreviewParams {
     taxRate?: number;
     serviceFeeRate?: number;
     shippingFee?: number;
+    discountId?: number;
 }
 export declare class InvoicePreviewRequest extends RequestBodyBase {
     private params;

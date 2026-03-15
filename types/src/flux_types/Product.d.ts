@@ -25,6 +25,7 @@ export declare class Product extends FluxType implements IProduct {
         objectType: string;
         orderQuantity: number;
         memo: string;
+        discountId: number;
     };
     currency: string;
     orderQuantity: number;
@@ -46,6 +47,7 @@ export declare class Product extends FluxType implements IProduct {
     hasDynamicPrice: boolean;
     installments: number;
     memo: string;
+    discountId: number;
     protected objectType: string;
     constructor(prod?: Partial<IProduct>);
     incrementInventoryCount(quantity: number): Promise<Product>;

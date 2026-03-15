@@ -68,26 +68,28 @@ export declare class FluxComms<A extends SecurityHandler> {
      * Download invoice or receipt PDF for a completed payment (customer-facing)
      * @param paymentLinkId The UUID of the payment link
      * @param documentType "INVOICE" or "RECEIPT" - type of document to download
-     * @returns Object containing base64 PDF, filename, and message
+     * @returns Object containing downloadUrl (preferred) or pdfBase64 (fallback), filename, and message
      */
     downloadInvoice(paymentLinkId: string, documentType?: "INVOICE" | "RECEIPT"): Promise<{
-        pdfBase64: string;
+        downloadUrl?: string;
+        pdfBase64?: string;
         filename: string;
         message: string;
-        compressed: boolean;
+        compressed?: boolean;
     }>;
     /**
      * Download invoice or receipt PDF from merchant website
      * @param documentType "INVOICE" or "RECEIPT" - type of document to download
      * @param paymentLinkNumericId Optional: The numeric ID of the payment link
      * @param transactionId Optional: The numeric ID of the transaction
-     * @returns Object containing base64 PDF, filename, and message
+     * @returns Object containing downloadUrl (preferred) or pdfBase64 (fallback), filename, and message
      */
     downloadInvoiceWeb(documentType?: "INVOICE" | "RECEIPT", paymentLinkNumericId?: number, transactionId?: number): Promise<{
-        pdfBase64: string;
+        downloadUrl?: string;
+        pdfBase64?: string;
         filename: string;
         message: string;
-        compressed: boolean;
+        compressed?: boolean;
     }>;
     /**
      * Mark an invoice/payment link as paid with an external payment method

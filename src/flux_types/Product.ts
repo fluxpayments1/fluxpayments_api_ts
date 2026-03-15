@@ -56,7 +56,8 @@ export class Product extends FluxType implements IProduct {
             installments: this.installments,
             objectType: "product",
             orderQuantity: this.orderQuantity,
-            memo: this.memo
+            memo: this.memo,
+            discountId: this.discountId
         }
     }
     currency: string;
@@ -79,6 +80,7 @@ export class Product extends FluxType implements IProduct {
     hasDynamicPrice: boolean;
     installments: number;
     memo: string;
+    discountId: number;
     protected objectType: string = "product";
 
     constructor(prod?: Partial<IProduct>) {

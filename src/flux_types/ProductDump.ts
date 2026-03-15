@@ -54,6 +54,9 @@ export class ProductDump extends FluxType implements IProduct {
     public orderQuantity: number
     public hasDynamicPrice: boolean;
     public memo: string;
+    public discountId: number;
+    public discountName: string;
+    public discountValue: number;
 
     public getInterface(): IProduct {
         return {

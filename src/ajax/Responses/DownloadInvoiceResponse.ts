@@ -1,17 +1,19 @@
 import { ResponseBodyBase } from "./ResponseBodyBase";
 
 export interface DownloadInvoiceResult {
-    pdfBase64: string;
+    downloadUrl?: string;  // Presigned URL for direct download (preferred)
+    pdfBase64?: string;    // Base64 encoded PDF - fallback for legacy records
     filename: string;
     message: string;
-    compressed: boolean;
+    compressed?: boolean;  // Only relevant for pdfBase64 fallback
 }
 
 export class DownloadInvoiceResponse extends ResponseBodyBase {
-    private pdfBase64: string;
+    private downloadUrl?: string;
+    private pdfBase64?: string;
     private filename: string;
     private message: string;
-    private compressed: boolean;
+    private compressed?: boolean;
 
     constructor() {
         super();
@@ -19,15 +21,17 @@ export class DownloadInvoiceResponse extends ResponseBodyBase {
 
     public setResponseJSON(jsonString: string): DownloadInvoiceResponse {
         const parsed = JSON.parse(jsonString);
-        this.pdfBase64 = parsed.pdfBase64 || '';
+        this.downloadUrl = parsed.downloadUrl;
+        this.pdfBase64 = parsed.pdfBase64;
         this.filename = parsed.filename || 'invoice.pdf';
         this.message = parsed.message || '';
-        this.compressed = parsed.compressed || false;
+        this.compressed = parsed.compressed;
         return this;
     }
 
     public getClientReturnValue(): DownloadInvoiceResult {
         return {
+            downloadUrl: this.downloadUrl,
             pdfBase64: this.pdfBase64,
             filename: this.filename,
             message: this.message,

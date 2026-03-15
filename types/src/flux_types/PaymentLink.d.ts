@@ -38,6 +38,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
             objectType: string;
             orderQuantity: number;
             memo: string;
+            discountId: number;
         })[];
         enableCrypto: boolean;
         emailNotificationDisabled: boolean;
@@ -47,6 +48,11 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         disableACH: boolean;
         disableCard: boolean;
         taxRatesId: number;
+        discountId: number;
+        discountAmount: number;
+        discountName: string;
+        perProductDiscountTotal: number;
+        originalSubtotal: number;
         wallets: Wallet[];
         currencies: Currency[];
         accountEmail: string;
@@ -84,6 +90,11 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     serviceFeeRate: number;
     isReusable: boolean;
     taxRatesId: number;
+    discountId: number;
+    discountAmount: number;
+    discountName: string;
+    perProductDiscountTotal: number;
+    originalSubtotal: number;
     processingFeeInversion: boolean;
     isProcessingFeeEnabled: boolean;
     processingFeeInversionAch: boolean;

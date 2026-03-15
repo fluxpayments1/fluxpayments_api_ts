@@ -41,5 +41,8 @@ export interface IProduct {
     hasDynamicPrice: boolean,
     installments?: number,
     orderQuantity?: number, //Must be included in a transaction.
-    memo?: string //Custom memo for this product on a payment link
+    memo?: string, //Custom memo for this product on a payment link
+    discountId?: number, //Discount to apply to this product on a payment link
+    discountName?: string, //Name of the applied discount (populated by backend)
+    discountValue?: number //Amount of the discount (populated by backend)
 }
