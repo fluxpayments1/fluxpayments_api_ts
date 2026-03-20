@@ -63712,6 +63712,7 @@ class InvoicePreviewRequest extends RequestBodyBase_1.RequestBodyBase {
             products: (_h = (_g = this.params) === null || _g === void 0 ? void 0 : _g.products) === null || _h === void 0 ? void 0 : _h.map(p => ({
                 id: p.id,
                 name: p.name,
+                description: p.description,
                 price: p.price,
                 orderQuantity: p.orderQuantity || 1,
                 memo: p.memo,
@@ -65803,8 +65804,6 @@ class CMMT {
                 if (axiosResponse.status === 200) {
                     let decodedResponse = yield arh.securityHandler.decodeResponse(axiosResponse.data, axiosResponse.headers);
                     let retVal = arh.response.setResponseJSON(decodedResponse);
-                    console.log("decodedResponse", decodedResponse);
-                    console.log("url", url);
                     resolve(retVal.getClientReturnValue());
                 }
                 else {
@@ -65841,8 +65840,6 @@ class CMMT {
                 if (axiosResponse.status === 200) {
                     let decodedResponse = yield arh.securityHandler.decodeResponse(axiosResponse.data, axiosResponse.headers);
                     let retVal = arh.response.setResponseJSON(decodedResponse);
-                    console.log("url", url);
-                    console.log("decodedResponse", decodedResponse);
                     resolve(retVal.getClientReturnValue());
                 }
                 else {
@@ -73518,7 +73515,8 @@ class Transaction extends FluxType_1.FluxType {
             products: this.products,
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
             quickbooksTransactionId: this.quickbooksTransactionId,
-            quickbooksSyncDate: this.quickbooksSyncDate
+            quickbooksSyncDate: this.quickbooksSyncDate,
+            cardBrandId: this.cardBrandId
         };
     }
 }

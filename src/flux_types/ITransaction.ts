@@ -51,5 +51,6 @@ export interface ITransaction {
     oneTimeUseToken?: string,
     hasBeenSyncedToQuickbooks?: boolean,
     quickbooksTransactionId?: string,
-    quickbooksSyncDate?: number
+    quickbooksSyncDate?: number,
+    cardBrandId?: string
 }

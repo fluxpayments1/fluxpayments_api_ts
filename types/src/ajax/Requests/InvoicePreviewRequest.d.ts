@@ -2,6 +2,7 @@ import { RequestBodyBase } from "./RequestBodyBase";
 export interface InvoicePreviewProduct {
     id?: number;
     name?: string;
+    description?: string;
     price?: number;
     orderQuantity?: number;
     memo?: string;

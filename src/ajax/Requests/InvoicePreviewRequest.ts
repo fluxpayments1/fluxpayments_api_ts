@@ -3,6 +3,7 @@ import { RequestBodyBase } from "./RequestBodyBase";
 export interface InvoicePreviewProduct {
     id?: number;
     name?: string;
+    description?: string;
     price?: number;
     orderQuantity?: number;
     memo?: string;
@@ -45,6 +46,7 @@ export class InvoicePreviewRequest extends RequestBodyBase {
             products: this.params?.products?.map(p => ({
                 id: p.id,
                 name: p.name,
+                description: p.description,
                 price: p.price,
                 orderQuantity: p.orderQuantity || 1,
                 memo: p.memo,

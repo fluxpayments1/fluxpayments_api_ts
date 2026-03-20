@@ -90,6 +90,7 @@ export class Transaction extends FluxType implements ITransaction {
     hasBeenSyncedToQuickbooks?: boolean;
     quickbooksTransactionId?: string;
     quickbooksSyncDate?: number;
+    cardBrandId?: string;
 
     /**
      * Fetches the account that was used
@@ -331,7 +332,8 @@ export class Transaction extends FluxType implements ITransaction {
             products: this.products,
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
             quickbooksTransactionId: this.quickbooksTransactionId,
-            quickbooksSyncDate: this.quickbooksSyncDate
+            quickbooksSyncDate: this.quickbooksSyncDate,
+            cardBrandId: this.cardBrandId
         };
     }
 
