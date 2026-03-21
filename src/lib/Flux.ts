@@ -423,6 +423,28 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * Generate a rollup report across a date range.
+     * @param startDate Start date in YYYY-MM-DD format
+     * @param endDate End date in YYYY-MM-DD format
+     */
+    public async generateRollupReport(startDate: string, endDate: string): Promise<{ message: string }> {
+        const { RollupReportRequest } = await import("../ajax/Requests/RollupReportRequest");
+        const { RollupReportResponse } = await import("../ajax/Responses/RollupReportResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ message: string }, typeof RollupReportRequest.prototype, typeof RollupReportResponse.prototype>(
+            RollupReportRequest,
+            RollupReportResponse,
+            "generateRollupReportWeb",
+            "POST",
+            isolatedHandle,
+            startDate,
+            endDate
+        );
+    }
+
+    /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link
      * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email

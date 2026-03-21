@@ -63957,6 +63957,37 @@ exports.ResendTransactionEmailRequest = ResendTransactionEmailRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/RollupReportRequest.ts"
+/*!**************************************************!*\
+  !*** ./src/ajax/Requests/RollupReportRequest.ts ***!
+  \**************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RollupReportRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class RollupReportRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(startDate, endDate) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+    getRequestAsString() {
+        return JSON.stringify({
+            startDate: this.startDate,
+            endDate: this.endDate,
+        });
+    }
+}
+exports.RollupReportRequest = RollupReportRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/SendConfirmationEmailRequest.ts"
 /*!***********************************************************!*\
   !*** ./src/ajax/Requests/SendConfirmationEmailRequest.ts ***!
@@ -65108,6 +65139,37 @@ class ResponseBodyBase {
     }
 }
 exports.ResponseBodyBase = ResponseBodyBase;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/RollupReportResponse.ts"
+/*!****************************************************!*\
+  !*** ./src/ajax/Responses/RollupReportResponse.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RollupReportResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class RollupReportResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.message = parsed.message || 'Rollup reports generated';
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            message: this.message
+        };
+    }
+}
+exports.RollupReportResponse = RollupReportResponse;
 
 
 /***/ },
@@ -69677,6 +69739,114 @@ exports.CustomerWalletQuery = CustomerWalletQuery;
 
 /***/ },
 
+/***/ "./src/flux_types/DailyReport.ts"
+/*!***************************************!*\
+  !*** ./src/flux_types/DailyReport.ts ***!
+  \***************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DailyReport = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class DailyReport extends FluxType_1.FluxType {
+    getDispName() {
+        return this.reportType + " Report - " + (this.reportDateStart || this.id);
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            reportName: this.reportName,
+            reportType: this.reportType,
+            reportDateStart: this.reportDateStart,
+            reportDateEnd: this.reportDateEnd,
+            status: this.status,
+            s3KeyCsv: this.s3KeyCsv,
+            s3KeyPdf: this.s3KeyPdf,
+            reportSummary: this.reportSummary,
+            errorMessage: this.errorMessage,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, DailyReport);
+        this.obName = "DailyReport";
+        this.objectType = "daily_report";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.DailyReport = DailyReport;
+
+
+/***/ },
+
+/***/ "./src/flux_types/DailyReportQuery.ts"
+/*!********************************************!*\
+  !*** ./src/flux_types/DailyReportQuery.ts ***!
+  \********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DailyReportQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const DailyReport_1 = __webpack_require__(/*! ./DailyReport */ "./src/flux_types/DailyReport.ts");
+class DailyReportQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            reportType: this.reportType,
+            reportDateStart: this.reportDateStart,
+            reportDateEnd: this.reportDateEnd,
+            status: this.status,
+            reportName: this.reportName,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(DailyReport_1.DailyReport);
+        this.objectType = "daily_report";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new DailyReportQuery(q);
+    }
+}
+exports.DailyReportQuery = DailyReportQuery;
+
+
+/***/ },
+
 /***/ "./src/flux_types/Discount.ts"
 /*!************************************!*\
   !*** ./src/flux_types/Discount.ts ***!
@@ -74105,7 +74275,7 @@ exports.WalletQuery = WalletQuery;
 // Do not edit manually - run npm run compile-rn to regenerate
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.DiscountQuery = exports.Discount = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
-exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ReusableLinkQuery = exports.ReusableLink = void 0;
+exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ReusableLinkQuery = exports.ReusableLink = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -74272,6 +74442,10 @@ var Conversation_1 = __webpack_require__(/*! ./Conversation */ "./src/flux_types
 Object.defineProperty(exports, "Conversation", ({ enumerable: true, get: function () { return Conversation_1.Conversation; } }));
 var ConversationQuery_1 = __webpack_require__(/*! ./ConversationQuery */ "./src/flux_types/ConversationQuery.ts");
 Object.defineProperty(exports, "ConversationQuery", ({ enumerable: true, get: function () { return ConversationQuery_1.ConversationQuery; } }));
+var DailyReport_1 = __webpack_require__(/*! ./DailyReport */ "./src/flux_types/DailyReport.ts");
+Object.defineProperty(exports, "DailyReport", ({ enumerable: true, get: function () { return DailyReport_1.DailyReport; } }));
+var DailyReportQuery_1 = __webpack_require__(/*! ./DailyReportQuery */ "./src/flux_types/DailyReportQuery.ts");
+Object.defineProperty(exports, "DailyReportQuery", ({ enumerable: true, get: function () { return DailyReportQuery_1.DailyReportQuery; } }));
 var Message_1 = __webpack_require__(/*! ./Message */ "./src/flux_types/Message.ts");
 Object.defineProperty(exports, "Message", ({ enumerable: true, get: function () { return Message_1.Message; } }));
 var MessageQuery_1 = __webpack_require__(/*! ./MessageQuery */ "./src/flux_types/MessageQuery.ts");
@@ -74571,6 +74745,19 @@ class FluxComms {
             // Clone security handle for request isolation
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(ResendPaymentRequestRequest, ResendPaymentRequestResponse, "resendPaymentRequest", "POST", isolatedHandle, paymentLinkId);
+        });
+    }
+    /**
+     * Generate a rollup report across a date range.
+     * @param startDate Start date in YYYY-MM-DD format
+     * @param endDate End date in YYYY-MM-DD format
+     */
+    generateRollupReport(startDate, endDate) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { RollupReportRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/RollupReportRequest */ "./src/ajax/Requests/RollupReportRequest.ts")));
+            const { RollupReportResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/RollupReportResponse */ "./src/ajax/Responses/RollupReportResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(RollupReportRequest, RollupReportResponse, "generateRollupReportWeb", "POST", isolatedHandle, startDate, endDate);
         });
     }
     /**

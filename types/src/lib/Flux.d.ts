@@ -57,6 +57,14 @@ export declare class FluxComms<A extends SecurityHandler> {
         message: string;
     }>;
     /**
+     * Generate a rollup report across a date range.
+     * @param startDate Start date in YYYY-MM-DD format
+     * @param endDate End date in YYYY-MM-DD format
+     */
+    generateRollupReport(startDate: string, endDate: string): Promise<{
+        message: string;
+    }>;
+    /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link
      * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email

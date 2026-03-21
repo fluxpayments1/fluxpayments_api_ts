@@ -1,0 +1,43 @@
+import { FluxType } from "./FluxType";
+import { IDailyReport } from "./IDailyReport";
+export declare class DailyReport extends FluxType implements IDailyReport {
+    obName: string;
+    getDispName(): string;
+    serialize(): {
+        id: number;
+        uniqueId: string;
+        merchantId: number;
+        reportName: string;
+        reportType: string;
+        reportDateStart: string;
+        reportDateEnd: string;
+        status: string;
+        s3KeyCsv: string;
+        s3KeyPdf: string;
+        reportSummary: string;
+        errorMessage: string;
+        activeStatus: boolean;
+        metadata: string;
+        version: number;
+        objectType: string;
+    };
+    id: number;
+    uniqueId: string;
+    merchantId?: number;
+    reportName?: string;
+    reportType?: string;
+    reportDateStart?: string;
+    reportDateEnd?: string;
+    status?: string;
+    s3KeyCsv?: string;
+    s3KeyPdf?: string;
+    reportSummary?: string;
+    errorMessage?: string;
+    activeStatus?: boolean;
+    metadata?: string;
+    version?: number;
+    protected objectType: string;
+    constructor(data?: Partial<IDailyReport>);
+    static createInstanceLazy(data: Partial<IDailyReport>): Promise<DailyReport>;
+    static createInstanceSafe(data: Partial<IDailyReport>): Promise<DailyReport>;
+}
