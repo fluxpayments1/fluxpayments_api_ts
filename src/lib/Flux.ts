@@ -445,6 +445,24 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * Get the latest AI-generated weekly and monthly insights for the merchant dashboard.
+     */
+    public async getLatestInsights(): Promise<import("../ajax/Responses/GetLatestInsightsResponse").InsightsResult> {
+        const { GetLatestInsightsRequest } = await import("../ajax/Requests/GetLatestInsightsRequest");
+        const { GetLatestInsightsResponse } = await import("../ajax/Responses/GetLatestInsightsResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<import("../ajax/Responses/GetLatestInsightsResponse").InsightsResult, typeof GetLatestInsightsRequest.prototype, typeof GetLatestInsightsResponse.prototype>(
+            GetLatestInsightsRequest,
+            GetLatestInsightsResponse,
+            "getLatestInsights",
+            "POST",
+            isolatedHandle
+        );
+    }
+
+    /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link
      * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email

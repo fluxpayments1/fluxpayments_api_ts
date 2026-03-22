@@ -63565,6 +63565,33 @@ exports.GenericUpdaterRequest = GenericUpdaterRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/GetLatestInsightsRequest.ts"
+/*!*******************************************************!*\
+  !*** ./src/ajax/Requests/GetLatestInsightsRequest.ts ***!
+  \*******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetLatestInsightsRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class GetLatestInsightsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData() {
+        // No parameters needed — returns the latest insights for the authenticated merchant
+    }
+    getRequestAsString() {
+        return JSON.stringify({});
+    }
+}
+exports.GetLatestInsightsRequest = GetLatestInsightsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/GetMacRequest.ts"
 /*!********************************************!*\
   !*** ./src/ajax/Requests/GetMacRequest.ts ***!
@@ -64866,6 +64893,53 @@ class GenericUpdaterResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.GenericUpdaterResponse = GenericUpdaterResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/GetLatestInsightsResponse.ts"
+/*!*********************************************************!*\
+  !*** ./src/ajax/Responses/GetLatestInsightsResponse.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetLatestInsightsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class GetLatestInsightsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.dailyInsight = null;
+        this.dailyDateRange = null;
+        this.weeklyInsight = null;
+        this.weeklyDateRange = null;
+        this.monthlyInsight = null;
+        this.monthlyDateRange = null;
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.dailyInsight = parsed.dailyInsight || null;
+        this.dailyDateRange = parsed.dailyDateRange || null;
+        this.weeklyInsight = parsed.weeklyInsight || null;
+        this.weeklyDateRange = parsed.weeklyDateRange || null;
+        this.monthlyInsight = parsed.monthlyInsight || null;
+        this.monthlyDateRange = parsed.monthlyDateRange || null;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            dailyInsight: this.dailyInsight,
+            dailyDateRange: this.dailyDateRange,
+            weeklyInsight: this.weeklyInsight,
+            weeklyDateRange: this.weeklyDateRange,
+            monthlyInsight: this.monthlyInsight,
+            monthlyDateRange: this.monthlyDateRange,
+        };
+    }
+}
+exports.GetLatestInsightsResponse = GetLatestInsightsResponse;
 
 
 /***/ },
@@ -74758,6 +74832,17 @@ class FluxComms {
             const { RollupReportResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/RollupReportResponse */ "./src/ajax/Responses/RollupReportResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(RollupReportRequest, RollupReportResponse, "generateRollupReportWeb", "POST", isolatedHandle, startDate, endDate);
+        });
+    }
+    /**
+     * Get the latest AI-generated weekly and monthly insights for the merchant dashboard.
+     */
+    getLatestInsights() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetLatestInsightsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetLatestInsightsRequest */ "./src/ajax/Requests/GetLatestInsightsRequest.ts")));
+            const { GetLatestInsightsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetLatestInsightsResponse */ "./src/ajax/Responses/GetLatestInsightsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetLatestInsightsRequest, GetLatestInsightsResponse, "getLatestInsights", "POST", isolatedHandle);
         });
     }
     /**

@@ -65,6 +65,10 @@ export declare class FluxComms<A extends SecurityHandler> {
         message: string;
     }>;
     /**
+     * Get the latest AI-generated weekly and monthly insights for the merchant dashboard.
+     */
+    getLatestInsights(): Promise<import("../ajax/Responses/GetLatestInsightsResponse").InsightsResult>;
+    /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link
      * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email
