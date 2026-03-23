@@ -18,6 +18,7 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
         liveStatus: any;
         removeOnSuccess: any;
         paymentLink: string;
+        name: string;
         accountId: number;
         isInvoice: boolean;
         dueDate: number;
@@ -29,6 +30,7 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
     metadata: string;
     disableACH: boolean;
     disableCard: boolean;
+    name?: string;
     uniqueId: string;
     liveStatus: any;
     removeOnSuccess: any;

@@ -63565,6 +63565,33 @@ exports.GenericUpdaterRequest = GenericUpdaterRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/GetChangelogRequest.ts"
+/*!**************************************************!*\
+  !*** ./src/ajax/Requests/GetChangelogRequest.ts ***!
+  \**************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetChangelogRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class GetChangelogRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData() {
+        // No parameters needed — returns the latest changelog entries
+    }
+    getRequestAsString() {
+        return JSON.stringify({});
+    }
+}
+exports.GetChangelogRequest = GetChangelogRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/GetLatestInsightsRequest.ts"
 /*!*******************************************************!*\
   !*** ./src/ajax/Requests/GetLatestInsightsRequest.ts ***!
@@ -64893,6 +64920,38 @@ class GenericUpdaterResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.GenericUpdaterResponse = GenericUpdaterResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/GetChangelogResponse.ts"
+/*!****************************************************!*\
+  !*** ./src/ajax/Responses/GetChangelogResponse.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetChangelogResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class GetChangelogResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.entries = [];
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.entries = parsed.entries || [];
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            entries: this.entries,
+        };
+    }
+}
+exports.GetChangelogResponse = GetChangelogResponse;
 
 
 /***/ },
@@ -71902,6 +71961,7 @@ class PaymentLinkQuery extends BaseQuery_1.BaseQuery {
             liveStatus: this.liveStatus,
             removeOnSuccess: this.removeOnSuccess,
             paymentLink: this.paymentLink,
+            name: this.name,
             accountId: this.accountId,
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
@@ -74843,6 +74903,17 @@ class FluxComms {
             const { GetLatestInsightsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetLatestInsightsResponse */ "./src/ajax/Responses/GetLatestInsightsResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(GetLatestInsightsRequest, GetLatestInsightsResponse, "getLatestInsights", "POST", isolatedHandle);
+        });
+    }
+    /**
+     * Get the latest changelog entries (platform release notes).
+     */
+    getChangelog() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetChangelogRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetChangelogRequest */ "./src/ajax/Requests/GetChangelogRequest.ts")));
+            const { GetChangelogResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetChangelogResponse */ "./src/ajax/Responses/GetChangelogResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetChangelogRequest, GetChangelogResponse, "getChangelog", "POST", isolatedHandle);
         });
     }
     /**

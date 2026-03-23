@@ -43,6 +43,7 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
             liveStatus: this.liveStatus,
             removeOnSuccess: this.removeOnSuccess,
             paymentLink: this.paymentLink,
+            name: this.name, 
             accountId: this.accountId,
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
@@ -55,6 +56,7 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
     metadata: string;
     disableACH: boolean;
     disableCard: boolean;
+    name?: string;
     uniqueId: string;
     liveStatus: any;
     removeOnSuccess: any;

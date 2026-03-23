@@ -463,6 +463,24 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * Get the latest changelog entries (platform release notes).
+     */
+    public async getChangelog(): Promise<import("../ajax/Responses/GetChangelogResponse").ChangelogResult> {
+        const { GetChangelogRequest } = await import("../ajax/Requests/GetChangelogRequest");
+        const { GetChangelogResponse } = await import("../ajax/Responses/GetChangelogResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<import("../ajax/Responses/GetChangelogResponse").ChangelogResult, typeof GetChangelogRequest.prototype, typeof GetChangelogResponse.prototype>(
+            GetChangelogRequest,
+            GetChangelogResponse,
+            "getChangelog",
+            "POST",
+            isolatedHandle
+        );
+    }
+
+    /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link
      * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email

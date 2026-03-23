@@ -69,6 +69,10 @@ export declare class FluxComms<A extends SecurityHandler> {
      */
     getLatestInsights(): Promise<import("../ajax/Responses/GetLatestInsightsResponse").InsightsResult>;
     /**
+     * Get the latest changelog entries (platform release notes).
+     */
+    getChangelog(): Promise<import("../ajax/Responses/GetChangelogResponse").ChangelogResult>;
+    /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link
      * @param recipientType "MERCHANT" or "CUSTOMER" - who should receive the email
