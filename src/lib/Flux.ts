@@ -358,7 +358,7 @@ export class FluxComms<A extends SecurityHandler> {
 
     public async sendChatStreamingMessage(
         message: string,
-        onChunk: (chunk: { content: string; done: boolean; conversationId?: number; title?: string }) => void,
+        onChunk: (chunk: { content: string; done: boolean; conversationId?: number; title?: string; statusMessage?: string; toolName?: string; toolDetail?: string; toolOutput?: string; toolStatus?: string }) => void,
         conversationId?: number,
         isSupportTicket?: boolean
     ): Promise<void> {
