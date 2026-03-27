@@ -26,9 +26,17 @@ export declare class GuestPaymentLinkQuery extends BaseQuery<GuestPaymentLink> {
         isReusable: boolean;
         isInvoice: boolean;
         dueDate: number;
+        customerEmail: string;
+        customerFirstName: string;
+        customerLastName: string;
+        customerPhone: string;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
     };
+    customerEmail: string;
+    customerFirstName: string;
+    customerLastName: string;
+    customerPhone: string;
     paymentLink: string;
     isReusable: boolean;
     id: number;

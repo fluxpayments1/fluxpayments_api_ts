@@ -333,8 +333,17 @@ export class Transaction extends FluxType implements ITransaction {
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
             quickbooksTransactionId: this.quickbooksTransactionId,
             quickbooksSyncDate: this.quickbooksSyncDate,
-            cardBrandId: this.cardBrandId
+            cardBrandId: this.cardBrandId,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone
         };
     }
+
+    customerEmail: string;
+    customerFirstName: string;
+    customerLastName: string;
+    customerPhone: string;
 
 }

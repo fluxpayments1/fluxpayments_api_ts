@@ -44,4 +44,9 @@ export interface IPaymentLink {
     isProcessingFeeEnabledCard?: boolean;
     name?: string;
     memo?: string;
+    customerEmail?: string;
+    customerFirstName?: string;
+    customerLastName?: string;
+    customerPhone?: string;
+    hasBeenSent?: boolean;
 }

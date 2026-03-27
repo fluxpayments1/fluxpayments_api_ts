@@ -16,6 +16,10 @@ export declare class InvoiceQuery extends PaymentLinkQuery {
         removeOnSuccess: any;
         paymentLink: string;
         name: string;
+        customerEmail: string;
+        customerFirstName: string;
+        customerLastName: string;
+        customerPhone: string;
         accountId: number;
         dueDate: number;
         currentStatus: string;

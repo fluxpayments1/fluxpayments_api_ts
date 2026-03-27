@@ -29,4 +29,8 @@ export interface ITransaction {
     quickbooksTransactionId?: string;
     quickbooksSyncDate?: number;
     cardBrandId?: string;
+    customerEmail?: string;
+    customerFirstName?: string;
+    customerLastName?: string;
+    customerPhone?: string;
 }

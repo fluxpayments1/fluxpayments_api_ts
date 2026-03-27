@@ -15,6 +15,10 @@ export declare class ReusableLinkQuery extends PaymentLinkQuery {
         removeOnSuccess: any;
         paymentLink: string;
         name: string;
+        customerEmail: string;
+        customerFirstName: string;
+        customerLastName: string;
+        customerPhone: string;
         accountId: number;
         isInvoice: boolean;
         dueDate: number;

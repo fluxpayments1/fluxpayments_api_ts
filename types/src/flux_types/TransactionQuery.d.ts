@@ -45,6 +45,11 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
         hasBeenSyncedToQuickbooks: boolean;
         quickbooksTransactionId: string;
         quickbooksSyncDate: number;
+        customerEmail: string;
+        customerFirstName: string;
+        customerLastName: string;
+        customerPhone: string;
+        hasBeenSent: boolean;
         pagination: import("./PaginationSupport").PaginationSupport;
         additionalSearchOptions: import("./AdditionalSearchOptions").AdditionalSearchOptions[];
     };
@@ -90,6 +95,11 @@ export declare class TransactionQuery extends BaseQuery<Transaction> implements 
     quickbooksTransactionId: string;
     quickbooksSyncDate: number;
     objectType: string;
+    customerEmail?: string;
+    customerFirstName?: string;
+    customerLastName?: string;
+    customerPhone?: string;
+    hasBeenSent?: boolean;
     constructor(tokQ?: ITransactionQuery);
     static createQuery(ipq: ITransactionQuery): TransactionQuery;
 }

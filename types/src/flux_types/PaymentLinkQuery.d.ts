@@ -19,6 +19,10 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
         removeOnSuccess: any;
         paymentLink: string;
         name: string;
+        customerEmail: string;
+        customerFirstName: string;
+        customerLastName: string;
+        customerPhone: string;
         accountId: number;
         isInvoice: boolean;
         dueDate: number;
@@ -29,6 +33,10 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
     id: number;
     metadata: string;
     disableACH: boolean;
+    customerEmail: string;
+    customerFirstName: string;
+    customerLastName: string;
+    customerPhone: string;
     disableCard: boolean;
     name?: string;
     uniqueId: string;

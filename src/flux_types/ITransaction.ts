@@ -52,5 +52,9 @@ export interface ITransaction {
     hasBeenSyncedToQuickbooks?: boolean,
     quickbooksTransactionId?: string,
     quickbooksSyncDate?: number,
-    cardBrandId?: string
+    cardBrandId?: string,
+    customerEmail?: string,
+    customerFirstName?: string,
+    customerLastName?: string,
+    customerPhone?: string
 }

@@ -71,6 +71,11 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
             quickbooksTransactionId: this.quickbooksTransactionId,
             quickbooksSyncDate: this.quickbooksSyncDate,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone,
+            hasBeenSent: this.hasBeenSent,
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions
         }
@@ -119,7 +124,11 @@ export class TransactionQuery extends BaseQuery<Transaction> implements ITransac
     quickbooksTransactionId: string;
     quickbooksSyncDate: number;
     objectType: string = "transaction";
-
+    customerEmail?: string;
+    customerFirstName?: string;
+    customerLastName?: string;
+    customerPhone?: string;
+    hasBeenSent?: boolean;
     public constructor(tokQ?: ITransactionQuery) {
         super(Transaction);
         Object.assign(this, tokQ);

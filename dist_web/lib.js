@@ -70729,6 +70729,7 @@ class GuestPaymentLink extends FluxType_1.FluxType {
             isProcessingFeeEnabledCard: this.isProcessingFeeEnabledCard,
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
+            hasBeenSent: this.hasBeenSent,
             qbInvoiceId: this.qbInvoiceId,
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
@@ -70789,6 +70790,10 @@ class GuestPaymentLinkQuery extends BaseQuery_1.BaseQuery {
             isReusable: this.isReusable,
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone,
             qbInvoiceId: this.qbInvoiceId,
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
@@ -71896,7 +71901,12 @@ class PaymentLink extends FluxType_1.FluxType {
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
             needsQbSync: this.needsQbSync,
             name: this.name,
-            memo: this.memo
+            memo: this.memo,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone,
+            hasBeenSent: this.hasBeenSent
         };
     }
     constructor(pl) {
@@ -71972,6 +71982,10 @@ class PaymentLinkQuery extends BaseQuery_1.BaseQuery {
             removeOnSuccess: this.removeOnSuccess,
             paymentLink: this.paymentLink,
             name: this.name,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone,
             accountId: this.accountId,
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
@@ -73831,7 +73845,11 @@ class Transaction extends FluxType_1.FluxType {
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
             quickbooksTransactionId: this.quickbooksTransactionId,
             quickbooksSyncDate: this.quickbooksSyncDate,
-            cardBrandId: this.cardBrandId
+            cardBrandId: this.cardBrandId,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone
         };
     }
 }
@@ -74071,6 +74089,11 @@ class TransactionQuery extends BaseQuery_1.BaseQuery {
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
             quickbooksTransactionId: this.quickbooksTransactionId,
             quickbooksSyncDate: this.quickbooksSyncDate,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone,
+            hasBeenSent: this.hasBeenSent,
             pagination: this.pagination,
             additionalSearchOptions: this.additionalSearchOptions
         };

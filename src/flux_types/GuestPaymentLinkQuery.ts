@@ -28,11 +28,19 @@ export class GuestPaymentLinkQuery extends BaseQuery<GuestPaymentLink> {
             isReusable: this.isReusable,
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone,
             qbInvoiceId: this.qbInvoiceId,
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
     }
 
+    customerEmail: string;
+    customerFirstName:string;
+    customerLastName: string;
+    customerPhone: string;
     paymentLink: string;
     isReusable: boolean
     id: number;

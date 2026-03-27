@@ -44,6 +44,10 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
             removeOnSuccess: this.removeOnSuccess,
             paymentLink: this.paymentLink,
             name: this.name, 
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            customerPhone: this.customerPhone,
             accountId: this.accountId,
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
@@ -55,6 +59,10 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
     id: number;
     metadata: string;
     disableACH: boolean;
+    customerEmail: string;
+    customerFirstName: string;
+    customerLastName: string;
+    customerPhone: string;
     disableCard: boolean;
     name?: string;
     uniqueId: string;

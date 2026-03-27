@@ -175,5 +175,13 @@ export declare class Transaction extends FluxType implements ITransaction {
         quickbooksTransactionId: string;
         quickbooksSyncDate: number;
         cardBrandId: string;
+        customerEmail: string;
+        customerFirstName: string;
+        customerLastName: string;
+        customerPhone: string;
     };
+    customerEmail: string;
+    customerFirstName: string;
+    customerLastName: string;
+    customerPhone: string;
 }

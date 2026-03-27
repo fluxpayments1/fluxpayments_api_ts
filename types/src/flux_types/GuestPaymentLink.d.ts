@@ -61,6 +61,7 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
         isProcessingFeeEnabledCard: boolean;
         isInvoice: boolean;
         dueDate: number;
+        hasBeenSent: boolean;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
     };
@@ -118,6 +119,7 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
     processingFeeInversionAch: boolean;
     processingFeeInversionCard: boolean;
     isProcessingFeeEnabledAch: boolean;
+    hasBeenSent: boolean;
     isProcessingFeeEnabledCard: boolean;
     isInvoice: boolean;
     dueDate: number;
