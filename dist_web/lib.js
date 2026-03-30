@@ -64289,6 +64289,35 @@ exports.AddSubscriptionRequest = AddSubscriptionRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/WriteReportRequest.ts"
+/*!*************************************************!*\
+  !*** ./src/ajax/Requests/WriteReportRequest.ts ***!
+  \*************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WriteReportRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class WriteReportRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(conversationId) {
+        this.conversationId = conversationId;
+    }
+    getRequestAsString() {
+        return JSON.stringify({
+            conversationId: this.conversationId,
+        });
+    }
+}
+exports.WriteReportRequest = WriteReportRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/index.ts"
 /*!************************************!*\
   !*** ./src/ajax/Requests/index.ts ***!
@@ -65585,6 +65614,37 @@ class AddSubscriptionResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.AddSubscriptionResponse = AddSubscriptionResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/WriteReportResponse.ts"
+/*!***************************************************!*\
+  !*** ./src/ajax/Responses/WriteReportResponse.ts ***!
+  \***************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WriteReportResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class WriteReportResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.message = parsed.message || 'Report saved';
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            message: this.message
+        };
+    }
+}
+exports.WriteReportResponse = WriteReportResponse;
 
 
 /***/ },
@@ -72974,6 +73034,7 @@ class RecurringTransaction extends FluxType_1.FluxType {
             installmentPeriod: this.installmentPeriod,
             status: this.status,
             cancelled: this.cancelled,
+            isCurrent: this.isCurrent,
             isInstallmentType: this.isInstallmentType,
             totalInstallments: this.totalInstallments,
             installmentsMade: this.installmentsMade,
@@ -74926,6 +74987,18 @@ class FluxComms {
             const { RollupReportResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/RollupReportResponse */ "./src/ajax/Responses/RollupReportResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(RollupReportRequest, RollupReportResponse, "generateRollupReportWeb", "POST", isolatedHandle, startDate, endDate);
+        });
+    }
+    /**
+     * Save an AI chat response as a branded PDF report.
+     * Creates a DailyReport record with type AI_GENERATED.
+     */
+    writeReport(conversationId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { WriteReportRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/WriteReportRequest */ "./src/ajax/Requests/WriteReportRequest.ts")));
+            const { WriteReportResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/WriteReportResponse */ "./src/ajax/Responses/WriteReportResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(WriteReportRequest, WriteReportResponse, "writeReport", "POST", isolatedHandle, conversationId);
         });
     }
     /**

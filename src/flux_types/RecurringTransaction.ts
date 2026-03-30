@@ -52,10 +52,11 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
             transactions: this.transactions,
             installmentPeriod: this.installmentPeriod,
             status: this.status,
-                cancelled: this.cancelled,
-                isInstallmentType: this.isInstallmentType,
-                totalInstallments: this.totalInstallments,
-                installmentsMade: this.installmentsMade,
+            cancelled: this.cancelled,
+            isCurrent: this.isCurrent,
+            isInstallmentType: this.isInstallmentType,
+            totalInstallments: this.totalInstallments,
+            installmentsMade: this.installmentsMade,
         };
     }
 

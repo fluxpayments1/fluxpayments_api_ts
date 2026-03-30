@@ -24,6 +24,7 @@ export declare class RecurringTransaction extends FluxType implements IRecurring
         installmentPeriod: "MONTHLY" | "QUARTERLY" | "ANNUALLY";
         status: any;
         cancelled: boolean;
+        isCurrent: boolean;
         isInstallmentType: boolean;
         totalInstallments: number;
         installmentsMade: number;

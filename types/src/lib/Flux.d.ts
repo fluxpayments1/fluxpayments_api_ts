@@ -70,6 +70,13 @@ export declare class FluxComms<A extends SecurityHandler> {
         message: string;
     }>;
     /**
+     * Save an AI chat response as a branded PDF report.
+     * Creates a DailyReport record with type AI_GENERATED.
+     */
+    writeReport(conversationId: number): Promise<{
+        message: string;
+    }>;
+    /**
      * Get the latest AI-generated weekly and monthly insights for the merchant dashboard.
      */
     getLatestInsights(): Promise<import("../ajax/Responses/GetLatestInsightsResponse").InsightsResult>;

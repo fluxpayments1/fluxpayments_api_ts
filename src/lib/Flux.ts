@@ -445,6 +445,26 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * Save an AI chat response as a branded PDF report.
+     * Creates a DailyReport record with type AI_GENERATED.
+     */
+    public async writeReport(conversationId: number): Promise<{ message: string }> {
+        const { WriteReportRequest } = await import("../ajax/Requests/WriteReportRequest");
+        const { WriteReportResponse } = await import("../ajax/Responses/WriteReportResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ message: string }, typeof WriteReportRequest.prototype, typeof WriteReportResponse.prototype>(
+            WriteReportRequest,
+            WriteReportResponse,
+            "writeReport",
+            "POST",
+            isolatedHandle,
+            conversationId
+        );
+    }
+
+    /**
      * Get the latest AI-generated weekly and monthly insights for the merchant dashboard.
      */
     public async getLatestInsights(): Promise<import("../ajax/Responses/GetLatestInsightsResponse").InsightsResult> {
