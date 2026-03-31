@@ -45,6 +45,7 @@ export declare class FluxComms<A extends SecurityHandler> {
         toolDetail?: string;
         toolOutput?: string;
         toolStatus?: string;
+        interrupted?: boolean;
     }) => void, conversationId?: number, isSupportTicket?: boolean): Promise<void>;
     /**
      * Resend transaction confirmation email with PDF attachments

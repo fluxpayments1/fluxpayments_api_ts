@@ -11,6 +11,7 @@ export class ChatResponse extends ResponseBodyBase {
     private toolDetail: string;
     private toolOutput: string;
     private toolStatus: string;
+    private interrupted: boolean;
 
     constructor() {
         super();
@@ -27,13 +28,14 @@ export class ChatResponse extends ResponseBodyBase {
         this.toolDetail = parsed.toolDetail || null;
         this.toolOutput = parsed.toolOutput || null;
         this.toolStatus = parsed.toolStatus || null;
+        this.interrupted = parsed.interrupted || false;
         return this;
     }
 
     public getClientReturnValue(): {
         content: string; done: boolean; conversationId: number; title: string;
         statusMessage?: string; toolName?: string; toolDetail?: string;
-        toolOutput?: string; toolStatus?: string;
+        toolOutput?: string; toolStatus?: string; interrupted?: boolean;
     } {
         return {
             content: this.content,
@@ -44,7 +46,8 @@ export class ChatResponse extends ResponseBodyBase {
             toolName: this.toolName,
             toolDetail: this.toolDetail,
             toolOutput: this.toolOutput,
-            toolStatus: this.toolStatus
+            toolStatus: this.toolStatus,
+            interrupted: this.interrupted
         };
     }
 }

@@ -64469,6 +64469,7 @@ class ChatResponse extends ResponseBodyBase_1.ResponseBodyBase {
         this.toolDetail = parsed.toolDetail || null;
         this.toolOutput = parsed.toolOutput || null;
         this.toolStatus = parsed.toolStatus || null;
+        this.interrupted = parsed.interrupted || false;
         return this;
     }
     getClientReturnValue() {
@@ -64481,7 +64482,8 @@ class ChatResponse extends ResponseBodyBase_1.ResponseBodyBase {
             toolName: this.toolName,
             toolDetail: this.toolDetail,
             toolOutput: this.toolOutput,
-            toolStatus: this.toolStatus
+            toolStatus: this.toolStatus,
+            interrupted: this.interrupted
         };
     }
 }

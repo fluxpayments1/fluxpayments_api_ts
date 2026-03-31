@@ -9,6 +9,7 @@ export declare class ChatResponse extends ResponseBodyBase {
     private toolDetail;
     private toolOutput;
     private toolStatus;
+    private interrupted;
     constructor();
     setResponseJSON(jsonString: string): ChatResponse;
     getClientReturnValue(): {
@@ -21,5 +22,6 @@ export declare class ChatResponse extends ResponseBodyBase {
         toolDetail?: string;
         toolOutput?: string;
         toolStatus?: string;
+        interrupted?: boolean;
     };
 }
