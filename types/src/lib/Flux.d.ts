@@ -135,6 +135,16 @@ export declare class FluxComms<A extends SecurityHandler> {
         message: string;
     }>;
     /**
+     * Lookup a customer by email in CustomerAccountData (KeyDB).
+     * Used during account creation to check if the customer already exists.
+     */
+    lookupCustomerByEmail(email: string): Promise<{
+        found: boolean;
+        firstName?: string;
+        lastName?: string;
+        phoneNumber?: string;
+    }>;
+    /**
      * Generate invoice HTML preview for display in the merchant website
      * @param params Object containing preview data (products, customer info, fees, etc.)
      * @returns Object containing the HTML string

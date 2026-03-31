@@ -601,6 +601,26 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * Lookup a customer by email in CustomerAccountData (KeyDB).
+     * Used during account creation to check if the customer already exists.
+     */
+    public async lookupCustomerByEmail(email: string): Promise<{ found: boolean; firstName?: string; lastName?: string; phoneNumber?: string }> {
+        const { LookupCustomerByEmailRequest } = await import("../ajax/Requests/LookupCustomerByEmailRequest");
+        const { LookupCustomerByEmailResponse } = await import("../ajax/Responses/LookupCustomerByEmailResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ found: boolean; firstName?: string; lastName?: string; phoneNumber?: string }, typeof LookupCustomerByEmailRequest.prototype, typeof LookupCustomerByEmailResponse.prototype>(
+            LookupCustomerByEmailRequest,
+            LookupCustomerByEmailResponse,
+            "lookupCustomerByEmail",
+            "POST",
+            isolatedHandle,
+            { email }
+        );
+    }
+
+    /**
      * Generate invoice HTML preview for display in the merchant website
      * @param params Object containing preview data (products, customer info, fees, etc.)
      * @returns Object containing the HTML string

@@ -63784,6 +63784,33 @@ exports.InvoicePreviewRequest = InvoicePreviewRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/LookupCustomerByEmailRequest.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Requests/LookupCustomerByEmailRequest.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LookupCustomerByEmailRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class LookupCustomerByEmailRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.email = params.email;
+    }
+    getRequestAsString() {
+        return JSON.stringify({ email: this.email });
+    }
+}
+exports.LookupCustomerByEmailRequest = LookupCustomerByEmailRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts"
 /*!*******************************************************!*\
   !*** ./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts ***!
@@ -65116,6 +65143,43 @@ class InvoicePreviewResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.InvoicePreviewResponse = InvoicePreviewResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/LookupCustomerByEmailResponse.ts"
+/*!*************************************************************!*\
+  !*** ./src/ajax/Responses/LookupCustomerByEmailResponse.ts ***!
+  \*************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.LookupCustomerByEmailResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class LookupCustomerByEmailResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.found = parsed.found || false;
+        this.firstName = parsed.firstName || null;
+        this.lastName = parsed.lastName || null;
+        this.phoneNumber = parsed.phoneNumber || null;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            found: this.found,
+            firstName: this.firstName,
+            lastName: this.lastName,
+            phoneNumber: this.phoneNumber,
+        };
+    }
+}
+exports.LookupCustomerByEmailResponse = LookupCustomerByEmailResponse;
 
 
 /***/ },
@@ -75082,6 +75146,18 @@ class FluxComms {
             // Clone security handle for request isolation
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(MarkInvoiceAsPaidRequest, MarkInvoiceAsPaidResponse, "markInvoiceAsPaid", "POST", isolatedHandle, params);
+        });
+    }
+    /**
+     * Lookup a customer by email in CustomerAccountData (KeyDB).
+     * Used during account creation to check if the customer already exists.
+     */
+    lookupCustomerByEmail(email) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { LookupCustomerByEmailRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/LookupCustomerByEmailRequest */ "./src/ajax/Requests/LookupCustomerByEmailRequest.ts")));
+            const { LookupCustomerByEmailResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/LookupCustomerByEmailResponse */ "./src/ajax/Responses/LookupCustomerByEmailResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(LookupCustomerByEmailRequest, LookupCustomerByEmailResponse, "lookupCustomerByEmail", "POST", isolatedHandle, { email });
         });
     }
     /**
