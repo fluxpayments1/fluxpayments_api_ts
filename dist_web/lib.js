@@ -63241,6 +63241,32 @@ exports.DownloadTransactionRequest = DownloadTransactionRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/FullTextSearchRequestBody.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Requests/FullTextSearchRequestBody.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.FullTextSearchRequestBody = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class FullTextSearchRequestBody extends RequestBodyBase_1.RequestBodyBase {
+    loadClientData(params) {
+        this._searchTerm = params.searchTerm;
+        this._objectType = params.objectType;
+        this._lookupPage = params.lookupPage;
+        this._pageNumber = params.pageNumber || 1;
+        this._itemsPerPage = params.itemsPerPage || 50;
+        this._subType = params.subType;
+    }
+}
+exports.FullTextSearchRequestBody = FullTextSearchRequestBody;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/GenAuthReq.ts"
 /*!*****************************************!*\
   !*** ./src/ajax/Requests/GenAuthReq.ts ***!
@@ -74838,6 +74864,7 @@ const GenericGetterRequest_1 = __webpack_require__(/*! ../ajax/Requests/GenericG
 const GenericDeleterRequest_1 = __webpack_require__(/*! ../ajax/Requests/GenericDeleterRequest */ "./src/ajax/Requests/GenericDeleterRequest.ts");
 const GenericGetByIdRequest_1 = __webpack_require__(/*! ../ajax/Requests/GenericGetByIdRequest */ "./src/ajax/Requests/GenericGetByIdRequest.ts");
 const GenericUpdaterRequest_1 = __webpack_require__(/*! ../ajax/Requests/GenericUpdaterRequest */ "./src/ajax/Requests/GenericUpdaterRequest.ts");
+const FullTextSearchRequestBody_1 = __webpack_require__(/*! ../ajax/Requests/FullTextSearchRequestBody */ "./src/ajax/Requests/FullTextSearchRequestBody.ts");
 const ChngProdInvCntRequest_1 = __webpack_require__(/*! ../ajax/Requests/ChngProdInvCntRequest */ "./src/ajax/Requests/ChngProdInvCntRequest.ts");
 const GenAuthReq_1 = __webpack_require__(/*! ../ajax/Requests/GenAuthReq */ "./src/ajax/Requests/GenAuthReq.ts");
 const Responses_1 = __webpack_require__(/*! ../ajax/Responses */ "./src/ajax/Responses/index.ts");
@@ -74948,6 +74975,13 @@ class FluxComms {
             const handleToUse = secHandle || this._securityHandle;
             const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
             return lib_1.CMMT.fetchGeneric((GenericGetterRequest_1.GenericGetterRequest), (Responses_1.GenericGetterResponse), obType, `get${name}`, "POST", isolatedHandle, query);
+        });
+    }
+    fulltextSearch(entityType, params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const handleToUse = this._securityHandle;
+            const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
+            return lib_1.CMMT.fetchGeneric(FullTextSearchRequestBody_1.FullTextSearchRequestBody, (Responses_1.GenericGetterResponse), entityType, "fulltextSearch", "POST", isolatedHandle, params);
         });
     }
     deleteObjects(ids, obType, secHandle) {

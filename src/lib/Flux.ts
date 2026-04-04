@@ -25,6 +25,7 @@ import { GenericGetterRequest } from "../ajax/Requests/GenericGetterRequest";
 import { GenericDeleterRequest } from "../ajax/Requests/GenericDeleterRequest";
 import { GenericGetByIdRequest } from "../ajax/Requests/GenericGetByIdRequest";
 import { GenericUpdaterRequest } from "../ajax/Requests/GenericUpdaterRequest";
+import { FullTextSearchRequestBody } from "../ajax/Requests/FullTextSearchRequestBody";
 import { ChngProdInvCntRequest } from "../ajax/Requests/ChngProdInvCntRequest";
 
 import { GenAuthReq } from "../ajax/Requests/GenAuthReq";
@@ -230,6 +231,31 @@ export class FluxComms<A extends SecurityHandler> {
             "POST",
             isolatedHandle,
             query
+        );
+    }
+
+    public async fulltextSearch<T extends IFlux>(
+        entityType: new (o?: any) => T,
+        params: {
+            searchTerm: string;
+            objectType: string;
+            lookupPage?: string;
+            pageNumber?: number;
+            itemsPerPage?: number;
+            subType?: string;
+        }
+    ): Promise<T[]> {
+        const handleToUse = this._securityHandle;
+        const isolatedHandle = (handleToUse as any).clone ? (handleToUse as any).clone() : handleToUse;
+
+        return CMMT.fetchGeneric<FullTextSearchRequestBody, GenericGetterResponse<T>, T>(
+            FullTextSearchRequestBody,
+            GenericGetterResponse<T>,
+            entityType,
+            "fulltextSearch",
+            "POST",
+            isolatedHandle,
+            params
         );
     }
 
