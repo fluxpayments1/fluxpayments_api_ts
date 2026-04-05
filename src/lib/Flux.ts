@@ -26,6 +26,8 @@ import { GenericDeleterRequest } from "../ajax/Requests/GenericDeleterRequest";
 import { GenericGetByIdRequest } from "../ajax/Requests/GenericGetByIdRequest";
 import { GenericUpdaterRequest } from "../ajax/Requests/GenericUpdaterRequest";
 import { FullTextSearchRequestBody } from "../ajax/Requests/FullTextSearchRequestBody";
+import { DashboardTotalsRequestBody } from "../ajax/Requests/DashboardTotalsRequestBody";
+import { DashboardTotalsResponseBody } from "../ajax/Responses/DashboardTotalsResponseBody";
 import { ChngProdInvCntRequest } from "../ajax/Requests/ChngProdInvCntRequest";
 
 import { GenAuthReq } from "../ajax/Requests/GenAuthReq";
@@ -231,6 +233,19 @@ export class FluxComms<A extends SecurityHandler> {
             "POST",
             isolatedHandle,
             query
+        );
+    }
+
+    public async getDashboardTotals(): Promise<any> {
+        const handleToUse = this._securityHandle;
+        const isolatedHandle = (handleToUse as any).clone ? (handleToUse as any).clone() : handleToUse;
+
+        return CMMT.fetch<any, DashboardTotalsRequestBody, DashboardTotalsResponseBody>(
+            DashboardTotalsRequestBody,
+            DashboardTotalsResponseBody,
+            "getDashboardTotals",
+            "POST",
+            isolatedHandle
         );
     }
 

@@ -29,6 +29,7 @@ export declare class FluxComms<A extends SecurityHandler> {
     createObjectGeneric<T extends IFlux>(ob: T | T[], secHandle?: SecurityHandler): Promise<FluxIdentifier[]>;
     createObjectGenericSafe<T extends IFlux>(ob: T | T[], secHandle?: SecurityHandler): Promise<T[]>;
     getObjects<T extends IFlux, U extends IBaseQuery<T>>(query: U, secHandle?: SecurityHandler): Promise<T[]>;
+    getDashboardTotals(): Promise<any>;
     fulltextSearch<T extends IFlux>(entityType: new (o?: any) => T, params: {
         searchTerm: string;
         objectType: string;

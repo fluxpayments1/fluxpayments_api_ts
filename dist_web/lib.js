@@ -63124,6 +63124,27 @@ exports.CreateTransactionRequest = CreateTransactionRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/DashboardTotalsRequestBody.ts"
+/*!*********************************************************!*\
+  !*** ./src/ajax/Requests/DashboardTotalsRequestBody.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DashboardTotalsRequestBody = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class DashboardTotalsRequestBody extends RequestBodyBase_1.RequestBodyBase {
+    loadClientData() {
+        // No request data needed — merchant ID comes from auth
+    }
+}
+exports.DashboardTotalsRequestBody = DashboardTotalsRequestBody;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/DownloadInvoiceRequest.ts"
 /*!*****************************************************!*\
   !*** ./src/ajax/Requests/DownloadInvoiceRequest.ts ***!
@@ -64700,6 +64721,32 @@ class CreateSessionResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.CreateSessionResponse = CreateSessionResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/DashboardTotalsResponseBody.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Responses/DashboardTotalsResponseBody.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DashboardTotalsResponseBody = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class DashboardTotalsResponseBody extends ResponseBodyBase_1.ResponseBodyBase {
+    getClientReturnValue() {
+        return {
+            weekToDate: this._weekToDate,
+            monthToDate: this._monthToDate,
+            yearToDate: this._yearToDate,
+            dailyTotals: this._dailyTotals,
+        };
+    }
+}
+exports.DashboardTotalsResponseBody = DashboardTotalsResponseBody;
 
 
 /***/ },
@@ -74865,6 +74912,8 @@ const GenericDeleterRequest_1 = __webpack_require__(/*! ../ajax/Requests/Generic
 const GenericGetByIdRequest_1 = __webpack_require__(/*! ../ajax/Requests/GenericGetByIdRequest */ "./src/ajax/Requests/GenericGetByIdRequest.ts");
 const GenericUpdaterRequest_1 = __webpack_require__(/*! ../ajax/Requests/GenericUpdaterRequest */ "./src/ajax/Requests/GenericUpdaterRequest.ts");
 const FullTextSearchRequestBody_1 = __webpack_require__(/*! ../ajax/Requests/FullTextSearchRequestBody */ "./src/ajax/Requests/FullTextSearchRequestBody.ts");
+const DashboardTotalsRequestBody_1 = __webpack_require__(/*! ../ajax/Requests/DashboardTotalsRequestBody */ "./src/ajax/Requests/DashboardTotalsRequestBody.ts");
+const DashboardTotalsResponseBody_1 = __webpack_require__(/*! ../ajax/Responses/DashboardTotalsResponseBody */ "./src/ajax/Responses/DashboardTotalsResponseBody.ts");
 const ChngProdInvCntRequest_1 = __webpack_require__(/*! ../ajax/Requests/ChngProdInvCntRequest */ "./src/ajax/Requests/ChngProdInvCntRequest.ts");
 const GenAuthReq_1 = __webpack_require__(/*! ../ajax/Requests/GenAuthReq */ "./src/ajax/Requests/GenAuthReq.ts");
 const Responses_1 = __webpack_require__(/*! ../ajax/Responses */ "./src/ajax/Responses/index.ts");
@@ -74975,6 +75024,13 @@ class FluxComms {
             const handleToUse = secHandle || this._securityHandle;
             const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
             return lib_1.CMMT.fetchGeneric((GenericGetterRequest_1.GenericGetterRequest), (Responses_1.GenericGetterResponse), obType, `get${name}`, "POST", isolatedHandle, query);
+        });
+    }
+    getDashboardTotals() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const handleToUse = this._securityHandle;
+            const isolatedHandle = handleToUse.clone ? handleToUse.clone() : handleToUse;
+            return lib_1.CMMT.fetch(DashboardTotalsRequestBody_1.DashboardTotalsRequestBody, DashboardTotalsResponseBody_1.DashboardTotalsResponseBody, "getDashboardTotals", "POST", isolatedHandle);
         });
     }
     fulltextSearch(entityType, params) {
