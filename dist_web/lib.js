@@ -74038,6 +74038,7 @@ class Transaction extends FluxType_1.FluxType {
             currency: this.currency,
             currencyId: this.currencyId,
             paymentLinkId: this.paymentLinkId,
+            productId: this.productId,
             objectType: this.objectType,
             shippingAddressId: this.shippingAddressId,
             shippingAddressUniqueId: this.shippingAddressUniqueId,

@@ -38,6 +38,12 @@ export declare class Transaction extends FluxType implements ITransaction {
     defaultCurrencyAmount: number;
     amount: number;
     paymentLinkId: number;
+    /**
+     * For recurring renewal transactions: the catalog Product ID that this
+     * single charge represents. Lets the merchant portal scope the displayed
+     * line items to just the one being billed.
+     */
+    productId: number;
     taxRate: number;
     currency: string;
     currencyId: number;
@@ -166,6 +172,7 @@ export declare class Transaction extends FluxType implements ITransaction {
         currency: string;
         currencyId: number;
         paymentLinkId: number;
+        productId: number;
         objectType: string;
         shippingAddressId: number;
         shippingAddressUniqueId: string;
