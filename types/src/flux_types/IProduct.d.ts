@@ -23,4 +23,5 @@ export interface IProduct {
     discountId?: number;
     discountName?: string;
     discountValue?: number;
+    displayOrder?: number;
 }

@@ -72728,7 +72728,8 @@ class Product extends FluxType_1.FluxType {
             objectType: "product",
             orderQuantity: this.orderQuantity,
             memo: this.memo,
-            discountId: this.discountId
+            discountId: this.discountId,
+            displayOrder: this.displayOrder
         };
     }
     constructor(prod) {

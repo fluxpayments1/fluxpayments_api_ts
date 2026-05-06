@@ -44,5 +44,6 @@ export interface IProduct {
     memo?: string, //Custom memo for this product on a payment link
     discountId?: number, //Discount to apply to this product on a payment link
     discountName?: string, //Name of the applied discount (populated by backend)
-    discountValue?: number //Amount of the discount (populated by backend)
+    discountValue?: number, //Amount of the discount (populated by backend)
+    displayOrder?: number //Per-PaymentLink line-item position (0-based, lowest first)
 }

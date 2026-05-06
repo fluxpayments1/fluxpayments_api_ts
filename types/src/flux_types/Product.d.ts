@@ -26,6 +26,7 @@ export declare class Product extends FluxType implements IProduct {
         orderQuantity: number;
         memo: string;
         discountId: number;
+        displayOrder: number;
     };
     currency: string;
     orderQuantity: number;
@@ -48,6 +49,13 @@ export declare class Product extends FluxType implements IProduct {
     installments: number;
     memo: string;
     discountId: number;
+    /**
+     * Per-PaymentLink display position (0-based). Set by the merchant portal
+     * when sending products on create/update so the order shown on the link is
+     * exactly the order configured. Server-side integrations can leave it
+     * undefined — the backend falls back to array index.
+     */
+    displayOrder: number;
     protected objectType: string;
     constructor(prod?: Partial<IProduct>);
     incrementInventoryCount(quantity: number): Promise<Product>;
