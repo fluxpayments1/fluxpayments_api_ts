@@ -39,6 +39,8 @@ export declare class Account extends FluxType implements IAccount {
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;
         defaultPaymentMethodUniqueId: string;
+        defaultPaymentMethodOnFileId: number;
+        defaultPaymentMethodOnFileUniqueId: string;
         objectType: string;
         phoneNumber: string;
         businessName: string;
@@ -72,6 +74,8 @@ export declare class Account extends FluxType implements IAccount {
     private defaultShippingAddressUniqueId;
     private defaultPaymentMethodId;
     private defaultPaymentMethodUniqueId;
+    defaultPaymentMethodOnFileId: number;
+    defaultPaymentMethodOnFileUniqueId: string;
     protected objectType: string;
     /**'
      * Gets the addresses of the current context.

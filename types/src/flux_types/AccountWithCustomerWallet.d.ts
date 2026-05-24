@@ -17,6 +17,8 @@ export declare class AccountWithCustomerWallet extends Account {
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;
         defaultPaymentMethodUniqueId: string;
+        defaultPaymentMethodOnFileId: number;
+        defaultPaymentMethodOnFileUniqueId: string;
         objectType: string;
         phoneNumber: string;
         businessName: string;

@@ -68027,6 +68027,8 @@ class Account extends FluxType_1.FluxType {
             defaultShippingAddressUniqueId: this.defaultShippingAddressUniqueId,
             defaultPaymentMethodId: this.defaultPaymentMethodId,
             defaultPaymentMethodUniqueId: this.defaultPaymentMethodUniqueId,
+            defaultPaymentMethodOnFileId: this.defaultPaymentMethodOnFileId,
+            defaultPaymentMethodOnFileUniqueId: this.defaultPaymentMethodOnFileUniqueId,
             objectType: this.objectType,
             phoneNumber: this.phoneNumber,
             businessName: this.businessName,
@@ -69249,6 +69251,77 @@ class Card extends FluxType_1.FluxType {
     }
 }
 exports.Card = Card;
+
+
+/***/ },
+
+/***/ "./src/flux_types/CardCaptureForm.ts"
+/*!*******************************************!*\
+  !*** ./src/flux_types/CardCaptureForm.ts ***!
+  \*******************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CardCaptureForm = void 0;
+const PaymentLink_1 = __webpack_require__(/*! ./PaymentLink */ "./src/flux_types/PaymentLink.ts");
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class CardCaptureForm extends PaymentLink_1.PaymentLink {
+    constructor(form) {
+        super(form);
+        this.obName = "CardCaptureForm";
+        this.isCardCapture = true;
+        Object.assign(this, form);
+    }
+    static createInstanceLazy(form) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(form, this);
+        });
+    }
+    static createInstanceSafe(form) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(form, this);
+        });
+    }
+}
+exports.CardCaptureForm = CardCaptureForm;
+
+
+/***/ },
+
+/***/ "./src/flux_types/CardCaptureFormQuery.ts"
+/*!************************************************!*\
+  !*** ./src/flux_types/CardCaptureFormQuery.ts ***!
+  \************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CardCaptureFormQuery = void 0;
+const PaymentLinkQuery_1 = __webpack_require__(/*! ./PaymentLinkQuery */ "./src/flux_types/PaymentLinkQuery.ts");
+class CardCaptureFormQuery extends PaymentLinkQuery_1.PaymentLinkQuery {
+    constructor(query) {
+        super(query);
+        this.obName = "CardCaptureFormQuery";
+        this.isCardCapture = true;
+        Object.assign(this, query);
+    }
+    serialize() {
+        return Object.assign(Object.assign({}, super.serialize()), { isCardCapture: this.isCardCapture });
+    }
+}
+exports.CardCaptureFormQuery = CardCaptureFormQuery;
 
 
 /***/ },
@@ -71341,7 +71414,8 @@ class Merchant extends FluxType_1.FluxType {
             passthroughAchFeeEnabled: this.passthroughAchFeeEnabled,
             passthroughCardFeeEnabled: this.passthroughCardFeeEnabled,
             invoiceThankYouMessage: this.invoiceThankYouMessage,
-            defaultSuppressEmail: this.defaultSuppressEmail
+            defaultSuppressEmail: this.defaultSuppressEmail,
+            cardIntakeTermsText: this.cardIntakeTermsText
         };
     }
     constructor(merchant) {
@@ -72089,6 +72163,10 @@ class PaymentLink extends FluxType_1.FluxType {
             isReusable: this.isReusable,
             minutesToExpire: this.minutesToExpire,
             isInvoice: this.isInvoice,
+            isCardCapture: this.isCardCapture,
+            termsTextOverride: this.termsTextOverride,
+            paymentMethodOnFileId: this.paymentMethodOnFileId,
+            paymentMethodOnFileUniqueId: this.paymentMethodOnFileUniqueId,
             processingFeeInversion: this.processingFeeInversion,
             isProcessingFeeEnabled: this.isProcessingFeeEnabled,
             processingFeeInversionAch: this.processingFeeInversionAch,
@@ -72470,6 +72548,119 @@ class PaymentMethod extends FluxType_1.FluxType {
     }
 }
 exports.PaymentMethod = PaymentMethod;
+
+
+/***/ },
+
+/***/ "./src/flux_types/PaymentMethodOnFile.ts"
+/*!***********************************************!*\
+  !*** ./src/flux_types/PaymentMethodOnFile.ts ***!
+  \***********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PaymentMethodOnFile = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class PaymentMethodOnFile extends FluxType_1.FluxType {
+    getDispName() {
+        const brand = this.cardBrand ? this.cardBrand + " " : "";
+        const tail = this.lastFour ? "•••• " + this.lastFour : "(no last four)";
+        return brand + tail;
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            accountId: this.accountId,
+            accountUniqueId: this.accountUniqueId,
+            customerSensitiveDataId: this.customerSensitiveDataId,
+            customerSensitiveDataUniqueId: this.customerSensitiveDataUniqueId,
+            paymentLinkId: this.paymentLinkId,
+            payType: this.payType,
+            lastFour: this.lastFour,
+            cardBrand: this.cardBrand,
+            zeroDollarAuthTxnId: this.zeroDollarAuthTxnId,
+            authRunAt: this.authRunAt,
+            termsTextSnapshot: this.termsTextSnapshot,
+            termsAcceptedAt: this.termsAcceptedAt,
+            termsIp: this.termsIp,
+            termsUserAgent: this.termsUserAgent,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, PaymentMethodOnFile);
+        this.obName = "PaymentMethodOnFile";
+        this.objectType = "payment_method_on_file";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.PaymentMethodOnFile = PaymentMethodOnFile;
+
+
+/***/ },
+
+/***/ "./src/flux_types/PaymentMethodOnFileQuery.ts"
+/*!****************************************************!*\
+  !*** ./src/flux_types/PaymentMethodOnFileQuery.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PaymentMethodOnFileQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const PaymentMethodOnFile_1 = __webpack_require__(/*! ./PaymentMethodOnFile */ "./src/flux_types/PaymentMethodOnFile.ts");
+class PaymentMethodOnFileQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            accountId: this.accountId,
+            paymentLinkId: this.paymentLinkId,
+            payType: this.payType,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(PaymentMethodOnFile_1.PaymentMethodOnFile);
+        this.objectType = "payment_method_on_file";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new PaymentMethodOnFileQuery(q);
+    }
+}
+exports.PaymentMethodOnFileQuery = PaymentMethodOnFileQuery;
 
 
 /***/ },
@@ -74645,7 +74836,7 @@ exports.WalletQuery = WalletQuery;
 // Do not edit manually - run npm run compile-rn to regenerate
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.DiscountQuery = exports.Discount = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
-exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ReusableLinkQuery = exports.ReusableLink = void 0;
+exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.CardCaptureFormQuery = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -74750,6 +74941,14 @@ var ReusableLink_1 = __webpack_require__(/*! ./ReusableLink */ "./src/flux_types
 Object.defineProperty(exports, "ReusableLink", ({ enumerable: true, get: function () { return ReusableLink_1.ReusableLink; } }));
 var ReusableLinkQuery_1 = __webpack_require__(/*! ./ReusableLinkQuery */ "./src/flux_types/ReusableLinkQuery.ts");
 Object.defineProperty(exports, "ReusableLinkQuery", ({ enumerable: true, get: function () { return ReusableLinkQuery_1.ReusableLinkQuery; } }));
+var PaymentMethodOnFile_1 = __webpack_require__(/*! ./PaymentMethodOnFile */ "./src/flux_types/PaymentMethodOnFile.ts");
+Object.defineProperty(exports, "PaymentMethodOnFile", ({ enumerable: true, get: function () { return PaymentMethodOnFile_1.PaymentMethodOnFile; } }));
+var PaymentMethodOnFileQuery_1 = __webpack_require__(/*! ./PaymentMethodOnFileQuery */ "./src/flux_types/PaymentMethodOnFileQuery.ts");
+Object.defineProperty(exports, "PaymentMethodOnFileQuery", ({ enumerable: true, get: function () { return PaymentMethodOnFileQuery_1.PaymentMethodOnFileQuery; } }));
+var CardCaptureForm_1 = __webpack_require__(/*! ./CardCaptureForm */ "./src/flux_types/CardCaptureForm.ts");
+Object.defineProperty(exports, "CardCaptureForm", ({ enumerable: true, get: function () { return CardCaptureForm_1.CardCaptureForm; } }));
+var CardCaptureFormQuery_1 = __webpack_require__(/*! ./CardCaptureFormQuery */ "./src/flux_types/CardCaptureFormQuery.ts");
+Object.defineProperty(exports, "CardCaptureFormQuery", ({ enumerable: true, get: function () { return CardCaptureFormQuery_1.CardCaptureFormQuery; } }));
 var Token_1 = __webpack_require__(/*! ./Token */ "./src/flux_types/Token.ts");
 Object.defineProperty(exports, "Token", ({ enumerable: true, get: function () { return Token_1.Token; } }));
 var TokenQuery_1 = __webpack_require__(/*! ./TokenQuery */ "./src/flux_types/TokenQuery.ts");

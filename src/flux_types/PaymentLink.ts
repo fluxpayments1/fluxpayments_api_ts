@@ -85,6 +85,10 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             isReusable: this.isReusable,
             minutesToExpire: this.minutesToExpire,
             isInvoice: this.isInvoice,
+            isCardCapture: this.isCardCapture,
+            termsTextOverride: this.termsTextOverride,
+            paymentMethodOnFileId: this.paymentMethodOnFileId,
+            paymentMethodOnFileUniqueId: this.paymentMethodOnFileUniqueId,
             processingFeeInversion: this.processingFeeInversion,
             isProcessingFeeEnabled: this.isProcessingFeeEnabled,
             processingFeeInversionAch: this.processingFeeInversionAch,
@@ -152,6 +156,10 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     productDumps: ProductDump[];
     currencies : Currency[];
     isInvoice: boolean;
+    isCardCapture: boolean;
+    termsTextOverride: string;
+    paymentMethodOnFileId: number;
+    paymentMethodOnFileUniqueId: string;
     dueDate: number;
     qbInvoiceId: string;
     hasBeenSyncedToQuickbooks: boolean;
