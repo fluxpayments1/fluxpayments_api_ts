@@ -523,6 +523,69 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
+    // ────────────────────────────────────────────────────────────────
+    // Forth Pay integration
+    // ────────────────────────────────────────────────────────────────
+
+    /** Connect or re-connect Forth Pay for this merchant. Verifies the supplied client_id / secret by exchanging them for an access token, then stores them encrypted. */
+    public async connectForth(forthClientId: string, forthClientSecret: string, opts?: {
+        label?: string;
+        notificationEmail?: string;
+        autoChargeEnabled?: boolean;
+    }) {
+        const { ConnectForthRequest } = await import("../ajax/Requests/ConnectForthRequest");
+        const { ConnectForthResponse } = await import("../ajax/Responses/ConnectForthResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<{ credentials: any }, typeof ConnectForthRequest.prototype, typeof ConnectForthResponse.prototype>(
+            ConnectForthRequest, ConnectForthResponse, "connectForth", "POST", isolatedHandle,
+            forthClientId, forthClientSecret, opts
+        );
+    }
+
+    /** Disconnect Forth Pay — clears credentials, stops polling. Mappings and history are preserved. */
+    public async disconnectForth() {
+        const { ForthMappingActionRequest } = await import("../ajax/Requests/ForthMappingActionRequest");
+        const { ForthGenericResponse } = await import("../ajax/Responses/ForthGenericResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<{ status: number; errorMsg?: string }, typeof ForthMappingActionRequest.prototype, typeof ForthGenericResponse.prototype>(
+            ForthMappingActionRequest, ForthGenericResponse, "disconnectForth", "POST", isolatedHandle
+        );
+    }
+
+    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
+     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
+    public async getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult> {
+        const { GetForthStatusRequest } = await import("../ajax/Requests/GetForthStatusRequest");
+        const { GetForthStatusResponse } = await import("../ajax/Responses/GetForthStatusResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult, typeof GetForthStatusRequest.prototype, typeof GetForthStatusResponse.prototype>(
+            GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle,
+            page, pageSize
+        );
+    }
+
+    /** Re-send the card intake email + push a fresh intake document to Forth for a specific client. */
+    public async resendForthIntake(mappingId: number) {
+        const { ForthMappingActionRequest } = await import("../ajax/Requests/ForthMappingActionRequest");
+        const { ForthGenericResponse } = await import("../ajax/Responses/ForthGenericResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<{ status: number; errorMsg?: string }, typeof ForthMappingActionRequest.prototype, typeof ForthGenericResponse.prototype>(
+            ForthMappingActionRequest, ForthGenericResponse, "resendForthIntake", "POST", isolatedHandle,
+            mappingId
+        );
+    }
+
+    /** Pause or un-pause auto-charging for a specific Forth client mapping. */
+    public async pauseForthClient(mappingId: number, paused: boolean) {
+        const { ForthMappingActionRequest } = await import("../ajax/Requests/ForthMappingActionRequest");
+        const { ForthGenericResponse } = await import("../ajax/Responses/ForthGenericResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<{ status: number; errorMsg?: string }, typeof ForthMappingActionRequest.prototype, typeof ForthGenericResponse.prototype>(
+            ForthMappingActionRequest, ForthGenericResponse, "pauseForthClient", "POST", isolatedHandle,
+            mappingId, paused
+        );
+    }
+
     /**
      * Get the latest changelog entries (platform release notes).
      */

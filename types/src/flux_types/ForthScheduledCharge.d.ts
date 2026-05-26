@@ -1,0 +1,47 @@
+import { FluxType } from "./FluxType";
+import { IForthScheduledCharge } from "./IForthScheduledCharge";
+export declare class ForthScheduledCharge extends FluxType implements IForthScheduledCharge {
+    obName: string;
+    getDispName(): string;
+    serialize(): {
+        id: number;
+        uniqueId: string;
+        merchantId: number;
+        mappingId: number;
+        forthDebitId: number;
+        amount: string | number;
+        processDate: number;
+        memo: string;
+        status: string;
+        attemptCount: number;
+        lastAttemptAt: number;
+        nextAttemptAt: number;
+        fluxTransactionId: number;
+        errorMessage: string;
+        activeStatus: boolean;
+        metadata: string;
+        version: number;
+        objectType: string;
+    };
+    id: number;
+    uniqueId: string;
+    merchantId?: number;
+    mappingId?: number;
+    forthDebitId?: number;
+    amount?: number | string;
+    processDate?: number;
+    memo?: string;
+    status?: string;
+    attemptCount?: number;
+    lastAttemptAt?: number;
+    nextAttemptAt?: number;
+    fluxTransactionId?: number;
+    errorMessage?: string;
+    activeStatus?: boolean;
+    metadata?: string;
+    version?: number;
+    protected objectType: string;
+    constructor(data?: Partial<IForthScheduledCharge>);
+    static createInstanceLazy(data: Partial<IForthScheduledCharge>): Promise<ForthScheduledCharge>;
+    static createInstanceSafe(data: Partial<IForthScheduledCharge>): Promise<ForthScheduledCharge>;
+}

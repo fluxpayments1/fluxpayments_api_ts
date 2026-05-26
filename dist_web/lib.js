@@ -62949,6 +62949,45 @@ exports.ConfirmEmailCodeRequest = ConfirmEmailCodeRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/ConnectForthRequest.ts"
+/*!**************************************************!*\
+  !*** ./src/ajax/Requests/ConnectForthRequest.ts ***!
+  \**************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ConnectForthRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class ConnectForthRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(forthClientId, forthClientSecret, opts) {
+        this.forthClientId = forthClientId;
+        this.forthClientSecret = forthClientSecret;
+        if (opts) {
+            this.label = opts.label;
+            this.notificationEmail = opts.notificationEmail;
+            this.autoChargeEnabled = opts.autoChargeEnabled;
+        }
+    }
+    getRequestAsString() {
+        return JSON.stringify({
+            forthClientId: this.forthClientId,
+            forthClientSecret: this.forthClientSecret,
+            label: this.label,
+            notificationEmail: this.notificationEmail,
+            autoChargeEnabled: this.autoChargeEnabled,
+        });
+    }
+}
+exports.ConnectForthRequest = ConnectForthRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/CreatePaymentMethodRequest.ts"
 /*!*********************************************************!*\
   !*** ./src/ajax/Requests/CreatePaymentMethodRequest.ts ***!
@@ -63258,6 +63297,34 @@ class DownloadTransactionRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.DownloadTransactionRequest = DownloadTransactionRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/ForthMappingActionRequest.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Requests/ForthMappingActionRequest.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthMappingActionRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class ForthMappingActionRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(mappingId, paused) {
+        this.mappingId = mappingId;
+        this.paused = paused;
+    }
+    getRequestAsString() {
+        return JSON.stringify({ mappingId: this.mappingId, paused: this.paused });
+    }
+}
+exports.ForthMappingActionRequest = ForthMappingActionRequest;
 
 
 /***/ },
@@ -63635,6 +63702,32 @@ class GetChangelogRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.GetChangelogRequest = GetChangelogRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/GetForthStatusRequest.ts"
+/*!****************************************************!*\
+  !*** ./src/ajax/Requests/GetForthStatusRequest.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetForthStatusRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class GetForthStatusRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(page, pageSize) {
+        this.page = page;
+        this.pageSize = pageSize;
+    }
+    getRequestAsString() {
+        return JSON.stringify({ page: this.page, pageSize: this.pageSize });
+    }
+}
+exports.GetForthStatusRequest = GetForthStatusRequest;
 
 
 /***/ },
@@ -64644,6 +64737,37 @@ exports.ConfirmEmailCodeResponse = ConfirmEmailCodeResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/ConnectForthResponse.ts"
+/*!****************************************************!*\
+  !*** ./src/ajax/Responses/ConnectForthResponse.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ConnectForthResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+const MerchantForthCredentials_1 = __webpack_require__(/*! ../../flux_types/MerchantForthCredentials */ "./src/flux_types/MerchantForthCredentials.ts");
+class ConnectForthResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.credentials = null;
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.credentials = parsed.credentials ? new MerchantForthCredentials_1.MerchantForthCredentials(parsed.credentials) : null;
+        return this;
+    }
+    getClientReturnValue() {
+        return { credentials: this.credentials };
+    }
+}
+exports.ConnectForthResponse = ConnectForthResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/CreatePaymentMethodResponse.ts"
 /*!***********************************************************!*\
   !*** ./src/ajax/Responses/CreatePaymentMethodResponse.ts ***!
@@ -64840,6 +64964,40 @@ class DownloadTransactionResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.DownloadTransactionResponse = DownloadTransactionResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ForthGenericResponse.ts"
+/*!****************************************************!*\
+  !*** ./src/ajax/Responses/ForthGenericResponse.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthGenericResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+/**
+ * Generic response for Forth Pay action endpoints (disconnect, resend
+ * intake, charge now, pause). They don't return a payload — just success
+ * via the inherited `status` from ResponseBodyBase.
+ */
+class ForthGenericResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() { super(); }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        if (typeof p.status === "number")
+            this.status = p.status;
+        this.errorMsg = p.errorMsg;
+        return this;
+    }
+    getClientReturnValue() {
+        return { status: this.status, errorMsg: this.errorMsg };
+    }
+}
+exports.ForthGenericResponse = ForthGenericResponse;
 
 
 /***/ },
@@ -65093,6 +65251,75 @@ class GetChangelogResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.GetChangelogResponse = GetChangelogResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/GetForthStatusResponse.ts"
+/*!******************************************************!*\
+  !*** ./src/ajax/Responses/GetForthStatusResponse.ts ***!
+  \******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetForthStatusResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+const MerchantForthCredentials_1 = __webpack_require__(/*! ../../flux_types/MerchantForthCredentials */ "./src/flux_types/MerchantForthCredentials.ts");
+const ForthClientMapping_1 = __webpack_require__(/*! ../../flux_types/ForthClientMapping */ "./src/flux_types/ForthClientMapping.ts");
+const ForthActivityEvent_1 = __webpack_require__(/*! ../../flux_types/ForthActivityEvent */ "./src/flux_types/ForthActivityEvent.ts");
+const ForthScheduledCharge_1 = __webpack_require__(/*! ../../flux_types/ForthScheduledCharge */ "./src/flux_types/ForthScheduledCharge.ts");
+class GetForthStatusResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            connected: false,
+            credentials: null,
+            linkedClientCount: 0,
+            cardsOnFileCount: 0,
+            chargesThisMonthCount: 0,
+            chargesThisMonthAmount: 0,
+            failedChargesCount: 0,
+            awaitingCardRefreshCount: 0,
+            recentEvents: [],
+            mappings: [],
+            totalMappings: 0,
+            mappingPage: 1,
+            mappingPageSize: 25,
+            scheduledChargesByMapping: {},
+        };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        const charges = {};
+        if (p.scheduledChargesByMapping && typeof p.scheduledChargesByMapping === 'object') {
+            for (const k of Object.keys(p.scheduledChargesByMapping)) {
+                charges[Number(k)] = (p.scheduledChargesByMapping[k] || [])
+                    .map((c) => new ForthScheduledCharge_1.ForthScheduledCharge(c));
+            }
+        }
+        this.result = {
+            connected: !!p.connected,
+            credentials: p.credentials ? new MerchantForthCredentials_1.MerchantForthCredentials(p.credentials) : null,
+            linkedClientCount: p.linkedClientCount || 0,
+            cardsOnFileCount: p.cardsOnFileCount || 0,
+            chargesThisMonthCount: p.chargesThisMonthCount || 0,
+            chargesThisMonthAmount: p.chargesThisMonthAmount || 0,
+            failedChargesCount: p.failedChargesCount || 0,
+            awaitingCardRefreshCount: p.awaitingCardRefreshCount || 0,
+            recentEvents: (p.recentEvents || []).map((e) => new ForthActivityEvent_1.ForthActivityEvent(e)),
+            mappings: (p.mappings || []).map((m) => new ForthClientMapping_1.ForthClientMapping(m)),
+            totalMappings: p.totalMappings || 0,
+            mappingPage: p.mappingPage || 1,
+            mappingPageSize: p.mappingPageSize || 25,
+            scheduledChargesByMapping: charges,
+        };
+        return this;
+    }
+    getClientReturnValue() { return this.result; }
+}
+exports.GetForthStatusResponse = GetForthStatusResponse;
 
 
 /***/ },
@@ -70905,6 +71132,341 @@ exports.FluxType = FluxType;
 
 /***/ },
 
+/***/ "./src/flux_types/ForthActivityEvent.ts"
+/*!**********************************************!*\
+  !*** ./src/flux_types/ForthActivityEvent.ts ***!
+  \**********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthActivityEvent = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class ForthActivityEvent extends FluxType_1.FluxType {
+    getDispName() {
+        return this.eventType + (this.message ? " — " + this.message : "");
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            credentialsId: this.credentialsId,
+            mappingId: this.mappingId,
+            eventType: this.eventType,
+            severity: this.severity,
+            message: this.message,
+            payload: this.payload,
+            createdAt: this.createdAt,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, ForthActivityEvent);
+        this.obName = "ForthActivityEvent";
+        this.objectType = "forth_activity_event";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.ForthActivityEvent = ForthActivityEvent;
+
+
+/***/ },
+
+/***/ "./src/flux_types/ForthActivityEventQuery.ts"
+/*!***************************************************!*\
+  !*** ./src/flux_types/ForthActivityEventQuery.ts ***!
+  \***************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthActivityEventQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const ForthActivityEvent_1 = __webpack_require__(/*! ./ForthActivityEvent */ "./src/flux_types/ForthActivityEvent.ts");
+class ForthActivityEventQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            credentialsId: this.credentialsId,
+            mappingId: this.mappingId,
+            eventType: this.eventType,
+            severity: this.severity,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(ForthActivityEvent_1.ForthActivityEvent);
+        this.objectType = "forth_activity_event";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new ForthActivityEventQuery(q);
+    }
+}
+exports.ForthActivityEventQuery = ForthActivityEventQuery;
+
+
+/***/ },
+
+/***/ "./src/flux_types/ForthClientMapping.ts"
+/*!**********************************************!*\
+  !*** ./src/flux_types/ForthClientMapping.ts ***!
+  \**********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthClientMapping = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class ForthClientMapping extends FluxType_1.FluxType {
+    getDispName() {
+        const n = ((this.forthClientFirstName || "") + " " + (this.forthClientLastName || "")).trim();
+        return n || ("Forth client #" + this.forthClientId);
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            credentialsId: this.credentialsId,
+            forthClientId: this.forthClientId,
+            forthCompanyId: this.forthCompanyId,
+            forthClientEmail: this.forthClientEmail,
+            forthClientFirstName: this.forthClientFirstName,
+            forthClientLastName: this.forthClientLastName,
+            forthClientPhone: this.forthClientPhone,
+            fluxAccountId: this.fluxAccountId,
+            cardIntakePaymentLinkId: this.cardIntakePaymentLinkId,
+            intakeSentAt: this.intakeSentAt,
+            intakeCompletedAt: this.intakeCompletedAt,
+            paymentMethodOnFileId: this.paymentMethodOnFileId,
+            enrollmentStatus: this.enrollmentStatus,
+            enrollmentPaused: this.enrollmentPaused,
+            enrollmentDropped: this.enrollmentDropped,
+            enrollmentGraduated: this.enrollmentGraduated,
+            waitingForCardRefresh: this.waitingForCardRefresh,
+            lastChargedAt: this.lastChargedAt,
+            lastChargeStatus: this.lastChargeStatus,
+            lastChargeError: this.lastChargeError,
+            paused: this.paused,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, ForthClientMapping);
+        this.obName = "ForthClientMapping";
+        this.objectType = "forth_client_mapping";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.ForthClientMapping = ForthClientMapping;
+
+
+/***/ },
+
+/***/ "./src/flux_types/ForthClientMappingQuery.ts"
+/*!***************************************************!*\
+  !*** ./src/flux_types/ForthClientMappingQuery.ts ***!
+  \***************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthClientMappingQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const ForthClientMapping_1 = __webpack_require__(/*! ./ForthClientMapping */ "./src/flux_types/ForthClientMapping.ts");
+class ForthClientMappingQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            credentialsId: this.credentialsId,
+            forthClientId: this.forthClientId,
+            fluxAccountId: this.fluxAccountId,
+            enrollmentStatus: this.enrollmentStatus,
+            paused: this.paused,
+            waitingForCardRefresh: this.waitingForCardRefresh,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(ForthClientMapping_1.ForthClientMapping);
+        this.objectType = "forth_client_mapping";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new ForthClientMappingQuery(q);
+    }
+}
+exports.ForthClientMappingQuery = ForthClientMappingQuery;
+
+
+/***/ },
+
+/***/ "./src/flux_types/ForthScheduledCharge.ts"
+/*!************************************************!*\
+  !*** ./src/flux_types/ForthScheduledCharge.ts ***!
+  \************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthScheduledCharge = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class ForthScheduledCharge extends FluxType_1.FluxType {
+    getDispName() {
+        return "Forth debit " + this.forthDebitId + " ($" + this.amount + ")";
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            mappingId: this.mappingId,
+            forthDebitId: this.forthDebitId,
+            amount: this.amount,
+            processDate: this.processDate,
+            memo: this.memo,
+            status: this.status,
+            attemptCount: this.attemptCount,
+            lastAttemptAt: this.lastAttemptAt,
+            nextAttemptAt: this.nextAttemptAt,
+            fluxTransactionId: this.fluxTransactionId,
+            errorMessage: this.errorMessage,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, ForthScheduledCharge);
+        this.obName = "ForthScheduledCharge";
+        this.objectType = "forth_scheduled_charge";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.ForthScheduledCharge = ForthScheduledCharge;
+
+
+/***/ },
+
+/***/ "./src/flux_types/ForthScheduledChargeQuery.ts"
+/*!*****************************************************!*\
+  !*** ./src/flux_types/ForthScheduledChargeQuery.ts ***!
+  \*****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthScheduledChargeQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const ForthScheduledCharge_1 = __webpack_require__(/*! ./ForthScheduledCharge */ "./src/flux_types/ForthScheduledCharge.ts");
+class ForthScheduledChargeQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            mappingId: this.mappingId,
+            forthDebitId: this.forthDebitId,
+            status: this.status,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(ForthScheduledCharge_1.ForthScheduledCharge);
+        this.objectType = "forth_scheduled_charge";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new ForthScheduledChargeQuery(q);
+    }
+}
+exports.ForthScheduledChargeQuery = ForthScheduledChargeQuery;
+
+
+/***/ },
+
 /***/ "./src/flux_types/GuestPaymentLink.ts"
 /*!********************************************!*\
   !*** ./src/flux_types/GuestPaymentLink.ts ***!
@@ -71545,6 +72107,120 @@ class MerchantAccessCredentialsQuery extends BaseQuery_1.BaseQuery {
     }
 }
 exports.MerchantAccessCredentialsQuery = MerchantAccessCredentialsQuery;
+
+
+/***/ },
+
+/***/ "./src/flux_types/MerchantForthCredentials.ts"
+/*!****************************************************!*\
+  !*** ./src/flux_types/MerchantForthCredentials.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MerchantForthCredentials = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+class MerchantForthCredentials extends FluxType_1.FluxType {
+    getDispName() {
+        return this.label || this.forthCompanyName || "Forth Pay";
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            label: this.label,
+            forthCompanyId: this.forthCompanyId,
+            forthCompanyName: this.forthCompanyName,
+            forthCompanyContactName: this.forthCompanyContactName,
+            forthCompanyEmail: this.forthCompanyEmail,
+            forthAccessTokenExpiresAt: this.forthAccessTokenExpiresAt,
+            notificationEmail: this.notificationEmail,
+            autoChargeEnabled: this.autoChargeEnabled,
+            paused: this.paused,
+            lastPollAt: this.lastPollAt,
+            lastClientWatermark: this.lastClientWatermark,
+            lastDebitWatermark: this.lastDebitWatermark,
+            lastHoldPollAt: this.lastHoldPollAt,
+            lastCompanyRefreshAt: this.lastCompanyRefreshAt,
+            consecutivePollFailures: this.consecutivePollFailures,
+            pollBackoffUntil: this.pollBackoffUntil,
+            refreshingAt: this.refreshingAt,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, MerchantForthCredentials);
+        this.obName = "MerchantForthCredentials";
+        this.objectType = "merchant_forth_credentials";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.MerchantForthCredentials = MerchantForthCredentials;
+
+
+/***/ },
+
+/***/ "./src/flux_types/MerchantForthCredentialsQuery.ts"
+/*!*********************************************************!*\
+  !*** ./src/flux_types/MerchantForthCredentialsQuery.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MerchantForthCredentialsQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const MerchantForthCredentials_1 = __webpack_require__(/*! ./MerchantForthCredentials */ "./src/flux_types/MerchantForthCredentials.ts");
+class MerchantForthCredentialsQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            forthCompanyId: this.forthCompanyId,
+            paused: this.paused,
+            autoChargeEnabled: this.autoChargeEnabled,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(MerchantForthCredentials_1.MerchantForthCredentials);
+        this.objectType = "merchant_forth_credentials";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new MerchantForthCredentialsQuery(q);
+    }
+}
+exports.MerchantForthCredentialsQuery = MerchantForthCredentialsQuery;
 
 
 /***/ },
@@ -74836,7 +75512,8 @@ exports.WalletQuery = WalletQuery;
 // Do not edit manually - run npm run compile-rn to regenerate
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.DiscountQuery = exports.Discount = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
-exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.CardCaptureFormQuery = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = void 0;
+exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ForthActivityEventQuery = exports.ForthActivityEvent = exports.ForthScheduledChargeQuery = exports.ForthScheduledCharge = exports.ForthClientMappingQuery = exports.ForthClientMapping = exports.MerchantForthCredentialsQuery = exports.MerchantForthCredentials = exports.CardCaptureFormQuery = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = void 0;
+exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -74949,6 +75626,22 @@ var CardCaptureForm_1 = __webpack_require__(/*! ./CardCaptureForm */ "./src/flux
 Object.defineProperty(exports, "CardCaptureForm", ({ enumerable: true, get: function () { return CardCaptureForm_1.CardCaptureForm; } }));
 var CardCaptureFormQuery_1 = __webpack_require__(/*! ./CardCaptureFormQuery */ "./src/flux_types/CardCaptureFormQuery.ts");
 Object.defineProperty(exports, "CardCaptureFormQuery", ({ enumerable: true, get: function () { return CardCaptureFormQuery_1.CardCaptureFormQuery; } }));
+var MerchantForthCredentials_1 = __webpack_require__(/*! ./MerchantForthCredentials */ "./src/flux_types/MerchantForthCredentials.ts");
+Object.defineProperty(exports, "MerchantForthCredentials", ({ enumerable: true, get: function () { return MerchantForthCredentials_1.MerchantForthCredentials; } }));
+var MerchantForthCredentialsQuery_1 = __webpack_require__(/*! ./MerchantForthCredentialsQuery */ "./src/flux_types/MerchantForthCredentialsQuery.ts");
+Object.defineProperty(exports, "MerchantForthCredentialsQuery", ({ enumerable: true, get: function () { return MerchantForthCredentialsQuery_1.MerchantForthCredentialsQuery; } }));
+var ForthClientMapping_1 = __webpack_require__(/*! ./ForthClientMapping */ "./src/flux_types/ForthClientMapping.ts");
+Object.defineProperty(exports, "ForthClientMapping", ({ enumerable: true, get: function () { return ForthClientMapping_1.ForthClientMapping; } }));
+var ForthClientMappingQuery_1 = __webpack_require__(/*! ./ForthClientMappingQuery */ "./src/flux_types/ForthClientMappingQuery.ts");
+Object.defineProperty(exports, "ForthClientMappingQuery", ({ enumerable: true, get: function () { return ForthClientMappingQuery_1.ForthClientMappingQuery; } }));
+var ForthScheduledCharge_1 = __webpack_require__(/*! ./ForthScheduledCharge */ "./src/flux_types/ForthScheduledCharge.ts");
+Object.defineProperty(exports, "ForthScheduledCharge", ({ enumerable: true, get: function () { return ForthScheduledCharge_1.ForthScheduledCharge; } }));
+var ForthScheduledChargeQuery_1 = __webpack_require__(/*! ./ForthScheduledChargeQuery */ "./src/flux_types/ForthScheduledChargeQuery.ts");
+Object.defineProperty(exports, "ForthScheduledChargeQuery", ({ enumerable: true, get: function () { return ForthScheduledChargeQuery_1.ForthScheduledChargeQuery; } }));
+var ForthActivityEvent_1 = __webpack_require__(/*! ./ForthActivityEvent */ "./src/flux_types/ForthActivityEvent.ts");
+Object.defineProperty(exports, "ForthActivityEvent", ({ enumerable: true, get: function () { return ForthActivityEvent_1.ForthActivityEvent; } }));
+var ForthActivityEventQuery_1 = __webpack_require__(/*! ./ForthActivityEventQuery */ "./src/flux_types/ForthActivityEventQuery.ts");
+Object.defineProperty(exports, "ForthActivityEventQuery", ({ enumerable: true, get: function () { return ForthActivityEventQuery_1.ForthActivityEventQuery; } }));
 var Token_1 = __webpack_require__(/*! ./Token */ "./src/flux_types/Token.ts");
 Object.defineProperty(exports, "Token", ({ enumerable: true, get: function () { return Token_1.Token; } }));
 var TokenQuery_1 = __webpack_require__(/*! ./TokenQuery */ "./src/flux_types/TokenQuery.ts");
@@ -75367,6 +76060,55 @@ class FluxComms {
             const { GetLatestInsightsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetLatestInsightsResponse */ "./src/ajax/Responses/GetLatestInsightsResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(GetLatestInsightsRequest, GetLatestInsightsResponse, "getLatestInsights", "POST", isolatedHandle);
+        });
+    }
+    // ────────────────────────────────────────────────────────────────
+    // Forth Pay integration
+    // ────────────────────────────────────────────────────────────────
+    /** Connect or re-connect Forth Pay for this merchant. Verifies the supplied client_id / secret by exchanging them for an access token, then stores them encrypted. */
+    connectForth(forthClientId, forthClientSecret, opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ConnectForthRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ConnectForthRequest */ "./src/ajax/Requests/ConnectForthRequest.ts")));
+            const { ConnectForthResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ConnectForthResponse */ "./src/ajax/Responses/ConnectForthResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ConnectForthRequest, ConnectForthResponse, "connectForth", "POST", isolatedHandle, forthClientId, forthClientSecret, opts);
+        });
+    }
+    /** Disconnect Forth Pay — clears credentials, stops polling. Mappings and history are preserved. */
+    disconnectForth() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ForthMappingActionRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ForthMappingActionRequest */ "./src/ajax/Requests/ForthMappingActionRequest.ts")));
+            const { ForthGenericResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ForthGenericResponse */ "./src/ajax/Responses/ForthGenericResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ForthMappingActionRequest, ForthGenericResponse, "disconnectForth", "POST", isolatedHandle);
+        });
+    }
+    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
+     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
+    getForthStatus(page, pageSize) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetForthStatusRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetForthStatusRequest */ "./src/ajax/Requests/GetForthStatusRequest.ts")));
+            const { GetForthStatusResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetForthStatusResponse */ "./src/ajax/Responses/GetForthStatusResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle, page, pageSize);
+        });
+    }
+    /** Re-send the card intake email + push a fresh intake document to Forth for a specific client. */
+    resendForthIntake(mappingId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ForthMappingActionRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ForthMappingActionRequest */ "./src/ajax/Requests/ForthMappingActionRequest.ts")));
+            const { ForthGenericResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ForthGenericResponse */ "./src/ajax/Responses/ForthGenericResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ForthMappingActionRequest, ForthGenericResponse, "resendForthIntake", "POST", isolatedHandle, mappingId);
+        });
+    }
+    /** Pause or un-pause auto-charging for a specific Forth client mapping. */
+    pauseForthClient(mappingId, paused) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ForthMappingActionRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ForthMappingActionRequest */ "./src/ajax/Requests/ForthMappingActionRequest.ts")));
+            const { ForthGenericResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ForthGenericResponse */ "./src/ajax/Responses/ForthGenericResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ForthMappingActionRequest, ForthGenericResponse, "pauseForthClient", "POST", isolatedHandle, mappingId, paused);
         });
     }
     /**

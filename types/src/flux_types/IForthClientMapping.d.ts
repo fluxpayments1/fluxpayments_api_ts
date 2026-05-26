@@ -1,0 +1,29 @@
+export interface IForthClientMapping {
+    id?: number;
+    uniqueId?: string;
+    merchantId?: number;
+    credentialsId?: number;
+    forthClientId?: number;
+    forthCompanyId?: number;
+    forthClientEmail?: string;
+    forthClientFirstName?: string;
+    forthClientLastName?: string;
+    forthClientPhone?: string;
+    fluxAccountId?: number;
+    cardIntakePaymentLinkId?: number;
+    intakeSentAt?: number;
+    intakeCompletedAt?: number;
+    paymentMethodOnFileId?: number;
+    enrollmentStatus?: string;
+    enrollmentPaused?: boolean;
+    enrollmentDropped?: boolean;
+    enrollmentGraduated?: boolean;
+    waitingForCardRefresh?: boolean;
+    lastChargedAt?: number;
+    lastChargeStatus?: string;
+    lastChargeError?: string;
+    paused?: boolean;
+    activeStatus?: boolean;
+    metadata?: string;
+    version?: number;
+}

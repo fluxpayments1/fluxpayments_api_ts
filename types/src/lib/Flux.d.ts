@@ -90,6 +90,32 @@ export declare class FluxComms<A extends SecurityHandler> {
      * Get the latest AI-generated weekly and monthly insights for the merchant dashboard.
      */
     getLatestInsights(): Promise<import("../ajax/Responses/GetLatestInsightsResponse").InsightsResult>;
+    /** Connect or re-connect Forth Pay for this merchant. Verifies the supplied client_id / secret by exchanging them for an access token, then stores them encrypted. */
+    connectForth(forthClientId: string, forthClientSecret: string, opts?: {
+        label?: string;
+        notificationEmail?: string;
+        autoChargeEnabled?: boolean;
+    }): Promise<{
+        credentials: any;
+    }>;
+    /** Disconnect Forth Pay — clears credentials, stops polling. Mappings and history are preserved. */
+    disconnectForth(): Promise<{
+        status: number;
+        errorMsg?: string;
+    }>;
+    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
+     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
+    getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult>;
+    /** Re-send the card intake email + push a fresh intake document to Forth for a specific client. */
+    resendForthIntake(mappingId: number): Promise<{
+        status: number;
+        errorMsg?: string;
+    }>;
+    /** Pause or un-pause auto-charging for a specific Forth client mapping. */
+    pauseForthClient(mappingId: number, paused: boolean): Promise<{
+        status: number;
+        errorMsg?: string;
+    }>;
     /**
      * Get the latest changelog entries (platform release notes).
      */
