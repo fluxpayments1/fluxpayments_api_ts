@@ -61,6 +61,8 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             products: this.products?.map(p => p.serialize ? p.serialize() : p),
             enableCrypto: this.enableCrypto,
             emailNotificationDisabled: this.emailNotificationDisabled,
+            suppressReceiptAndInvoice: this.suppressReceiptAndInvoice,
+            suppressMerchantReceipt: this.suppressMerchantReceipt,
             updateAccInfo: this.updateAccInfo,
             updateAddInfo: this.updateAddInfo,
             serviceFeeRate: this.serviceFeeRate,
@@ -148,6 +150,8 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     redirectUrl: string;
     oneTimeUse: boolean;
     emailNotificationDisabled: boolean;
+    suppressReceiptAndInvoice?: boolean;
+    suppressMerchantReceipt?: boolean;
     accountId: number;
     status: string;
     reusableLinkId: number

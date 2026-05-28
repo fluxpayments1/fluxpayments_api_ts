@@ -64,6 +64,8 @@ export class Merchant extends FluxType implements IMerchant {
             passthroughCardFeeEnabled: this.passthroughCardFeeEnabled,
             invoiceThankYouMessage: this.invoiceThankYouMessage,
             defaultSuppressEmail: this.defaultSuppressEmail,
+            defaultSuppressReceiptAndInvoice: this.defaultSuppressReceiptAndInvoice,
+            defaultSuppressMerchantReceipt: this.defaultSuppressMerchantReceipt,
             cardIntakeTermsText: this.cardIntakeTermsText
         };
     }
@@ -119,6 +121,8 @@ export class Merchant extends FluxType implements IMerchant {
     passthroughCardFeeEnabled: boolean;
     invoiceThankYouMessage: string;
     defaultSuppressEmail: boolean;
+    defaultSuppressReceiptAndInvoice?: boolean;
+    defaultSuppressMerchantReceipt?: boolean;
     cardIntakeTermsText: string;
     protected objectType: string = "merchant";
 

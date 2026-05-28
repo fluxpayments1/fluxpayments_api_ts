@@ -53,4 +53,6 @@ export interface IMerchant {
     passthroughCardFeeEnabled: boolean;
     invoiceThankYouMessage: string;
     defaultSuppressEmail: boolean;
+    defaultSuppressReceiptAndInvoice?: boolean;
+    defaultSuppressMerchantReceipt?: boolean;
 }
