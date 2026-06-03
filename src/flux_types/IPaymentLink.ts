@@ -35,6 +35,7 @@ export interface IPaymentLink {
     enableCrypto: boolean;
     disableACH: boolean;
     disableCard: boolean;
+    isMoto: boolean;
     taxRatesId: number;
     discountId?: number;
     discountAmount?: number;

@@ -564,16 +564,6 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
-    /** Re-send the card intake email + push a fresh intake document to Forth for a specific client. */
-    public async resendForthIntake(mappingId: number) {
-        const { ForthMappingActionRequest } = await import("../ajax/Requests/ForthMappingActionRequest");
-        const { ForthGenericResponse } = await import("../ajax/Responses/ForthGenericResponse");
-        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
-        return CMMT.fetch<{ status: number; errorMsg?: string }, typeof ForthMappingActionRequest.prototype, typeof ForthGenericResponse.prototype>(
-            ForthMappingActionRequest, ForthGenericResponse, "resendForthIntake", "POST", isolatedHandle,
-            mappingId
-        );
-    }
 
     /** Pause or un-pause auto-charging for a specific Forth client mapping. */
     public async pauseForthClient(mappingId: number, paused: boolean) {

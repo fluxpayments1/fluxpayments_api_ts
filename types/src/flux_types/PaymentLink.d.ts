@@ -43,6 +43,8 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         })[];
         enableCrypto: boolean;
         emailNotificationDisabled: boolean;
+        suppressReceiptAndInvoice: boolean;
+        suppressMerchantReceipt: boolean;
         updateAccInfo: boolean;
         updateAddInfo: boolean;
         serviceFeeRate: number;
@@ -129,6 +131,8 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     redirectUrl: string;
     oneTimeUse: boolean;
     emailNotificationDisabled: boolean;
+    suppressReceiptAndInvoice?: boolean;
+    suppressMerchantReceipt?: boolean;
     accountId: number;
     status: string;
     reusableLinkId: number;

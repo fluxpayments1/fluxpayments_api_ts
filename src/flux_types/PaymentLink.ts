@@ -68,6 +68,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             serviceFeeRate: this.serviceFeeRate,
             disableACH: this.disableACH,
             disableCard: this.disableCard,
+            isMoto: this.isMoto,
             taxRatesId: this.taxRatesId,
             discountId: this.discountId,
             discountAmount: this.discountAmount,
@@ -140,6 +141,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     requireAccountInformation: boolean
     disableACH: boolean;
     disableCard: boolean;
+    isMoto: boolean;
     confidenceLevel: number;
     currentStatus
     taxAmount: number;

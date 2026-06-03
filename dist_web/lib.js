@@ -71977,6 +71977,8 @@ class Merchant extends FluxType_1.FluxType {
             passthroughCardFeeEnabled: this.passthroughCardFeeEnabled,
             invoiceThankYouMessage: this.invoiceThankYouMessage,
             defaultSuppressEmail: this.defaultSuppressEmail,
+            defaultSuppressReceiptAndInvoice: this.defaultSuppressReceiptAndInvoice,
+            defaultSuppressMerchantReceipt: this.defaultSuppressMerchantReceipt,
             cardIntakeTermsText: this.cardIntakeTermsText
         };
     }
@@ -72815,6 +72817,8 @@ class PaymentLink extends FluxType_1.FluxType {
             products: (_a = this.products) === null || _a === void 0 ? void 0 : _a.map(p => p.serialize ? p.serialize() : p),
             enableCrypto: this.enableCrypto,
             emailNotificationDisabled: this.emailNotificationDisabled,
+            suppressReceiptAndInvoice: this.suppressReceiptAndInvoice,
+            suppressMerchantReceipt: this.suppressMerchantReceipt,
             updateAccInfo: this.updateAccInfo,
             updateAddInfo: this.updateAddInfo,
             serviceFeeRate: this.serviceFeeRate,
