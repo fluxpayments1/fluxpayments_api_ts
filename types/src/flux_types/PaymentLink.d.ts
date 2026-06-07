@@ -50,6 +50,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         serviceFeeRate: number;
         disableACH: boolean;
         disableCard: boolean;
+        isMoto: boolean;
         taxRatesId: number;
         discountId: number;
         discountAmount: number;
@@ -121,6 +122,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     requireAccountInformation: boolean;
     disableACH: boolean;
     disableCard: boolean;
+    isMoto: boolean;
     confidenceLevel: number;
     currentStatus: any;
     taxAmount: number;

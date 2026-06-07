@@ -33,4 +33,6 @@ export interface ITransaction {
     customerFirstName?: string;
     customerLastName?: string;
     customerPhone?: string;
+    processorError?: string;
+    gatewayResponse?: string;
 }

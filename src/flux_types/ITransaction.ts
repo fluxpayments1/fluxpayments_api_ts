@@ -56,5 +56,7 @@ export interface ITransaction {
     customerEmail?: string,
     customerFirstName?: string,
     customerLastName?: string,
-    customerPhone?: string
+    customerPhone?: string,
+    processorError?: string,
+    gatewayResponse?: string
 }

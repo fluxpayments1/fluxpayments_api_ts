@@ -94,6 +94,8 @@ export declare class FluxComms<A extends SecurityHandler> {
     connectForth(forthClientId: string, forthClientSecret: string, opts?: {
         label?: string;
         notificationEmail?: string;
+        notificationEmails?: string;
+        discoveryListId?: number;
         autoChargeEnabled?: boolean;
     }): Promise<{
         credentials: any;
@@ -106,11 +108,6 @@ export declare class FluxComms<A extends SecurityHandler> {
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
      *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
     getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult>;
-    /** Re-send the card intake email + push a fresh intake document to Forth for a specific client. */
-    resendForthIntake(mappingId: number): Promise<{
-        status: number;
-        errorMsg?: string;
-    }>;
     /** Pause or un-pause auto-charging for a specific Forth client mapping. */
     pauseForthClient(mappingId: number, paused: boolean): Promise<{
         status: number;

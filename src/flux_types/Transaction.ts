@@ -344,7 +344,9 @@ export class Transaction extends FluxType implements ITransaction {
             customerEmail: this.customerEmail,
             customerFirstName: this.customerFirstName,
             customerLastName: this.customerLastName,
-            customerPhone: this.customerPhone
+            customerPhone: this.customerPhone,
+            processorError: this.processorError,
+            gatewayResponse: this.gatewayResponse
         };
     }
 
@@ -352,5 +354,7 @@ export class Transaction extends FluxType implements ITransaction {
     customerFirstName: string;
     customerLastName: string;
     customerPhone: string;
+    processorError: string;
+    gatewayResponse: string;
 
 }

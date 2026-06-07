@@ -186,9 +186,13 @@ export declare class Transaction extends FluxType implements ITransaction {
         customerFirstName: string;
         customerLastName: string;
         customerPhone: string;
+        processorError: string;
+        gatewayResponse: string;
     };
     customerEmail: string;
     customerFirstName: string;
     customerLastName: string;
     customerPhone: string;
+    processorError: string;
+    gatewayResponse: string;
 }

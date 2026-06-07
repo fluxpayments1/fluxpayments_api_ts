@@ -14,6 +14,8 @@ export declare class MerchantForthCredentials extends FluxType implements IMerch
         forthCompanyEmail: string;
         forthAccessTokenExpiresAt: number;
         notificationEmail: string;
+        notificationEmails: string;
+        discoveryListId: number;
         autoChargeEnabled: boolean;
         paused: boolean;
         lastPollAt: number;
@@ -39,6 +41,8 @@ export declare class MerchantForthCredentials extends FluxType implements IMerch
     forthCompanyEmail?: string;
     forthAccessTokenExpiresAt?: number;
     notificationEmail?: string;
+    notificationEmails?: string;
+    discoveryListId?: number;
     autoChargeEnabled?: boolean;
     paused?: boolean;
     lastPollAt?: number;

@@ -531,6 +531,8 @@ export class FluxComms<A extends SecurityHandler> {
     public async connectForth(forthClientId: string, forthClientSecret: string, opts?: {
         label?: string;
         notificationEmail?: string;
+        notificationEmails?: string;
+        discoveryListId?: number;
         autoChargeEnabled?: boolean;
     }) {
         const { ConnectForthRequest } = await import("../ajax/Requests/ConnectForthRequest");

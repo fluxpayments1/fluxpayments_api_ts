@@ -20,6 +20,8 @@ export class MerchantForthCredentials extends FluxType implements IMerchantForth
             forthCompanyEmail: this.forthCompanyEmail,
             forthAccessTokenExpiresAt: this.forthAccessTokenExpiresAt,
             notificationEmail: this.notificationEmail,
+            notificationEmails: this.notificationEmails,
+            discoveryListId: this.discoveryListId,
             autoChargeEnabled: this.autoChargeEnabled,
             paused: this.paused,
             lastPollAt: this.lastPollAt,
@@ -47,6 +49,8 @@ export class MerchantForthCredentials extends FluxType implements IMerchantForth
     public forthCompanyEmail?: string;
     public forthAccessTokenExpiresAt?: number;
     public notificationEmail?: string;
+    public notificationEmails?: string;
+    public discoveryListId?: number;
     public autoChargeEnabled?: boolean;
     public paused?: boolean;
     public lastPollAt?: number;

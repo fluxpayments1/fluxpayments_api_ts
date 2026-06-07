@@ -62970,6 +62970,8 @@ class ConnectForthRequest extends RequestBodyBase_1.RequestBodyBase {
         if (opts) {
             this.label = opts.label;
             this.notificationEmail = opts.notificationEmail;
+            this.notificationEmails = opts.notificationEmails;
+            this.discoveryListId = opts.discoveryListId;
             this.autoChargeEnabled = opts.autoChargeEnabled;
         }
     }
@@ -62979,6 +62981,8 @@ class ConnectForthRequest extends RequestBodyBase_1.RequestBodyBase {
             forthClientSecret: this.forthClientSecret,
             label: this.label,
             notificationEmail: this.notificationEmail,
+            notificationEmails: this.notificationEmails,
+            discoveryListId: this.discoveryListId,
             autoChargeEnabled: this.autoChargeEnabled,
         });
     }
@@ -72149,6 +72153,8 @@ class MerchantForthCredentials extends FluxType_1.FluxType {
             forthCompanyEmail: this.forthCompanyEmail,
             forthAccessTokenExpiresAt: this.forthAccessTokenExpiresAt,
             notificationEmail: this.notificationEmail,
+            notificationEmails: this.notificationEmails,
+            discoveryListId: this.discoveryListId,
             autoChargeEnabled: this.autoChargeEnabled,
             paused: this.paused,
             lastPollAt: this.lastPollAt,
@@ -72824,6 +72830,7 @@ class PaymentLink extends FluxType_1.FluxType {
             serviceFeeRate: this.serviceFeeRate,
             disableACH: this.disableACH,
             disableCard: this.disableCard,
+            isMoto: this.isMoto,
             taxRatesId: this.taxRatesId,
             discountId: this.discountId,
             discountAmount: this.discountAmount,
@@ -74922,7 +74929,9 @@ class Transaction extends FluxType_1.FluxType {
             customerEmail: this.customerEmail,
             customerFirstName: this.customerFirstName,
             customerLastName: this.customerLastName,
-            customerPhone: this.customerPhone
+            customerPhone: this.customerPhone,
+            processorError: this.processorError,
+            gatewayResponse: this.gatewayResponse
         };
     }
 }
@@ -76095,15 +76104,6 @@ class FluxComms {
             const { GetForthStatusResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetForthStatusResponse */ "./src/ajax/Responses/GetForthStatusResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle, page, pageSize);
-        });
-    }
-    /** Re-send the card intake email + push a fresh intake document to Forth for a specific client. */
-    resendForthIntake(mappingId) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { ForthMappingActionRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ForthMappingActionRequest */ "./src/ajax/Requests/ForthMappingActionRequest.ts")));
-            const { ForthGenericResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ForthGenericResponse */ "./src/ajax/Responses/ForthGenericResponse.ts")));
-            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
-            return lib_1.CMMT.fetch(ForthMappingActionRequest, ForthGenericResponse, "resendForthIntake", "POST", isolatedHandle, mappingId);
         });
     }
     /** Pause or un-pause auto-charging for a specific Forth client mapping. */
