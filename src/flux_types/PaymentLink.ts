@@ -69,6 +69,9 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             disableACH: this.disableACH,
             disableCard: this.disableCard,
             isMoto: this.isMoto,
+            autoReauthEnabled: this.autoReauthEnabled,
+            reauthIntervalHours: this.reauthIntervalHours,
+            reauthMaxAttempts: this.reauthMaxAttempts,
             taxRatesId: this.taxRatesId,
             discountId: this.discountId,
             discountAmount: this.discountAmount,
@@ -142,6 +145,9 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     disableACH: boolean;
     disableCard: boolean;
     isMoto: boolean;
+    autoReauthEnabled: boolean;
+    reauthIntervalHours: number;
+    reauthMaxAttempts: number;
     confidenceLevel: number;
     currentStatus
     taxAmount: number;

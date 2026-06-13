@@ -36,6 +36,9 @@ export interface IPaymentLink {
     disableACH: boolean;
     disableCard: boolean;
     isMoto: boolean;
+    autoReauthEnabled?: boolean;
+    reauthIntervalHours?: number;
+    reauthMaxAttempts?: number;
     taxRatesId: number;
     discountId?: number;
     discountAmount?: number;
