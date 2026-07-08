@@ -11,6 +11,7 @@ export interface IMessage {
     returnedObjects?: string;
     todoList?: string;
     pendingApproval?: boolean;
+    previewData?: string;
     activeStatus?: boolean;
     metadata?: string;
     version?: number;

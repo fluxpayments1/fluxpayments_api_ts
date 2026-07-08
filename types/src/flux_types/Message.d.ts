@@ -16,6 +16,7 @@ export declare class Message extends FluxType implements IMessage {
         returnedObjects: string;
         todoList: string;
         pendingApproval: boolean;
+        previewData: string;
         activeStatus: boolean;
         createdAt: number;
         updatedAt: Date;
@@ -35,6 +36,8 @@ export declare class Message extends FluxType implements IMessage {
     returnedObjects?: string;
     todoList?: string;
     pendingApproval?: boolean;
+    /** Display data for the invoice/link preview popup (PROPOSED_ACTIONS never leaves the backend). */
+    previewData?: string;
     activeStatus?: boolean;
     metadata?: string;
     version?: number;

@@ -399,7 +399,7 @@ export class FluxComms<A extends SecurityHandler> {
 
     public async sendChatStreamingMessage(
         message: string,
-        onChunk: (chunk: { content: string; done: boolean; conversationId?: number; title?: string; statusMessage?: string; toolName?: string; toolDetail?: string; toolOutput?: string; toolStatus?: string; interrupted?: boolean }) => void,
+        onChunk: (chunk: { content: string; done: boolean; conversationId?: number; title?: string; statusMessage?: string; toolName?: string; toolDetail?: string; toolOutput?: string; toolStatus?: string; interrupted?: boolean; messageId?: number; todoList?: string; pendingApproval?: boolean; previewData?: string; clarifyOptions?: string; clarifyQuestions?: string }) => void,
         conversationId?: number,
         isSupportTicket?: boolean
     ): Promise<void> {
@@ -745,6 +745,38 @@ export class FluxComms<A extends SecurityHandler> {
             isolatedHandle,
             params
         );
+    }
+
+    /**
+     * Approve (execute) or reject (dismiss) an AI chat action proposal.
+     * messageId = the proposal Message id delivered on the chat stream.
+     * Endpoint string has no "Web" suffix — CMMT appends it in the browser
+     * (backend service is approveChatActionsWeb).
+     */
+    public async approveChatActions(messageId: number, approved: boolean = true): Promise<{
+        messageId: number; todoList: string; createdObjects: string; completionMessage: string;
+    }> {
+        const { ApproveChatActionsRequest } = await import("../ajax/Requests/ApproveChatActionsRequest");
+        const { ApproveChatActionsResponse } = await import("../ajax/Responses/ApproveChatActionsResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ messageId: number; todoList: string; createdObjects: string; completionMessage: string },
+                typeof ApproveChatActionsRequest.prototype, typeof ApproveChatActionsResponse.prototype>(
+            ApproveChatActionsRequest,
+            ApproveChatActionsResponse,
+            "approveChatActions",
+            "POST",
+            isolatedHandle,
+            { messageId, approved }
+        );
+    }
+
+    /** Convenience wrapper: dismiss an AI chat action proposal without executing it. */
+    public async rejectChatActions(messageId: number): Promise<{
+        messageId: number; todoList: string; createdObjects: string; completionMessage: string;
+    }> {
+        return this.approveChatActions(messageId, false);
     }
 }
 

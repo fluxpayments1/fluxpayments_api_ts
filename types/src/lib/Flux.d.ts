@@ -55,6 +55,12 @@ export declare class FluxComms<A extends SecurityHandler> {
         toolOutput?: string;
         toolStatus?: string;
         interrupted?: boolean;
+        messageId?: number;
+        todoList?: string;
+        pendingApproval?: boolean;
+        previewData?: string;
+        clarifyOptions?: string;
+        clarifyQuestions?: string;
     }) => void, conversationId?: number, isSupportTicket?: boolean): Promise<void>;
     /**
      * Resend transaction confirmation email with PDF attachments
@@ -199,5 +205,24 @@ export declare class FluxComms<A extends SecurityHandler> {
         shippingFee?: number;
     }): Promise<{
         html: string;
+    }>;
+    /**
+     * Approve (execute) or reject (dismiss) an AI chat action proposal.
+     * messageId = the proposal Message id delivered on the chat stream.
+     * Endpoint string has no "Web" suffix — CMMT appends it in the browser
+     * (backend service is approveChatActionsWeb).
+     */
+    approveChatActions(messageId: number, approved?: boolean): Promise<{
+        messageId: number;
+        todoList: string;
+        createdObjects: string;
+        completionMessage: string;
+    }>;
+    /** Convenience wrapper: dismiss an AI chat action proposal without executing it. */
+    rejectChatActions(messageId: number): Promise<{
+        messageId: number;
+        todoList: string;
+        createdObjects: string;
+        completionMessage: string;
     }>;
 }

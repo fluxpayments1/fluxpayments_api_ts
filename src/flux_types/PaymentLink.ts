@@ -44,7 +44,9 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     public obName: string = "PaymentLink";
 
     public getDispName(): string {
-        return this.paymentLink
+        // Prefer the human-readable name (e.g. "Invoice - TV") — the raw OTPL
+        // string ("#TlhdoYAjv...") is a meaningless label in chips/lookups.
+        return this.name || this.paymentLink;
     }
 
 

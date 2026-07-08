@@ -62661,6 +62661,37 @@ window.process = {
 
 /***/ },
 
+/***/ "./src/ajax/Requests/ApproveChatActionsRequest.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Requests/ApproveChatActionsRequest.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ApproveChatActionsRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class ApproveChatActionsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.params = params;
+    }
+    getRequestAsString() {
+        var _a, _b;
+        return JSON.stringify({
+            messageId: (_a = this.params) === null || _a === void 0 ? void 0 : _a.messageId,
+            approved: ((_b = this.params) === null || _b === void 0 ? void 0 : _b.approved) !== undefined ? this.params.approved : true
+        });
+    }
+}
+exports.ApproveChatActionsRequest = ApproveChatActionsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/AuthCookieRequest.ts"
 /*!************************************************!*\
   !*** ./src/ajax/Requests/AuthCookieRequest.ts ***!
@@ -64560,6 +64591,43 @@ Object.defineProperty(exports, "DownloadInvoiceRequest", ({ enumerable: true, ge
 
 /***/ },
 
+/***/ "./src/ajax/Responses/ApproveChatActionsResponse.ts"
+/*!**********************************************************!*\
+  !*** ./src/ajax/Responses/ApproveChatActionsResponse.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ApproveChatActionsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ApproveChatActionsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.messageId = parsed.messageId || null;
+        this.todoList = parsed.todoList || null;
+        this.createdObjects = parsed.createdObjects || null;
+        this.completionMessage = parsed.completionMessage || null;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            messageId: this.messageId,
+            todoList: this.todoList,
+            createdObjects: this.createdObjects,
+            completionMessage: this.completionMessage
+        };
+    }
+}
+exports.ApproveChatActionsResponse = ApproveChatActionsResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/CancelSubscriptionResponse.ts"
 /*!**********************************************************!*\
   !*** ./src/ajax/Responses/CancelSubscriptionResponse.ts ***!
@@ -64641,6 +64709,12 @@ class ChatResponse extends ResponseBodyBase_1.ResponseBodyBase {
         this.toolOutput = parsed.toolOutput || null;
         this.toolStatus = parsed.toolStatus || null;
         this.interrupted = parsed.interrupted || false;
+        this.messageId = parsed.messageId || null;
+        this.todoList = parsed.todoList || null;
+        this.pendingApproval = parsed.pendingApproval || false;
+        this.previewData = parsed.previewData || null;
+        this.clarifyOptions = parsed.clarifyOptions || null;
+        this.clarifyQuestions = parsed.clarifyQuestions || null;
         return this;
     }
     getClientReturnValue() {
@@ -64654,7 +64728,13 @@ class ChatResponse extends ResponseBodyBase_1.ResponseBodyBase {
             toolDetail: this.toolDetail,
             toolOutput: this.toolOutput,
             toolStatus: this.toolStatus,
-            interrupted: this.interrupted
+            interrupted: this.interrupted,
+            messageId: this.messageId,
+            todoList: this.todoList,
+            pendingApproval: this.pendingApproval,
+            previewData: this.previewData,
+            clarifyOptions: this.clarifyOptions,
+            clarifyQuestions: this.clarifyQuestions
         };
     }
 }
@@ -72428,6 +72508,7 @@ class Message extends FluxType_1.FluxType {
             returnedObjects: this.returnedObjects,
             todoList: this.todoList,
             pendingApproval: this.pendingApproval,
+            previewData: this.previewData,
             activeStatus: this.activeStatus,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
@@ -72807,7 +72888,9 @@ exports.PaymentLink = void 0;
 const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
 class PaymentLink extends FluxType_1.FluxType {
     getDispName() {
-        return this.paymentLink;
+        // Prefer the human-readable name (e.g. "Invoice - TV") — the raw OTPL
+        // string ("#TlhdoYAjv...") is a meaningless label in chips/lookups.
+        return this.name || this.paymentLink;
     }
     serialize() {
         var _a;
@@ -76211,6 +76294,26 @@ class FluxComms {
             const { InvoicePreviewResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/InvoicePreviewResponse */ "./src/ajax/Responses/InvoicePreviewResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(InvoicePreviewRequest, InvoicePreviewResponse, "invoicePreview", "POST", isolatedHandle, params);
+        });
+    }
+    /**
+     * Approve (execute) or reject (dismiss) an AI chat action proposal.
+     * messageId = the proposal Message id delivered on the chat stream.
+     * Endpoint string has no "Web" suffix — CMMT appends it in the browser
+     * (backend service is approveChatActionsWeb).
+     */
+    approveChatActions(messageId_1) {
+        return __awaiter(this, arguments, void 0, function* (messageId, approved = true) {
+            const { ApproveChatActionsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ApproveChatActionsRequest */ "./src/ajax/Requests/ApproveChatActionsRequest.ts")));
+            const { ApproveChatActionsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ApproveChatActionsResponse */ "./src/ajax/Responses/ApproveChatActionsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ApproveChatActionsRequest, ApproveChatActionsResponse, "approveChatActions", "POST", isolatedHandle, { messageId, approved });
+        });
+    }
+    /** Convenience wrapper: dismiss an AI chat action proposal without executing it. */
+    rejectChatActions(messageId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.approveChatActions(messageId, false);
         });
     }
 }
