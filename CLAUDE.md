@@ -52,6 +52,13 @@ const pubKey = await getMerchantPublicKeyFromOTPL(otplId);
 
 // Logout (clears WebSocket + SessionStorage + AuthCache)
 fluxWebsiteLogout();
+
+// Passkeys / WebAuthn (all exported via the `Functions` namespace)
+passkeySupported();                                  // browser capability check
+const api = await fluxWebsitePasskey2fa(recaptcha);  // complete sign-in with a passkey (call INSTEAD of fluxWebsite2fa, after password)
+await fluxWebsiteRegisterPasskey(label);             // enroll (runs navigator.credentials.create)
+await fluxWebsiteListPasskeys();                      // manage list (safe metadata)
+await fluxWebsiteDeletePasskey(credentialDbId);      // remove one
 ```
 
 ## FluxType — Base Class Pattern

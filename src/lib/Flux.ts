@@ -596,6 +596,62 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
+    // ---- Passkeys (WebAuthn) -------------------------------------------------
+
+    private async webauthnCall(endpoint: string, data?: any): Promise<import("../ajax/Responses/WebAuthnResponse").WebAuthnResult> {
+        const { WebAuthnRequest } = await import("../ajax/Requests/WebAuthnRequest");
+        const { WebAuthnResponse } = await import("../ajax/Responses/WebAuthnResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/WebAuthnResponse").WebAuthnResult, typeof WebAuthnRequest.prototype, typeof WebAuthnResponse.prototype>(
+            WebAuthnRequest,
+            WebAuthnResponse,
+            endpoint,
+            "POST",
+            isolatedHandle,
+            data || {}
+        );
+    }
+
+    /** Enroll step 1: PublicKeyCredentialCreationOptions JSON for navigator.credentials.create(). */
+    public async webauthnRegisterOptions(): Promise<string> {
+        const r = await this.webauthnCall("webauthnRegisterOptions");
+        if (!r || !r.optionsJson) throw new Error(r?.errorMsg || "Could not start passkey registration");
+        return r.optionsJson;
+    }
+
+    /** Enroll step 2: verify the attestation and persist the credential. */
+    public async webauthnRegisterVerify(attestationObject: string, clientDataJSON: string, label?: string): Promise<{ credentialId?: string; label?: string }> {
+        const r = await this.webauthnCall("webauthnRegisterVerify", { attestationObject, clientDataJSON, label });
+        if (!r || (r.status && r.status !== 200) || r.errorMsg) throw new Error(r?.errorMsg || "Could not save the passkey");
+        return { credentialId: r.createdCredentialId, label: r.createdLabel };
+    }
+
+    /** The current user's registered passkeys (safe metadata for the manage screen). */
+    public async getWebauthnCredentials(): Promise<import("../ajax/Responses/WebAuthnResponse").WebAuthnCredentialInfo[]> {
+        const r = await this.webauthnCall("getWebauthnCredentials");
+        return r?.credentials || [];
+    }
+
+    /** Remove one of the current user's passkeys. */
+    public async deleteWebauthnCredential(credentialDbId: number): Promise<void> {
+        const r = await this.webauthnCall("deleteWebauthnCredential", { credentialDbId });
+        if (r && ((r.status && r.status !== 200) || r.errorMsg)) throw new Error(r.errorMsg || "Could not remove the passkey");
+    }
+
+    /** Sign-in step 1 (pre-2FA): PublicKeyCredentialRequestOptions JSON for navigator.credentials.get(). */
+    public async webauthnAssertionOptions(): Promise<string> {
+        const r = await this.webauthnCall("webauthnAssertionOptions");
+        if (!r || !r.optionsJson) throw new Error(r?.errorMsg || "No passkeys are registered for this account");
+        return r.optionsJson;
+    }
+
+    /** Sign-in step 2 (pre-2FA): verify the assertion; returns the 2FA secret used to complete sign-in. */
+    public async webauthnAssertionVerify(credentialId: string, authenticatorData: string, clientDataJSON: string, signature: string, userHandle: string | null): Promise<string> {
+        const r = await this.webauthnCall("webauthnAssertionVerify", { credentialId, authenticatorData, clientDataJSON, signature, userHandle });
+        if (!r || !r.twoFactorSecret) throw new Error(r?.errorMsg || "Passkey verification failed");
+        return r.twoFactorSecret;
+    }
+
     /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link

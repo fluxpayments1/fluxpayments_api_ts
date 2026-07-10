@@ -1,4 +1,4 @@
-import { flux, fluxSocket, fluxBrowser, fluxSocketBrowserSessionBased, fluxReactNativeSignInAuthorization, fluxReactNativeSessionAuthorization, getMerchantPublicKeyFromOTPL, getAccountSessionFromOTPL, updatePassword, fluxWebsiteSignInAuthorization, fluxWebsiteCookieAuthorization, fluxWebsite2fa, resetPassword, fluxWebsiteSignUp, fluxSocketBrowser } from './FluxEntry';
+import { flux, fluxSocket, fluxBrowser, fluxSocketBrowserSessionBased, fluxReactNativeSignInAuthorization, fluxReactNativeSessionAuthorization, getMerchantPublicKeyFromOTPL, getAccountSessionFromOTPL, updatePassword, fluxWebsiteSignInAuthorization, fluxWebsiteCookieAuthorization, fluxWebsite2fa, fluxWebsitePasskey2fa, passkeySupported, fluxWebsiteRegisterPasskey, fluxWebsiteListPasskeys, fluxWebsiteDeletePasskey, resetPassword, fluxWebsiteSignUp, fluxSocketBrowser } from './FluxEntry';
 import { FluxComms } from './Flux';
 import { Subscription } from './FluxSockets';
 import * as FluxTypesImport from '../flux_types';
@@ -16,6 +16,11 @@ export declare const Functions: {
     fluxWebsiteSignInAuthorization: typeof fluxWebsiteSignInAuthorization;
     fluxWebsiteCookieAuthorization: typeof fluxWebsiteCookieAuthorization;
     fluxWebsite2fa: typeof fluxWebsite2fa;
+    fluxWebsitePasskey2fa: typeof fluxWebsitePasskey2fa;
+    passkeySupported: typeof passkeySupported;
+    fluxWebsiteRegisterPasskey: typeof fluxWebsiteRegisterPasskey;
+    fluxWebsiteListPasskeys: typeof fluxWebsiteListPasskeys;
+    fluxWebsiteDeletePasskey: typeof fluxWebsiteDeletePasskey;
     resetPassword: typeof resetPassword;
     updatePassword: typeof updatePassword;
     getMerchantPublicKeyFromOTPL: typeof getMerchantPublicKeyFromOTPL;

@@ -349,6 +349,88 @@ export async function fluxWebsite2fa(number: string, token: string) {
   );
 }
 
+/**
+ * Complete sign-in with a PASSKEY instead of the emailed 2FA code. Call AFTER
+ * fluxWebsiteSignInAuthorization (which proves the password and arms the
+ * session), exactly where you'd otherwise call fluxWebsite2fa(code).
+ *
+ * Runs the WebAuthn assertion ceremony against the password-level session, then
+ * completes 2FA with the secret the server issues on a valid assertion.
+ */
+export async function fluxWebsitePasskey2fa(token: string) {
+  const { getPasskeyAssertion } = await import("./WebAuthnBrowser");
+  return new Promise<FluxTokenBackend<WebsiteSecurityHandle>>(
+    async (resolve, reject) => {
+      try {
+        const fma =
+          FluxTokenBackend.getFluxTokebBackendInstance<WebsiteSecurityHandle>();
+        const handle: WebsiteSecurityHandle =
+          fma.securityHandle as WebsiteSecurityHandle;
+        handle.token = token;
+
+        // 1. Fetch assertion options (pre-2FA, password-level).
+        const optionsJson = await fma.webauthnAssertionOptions();
+        // 2. Run navigator.credentials.get() in the browser.
+        const assertion = await getPasskeyAssertion(optionsJson);
+        // 3. Verify server-side -> receive the 2FA secret.
+        const secret = await fma.webauthnAssertionVerify(
+          assertion.credentialId,
+          assertion.authenticatorData,
+          assertion.clientDataJSON,
+          assertion.signature,
+          assertion.userHandle
+        );
+
+        // 4. Complete sign-in with the secret, identical to the emailed-code path.
+        handle.twoFa = secret;
+        await fma.authorizeWebsiteUser();
+
+        SessionStorage.set2FAPresent();
+        fma.isAuthenticated = true;
+        AuthCache.clearCache();
+
+        resolve(fma);
+      } catch (e) {
+        reject(e);
+      }
+    }
+  );
+}
+
+/** True if this browser can do passkeys (WebAuthn) at all. */
+export function passkeySupported(): boolean {
+  return (
+    typeof window !== "undefined" &&
+    typeof (window as any).PublicKeyCredential !== "undefined" &&
+    !!(navigator as any).credentials
+  );
+}
+
+/**
+ * Enroll a new passkey for the signed-in merchant: fetch creation options, run
+ * navigator.credentials.create(), and persist the attestation. Returns the
+ * created credential's id + label.
+ */
+export async function fluxWebsiteRegisterPasskey(label?: string) {
+  const { createPasskey } = await import("./WebAuthnBrowser");
+  const fma = await fluxWebsiteCookieAuthorization();
+  const optionsJson = await fma.webauthnRegisterOptions();
+  const reg = await createPasskey(optionsJson);
+  return fma.webauthnRegisterVerify(reg.attestationObject, reg.clientDataJSON, label);
+}
+
+/** List the signed-in merchant's registered passkeys (safe metadata only). */
+export async function fluxWebsiteListPasskeys() {
+  const fma = await fluxWebsiteCookieAuthorization();
+  return fma.getWebauthnCredentials();
+}
+
+/** Remove one of the signed-in merchant's passkeys by its db id. */
+export async function fluxWebsiteDeletePasskey(credentialDbId: number) {
+  const fma = await fluxWebsiteCookieAuthorization();
+  return fma.deleteWebauthnCredential(credentialDbId);
+}
+
 export async function fluxWebsiteSignUp(
   email: string,
   password: string,

@@ -64447,6 +64447,40 @@ exports.UpdatePaymentMethodSubscriptionRequest = UpdatePaymentMethodSubscription
 
 /***/ },
 
+/***/ "./src/ajax/Requests/WebAuthnRequest.ts"
+/*!**********************************************!*\
+  !*** ./src/ajax/Requests/WebAuthnRequest.ts ***!
+  \**********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WebAuthnRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body for every passkey (WebAuthn) endpoint. The Flux methods pass a single
+ * plain object with only the fields that endpoint needs (attestation blobs for
+ * register-verify, assertion blobs for assertion-verify, a db id for delete);
+ * the options endpoints pass nothing.
+ */
+class WebAuthnRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+        this.data = {};
+    }
+    loadClientData(data) {
+        this.data = data || {};
+    }
+    getRequestAsString() {
+        return JSON.stringify(this.data || {});
+    }
+}
+exports.WebAuthnRequest = WebAuthnRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/Websockets/AddSubscriptionRequest.ts"
 /*!****************************************************************!*\
   !*** ./src/ajax/Requests/Websockets/AddSubscriptionRequest.ts ***!
@@ -66022,6 +66056,44 @@ class UpdateProductResponse extends GenericUpdaterResponse_1.GenericUpdaterRespo
     }
 }
 exports.UpdateProductResponse = UpdateProductResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/WebAuthnResponse.ts"
+/*!************************************************!*\
+  !*** ./src/ajax/Responses/WebAuthnResponse.ts ***!
+  \************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WebAuthnResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class WebAuthnResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {};
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            optionsJson: p.optionsJson,
+            createdCredentialId: p.createdCredentialId,
+            createdLabel: p.createdLabel,
+            twoFactorSecret: p.twoFactorSecret,
+            credentials: p.credentials || [],
+            status: p.status,
+            errorMsg: p.errorMsg,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.WebAuthnResponse = WebAuthnResponse;
 
 
 /***/ },
@@ -76212,6 +76284,66 @@ class FluxComms {
             return lib_1.CMMT.fetch(GetChangelogRequest, GetChangelogResponse, "getChangelog", "POST", isolatedHandle);
         });
     }
+    // ---- Passkeys (WebAuthn) -------------------------------------------------
+    webauthnCall(endpoint, data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { WebAuthnRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/WebAuthnRequest */ "./src/ajax/Requests/WebAuthnRequest.ts")));
+            const { WebAuthnResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/WebAuthnResponse */ "./src/ajax/Responses/WebAuthnResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(WebAuthnRequest, WebAuthnResponse, endpoint, "POST", isolatedHandle, data || {});
+        });
+    }
+    /** Enroll step 1: PublicKeyCredentialCreationOptions JSON for navigator.credentials.create(). */
+    webauthnRegisterOptions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.webauthnCall("webauthnRegisterOptions");
+            if (!r || !r.optionsJson)
+                throw new Error((r === null || r === void 0 ? void 0 : r.errorMsg) || "Could not start passkey registration");
+            return r.optionsJson;
+        });
+    }
+    /** Enroll step 2: verify the attestation and persist the credential. */
+    webauthnRegisterVerify(attestationObject, clientDataJSON, label) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.webauthnCall("webauthnRegisterVerify", { attestationObject, clientDataJSON, label });
+            if (!r || (r.status && r.status !== 200) || r.errorMsg)
+                throw new Error((r === null || r === void 0 ? void 0 : r.errorMsg) || "Could not save the passkey");
+            return { credentialId: r.createdCredentialId, label: r.createdLabel };
+        });
+    }
+    /** The current user's registered passkeys (safe metadata for the manage screen). */
+    getWebauthnCredentials() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.webauthnCall("getWebauthnCredentials");
+            return (r === null || r === void 0 ? void 0 : r.credentials) || [];
+        });
+    }
+    /** Remove one of the current user's passkeys. */
+    deleteWebauthnCredential(credentialDbId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.webauthnCall("deleteWebauthnCredential", { credentialDbId });
+            if (r && ((r.status && r.status !== 200) || r.errorMsg))
+                throw new Error(r.errorMsg || "Could not remove the passkey");
+        });
+    }
+    /** Sign-in step 1 (pre-2FA): PublicKeyCredentialRequestOptions JSON for navigator.credentials.get(). */
+    webauthnAssertionOptions() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.webauthnCall("webauthnAssertionOptions");
+            if (!r || !r.optionsJson)
+                throw new Error((r === null || r === void 0 ? void 0 : r.errorMsg) || "No passkeys are registered for this account");
+            return r.optionsJson;
+        });
+    }
+    /** Sign-in step 2 (pre-2FA): verify the assertion; returns the 2FA secret used to complete sign-in. */
+    webauthnAssertionVerify(credentialId, authenticatorData, clientDataJSON, signature, userHandle) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const r = yield this.webauthnCall("webauthnAssertionVerify", { credentialId, authenticatorData, clientDataJSON, signature, userHandle });
+            if (!r || !r.twoFactorSecret)
+                throw new Error((r === null || r === void 0 ? void 0 : r.errorMsg) || "Passkey verification failed");
+            return r.twoFactorSecret;
+        });
+    }
     /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link
@@ -76351,6 +76483,39 @@ exports.FluxComms = FluxComms;
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -76370,6 +76535,11 @@ exports.fluxWebsiteSignInAuthorization = fluxWebsiteSignInAuthorization;
 exports.resetPassword = resetPassword;
 exports.updatePassword = updatePassword;
 exports.fluxWebsite2fa = fluxWebsite2fa;
+exports.fluxWebsitePasskey2fa = fluxWebsitePasskey2fa;
+exports.passkeySupported = passkeySupported;
+exports.fluxWebsiteRegisterPasskey = fluxWebsiteRegisterPasskey;
+exports.fluxWebsiteListPasskeys = fluxWebsiteListPasskeys;
+exports.fluxWebsiteDeletePasskey = fluxWebsiteDeletePasskey;
 exports.fluxWebsiteSignUp = fluxWebsiteSignUp;
 exports.fluxWebsiteCookieAuthorization = fluxWebsiteCookieAuthorization;
 exports.fluxSocketBrowser = fluxSocketBrowser;
@@ -76599,6 +76769,76 @@ function fluxWebsite2fa(number, token) {
                 reject(e);
             }
         }));
+    });
+}
+/**
+ * Complete sign-in with a PASSKEY instead of the emailed 2FA code. Call AFTER
+ * fluxWebsiteSignInAuthorization (which proves the password and arms the
+ * session), exactly where you'd otherwise call fluxWebsite2fa(code).
+ *
+ * Runs the WebAuthn assertion ceremony against the password-level session, then
+ * completes 2FA with the secret the server issues on a valid assertion.
+ */
+function fluxWebsitePasskey2fa(token) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { getPasskeyAssertion } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ./WebAuthnBrowser */ "./src/lib/WebAuthnBrowser.ts")));
+        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                const fma = FluxTokenBackend_1.FluxTokenBackend.getFluxTokebBackendInstance();
+                const handle = fma.securityHandle;
+                handle.token = token;
+                // 1. Fetch assertion options (pre-2FA, password-level).
+                const optionsJson = yield fma.webauthnAssertionOptions();
+                // 2. Run navigator.credentials.get() in the browser.
+                const assertion = yield getPasskeyAssertion(optionsJson);
+                // 3. Verify server-side -> receive the 2FA secret.
+                const secret = yield fma.webauthnAssertionVerify(assertion.credentialId, assertion.authenticatorData, assertion.clientDataJSON, assertion.signature, assertion.userHandle);
+                // 4. Complete sign-in with the secret, identical to the emailed-code path.
+                handle.twoFa = secret;
+                yield fma.authorizeWebsiteUser();
+                SessionStorage_1.SessionStorage.set2FAPresent();
+                fma.isAuthenticated = true;
+                AuthCache_1.AuthCache.clearCache();
+                resolve(fma);
+            }
+            catch (e) {
+                reject(e);
+            }
+        }));
+    });
+}
+/** True if this browser can do passkeys (WebAuthn) at all. */
+function passkeySupported() {
+    return (typeof window !== "undefined" &&
+        typeof window.PublicKeyCredential !== "undefined" &&
+        !!navigator.credentials);
+}
+/**
+ * Enroll a new passkey for the signed-in merchant: fetch creation options, run
+ * navigator.credentials.create(), and persist the attestation. Returns the
+ * created credential's id + label.
+ */
+function fluxWebsiteRegisterPasskey(label) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { createPasskey } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ./WebAuthnBrowser */ "./src/lib/WebAuthnBrowser.ts")));
+        const fma = yield fluxWebsiteCookieAuthorization();
+        const optionsJson = yield fma.webauthnRegisterOptions();
+        const reg = yield createPasskey(optionsJson);
+        return fma.webauthnRegisterVerify(reg.attestationObject, reg.clientDataJSON, label);
+    });
+}
+/** List the signed-in merchant's registered passkeys (safe metadata only). */
+function fluxWebsiteListPasskeys() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const fma = yield fluxWebsiteCookieAuthorization();
+        return fma.getWebauthnCredentials();
+    });
+}
+/** Remove one of the signed-in merchant's passkeys by its db id. */
+function fluxWebsiteDeletePasskey(credentialDbId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const fma = yield fluxWebsiteCookieAuthorization();
+        return fma.deleteWebauthnCredential(credentialDbId);
     });
 }
 function fluxWebsiteSignUp(email, password, token, additionalInfo) {
@@ -77192,6 +77432,99 @@ exports.FluxTokenBackend = FluxTokenBackend;
 
 /***/ },
 
+/***/ "./src/lib/WebAuthnBrowser.ts"
+/*!************************************!*\
+  !*** ./src/lib/WebAuthnBrowser.ts ***!
+  \************************************/
+(__unused_webpack_module, exports) {
+
+"use strict";
+
+/**
+ * Browser-side glue for passkeys (WebAuthn). Converts the server's options JSON
+ * (base64url strings) into the ArrayBuffers navigator.credentials expects, runs
+ * the ceremony, and serializes the authenticator's response back to base64url
+ * for the Flux endpoints. Browser-only — guard callers with passkeySupported().
+ */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.passkeySupported = passkeySupported;
+exports.createPasskey = createPasskey;
+exports.getPasskeyAssertion = getPasskeyAssertion;
+function b64uToBuf(b64u) {
+    const b64 = b64u.replace(/-/g, "+").replace(/_/g, "/");
+    const pad = b64.length % 4 ? "=".repeat(4 - (b64.length % 4)) : "";
+    const bin = atob(b64 + pad);
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++)
+        bytes[i] = bin.charCodeAt(i);
+    return bytes.buffer;
+}
+function bufToB64u(buf) {
+    const bytes = new Uint8Array(buf);
+    let bin = "";
+    for (let i = 0; i < bytes.length; i++)
+        bin += String.fromCharCode(bytes[i]);
+    return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+/** True if this browser can do WebAuthn at all. */
+function passkeySupported() {
+    return (typeof window !== "undefined" &&
+        typeof window.PublicKeyCredential !== "undefined" &&
+        !!navigator.credentials);
+}
+/** navigator.credentials.create() from the server's registration options JSON. */
+function createPasskey(optionsJson) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const o = JSON.parse(optionsJson);
+        o.challenge = b64uToBuf(o.challenge);
+        o.user.id = b64uToBuf(o.user.id);
+        if (Array.isArray(o.excludeCredentials)) {
+            o.excludeCredentials = o.excludeCredentials.map((c) => (Object.assign(Object.assign({}, c), { id: b64uToBuf(c.id) })));
+        }
+        const cred = (yield navigator.credentials.create({ publicKey: o }));
+        if (!cred)
+            throw new Error("Passkey creation was cancelled");
+        const resp = cred.response;
+        return {
+            attestationObject: bufToB64u(resp.attestationObject),
+            clientDataJSON: bufToB64u(resp.clientDataJSON),
+        };
+    });
+}
+/** navigator.credentials.get() from the server's assertion options JSON. */
+function getPasskeyAssertion(optionsJson) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const o = JSON.parse(optionsJson);
+        o.challenge = b64uToBuf(o.challenge);
+        if (Array.isArray(o.allowCredentials)) {
+            o.allowCredentials = o.allowCredentials.map((c) => (Object.assign(Object.assign({}, c), { id: b64uToBuf(c.id) })));
+        }
+        const cred = (yield navigator.credentials.get({ publicKey: o }));
+        if (!cred)
+            throw new Error("Passkey sign-in was cancelled");
+        const resp = cred.response;
+        return {
+            credentialId: cred.id, // already base64url (no padding)
+            authenticatorData: bufToB64u(resp.authenticatorData),
+            clientDataJSON: bufToB64u(resp.clientDataJSON),
+            signature: bufToB64u(resp.signature),
+            userHandle: resp.userHandle ? bufToB64u(resp.userHandle) : null,
+        };
+    });
+}
+
+
+/***/ },
+
 /***/ "./src/lib/index.rn.standalone.ts"
 /*!****************************************!*\
   !*** ./src/lib/index.rn.standalone.ts ***!
@@ -77279,6 +77612,11 @@ exports.Functions = {
     fluxWebsiteSignInAuthorization: FluxEntry_1.fluxWebsiteSignInAuthorization,
     fluxWebsiteCookieAuthorization: FluxEntry_1.fluxWebsiteCookieAuthorization,
     fluxWebsite2fa: FluxEntry_1.fluxWebsite2fa,
+    fluxWebsitePasskey2fa: FluxEntry_1.fluxWebsitePasskey2fa,
+    passkeySupported: FluxEntry_1.passkeySupported,
+    fluxWebsiteRegisterPasskey: FluxEntry_1.fluxWebsiteRegisterPasskey,
+    fluxWebsiteListPasskeys: FluxEntry_1.fluxWebsiteListPasskeys,
+    fluxWebsiteDeletePasskey: FluxEntry_1.fluxWebsiteDeletePasskey,
     resetPassword: FluxEntry_1.resetPassword,
     updatePassword: FluxEntry_1.updatePassword,
     getMerchantPublicKeyFromOTPL: FluxEntry_1.getMerchantPublicKeyFromOTPL,

@@ -59,6 +59,30 @@ export declare function fluxWebsiteSignInAuthorization(email: any, password: any
 export declare function resetPassword(email: string, token: string): Promise<boolean>;
 export declare function updatePassword(email: string, password: string, passwordResetCode: string, token: string): Promise<boolean>;
 export declare function fluxWebsite2fa(number: string, token: string): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
+/**
+ * Complete sign-in with a PASSKEY instead of the emailed 2FA code. Call AFTER
+ * fluxWebsiteSignInAuthorization (which proves the password and arms the
+ * session), exactly where you'd otherwise call fluxWebsite2fa(code).
+ *
+ * Runs the WebAuthn assertion ceremony against the password-level session, then
+ * completes 2FA with the secret the server issues on a valid assertion.
+ */
+export declare function fluxWebsitePasskey2fa(token: string): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
+/** True if this browser can do passkeys (WebAuthn) at all. */
+export declare function passkeySupported(): boolean;
+/**
+ * Enroll a new passkey for the signed-in merchant: fetch creation options, run
+ * navigator.credentials.create(), and persist the attestation. Returns the
+ * created credential's id + label.
+ */
+export declare function fluxWebsiteRegisterPasskey(label?: string): Promise<{
+    credentialId?: string;
+    label?: string;
+}>;
+/** List the signed-in merchant's registered passkeys (safe metadata only). */
+export declare function fluxWebsiteListPasskeys(): Promise<import("../ajax/Responses/WebAuthnResponse").WebAuthnCredentialInfo[]>;
+/** Remove one of the signed-in merchant's passkeys by its db id. */
+export declare function fluxWebsiteDeletePasskey(credentialDbId: number): Promise<void>;
 export declare function fluxWebsiteSignUp(email: string, password: string, token: string, additionalInfo: any): Promise<void>;
 export declare function fluxWebsiteCookieAuthorization(): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
 export declare function fluxSocketBrowser(secHandle: WebsiteSecurityHandle): Promise<FluxSocketImpl>;

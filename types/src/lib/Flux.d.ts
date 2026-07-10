@@ -123,6 +123,22 @@ export declare class FluxComms<A extends SecurityHandler> {
      * Get the latest changelog entries (platform release notes).
      */
     getChangelog(): Promise<import("../ajax/Responses/GetChangelogResponse").ChangelogResult>;
+    private webauthnCall;
+    /** Enroll step 1: PublicKeyCredentialCreationOptions JSON for navigator.credentials.create(). */
+    webauthnRegisterOptions(): Promise<string>;
+    /** Enroll step 2: verify the attestation and persist the credential. */
+    webauthnRegisterVerify(attestationObject: string, clientDataJSON: string, label?: string): Promise<{
+        credentialId?: string;
+        label?: string;
+    }>;
+    /** The current user's registered passkeys (safe metadata for the manage screen). */
+    getWebauthnCredentials(): Promise<import("../ajax/Responses/WebAuthnResponse").WebAuthnCredentialInfo[]>;
+    /** Remove one of the current user's passkeys. */
+    deleteWebauthnCredential(credentialDbId: number): Promise<void>;
+    /** Sign-in step 1 (pre-2FA): PublicKeyCredentialRequestOptions JSON for navigator.credentials.get(). */
+    webauthnAssertionOptions(): Promise<string>;
+    /** Sign-in step 2 (pre-2FA): verify the assertion; returns the 2FA secret used to complete sign-in. */
+    webauthnAssertionVerify(credentialId: string, authenticatorData: string, clientDataJSON: string, signature: string, userHandle: string | null): Promise<string>;
     /**
      * Send invoice email for an unpaid payment link
      * @param paymentLinkId The ID of the payment link
