@@ -407,6 +407,18 @@ export function passkeySupported(): boolean {
 }
 
 /**
+ * Partner act-as-merchant (impersonation). Sets/clears the X-Act-As-Merchant
+ * header on EVERY subsequent request; the backend honors it only for
+ * allowlisted partner MACs — for everyone else it's silently ignored. Pass
+ * null to exit act-as mode. The caller is responsible for clearing any
+ * client-side caches when switching.
+ */
+export async function setActAsMerchant(merchantId: number | string | null): Promise<void> {
+  const { CMMT } = await import("../ajax/lib/CMMT");
+  CMMT.setGlobalHeader("X-Act-As-Merchant", merchantId != null ? String(merchantId) : null);
+}
+
+/**
  * Enroll a new passkey for the signed-in merchant: fetch creation options, run
  * navigator.credentials.create(), and persist the attestation. Returns the
  * created credential's id + label.

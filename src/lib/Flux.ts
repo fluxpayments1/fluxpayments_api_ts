@@ -556,6 +556,16 @@ export class FluxComms<A extends SecurityHandler> {
 
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
      *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
+    public async getPartnerDashboard(range?: string, probe?: boolean): Promise<import("../ajax/Responses/GetPartnerDashboardResponse").PartnerDashboardResult> {
+        const { GetPartnerDashboardRequest } = await import("../ajax/Requests/GetPartnerDashboardRequest");
+        const { GetPartnerDashboardResponse } = await import("../ajax/Responses/GetPartnerDashboardResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/GetPartnerDashboardResponse").PartnerDashboardResult, typeof GetPartnerDashboardRequest.prototype, typeof GetPartnerDashboardResponse.prototype>(
+            GetPartnerDashboardRequest, GetPartnerDashboardResponse, "getPartnerDashboard", "POST", isolatedHandle,
+            range, probe
+        );
+    }
+
     public async getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult> {
         const { GetForthStatusRequest } = await import("../ajax/Requests/GetForthStatusRequest");
         const { GetForthStatusResponse } = await import("../ajax/Responses/GetForthStatusResponse");

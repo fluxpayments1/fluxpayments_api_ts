@@ -34,6 +34,23 @@ import * as env from '../../env.json';
 import { IFlux } from "../../lib/IFlux";
 
 export class CMMT {
+
+    /**
+     * Extra headers attached to EVERY request (all three transport paths).
+     * Used for the partner act-as-merchant header: the portal sets it once and
+     * every subsequent call carries it. The backend honors it only for
+     * allowlisted partner MACs (WebsiteSecurityHandle.applyPartnerActAs).
+     */
+    private static globalHeaders: { [name: string]: string } = {};
+
+    /** Set (value) or clear (null/undefined) a header sent on every request. */
+    public static setGlobalHeader(name: string, value: string | null | undefined): void {
+        if (value === null || value === undefined || value === '') {
+            delete CMMT.globalHeaders[name];
+        } else {
+            CMMT.globalHeaders[name] = value;
+        }
+    }
     private static readonly BASE_URL: string = env.API_CONNECTION_ENDPOINT_PROD
     private static readonly AI_BASE_URL: string = env.AI_CONNECTION_ENDPOINT_PROD
     private static readonly WEBSOCKET_BASE_URL: string = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD
@@ -217,6 +234,7 @@ export class CMMT {
                     withCredentials: true,
                     headers: {
                         ...Object.fromEntries(hdrs.entries()),
+                        ...CMMT.globalHeaders,
                         'Content-Type': 'application/json',
                     },
                     data: await arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs),
@@ -271,6 +289,7 @@ export class CMMT {
                     withCredentials: true,
                     headers: {
                         ...Object.fromEntries(hdrs.entries()),
+                        ...CMMT.globalHeaders,
                         'Content-Type': 'application/json',
                     },
                     data: await arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs),
@@ -325,6 +344,7 @@ export class CMMT {
                 credentials: 'include',
                 headers: {
                     ...Object.fromEntries(hdrs.entries()),
+                        ...CMMT.globalHeaders,
                     'Content-Type': 'application/json',
                 },
                 body: requestData
