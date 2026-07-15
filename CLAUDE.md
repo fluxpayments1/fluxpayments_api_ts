@@ -131,3 +131,17 @@ npm run build          # Webpack — outputs to dist_web/lib.js
 ```
 
 Do NOT run `npm run build` yourself — the user handles deployment builds.
+
+## GOTCHA — the `Functions` namespace is a MANUAL list (tree-shaking trap)
+
+The web bundle's entry is `src/lib/index.rn.standalone.ts`, and its `Functions`
+export is a **hand-curated object literal** — NOT a namespace re-export. Adding
+a new exported function to `FluxEntry.ts` is NOT enough: if you don't ALSO add
+it to the `Functions = { ... }` object (and the import list above it), nothing
+references it, webpack production tree-shakes it out of `dist_web/lib.js`, and
+`Functions.yourNewFn` is silently `undefined` at runtime. TypeScript can't
+catch it because portal call sites use `(Functions as any)`. Prod incident
+2026-07-15: `setActAsMerchant` existed in FluxEntry.ts but was missing from the
+object — the partner "view as merchant" click died with no error visible.
+Checklist for any new SDK function the portal will call: FluxEntry.ts export →
+import in index.rn.standalone.ts → key in the `Functions` object → rebuild.

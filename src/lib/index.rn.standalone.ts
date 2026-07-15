@@ -45,6 +45,7 @@ import {
   resetPassword,
   fluxWebsiteSignUp,
   fluxSocketBrowser,
+  setActAsMerchant,
 } from './FluxEntry';
 
 
@@ -87,6 +88,12 @@ export const Functions = {
   updatePassword,
   getMerchantPublicKeyFromOTPL,
   getAccountSessionFromOTPL,
+  // Partner act-as-merchant: sets/clears the X-Act-As-Merchant global header.
+  // MUST be listed here — this object is the runtime `Functions` namespace the
+  // portal calls; an export left out of it gets tree-shaken from dist_web/lib.js
+  // and silently becomes `undefined` at runtime (prod incident 2026-07-15: the
+  // partner "view as merchant" click died on exactly that).
+  setActAsMerchant,
   Subscription,
 };
 

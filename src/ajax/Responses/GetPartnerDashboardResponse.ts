@@ -42,6 +42,12 @@ export interface PartnerDashboardResult {
     pendingAchCount: number;
     merchants: PartnerMerchantRow[];
     recentTransactions: PartnerFeedRow[];
+    /**
+     * Authorization feed ($0 card verifications + decline bookkeeping rows).
+     * NOTE: AUTH rows are always approvalStatus=FINALIZED by backend
+     * convention — a DECLINED auth is the one with a non-null processorError.
+     */
+    recentAuths: PartnerFeedRow[];
     forthEvents: PartnerEventRow[];
 }
 
@@ -58,6 +64,7 @@ export class GetPartnerDashboardResponse extends ResponseBodyBase {
         pendingAchCount: 0,
         merchants: [],
         recentTransactions: [],
+        recentAuths: [],
         forthEvents: [],
     };
 
@@ -77,6 +84,7 @@ export class GetPartnerDashboardResponse extends ResponseBodyBase {
             pendingAchCount: p.pendingAchCount || 0,
             merchants: p.merchants || [],
             recentTransactions: p.recentTransactions || [],
+            recentAuths: p.recentAuths || [],
             forthEvents: p.forthEvents || [],
         };
         return this;
