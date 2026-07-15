@@ -66,7 +66,11 @@ export class Merchant extends FluxType implements IMerchant {
             defaultSuppressEmail: this.defaultSuppressEmail,
             defaultSuppressReceiptAndInvoice: this.defaultSuppressReceiptAndInvoice,
             defaultSuppressMerchantReceipt: this.defaultSuppressMerchantReceipt,
-            cardIntakeTermsText: this.cardIntakeTermsText
+            cardIntakeTermsText: this.cardIntakeTermsText,
+            checkoutTermsUrl: this.checkoutTermsUrl,
+            checkoutRefundPolicyUrl: this.checkoutRefundPolicyUrl,
+            checkoutPrivacyUrl: this.checkoutPrivacyUrl,
+            checkoutRefundPolicyText: this.checkoutRefundPolicyText
         };
     }
 
@@ -124,6 +128,12 @@ export class Merchant extends FluxType implements IMerchant {
     defaultSuppressReceiptAndInvoice?: boolean;
     defaultSuppressMerchantReceipt?: boolean;
     cardIntakeTermsText: string;
+    // Checkout policies (card-network underwriting): the merchant-of-record's
+    // own terms/refund/privacy, disclosed + accepted at OTPL checkout.
+    checkoutTermsUrl: string;
+    checkoutRefundPolicyUrl: string;
+    checkoutPrivacyUrl: string;
+    checkoutRefundPolicyText: string;
     protected objectType: string = "merchant";
 
     public constructor(merchant?: Partial<Merchant>) {

@@ -55,4 +55,9 @@ export interface IMerchant {
     defaultSuppressEmail: boolean;
     defaultSuppressReceiptAndInvoice?: boolean;
     defaultSuppressMerchantReceipt?: boolean;
+    // Checkout policies (card-network underwriting) — merchant's own pages/text
+    checkoutTermsUrl?: string;
+    checkoutRefundPolicyUrl?: string;
+    checkoutPrivacyUrl?: string;
+    checkoutRefundPolicyText?: string;
 }
