@@ -54,4 +54,8 @@ export interface IMerchant {
     defaultSuppressEmail: boolean;
     defaultSuppressReceiptAndInvoice?: boolean;
     defaultSuppressMerchantReceipt?: boolean;
+    checkoutTermsUrl?: string;
+    checkoutRefundPolicyUrl?: string;
+    checkoutPrivacyUrl?: string;
+    checkoutRefundPolicyText?: string;
 }

@@ -20,6 +20,11 @@ export interface InvoicePreviewParams {
     serviceFeeRate?: number;
     shippingFee?: number;
     discountId?: number;
+    businessId?: number;
+    inlineDiscountType?: string;
+    inlineDiscountAmount?: number;
+    inlineDiscountName?: string;
+    businessName?: string;
 }
 export declare class InvoicePreviewRequest extends RequestBodyBase {
     private params;

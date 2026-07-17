@@ -113,7 +113,9 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             customerFirstName: this.customerFirstName,
             customerLastName: this.customerLastName,
             customerPhone: this.customerPhone,
-            hasBeenSent: this.hasBeenSent
+            hasBeenSent: this.hasBeenSent,
+            businessId: this.businessId,
+            businessName: this.businessName
         };
     }
     wallets: Wallet[]
@@ -179,6 +181,10 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     hasBeenSyncedToQuickbooks: boolean;
     needsQbSync: boolean;
     name: string;
+    /** Optional Business (customer-owned) this link/invoice bills to. */
+    businessId: number;
+    /** Server-denormalized business name — read-only display. */
+    businessName: string;
     protected objectType: string = "payment_link";
 
     public constructor(pl?: Partial<PaymentLink>) {

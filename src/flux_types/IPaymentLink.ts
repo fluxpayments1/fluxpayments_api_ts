@@ -82,4 +82,6 @@ export interface IPaymentLink {
     customerLastName?: string;
     customerPhone?: string;
     hasBeenSent?: boolean;
+    businessId?: number;
+    businessName?: string;
 }

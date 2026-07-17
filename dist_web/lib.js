@@ -63863,6 +63863,32 @@ exports.GetMetadataRequest = GetMetadataRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/GetPartnerDashboardRequest.ts"
+/*!*********************************************************!*\
+  !*** ./src/ajax/Requests/GetPartnerDashboardRequest.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetPartnerDashboardRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class GetPartnerDashboardRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(range, probe) {
+        this.range = range;
+        this.probe = probe;
+    }
+    getRequestAsString() {
+        return JSON.stringify({ range: this.range, probe: this.probe });
+    }
+}
+exports.GetPartnerDashboardRequest = GetPartnerDashboardRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/IdentificationDocumentRequst.ts"
 /*!***********************************************************!*\
   !*** ./src/ajax/Requests/IdentificationDocumentRequst.ts ***!
@@ -63930,7 +63956,7 @@ class InvoicePreviewRequest extends RequestBodyBase_1.RequestBodyBase {
         this.params = params;
     }
     getRequestAsString() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
         return JSON.stringify({
             paymentLinkName: (_a = this.params) === null || _a === void 0 ? void 0 : _a.paymentLinkName,
             customerName: (_b = this.params) === null || _b === void 0 ? void 0 : _b.customerName,
@@ -63950,7 +63976,12 @@ class InvoicePreviewRequest extends RequestBodyBase_1.RequestBodyBase {
             taxRate: (_j = this.params) === null || _j === void 0 ? void 0 : _j.taxRate,
             serviceFeeRate: (_k = this.params) === null || _k === void 0 ? void 0 : _k.serviceFeeRate,
             shippingFee: (_l = this.params) === null || _l === void 0 ? void 0 : _l.shippingFee,
-            discountId: (_m = this.params) === null || _m === void 0 ? void 0 : _m.discountId
+            discountId: (_m = this.params) === null || _m === void 0 ? void 0 : _m.discountId,
+            businessId: (_o = this.params) === null || _o === void 0 ? void 0 : _o.businessId,
+            inlineDiscountType: (_p = this.params) === null || _p === void 0 ? void 0 : _p.inlineDiscountType,
+            inlineDiscountAmount: (_q = this.params) === null || _q === void 0 ? void 0 : _q.inlineDiscountAmount,
+            inlineDiscountName: (_r = this.params) === null || _r === void 0 ? void 0 : _r.inlineDiscountName,
+            businessName: (_s = this.params) === null || _s === void 0 ? void 0 : _s.businessName
         });
     }
 }
@@ -65534,6 +65565,65 @@ exports.GetMetadataResponse = GetMetadataResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/GetPartnerDashboardResponse.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Responses/GetPartnerDashboardResponse.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetPartnerDashboardResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class GetPartnerDashboardResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            allowed: false,
+            grossVolume: 0,
+            transactionCount: 0,
+            finalizedCount: 0,
+            failedCount: 0,
+            activeMerchantCount: 0,
+            totalMerchantCount: 0,
+            newCustomerCount: 0,
+            pendingAchCount: 0,
+            merchants: [],
+            recentTransactions: [],
+            recentAuths: [],
+            forthEvents: [],
+        };
+    }
+    setResponseJSON(jsonString) {
+        var _a;
+        const p = JSON.parse(jsonString);
+        this.result = {
+            allowed: !!p.allowed,
+            grossVolume: (_a = p.grossVolume) !== null && _a !== void 0 ? _a : 0,
+            transactionCount: p.transactionCount || 0,
+            finalizedCount: p.finalizedCount || 0,
+            failedCount: p.failedCount || 0,
+            activeMerchantCount: p.activeMerchantCount || 0,
+            totalMerchantCount: p.totalMerchantCount || 0,
+            newCustomerCount: p.newCustomerCount || 0,
+            pendingAchCount: p.pendingAchCount || 0,
+            merchants: p.merchants || [],
+            recentTransactions: p.recentTransactions || [],
+            recentAuths: p.recentAuths || [],
+            forthEvents: p.forthEvents || [],
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.GetPartnerDashboardResponse = GetPartnerDashboardResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/InvoicePreviewResponse.ts"
 /*!******************************************************!*\
   !*** ./src/ajax/Responses/InvoicePreviewResponse.ts ***!
@@ -66448,6 +66538,15 @@ const ws_1 = __webpack_require__(/*! ws */ "./node_modules/ws/browser.js");
 const https = __importStar(__webpack_require__(/*! https */ "./node_modules/https-browserify/index.js"));
 const env = __importStar(__webpack_require__(/*! ../../env.json */ "./src/env.json"));
 class CMMT {
+    /** Set (value) or clear (null/undefined) a header sent on every request. */
+    static setGlobalHeader(name, value) {
+        if (value === null || value === undefined || value === '') {
+            delete CMMT.globalHeaders[name];
+        }
+        else {
+            CMMT.globalHeaders[name] = value;
+        }
+    }
     static getPath(arg) {
         if (window && window.isReactNative) {
             return CMMT.BASE_URL.concat(arg).concat("ReactNative");
@@ -66579,7 +66678,7 @@ class CMMT {
                     url: CMMT.getPath(arh.path),
                     method: arh.method,
                     withCredentials: true,
-                    headers: Object.assign(Object.assign({}, Object.fromEntries(hdrs.entries())), { 'Content-Type': 'application/json' }),
+                    headers: Object.assign(Object.assign(Object.assign({}, Object.fromEntries(hdrs.entries())), CMMT.globalHeaders), { 'Content-Type': 'application/json' }),
                     data: yield arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs),
                     httpsAgent: new https.Agent({
                         rejectUnauthorized: false
@@ -66615,7 +66714,7 @@ class CMMT {
                     url: CMMT.getPath(arh.path),
                     method: arh.method,
                     withCredentials: true,
-                    headers: Object.assign(Object.assign({}, Object.fromEntries(hdrs.entries())), { 'Content-Type': 'application/json' }),
+                    headers: Object.assign(Object.assign(Object.assign({}, Object.fromEntries(hdrs.entries())), CMMT.globalHeaders), { 'Content-Type': 'application/json' }),
                     data: yield arh.securityHandler.encodeRequest(arh.request.getRequestAsString(), hdrs),
                     httpsAgent: new https.Agent({
                         rejectUnauthorized: false
@@ -66653,7 +66752,7 @@ class CMMT {
                 const fetchOptions = {
                     method: arh.method,
                     credentials: 'include',
-                    headers: Object.assign(Object.assign({}, Object.fromEntries(hdrs.entries())), { 'Content-Type': 'application/json' }),
+                    headers: Object.assign(Object.assign(Object.assign({}, Object.fromEntries(hdrs.entries())), CMMT.globalHeaders), { 'Content-Type': 'application/json' }),
                     body: requestData
                 };
                 const response = yield fetch(env.AI_CONNECTION_ENDPOINT_PROD + arh.path, fetchOptions);
@@ -66726,6 +66825,13 @@ class CMMT {
     }
 }
 exports.CMMT = CMMT;
+/**
+ * Extra headers attached to EVERY request (all three transport paths).
+ * Used for the partner act-as-merchant header: the portal sets it once and
+ * every subsequent call carries it. The backend honors it only for
+ * allowlisted partner MACs (WebsiteSecurityHandle.applyPartnerActAs).
+ */
+CMMT.globalHeaders = {};
 CMMT.BASE_URL = env.API_CONNECTION_ENDPOINT_PROD;
 CMMT.AI_BASE_URL = env.AI_CONNECTION_ENDPOINT_PROD;
 CMMT.WEBSOCKET_BASE_URL = env.WEBSOCKET_CONNECTION_ENDPOINT_PROD;
@@ -68745,6 +68851,110 @@ exports.AccountAddressQuery = AccountAddressQuery;
 
 /***/ },
 
+/***/ "./src/flux_types/AccountBusiness.ts"
+/*!*******************************************!*\
+  !*** ./src/flux_types/AccountBusiness.ts ***!
+  \*******************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AccountBusiness = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * Join between a customer Account and a Business (many-to-many). One Business
+ * can attach to many customers and one customer can have many businesses.
+ * `businessName`/`accountName` are denormalized snapshots so a list of links
+ * renders the names without an extra lookup.
+ */
+class AccountBusiness extends FluxType_1.FluxType {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            objectType: this.objectType,
+            createdAt: this.createdAt,
+            activeStatus: this.activeStatus,
+            accountId: this.accountId,
+            businessId: this.businessId,
+            businessName: this.businessName,
+            accountName: this.accountName
+        };
+    }
+    getDispName() {
+        return this.businessName || "";
+    }
+    constructor(accountBusiness) {
+        super(accountBusiness, AccountBusiness);
+        this.obName = "AccountBusiness";
+        this.objectType = "account_business";
+        Object.assign(this, accountBusiness);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.AccountBusiness = AccountBusiness;
+
+
+/***/ },
+
+/***/ "./src/flux_types/AccountBusinessQuery.ts"
+/*!************************************************!*\
+  !*** ./src/flux_types/AccountBusinessQuery.ts ***!
+  \************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AccountBusinessQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const AccountBusiness_1 = __webpack_require__(/*! ./AccountBusiness */ "./src/flux_types/AccountBusiness.ts");
+class AccountBusinessQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            objectType: this.objectType,
+            createdAt: this.createdAt,
+            activeStatus: this.activeStatus,
+            accountId: this.accountId,
+            businessId: this.businessId,
+            businessName: this.businessName,
+            accountName: this.accountName
+        };
+    }
+    constructor(q) {
+        super(AccountBusiness_1.AccountBusiness);
+        this.objectType = "account_business";
+        Object.assign(this, q);
+    }
+}
+exports.AccountBusinessQuery = AccountBusinessQuery;
+
+
+/***/ },
+
 /***/ "./src/flux_types/AccountDump.ts"
 /*!***************************************!*\
   !*** ./src/flux_types/AccountDump.ts ***!
@@ -69529,6 +69739,118 @@ class BaseQuery {
     }
 }
 exports.BaseQuery = BaseQuery;
+
+
+/***/ },
+
+/***/ "./src/flux_types/Business.ts"
+/*!************************************!*\
+  !*** ./src/flux_types/Business.ts ***!
+  \************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Business = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * An independent business (many-to-many with customer Accounts via the
+ * AccountBusiness join). One business can attach to many customers; a
+ * PaymentLink/Invoice can optionally reference one via `businessId` so the
+ * business name renders in the BILL TO block.
+ */
+class Business extends FluxType_1.FluxType {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            objectType: this.objectType,
+            createdAt: this.createdAt,
+            activeStatus: this.activeStatus,
+            businessName: this.businessName,
+            businessEmail: this.businessEmail,
+            businessPhone: this.businessPhone,
+            addressLine1: this.addressLine1,
+            addressLine2: this.addressLine2,
+            city: this.city,
+            state: this.state,
+            postalCode: this.postalCode,
+            country: this.country
+        };
+    }
+    getDispName() {
+        return this.businessName || "";
+    }
+    constructor(business) {
+        super(business, Business);
+        this.obName = "Business";
+        this.objectType = "business";
+        Object.assign(this, business);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.Business = Business;
+
+
+/***/ },
+
+/***/ "./src/flux_types/BusinessQuery.ts"
+/*!*****************************************!*\
+  !*** ./src/flux_types/BusinessQuery.ts ***!
+  \*****************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BusinessQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const Business_1 = __webpack_require__(/*! ./Business */ "./src/flux_types/Business.ts");
+class BusinessQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            metadata: this.metadata,
+            objectType: this.objectType,
+            createdAt: this.createdAt,
+            activeStatus: this.activeStatus,
+            businessName: this.businessName,
+            businessEmail: this.businessEmail,
+            businessPhone: this.businessPhone,
+            city: this.city,
+            state: this.state,
+            postalCode: this.postalCode,
+            country: this.country
+        };
+    }
+    constructor(q) {
+        super(Business_1.Business);
+        this.objectType = "business";
+        Object.assign(this, q);
+    }
+}
+exports.BusinessQuery = BusinessQuery;
 
 
 /***/ },
@@ -72135,7 +72457,11 @@ class Merchant extends FluxType_1.FluxType {
             defaultSuppressEmail: this.defaultSuppressEmail,
             defaultSuppressReceiptAndInvoice: this.defaultSuppressReceiptAndInvoice,
             defaultSuppressMerchantReceipt: this.defaultSuppressMerchantReceipt,
-            cardIntakeTermsText: this.cardIntakeTermsText
+            cardIntakeTermsText: this.cardIntakeTermsText,
+            checkoutTermsUrl: this.checkoutTermsUrl,
+            checkoutRefundPolicyUrl: this.checkoutRefundPolicyUrl,
+            checkoutPrivacyUrl: this.checkoutPrivacyUrl,
+            checkoutRefundPolicyText: this.checkoutRefundPolicyText
         };
     }
     constructor(merchant) {
@@ -73028,7 +73354,9 @@ class PaymentLink extends FluxType_1.FluxType {
             customerFirstName: this.customerFirstName,
             customerLastName: this.customerLastName,
             customerPhone: this.customerPhone,
-            hasBeenSent: this.hasBeenSent
+            hasBeenSent: this.hasBeenSent,
+            businessId: this.businessId,
+            businessName: this.businessName
         };
     }
     constructor(pl) {
@@ -75682,9 +76010,9 @@ exports.WalletQuery = WalletQuery;
 // This file is automatically generated by scripts/generate-types.js
 // Do not edit manually - run npm run compile-rn to regenerate
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.DiscountQuery = exports.Discount = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
-exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ForthActivityEventQuery = exports.ForthActivityEvent = exports.ForthScheduledChargeQuery = exports.ForthScheduledCharge = exports.ForthClientMappingQuery = exports.ForthClientMapping = exports.MerchantForthCredentialsQuery = exports.MerchantForthCredentials = exports.CardCaptureFormQuery = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = void 0;
-exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = void 0;
+exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.AccountBusinessQuery = exports.AccountBusiness = exports.BusinessQuery = exports.Business = exports.DiscountQuery = exports.Discount = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
+exports.DailyReport = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ForthActivityEventQuery = exports.ForthActivityEvent = exports.ForthScheduledChargeQuery = exports.ForthScheduledCharge = exports.ForthClientMappingQuery = exports.ForthClientMapping = exports.MerchantForthCredentialsQuery = exports.MerchantForthCredentials = exports.CardCaptureFormQuery = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = void 0;
+exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -75739,6 +76067,14 @@ var Discount_1 = __webpack_require__(/*! ./Discount */ "./src/flux_types/Discoun
 Object.defineProperty(exports, "Discount", ({ enumerable: true, get: function () { return Discount_1.Discount; } }));
 var DiscountQuery_1 = __webpack_require__(/*! ./DiscountQuery */ "./src/flux_types/DiscountQuery.ts");
 Object.defineProperty(exports, "DiscountQuery", ({ enumerable: true, get: function () { return DiscountQuery_1.DiscountQuery; } }));
+var Business_1 = __webpack_require__(/*! ./Business */ "./src/flux_types/Business.ts");
+Object.defineProperty(exports, "Business", ({ enumerable: true, get: function () { return Business_1.Business; } }));
+var BusinessQuery_1 = __webpack_require__(/*! ./BusinessQuery */ "./src/flux_types/BusinessQuery.ts");
+Object.defineProperty(exports, "BusinessQuery", ({ enumerable: true, get: function () { return BusinessQuery_1.BusinessQuery; } }));
+var AccountBusiness_1 = __webpack_require__(/*! ./AccountBusiness */ "./src/flux_types/AccountBusiness.ts");
+Object.defineProperty(exports, "AccountBusiness", ({ enumerable: true, get: function () { return AccountBusiness_1.AccountBusiness; } }));
+var AccountBusinessQuery_1 = __webpack_require__(/*! ./AccountBusinessQuery */ "./src/flux_types/AccountBusinessQuery.ts");
+Object.defineProperty(exports, "AccountBusinessQuery", ({ enumerable: true, get: function () { return AccountBusinessQuery_1.AccountBusinessQuery; } }));
 var TransactionTotalsDaily_1 = __webpack_require__(/*! ./TransactionTotalsDaily */ "./src/flux_types/TransactionTotalsDaily.ts");
 Object.defineProperty(exports, "TransactionTotalsDaily", ({ enumerable: true, get: function () { return TransactionTotalsDaily_1.TransactionTotalsDaily; } }));
 var TransactionTotalsDailyQuery_1 = __webpack_require__(/*! ./TransactionTotalsDailyQuery */ "./src/flux_types/TransactionTotalsDailyQuery.ts");
@@ -76256,6 +76592,14 @@ class FluxComms {
     }
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
      *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
+    getPartnerDashboard(range, probe) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetPartnerDashboardRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetPartnerDashboardRequest */ "./src/ajax/Requests/GetPartnerDashboardRequest.ts")));
+            const { GetPartnerDashboardResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetPartnerDashboardResponse */ "./src/ajax/Responses/GetPartnerDashboardResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetPartnerDashboardRequest, GetPartnerDashboardResponse, "getPartnerDashboard", "POST", isolatedHandle, range, probe);
+        });
+    }
     getForthStatus(page, pageSize) {
         return __awaiter(this, void 0, void 0, function* () {
             const { GetForthStatusRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetForthStatusRequest */ "./src/ajax/Requests/GetForthStatusRequest.ts")));
@@ -76537,6 +76881,7 @@ exports.updatePassword = updatePassword;
 exports.fluxWebsite2fa = fluxWebsite2fa;
 exports.fluxWebsitePasskey2fa = fluxWebsitePasskey2fa;
 exports.passkeySupported = passkeySupported;
+exports.setActAsMerchant = setActAsMerchant;
 exports.fluxWebsiteRegisterPasskey = fluxWebsiteRegisterPasskey;
 exports.fluxWebsiteListPasskeys = fluxWebsiteListPasskeys;
 exports.fluxWebsiteDeletePasskey = fluxWebsiteDeletePasskey;
@@ -76812,6 +77157,19 @@ function passkeySupported() {
     return (typeof window !== "undefined" &&
         typeof window.PublicKeyCredential !== "undefined" &&
         !!navigator.credentials);
+}
+/**
+ * Partner act-as-merchant (impersonation). Sets/clears the X-Act-As-Merchant
+ * header on EVERY subsequent request; the backend honors it only for
+ * allowlisted partner MACs — for everyone else it's silently ignored. Pass
+ * null to exit act-as mode. The caller is responsible for clearing any
+ * client-side caches when switching.
+ */
+function setActAsMerchant(merchantId) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const { CMMT } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/lib/CMMT */ "./src/ajax/lib/CMMT.ts")));
+        CMMT.setGlobalHeader("X-Act-As-Merchant", merchantId != null ? String(merchantId) : null);
+    });
 }
 /**
  * Enroll a new passkey for the signed-in merchant: fetch creation options, run
@@ -77621,6 +77979,12 @@ exports.Functions = {
     updatePassword: FluxEntry_1.updatePassword,
     getMerchantPublicKeyFromOTPL: FluxEntry_1.getMerchantPublicKeyFromOTPL,
     getAccountSessionFromOTPL: FluxEntry_1.getAccountSessionFromOTPL,
+    // Partner act-as-merchant: sets/clears the X-Act-As-Merchant global header.
+    // MUST be listed here — this object is the runtime `Functions` namespace the
+    // portal calls; an export left out of it gets tree-shaken from dist_web/lib.js
+    // and silently becomes `undefined` at runtime (prod incident 2026-07-15: the
+    // partner "view as merchant" click died on exactly that).
+    setActAsMerchant: FluxEntry_1.setActAsMerchant,
     Subscription: FluxSockets_1.Subscription,
 };
 exports.FluxTypes = FluxTypesImport;

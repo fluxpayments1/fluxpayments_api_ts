@@ -61,6 +61,10 @@ export declare class Merchant extends FluxType implements IMerchant {
         defaultSuppressReceiptAndInvoice: boolean;
         defaultSuppressMerchantReceipt: boolean;
         cardIntakeTermsText: string;
+        checkoutTermsUrl: string;
+        checkoutRefundPolicyUrl: string;
+        checkoutPrivacyUrl: string;
+        checkoutRefundPolicyText: string;
     };
     id: number;
     merchantApproved: boolean;
@@ -116,6 +120,10 @@ export declare class Merchant extends FluxType implements IMerchant {
     defaultSuppressReceiptAndInvoice?: boolean;
     defaultSuppressMerchantReceipt?: boolean;
     cardIntakeTermsText: string;
+    checkoutTermsUrl: string;
+    checkoutRefundPolicyUrl: string;
+    checkoutPrivacyUrl: string;
+    checkoutRefundPolicyText: string;
     protected objectType: string;
     constructor(merchant?: Partial<Merchant>);
 }

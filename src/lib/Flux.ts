@@ -793,10 +793,20 @@ export class FluxComms<A extends SecurityHandler> {
         customerEmail?: string;
         customerPhone?: string;
         dueDate?: string;
-        products?: Array<{ id?: number; name?: string; price?: number; orderQuantity?: number; memo?: string }>;
+        memo?: string;
+        products?: Array<{ id?: number; name?: string; description?: string; price?: number; orderQuantity?: number; memo?: string; discountId?: number }>;
         taxRate?: number;
         serviceFeeRate?: number;
         shippingFee?: number;
+        discountId?: number;
+        businessId?: number;
+        // Inline (not-yet-persisted) global discount — AI proposal previews
+        // where a sibling action creates the discount at approval time.
+        inlineDiscountType?: string;
+        inlineDiscountAmount?: number;
+        inlineDiscountName?: string;
+        // Business the invoice bills to — server renders it in the BILL TO block.
+        businessName?: string;
     }): Promise<{ html: string }> {
         const { InvoicePreviewRequest } = await import("../ajax/Requests/InvoicePreviewRequest");
         const { InvoicePreviewResponse } = await import("../ajax/Responses/InvoicePreviewResponse");

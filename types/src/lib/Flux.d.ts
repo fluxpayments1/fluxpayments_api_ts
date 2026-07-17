@@ -113,6 +113,7 @@ export declare class FluxComms<A extends SecurityHandler> {
     }>;
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
      *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
+    getPartnerDashboard(range?: string, probe?: boolean): Promise<import("../ajax/Responses/GetPartnerDashboardResponse").PartnerDashboardResult>;
     getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult>;
     /** Pause or un-pause auto-charging for a specific Forth client mapping. */
     pauseForthClient(mappingId: number, paused: boolean): Promise<{
@@ -209,16 +210,25 @@ export declare class FluxComms<A extends SecurityHandler> {
         customerEmail?: string;
         customerPhone?: string;
         dueDate?: string;
+        memo?: string;
         products?: Array<{
             id?: number;
             name?: string;
+            description?: string;
             price?: number;
             orderQuantity?: number;
             memo?: string;
+            discountId?: number;
         }>;
         taxRate?: number;
         serviceFeeRate?: number;
         shippingFee?: number;
+        discountId?: number;
+        businessId?: number;
+        inlineDiscountType?: string;
+        inlineDiscountAmount?: number;
+        inlineDiscountName?: string;
+        businessName?: string;
     }): Promise<{
         html: string;
     }>;

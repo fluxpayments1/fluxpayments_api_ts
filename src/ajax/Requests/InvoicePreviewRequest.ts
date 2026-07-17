@@ -22,6 +22,15 @@ export interface InvoicePreviewParams {
     serviceFeeRate?: number;
     shippingFee?: number;
     discountId?: number;
+    // Business picked on the invoice — server loads its full BILL TO details.
+    businessId?: number;
+    // Inline (not-yet-persisted) global discount — AI proposal previews where
+    // the discount is created by a sibling action at approval time (no id yet).
+    inlineDiscountType?: string;
+    inlineDiscountAmount?: number;
+    inlineDiscountName?: string;
+    // Business the invoice bills to — server renders it in the BILL TO block.
+    businessName?: string;
 }
 
 export class InvoicePreviewRequest extends RequestBodyBase {
@@ -55,7 +64,12 @@ export class InvoicePreviewRequest extends RequestBodyBase {
             taxRate: this.params?.taxRate,
             serviceFeeRate: this.params?.serviceFeeRate,
             shippingFee: this.params?.shippingFee,
-            discountId: this.params?.discountId
+            discountId: this.params?.discountId,
+            businessId: this.params?.businessId,
+            inlineDiscountType: this.params?.inlineDiscountType,
+            inlineDiscountAmount: this.params?.inlineDiscountAmount,
+            inlineDiscountName: this.params?.inlineDiscountName,
+            businessName: this.params?.businessName
         });
     }
 }

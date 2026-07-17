@@ -94,6 +94,8 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         customerLastName: string;
         customerPhone: string;
         hasBeenSent: boolean;
+        businessId: number;
+        businessName: string;
     };
     wallets: Wallet[];
     memo: string;
@@ -158,6 +160,10 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     hasBeenSyncedToQuickbooks: boolean;
     needsQbSync: boolean;
     name: string;
+    /** Optional Business (customer-owned) this link/invoice bills to. */
+    businessId: number;
+    /** Server-denormalized business name — read-only display. */
+    businessName: string;
     protected objectType: string;
     constructor(pl?: Partial<PaymentLink>);
     static createInstanceLazy(acc: Partial<IPaymentLink>): Promise<PaymentLink>;
