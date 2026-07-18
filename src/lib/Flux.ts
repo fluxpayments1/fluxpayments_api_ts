@@ -813,6 +813,32 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
+    /**
+     * Clarify-wizard prune-as-you-go: given the merchant's answers so far,
+     * which of the remaining wizard questions are already answered? Fail-open —
+     * errors return an empty list and the wizard just keeps asking.
+     */
+    public async pruneClarify(params: {
+        originalRequest?: string;
+        answersText: string;
+        questions: { index: number; text: string; options?: string[] }[];
+    }): Promise<{ answered: { index: number; value: string }[] }> {
+        const { PruneClarifyRequest } = await import("../ajax/Requests/PruneClarifyRequest");
+        const { PruneClarifyResponse } = await import("../ajax/Responses/PruneClarifyResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ answered: { index: number; value: string }[] },
+            typeof PruneClarifyRequest.prototype, typeof PruneClarifyResponse.prototype>(
+            PruneClarifyRequest,
+            PruneClarifyResponse,
+            "pruneClarify",
+            "POST",
+            isolatedHandle,
+            params
+        );
+    }
+
     public async getInvoicePreviewHtml(params: {
         paymentLinkName?: string;
         customerName?: string;
