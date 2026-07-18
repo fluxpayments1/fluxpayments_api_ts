@@ -62737,6 +62737,35 @@ exports.AuthCookieRequst = AuthCookieRequst;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/BusinessStatsRequest.ts"
+/*!***************************************************!*\
+  !*** ./src/ajax/Requests/BusinessStatsRequest.ts ***!
+  \***************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BusinessStatsRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class BusinessStatsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(businessId) {
+        this.businessId = businessId;
+    }
+    getRequestAsString() {
+        return JSON.stringify({
+            businessId: this.businessId
+        });
+    }
+}
+exports.BusinessStatsRequest = BusinessStatsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/CancelSubscriptionRequest.ts"
 /*!********************************************************!*\
   !*** ./src/ajax/Requests/CancelSubscriptionRequest.ts ***!
@@ -64689,6 +64718,43 @@ class ApproveChatActionsResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.ApproveChatActionsResponse = ApproveChatActionsResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/BusinessStatsResponse.ts"
+/*!*****************************************************!*\
+  !*** ./src/ajax/Responses/BusinessStatsResponse.ts ***!
+  \*****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.BusinessStatsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class BusinessStatsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.customerCount = Number(parsed.customerCount) || 0;
+        this.invoiceCount = Number(parsed.invoiceCount) || 0;
+        this.transactionCount = Number(parsed.transactionCount) || 0;
+        this.transactionVolume = Number(parsed.transactionVolume) || 0;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            customerCount: this.customerCount,
+            invoiceCount: this.invoiceCount,
+            transactionCount: this.transactionCount,
+            transactionVolume: this.transactionVolume
+        };
+    }
+}
+exports.BusinessStatsResponse = BusinessStatsResponse;
 
 
 /***/ },
@@ -76764,6 +76830,18 @@ class FluxComms {
      * @param params Object containing preview data (products, customer info, fees, etc.)
      * @returns Object containing the HTML string
      */
+    /**
+     * Aggregate stats for one Business: attached customers, invoices billed to
+     * it, and finalized transaction count/volume across its payment links.
+     */
+    getBusinessStats(businessId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { BusinessStatsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/BusinessStatsRequest */ "./src/ajax/Requests/BusinessStatsRequest.ts")));
+            const { BusinessStatsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/BusinessStatsResponse */ "./src/ajax/Responses/BusinessStatsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(BusinessStatsRequest, BusinessStatsResponse, "getBusinessStats", "POST", isolatedHandle, businessId);
+        });
+    }
     getInvoicePreviewHtml(params) {
         return __awaiter(this, void 0, void 0, function* () {
             const { InvoicePreviewRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/InvoicePreviewRequest */ "./src/ajax/Requests/InvoicePreviewRequest.ts")));

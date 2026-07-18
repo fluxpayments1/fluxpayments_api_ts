@@ -204,6 +204,16 @@ export declare class FluxComms<A extends SecurityHandler> {
      * @param params Object containing preview data (products, customer info, fees, etc.)
      * @returns Object containing the HTML string
      */
+    /**
+     * Aggregate stats for one Business: attached customers, invoices billed to
+     * it, and finalized transaction count/volume across its payment links.
+     */
+    getBusinessStats(businessId: number): Promise<{
+        customerCount: number;
+        invoiceCount: number;
+        transactionCount: number;
+        transactionVolume: number;
+    }>;
     getInvoicePreviewHtml(params: {
         paymentLinkName?: string;
         customerName?: string;
