@@ -787,6 +787,32 @@ export class FluxComms<A extends SecurityHandler> {
      * @param params Object containing preview data (products, customer info, fees, etc.)
      * @returns Object containing the HTML string
      */
+    /**
+     * Aggregate stats for one Business: attached customers, invoices billed to
+     * it, and finalized transaction count/volume across its payment links.
+     */
+    public async getBusinessStats(businessId: number): Promise<{
+        customerCount: number;
+        invoiceCount: number;
+        transactionCount: number;
+        transactionVolume: number;
+    }> {
+        const { BusinessStatsRequest } = await import("../ajax/Requests/BusinessStatsRequest");
+        const { BusinessStatsResponse } = await import("../ajax/Responses/BusinessStatsResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ customerCount: number; invoiceCount: number; transactionCount: number; transactionVolume: number },
+            typeof BusinessStatsRequest.prototype, typeof BusinessStatsResponse.prototype>(
+            BusinessStatsRequest,
+            BusinessStatsResponse,
+            "getBusinessStats",
+            "POST",
+            isolatedHandle,
+            businessId
+        );
+    }
+
     public async getInvoicePreviewHtml(params: {
         paymentLinkName?: string;
         customerName?: string;
