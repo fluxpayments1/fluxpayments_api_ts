@@ -64086,6 +64086,42 @@ exports.MarkInvoiceAsPaidRequest = MarkInvoiceAsPaidRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/PruneClarifyRequest.ts"
+/*!**************************************************!*\
+  !*** ./src/ajax/Requests/PruneClarifyRequest.ts ***!
+  \**************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PruneClarifyRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class PruneClarifyRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.params = params;
+    }
+    getRequestAsString() {
+        var _a, _b, _c, _d;
+        return JSON.stringify({
+            originalRequest: (_a = this.params) === null || _a === void 0 ? void 0 : _a.originalRequest,
+            answersText: (_b = this.params) === null || _b === void 0 ? void 0 : _b.answersText,
+            questions: (_d = (_c = this.params) === null || _c === void 0 ? void 0 : _c.questions) === null || _d === void 0 ? void 0 : _d.map(q => ({
+                index: q.index,
+                text: q.text,
+                options: q.options
+            }))
+        });
+    }
+}
+exports.PruneClarifyRequest = PruneClarifyRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/RemovePaymentMethodRequest.ts"
 /*!*********************************************************!*\
   !*** ./src/ajax/Requests/RemovePaymentMethodRequest.ts ***!
@@ -65787,6 +65823,40 @@ class MarkInvoiceAsPaidResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.MarkInvoiceAsPaidResponse = MarkInvoiceAsPaidResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/PruneClarifyResponse.ts"
+/*!****************************************************!*\
+  !*** ./src/ajax/Responses/PruneClarifyResponse.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.PruneClarifyResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class PruneClarifyResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.answered = [];
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.answered = Array.isArray(parsed.answered)
+            ? parsed.answered
+                .filter((a) => a && typeof a.index === 'number' && typeof a.value === 'string')
+                .map((a) => ({ index: a.index, value: a.value }))
+            : [];
+        return this;
+    }
+    getClientReturnValue() {
+        return { answered: this.answered };
+    }
+}
+exports.PruneClarifyResponse = PruneClarifyResponse;
 
 
 /***/ },
@@ -76840,6 +76910,19 @@ class FluxComms {
             const { BusinessStatsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/BusinessStatsResponse */ "./src/ajax/Responses/BusinessStatsResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(BusinessStatsRequest, BusinessStatsResponse, "getBusinessStats", "POST", isolatedHandle, businessId);
+        });
+    }
+    /**
+     * Clarify-wizard prune-as-you-go: given the merchant's answers so far,
+     * which of the remaining wizard questions are already answered? Fail-open —
+     * errors return an empty list and the wizard just keeps asking.
+     */
+    pruneClarify(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { PruneClarifyRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/PruneClarifyRequest */ "./src/ajax/Requests/PruneClarifyRequest.ts")));
+            const { PruneClarifyResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/PruneClarifyResponse */ "./src/ajax/Responses/PruneClarifyResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(PruneClarifyRequest, PruneClarifyResponse, "pruneClarify", "POST", isolatedHandle, params);
         });
     }
     getInvoicePreviewHtml(params) {

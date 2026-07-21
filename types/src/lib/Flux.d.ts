@@ -214,6 +214,25 @@ export declare class FluxComms<A extends SecurityHandler> {
         transactionCount: number;
         transactionVolume: number;
     }>;
+    /**
+     * Clarify-wizard prune-as-you-go: given the merchant's answers so far,
+     * which of the remaining wizard questions are already answered? Fail-open —
+     * errors return an empty list and the wizard just keeps asking.
+     */
+    pruneClarify(params: {
+        originalRequest?: string;
+        answersText: string;
+        questions: {
+            index: number;
+            text: string;
+            options?: string[];
+        }[];
+    }): Promise<{
+        answered: {
+            index: number;
+            value: string;
+        }[];
+    }>;
     getInvoicePreviewHtml(params: {
         paymentLinkName?: string;
         customerName?: string;
