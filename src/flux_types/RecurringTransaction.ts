@@ -81,7 +81,10 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
     isInstallmentType: boolean;
     totalInstallments: number;
     installmentsMade: number;
-    
+    /** Smart-retry mirror (server-owned, display-only — deliberately NOT in serialize()). */
+    retryStatus: string;
+    nextRetryAt: Date;
+
     protected objectType: string = "recurring_transaction";
 
     public constructor(recurringTransaction?: Partial<RecurringTransaction>) {
