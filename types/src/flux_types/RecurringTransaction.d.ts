@@ -50,6 +50,9 @@ export declare class RecurringTransaction extends FluxType implements IRecurring
     isInstallmentType: boolean;
     totalInstallments: number;
     installmentsMade: number;
+    /** Smart-retry mirror (server-owned, display-only — deliberately NOT in serialize()). */
+    retryStatus: string;
+    nextRetryAt: Date;
     protected objectType: string;
     constructor(recurringTransaction?: Partial<RecurringTransaction>);
     static createInstanceLazy(acc: Partial<IRecurringTransaction>): Promise<RecurringTransaction>;

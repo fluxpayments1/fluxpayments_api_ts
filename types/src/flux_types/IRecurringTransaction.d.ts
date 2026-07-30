@@ -22,4 +22,7 @@ export interface IRecurringTransaction {
     isInstallmentType?: boolean;
     totalInstallments?: number;
     installmentsMade?: number;
+    /** Smart-retry mirror (server-owned, display-only). */
+    retryStatus?: string;
+    nextRetryAt?: Date;
 }

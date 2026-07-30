@@ -20,6 +20,12 @@ export interface ForthStatusResult {
     scheduledChargesByMapping: {
         [mappingId: number]: ForthScheduledCharge[];
     };
+    /** Merchant-wide upcoming charges sorted by effective next-charge time. */
+    upcomingCharges: ForthScheduledCharge[];
+    /** mappingId -> client display name for the upcoming charges. */
+    upcomingClientNames: {
+        [mappingId: number]: string;
+    };
 }
 export declare class GetForthStatusResponse extends ResponseBodyBase {
     private result;

@@ -19,6 +19,10 @@ export interface ForthStatusResult {
     mappingPage: number;
     mappingPageSize: number;
     scheduledChargesByMapping: { [mappingId: number]: ForthScheduledCharge[] };
+    /** Merchant-wide upcoming charges sorted by effective next-charge time. */
+    upcomingCharges: ForthScheduledCharge[];
+    /** mappingId -> client display name for the upcoming charges. */
+    upcomingClientNames: { [mappingId: number]: string };
 }
 
 export class GetForthStatusResponse extends ResponseBodyBase {
@@ -37,6 +41,8 @@ export class GetForthStatusResponse extends ResponseBodyBase {
         mappingPage: 1,
         mappingPageSize: 25,
         scheduledChargesByMapping: {},
+        upcomingCharges: [],
+        upcomingClientNames: {},
     };
 
     constructor() { super(); }
@@ -65,6 +71,9 @@ export class GetForthStatusResponse extends ResponseBodyBase {
             mappingPage: p.mappingPage || 1,
             mappingPageSize: p.mappingPageSize || 25,
             scheduledChargesByMapping: charges,
+            upcomingCharges: (p.upcomingCharges || []).map((c: any) => new ForthScheduledCharge(c)),
+            upcomingClientNames: (p.upcomingClientNames && typeof p.upcomingClientNames === 'object')
+                ? p.upcomingClientNames : {},
         };
         return this;
     }

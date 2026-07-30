@@ -65539,6 +65539,8 @@ class GetForthStatusResponse extends ResponseBodyBase_1.ResponseBodyBase {
             mappingPage: 1,
             mappingPageSize: 25,
             scheduledChargesByMapping: {},
+            upcomingCharges: [],
+            upcomingClientNames: {},
         };
     }
     setResponseJSON(jsonString) {
@@ -65565,6 +65567,9 @@ class GetForthStatusResponse extends ResponseBodyBase_1.ResponseBodyBase {
             mappingPage: p.mappingPage || 1,
             mappingPageSize: p.mappingPageSize || 25,
             scheduledChargesByMapping: charges,
+            upcomingCharges: (p.upcomingCharges || []).map((c) => new ForthScheduledCharge_1.ForthScheduledCharge(c)),
+            upcomingClientNames: (p.upcomingClientNames && typeof p.upcomingClientNames === 'object')
+                ? p.upcomingClientNames : {},
         };
         return this;
     }
