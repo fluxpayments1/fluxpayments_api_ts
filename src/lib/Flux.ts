@@ -589,6 +589,29 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * Send a Forth client a fresh card-intake form — the "they want to pay with
+     * a different card" case, which no automatic trigger covers.
+     *
+     * The link is tagged as a retry intake, so completing it switches BOTH the
+     * mapping's charge target and the Account default to the new card and
+     * retires the old one. Collection is not paused: the existing card keeps
+     * being charged on schedule until a new one is actually captured.
+     *
+     * NOTE the endpoint string omits the "Web" suffix — CMMT appends it in the
+     * browser (see CMMT.ts), so passing "sendForthCardIntakeWeb" here would
+     * resolve to "sendForthCardIntakeWebWeb" and 404.
+     */
+    public async sendForthCardIntake(mappingId: number) {
+        const { ForthMappingActionRequest } = await import("../ajax/Requests/ForthMappingActionRequest");
+        const { SendForthCardIntakeResponse } = await import("../ajax/Responses/SendForthCardIntakeResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/SendForthCardIntakeResponse").SendForthCardIntakeResult, typeof ForthMappingActionRequest.prototype, typeof SendForthCardIntakeResponse.prototype>(
+            ForthMappingActionRequest, SendForthCardIntakeResponse, "sendForthCardIntake", "POST", isolatedHandle,
+            mappingId
+        );
+    }
+
+    /**
      * Get the latest changelog entries (platform release notes).
      */
     public async getChangelog(): Promise<import("../ajax/Responses/GetChangelogResponse").ChangelogResult> {
