@@ -114,12 +114,30 @@ export declare class FluxComms<A extends SecurityHandler> {
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
      *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
     getPartnerDashboard(range?: string, probe?: boolean): Promise<import("../ajax/Responses/GetPartnerDashboardResponse").PartnerDashboardResult>;
+    /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
+     *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
+     *  Every action returns the fresh full partner list. */
+    managePartners(action: string, opts?: import("../ajax/Requests/ManagePartnersRequest").ManagePartnersOpts): Promise<import("../ajax/Responses/ManagePartnersResponse").ManagePartnersResult>;
     getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult>;
     /** Pause or un-pause auto-charging for a specific Forth client mapping. */
     pauseForthClient(mappingId: number, paused: boolean): Promise<{
         status: number;
         errorMsg?: string;
     }>;
+    /**
+     * Send a Forth client a fresh card-intake form — the "they want to pay with
+     * a different card" case, which no automatic trigger covers.
+     *
+     * The link is tagged as a retry intake, so completing it switches BOTH the
+     * mapping's charge target and the Account default to the new card and
+     * retires the old one. Collection is not paused: the existing card keeps
+     * being charged on schedule until a new one is actually captured.
+     *
+     * NOTE the endpoint string omits the "Web" suffix — CMMT appends it in the
+     * browser (see CMMT.ts), so passing "sendForthCardIntakeWeb" here would
+     * resolve to "sendForthCardIntakeWebWeb" and 404.
+     */
+    sendForthCardIntake(mappingId: number): Promise<import("../ajax/Responses/SendForthCardIntakeResponse").SendForthCardIntakeResult>;
     /**
      * Get the latest changelog entries (platform release notes).
      */

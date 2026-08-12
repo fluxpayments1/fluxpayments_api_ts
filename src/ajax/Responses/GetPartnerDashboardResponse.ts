@@ -32,6 +32,10 @@ export interface PartnerEventRow {
 
 export interface PartnerDashboardResult {
     allowed: boolean;
+    /** True only for the ADMIN tier (unscoped view + Partners management). */
+    admin: boolean;
+    /** True when the login exists only for the partner surface (no merchant permissions). */
+    partnerOnly: boolean;
     grossVolume: string | number;
     transactionCount: number;
     finalizedCount: number;
@@ -54,6 +58,8 @@ export interface PartnerDashboardResult {
 export class GetPartnerDashboardResponse extends ResponseBodyBase {
     private result: PartnerDashboardResult = {
         allowed: false,
+        admin: false,
+        partnerOnly: false,
         grossVolume: 0,
         transactionCount: 0,
         finalizedCount: 0,
@@ -74,6 +80,8 @@ export class GetPartnerDashboardResponse extends ResponseBodyBase {
         const p = JSON.parse(jsonString);
         this.result = {
             allowed: !!p.allowed,
+            admin: !!p.admin,
+            partnerOnly: !!p.partnerOnly,
             grossVolume: p.grossVolume ?? 0,
             transactionCount: p.transactionCount || 0,
             finalizedCount: p.finalizedCount || 0,

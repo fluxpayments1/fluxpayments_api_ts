@@ -28,6 +28,10 @@ export interface PartnerEventRow {
 }
 export interface PartnerDashboardResult {
     allowed: boolean;
+    /** True only for the ADMIN tier (unscoped view + Partners management). */
+    admin: boolean;
+    /** True when the login exists only for the partner surface (no merchant permissions). */
+    partnerOnly: boolean;
     grossVolume: string | number;
     transactionCount: number;
     finalizedCount: number;

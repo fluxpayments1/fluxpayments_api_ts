@@ -64046,6 +64046,49 @@ exports.LookupCustomerByEmailRequest = LookupCustomerByEmailRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/ManagePartnersRequest.ts"
+/*!****************************************************!*\
+  !*** ./src/ajax/Requests/ManagePartnersRequest.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ManagePartnersRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Admin-only partner account management (managePartners -> managePartnersWeb).
+ * action: "list" | "create" | "update" | "remove". For update, merchantIds is
+ * the COMPLETE replacement list (attach/detach are client-side list edits).
+ */
+class ManagePartnersRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(action, opts) {
+        this.action = action;
+        this.partnerId = opts === null || opts === void 0 ? void 0 : opts.partnerId;
+        this.partnerEmail = opts === null || opts === void 0 ? void 0 : opts.partnerEmail;
+        this.partnerName = opts === null || opts === void 0 ? void 0 : opts.partnerName;
+        this.merchantIds = opts === null || opts === void 0 ? void 0 : opts.merchantIds;
+        this.merchantPermissions = opts === null || opts === void 0 ? void 0 : opts.merchantPermissions;
+        return this;
+    }
+    getRequestAsString() {
+        return JSON.stringify({
+            action: this.action,
+            partnerId: this.partnerId,
+            partnerEmail: this.partnerEmail,
+            partnerName: this.partnerName,
+            merchantIds: this.merchantIds,
+            merchantPermissions: this.merchantPermissions,
+        });
+    }
+}
+exports.ManagePartnersRequest = ManagePartnersRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts"
 /*!*******************************************************!*\
   !*** ./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts ***!
@@ -65688,6 +65731,8 @@ class GetPartnerDashboardResponse extends ResponseBodyBase_1.ResponseBodyBase {
         super();
         this.result = {
             allowed: false,
+            admin: false,
+            partnerOnly: false,
             grossVolume: 0,
             transactionCount: 0,
             finalizedCount: 0,
@@ -65707,6 +65752,8 @@ class GetPartnerDashboardResponse extends ResponseBodyBase_1.ResponseBodyBase {
         const p = JSON.parse(jsonString);
         this.result = {
             allowed: !!p.allowed,
+            admin: !!p.admin,
+            partnerOnly: !!p.partnerOnly,
             grossVolume: (_a = p.grossVolume) !== null && _a !== void 0 ? _a : 0,
             transactionCount: p.transactionCount || 0,
             finalizedCount: p.finalizedCount || 0,
@@ -65795,6 +65842,49 @@ class LookupCustomerByEmailResponse extends ResponseBodyBase_1.ResponseBodyBase 
     }
 }
 exports.LookupCustomerByEmailResponse = LookupCustomerByEmailResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ManagePartnersResponse.ts"
+/*!******************************************************!*\
+  !*** ./src/ajax/Responses/ManagePartnersResponse.ts ***!
+  \******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ManagePartnersResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ManagePartnersResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = { partners: [], invitedLoginCreated: false };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            partners: (p.partners || []).map((r) => {
+                var _a, _b;
+                return ({
+                    id: r.id,
+                    email: r.email,
+                    name: (_a = r.name) !== null && _a !== void 0 ? _a : null,
+                    merchantIds: r.merchantIds || [],
+                    merchantPermissions: r.merchantPermissions || {},
+                    createdAt: (_b = r.createdAt) !== null && _b !== void 0 ? _b : null,
+                });
+            }),
+            invitedLoginCreated: !!p.invitedLoginCreated,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.ManagePartnersResponse = ManagePartnersResponse;
 
 
 /***/ },
@@ -66105,6 +66195,44 @@ class SendConfirmationEmailResponse extends ResponseBodyBase_1.ResponseBodyBase 
     }
 }
 exports.SendConfirmationEmailResponse = SendConfirmationEmailResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/SendForthCardIntakeResponse.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Responses/SendForthCardIntakeResponse.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SendForthCardIntakeResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class SendForthCardIntakeResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() { super(); }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        if (typeof p.status === "number")
+            this.status = p.status;
+        this.errorMsg = p.errorMsg;
+        this.paymentLinkId = p.paymentLinkId;
+        this.paymentLink = p.paymentLink;
+        this.intakeUrl = p.intakeUrl;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            status: this.status,
+            errorMsg: this.errorMsg,
+            paymentLinkId: this.paymentLinkId,
+            paymentLink: this.paymentLink,
+            intakeUrl: this.intakeUrl,
+        };
+    }
+}
+exports.SendForthCardIntakeResponse = SendForthCardIntakeResponse;
 
 
 /***/ },
@@ -73447,6 +73575,7 @@ class PaymentLink extends FluxType_1.FluxType {
             emailNotificationDisabled: this.emailNotificationDisabled,
             suppressReceiptAndInvoice: this.suppressReceiptAndInvoice,
             suppressMerchantReceipt: this.suppressMerchantReceipt,
+            ccEmails: this.ccEmails,
             updateAccInfo: this.updateAccInfo,
             updateAddInfo: this.updateAddInfo,
             serviceFeeRate: this.serviceFeeRate,
@@ -76741,6 +76870,17 @@ class FluxComms {
             return lib_1.CMMT.fetch(GetPartnerDashboardRequest, GetPartnerDashboardResponse, "getPartnerDashboard", "POST", isolatedHandle, range, probe);
         });
     }
+    /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
+     *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
+     *  Every action returns the fresh full partner list. */
+    managePartners(action, opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ManagePartnersRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ManagePartnersRequest */ "./src/ajax/Requests/ManagePartnersRequest.ts")));
+            const { ManagePartnersResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ManagePartnersResponse */ "./src/ajax/Responses/ManagePartnersResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ManagePartnersRequest, ManagePartnersResponse, "managePartners", "POST", isolatedHandle, action, opts);
+        });
+    }
     getForthStatus(page, pageSize) {
         return __awaiter(this, void 0, void 0, function* () {
             const { GetForthStatusRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetForthStatusRequest */ "./src/ajax/Requests/GetForthStatusRequest.ts")));
@@ -76756,6 +76896,27 @@ class FluxComms {
             const { ForthGenericResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ForthGenericResponse */ "./src/ajax/Responses/ForthGenericResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(ForthMappingActionRequest, ForthGenericResponse, "pauseForthClient", "POST", isolatedHandle, mappingId, paused);
+        });
+    }
+    /**
+     * Send a Forth client a fresh card-intake form — the "they want to pay with
+     * a different card" case, which no automatic trigger covers.
+     *
+     * The link is tagged as a retry intake, so completing it switches BOTH the
+     * mapping's charge target and the Account default to the new card and
+     * retires the old one. Collection is not paused: the existing card keeps
+     * being charged on schedule until a new one is actually captured.
+     *
+     * NOTE the endpoint string omits the "Web" suffix — CMMT appends it in the
+     * browser (see CMMT.ts), so passing "sendForthCardIntakeWeb" here would
+     * resolve to "sendForthCardIntakeWebWeb" and 404.
+     */
+    sendForthCardIntake(mappingId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ForthMappingActionRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ForthMappingActionRequest */ "./src/ajax/Requests/ForthMappingActionRequest.ts")));
+            const { SendForthCardIntakeResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SendForthCardIntakeResponse */ "./src/ajax/Responses/SendForthCardIntakeResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ForthMappingActionRequest, SendForthCardIntakeResponse, "sendForthCardIntake", "POST", isolatedHandle, mappingId);
         });
     }
     /**

@@ -61,6 +61,7 @@ export interface IPaymentLink {
     emailNotificationDisabled: boolean;
     suppressReceiptAndInvoice?: boolean;
     suppressMerchantReceipt?: boolean;
+    ccEmails?: string;
     isInvoice?: boolean;
     isCardCapture?: boolean;
     termsTextOverride?: string;

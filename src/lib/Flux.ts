@@ -566,6 +566,19 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
+    /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
+     *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
+     *  Every action returns the fresh full partner list. */
+    public async managePartners(action: string, opts?: import("../ajax/Requests/ManagePartnersRequest").ManagePartnersOpts): Promise<import("../ajax/Responses/ManagePartnersResponse").ManagePartnersResult> {
+        const { ManagePartnersRequest } = await import("../ajax/Requests/ManagePartnersRequest");
+        const { ManagePartnersResponse } = await import("../ajax/Responses/ManagePartnersResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/ManagePartnersResponse").ManagePartnersResult, typeof ManagePartnersRequest.prototype, typeof ManagePartnersResponse.prototype>(
+            ManagePartnersRequest, ManagePartnersResponse, "managePartners", "POST", isolatedHandle,
+            action, opts
+        );
+    }
+
     public async getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult> {
         const { GetForthStatusRequest } = await import("../ajax/Requests/GetForthStatusRequest");
         const { GetForthStatusResponse } = await import("../ajax/Responses/GetForthStatusResponse");

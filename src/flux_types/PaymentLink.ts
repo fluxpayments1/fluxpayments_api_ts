@@ -65,6 +65,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             emailNotificationDisabled: this.emailNotificationDisabled,
             suppressReceiptAndInvoice: this.suppressReceiptAndInvoice,
             suppressMerchantReceipt: this.suppressMerchantReceipt,
+            ccEmails: this.ccEmails,
             updateAccInfo: this.updateAccInfo,
             updateAddInfo: this.updateAddInfo,
             serviceFeeRate: this.serviceFeeRate,
@@ -164,6 +165,8 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     emailNotificationDisabled: boolean;
     suppressReceiptAndInvoice?: boolean;
     suppressMerchantReceipt?: boolean;
+    /** Comma-separated additional emails CC'd on every customer email for this link. */
+    ccEmails?: string;
     accountId: number;
     status: string;
     reusableLinkId: number
