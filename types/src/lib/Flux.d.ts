@@ -141,6 +141,9 @@ export declare class FluxComms<A extends SecurityHandler> {
     /**
      * Get the latest changelog entries (platform release notes).
      */
+    /** One-call aggregate for the portal Invoices page: money-bar dollars +
+     *  smart-filter chip counts. Endpoint getInvoiceMetrics (browser appends Web). */
+    getInvoiceMetrics(): Promise<import("../ajax/Responses/GetInvoiceMetricsResponse").InvoiceMetrics>;
     getChangelog(): Promise<import("../ajax/Responses/GetChangelogResponse").ChangelogResult>;
     private webauthnCall;
     /** Enroll step 1: PublicKeyCredentialCreationOptions JSON for navigator.credentials.create(). */

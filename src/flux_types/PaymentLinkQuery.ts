@@ -52,6 +52,7 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
             currentStatus: this.currentStatus,
+            hasBeenSent: this.hasBeenSent,
             qbInvoiceId: this.qbInvoiceId,
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         }
@@ -75,6 +76,7 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
     isInvoice: boolean;
     dueDate: number;
     currentStatus: string;
+    hasBeenSent: boolean;
     qbInvoiceId: string;
     hasBeenSyncedToQuickbooks: boolean;
     objectType: string = "payment_link";

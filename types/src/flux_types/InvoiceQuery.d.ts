@@ -23,6 +23,7 @@ export declare class InvoiceQuery extends PaymentLinkQuery {
         accountId: number;
         dueDate: number;
         currentStatus: string;
+        hasBeenSent: boolean;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
     };

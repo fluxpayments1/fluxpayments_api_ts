@@ -627,6 +627,23 @@ export class FluxComms<A extends SecurityHandler> {
     /**
      * Get the latest changelog entries (platform release notes).
      */
+    /** One-call aggregate for the portal Invoices page: money-bar dollars +
+     *  smart-filter chip counts. Endpoint getInvoiceMetrics (browser appends Web). */
+    public async getInvoiceMetrics(): Promise<import("../ajax/Responses/GetInvoiceMetricsResponse").InvoiceMetrics> {
+        const { GetInvoiceMetricsRequest } = await import("../ajax/Requests/GetInvoiceMetricsRequest");
+        const { GetInvoiceMetricsResponse } = await import("../ajax/Responses/GetInvoiceMetricsResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<import("../ajax/Responses/GetInvoiceMetricsResponse").InvoiceMetrics, typeof GetInvoiceMetricsRequest.prototype, typeof GetInvoiceMetricsResponse.prototype>(
+            GetInvoiceMetricsRequest,
+            GetInvoiceMetricsResponse,
+            "getInvoiceMetrics",
+            "POST",
+            isolatedHandle
+        );
+    }
+
     public async getChangelog(): Promise<import("../ajax/Responses/GetChangelogResponse").ChangelogResult> {
         const { GetChangelogRequest } = await import("../ajax/Requests/GetChangelogRequest");
         const { GetChangelogResponse } = await import("../ajax/Responses/GetChangelogResponse");

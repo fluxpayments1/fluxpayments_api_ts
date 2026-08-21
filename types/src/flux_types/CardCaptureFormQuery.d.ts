@@ -25,6 +25,7 @@ export declare class CardCaptureFormQuery extends PaymentLinkQuery {
         isInvoice: boolean;
         dueDate: number;
         currentStatus: string;
+        hasBeenSent: boolean;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
     };

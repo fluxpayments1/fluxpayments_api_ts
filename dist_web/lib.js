@@ -63796,6 +63796,33 @@ exports.GetForthStatusRequest = GetForthStatusRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/GetInvoiceMetricsRequest.ts"
+/*!*******************************************************!*\
+  !*** ./src/ajax/Requests/GetInvoiceMetricsRequest.ts ***!
+  \*******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetInvoiceMetricsRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class GetInvoiceMetricsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData() {
+        // No parameters — aggregates the calling merchant's invoices
+    }
+    getRequestAsString() {
+        return JSON.stringify({});
+    }
+}
+exports.GetInvoiceMetricsRequest = GetInvoiceMetricsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/GetLatestInsightsRequest.ts"
 /*!*******************************************************!*\
   !*** ./src/ajax/Requests/GetLatestInsightsRequest.ts ***!
@@ -65619,6 +65646,49 @@ class GetForthStatusResponse extends ResponseBodyBase_1.ResponseBodyBase {
     getClientReturnValue() { return this.result; }
 }
 exports.GetForthStatusResponse = GetForthStatusResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/GetInvoiceMetricsResponse.ts"
+/*!*********************************************************!*\
+  !*** ./src/ajax/Responses/GetInvoiceMetricsResponse.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetInvoiceMetricsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class GetInvoiceMetricsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.metrics = null;
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.metrics = {
+            overdueTotal: Number(parsed.overdueTotal || 0),
+            overdueCount: Number(parsed.overdueCount || 0),
+            notDueTotal: Number(parsed.notDueTotal || 0),
+            notDueCount: Number(parsed.notDueCount || 0),
+            paid30Total: Number(parsed.paid30Total || 0),
+            paid30Count: Number(parsed.paid30Count || 0),
+            allCount: Number(parsed.allCount || 0),
+            outstandingCount: Number(parsed.outstandingCount || 0),
+            sentCount: Number(parsed.sentCount || 0),
+            notSentCount: Number(parsed.notSentCount || 0),
+            paidCount: Number(parsed.paidCount || 0),
+            cancelledCount: Number(parsed.cancelledCount || 0),
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.metrics;
+    }
+}
+exports.GetInvoiceMetricsResponse = GetInvoiceMetricsResponse;
 
 
 /***/ },
@@ -73710,6 +73780,7 @@ class PaymentLinkQuery extends BaseQuery_1.BaseQuery {
             isInvoice: this.isInvoice,
             dueDate: this.dueDate,
             currentStatus: this.currentStatus,
+            hasBeenSent: this.hasBeenSent,
             qbInvoiceId: this.qbInvoiceId,
             hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
         };
@@ -76922,6 +76993,16 @@ class FluxComms {
     /**
      * Get the latest changelog entries (platform release notes).
      */
+    /** One-call aggregate for the portal Invoices page: money-bar dollars +
+     *  smart-filter chip counts. Endpoint getInvoiceMetrics (browser appends Web). */
+    getInvoiceMetrics() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetInvoiceMetricsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetInvoiceMetricsRequest */ "./src/ajax/Requests/GetInvoiceMetricsRequest.ts")));
+            const { GetInvoiceMetricsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetInvoiceMetricsResponse */ "./src/ajax/Responses/GetInvoiceMetricsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetInvoiceMetricsRequest, GetInvoiceMetricsResponse, "getInvoiceMetrics", "POST", isolatedHandle);
+        });
+    }
     getChangelog() {
         return __awaiter(this, void 0, void 0, function* () {
             const { GetChangelogRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetChangelogRequest */ "./src/ajax/Requests/GetChangelogRequest.ts")));

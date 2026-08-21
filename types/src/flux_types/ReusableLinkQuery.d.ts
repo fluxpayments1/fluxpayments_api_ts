@@ -23,6 +23,7 @@ export declare class ReusableLinkQuery extends PaymentLinkQuery {
         isInvoice: boolean;
         dueDate: number;
         currentStatus: string;
+        hasBeenSent: boolean;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
     };
