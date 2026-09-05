@@ -769,7 +769,7 @@ export class FluxComms<A extends SecurityHandler> {
      * @param transactionId Optional: The numeric ID of the transaction
      * @returns Object containing downloadUrl (preferred) or pdfBase64 (fallback), filename, and message
      */
-    public async downloadInvoiceWeb(documentType: "INVOICE" | "RECEIPT" = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): Promise<{ downloadUrl?: string; pdfBase64?: string; filename: string; message: string; compressed?: boolean }> {
+    public async downloadInvoiceWeb(documentType: "INVOICE" | "RECEIPT" | "REFUND" = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): Promise<{ downloadUrl?: string; pdfBase64?: string; filename: string; message: string; compressed?: boolean }> {
         const { DownloadInvoiceWebRequest } = await import("../ajax/Requests/DownloadInvoiceWebRequest");
         const { DownloadInvoiceResponse } = await import("../ajax/Responses/DownloadInvoiceResponse");
         

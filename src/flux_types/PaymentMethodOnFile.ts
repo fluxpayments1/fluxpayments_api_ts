@@ -21,6 +21,8 @@ export class PaymentMethodOnFile extends FluxType implements IPaymentMethodOnFil
             customerSensitiveDataUniqueId: this.customerSensitiveDataUniqueId,
             paymentLinkId: this.paymentLinkId,
             payType: this.payType,
+            pushConsent: this.pushConsent,
+            pullConsent: this.pullConsent,
             lastFour: this.lastFour,
             cardBrand: this.cardBrand,
             zeroDollarAuthTxnId: this.zeroDollarAuthTxnId,
@@ -45,6 +47,9 @@ export class PaymentMethodOnFile extends FluxType implements IPaymentMethodOnFil
     public customerSensitiveDataUniqueId?: string;
     public paymentLinkId?: number;
     public payType?: string;
+    // Visa Direct per-direction consent (read-only from the portal's view).
+    public pushConsent?: boolean;
+    public pullConsent?: boolean;
     public lastFour?: string;
     public cardBrand?: string;
     public zeroDollarAuthTxnId?: number;

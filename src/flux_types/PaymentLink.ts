@@ -95,6 +95,8 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             minutesToExpire: this.minutesToExpire,
             isInvoice: this.isInvoice,
             isCardCapture: this.isCardCapture,
+            transferDirection: this.transferDirection,
+            transferStatus: this.transferStatus,
             termsTextOverride: this.termsTextOverride,
             paymentMethodOnFileId: this.paymentMethodOnFileId,
             paymentMethodOnFileUniqueId: this.paymentMethodOnFileUniqueId,
@@ -176,6 +178,9 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     currencies : Currency[];
     isInvoice: boolean;
     isCardCapture: boolean;
+    // Visa Direct transfer variant: PUSH | PULL; status is server-owned.
+    transferDirection: 'PUSH' | 'PULL';
+    transferStatus: string;
     termsTextOverride: string;
     paymentMethodOnFileId: number;
     paymentMethodOnFileUniqueId: string;

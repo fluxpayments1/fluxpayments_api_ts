@@ -70125,7 +70125,9 @@ class Business extends FluxType_1.FluxType {
             city: this.city,
             state: this.state,
             postalCode: this.postalCode,
-            country: this.country
+            country: this.country,
+            // MUST stay in serialize() or the portal silently cannot save it.
+            taxId: this.taxId
         };
     }
     getDispName() {
@@ -70180,7 +70182,8 @@ class BusinessQuery extends BaseQuery_1.BaseQuery {
             city: this.city,
             state: this.state,
             postalCode: this.postalCode,
-            country: this.country
+            country: this.country,
+            taxId: this.taxId
         };
     }
     constructor(q) {
@@ -73675,6 +73678,8 @@ class PaymentLink extends FluxType_1.FluxType {
             minutesToExpire: this.minutesToExpire,
             isInvoice: this.isInvoice,
             isCardCapture: this.isCardCapture,
+            transferDirection: this.transferDirection,
+            transferStatus: this.transferStatus,
             termsTextOverride: this.termsTextOverride,
             paymentMethodOnFileId: this.paymentMethodOnFileId,
             paymentMethodOnFileUniqueId: this.paymentMethodOnFileUniqueId,
@@ -73781,8 +73786,14 @@ class PaymentLinkQuery extends BaseQuery_1.BaseQuery {
             dueDate: this.dueDate,
             currentStatus: this.currentStatus,
             hasBeenSent: this.hasBeenSent,
+            transferDirection: this.transferDirection,
+            transferStatus: this.transferStatus,
             qbInvoiceId: this.qbInvoiceId,
-            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
+            // Required by the Business detail page's Invoices/Transactions
+            // tabs. Without it in serialize() the filter silently does not
+            // transmit and the query returns EVERY invoice.
+            businessId: this.businessId
         };
     }
     constructor(tokQ) {
@@ -74103,6 +74114,8 @@ class PaymentMethodOnFile extends FluxType_1.FluxType {
             customerSensitiveDataUniqueId: this.customerSensitiveDataUniqueId,
             paymentLinkId: this.paymentLinkId,
             payType: this.payType,
+            pushConsent: this.pushConsent,
+            pullConsent: this.pullConsent,
             lastFour: this.lastFour,
             cardBrand: this.cardBrand,
             zeroDollarAuthTxnId: this.zeroDollarAuthTxnId,
@@ -76072,6 +76085,77 @@ exports.TransactionTotalsDailyQuery = TransactionTotalsDailyQuery;
 
 /***/ },
 
+/***/ "./src/flux_types/Transfer.ts"
+/*!************************************!*\
+  !*** ./src/flux_types/Transfer.ts ***!
+  \************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Transfer = void 0;
+const PaymentLink_1 = __webpack_require__(/*! ./PaymentLink */ "./src/flux_types/PaymentLink.ts");
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * Visa Direct Transfer — the 5th PaymentLink variant. An invoice-shaped record
+ * whose settlement is a push (OCT, funds TO the customer's card) or pull (AFT,
+ * funds FROM it). transferStatus is server-owned lifecycle state.
+ */
+class Transfer extends PaymentLink_1.PaymentLink {
+    constructor(form) {
+        super(form);
+        this.obName = "Transfer";
+        Object.assign(this, form);
+    }
+    static createInstanceLazy(form) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(form, this);
+        });
+    }
+    static createInstanceSafe(form) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(form, this);
+        });
+    }
+}
+exports.Transfer = Transfer;
+
+
+/***/ },
+
+/***/ "./src/flux_types/TransferQuery.ts"
+/*!*****************************************!*\
+  !*** ./src/flux_types/TransferQuery.ts ***!
+  \*****************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransferQuery = void 0;
+const PaymentLinkQuery_1 = __webpack_require__(/*! ./PaymentLinkQuery */ "./src/flux_types/PaymentLinkQuery.ts");
+class TransferQuery extends PaymentLinkQuery_1.PaymentLinkQuery {
+    constructor(query) {
+        super(query);
+        this.obName = "TransferQuery";
+        Object.assign(this, query);
+    }
+}
+exports.TransferQuery = TransferQuery;
+
+
+/***/ },
+
 /***/ "./src/flux_types/User.ts"
 /*!********************************!*\
   !*** ./src/flux_types/User.ts ***!
@@ -76352,8 +76436,8 @@ exports.WalletQuery = WalletQuery;
 // Do not edit manually - run npm run compile-rn to regenerate
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.AccountBusinessQuery = exports.AccountBusiness = exports.BusinessQuery = exports.Business = exports.DiscountQuery = exports.Discount = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
-exports.DailyReport = exports.ConversationQuery = exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ForthActivityEventQuery = exports.ForthActivityEvent = exports.ForthScheduledChargeQuery = exports.ForthScheduledCharge = exports.ForthClientMappingQuery = exports.ForthClientMapping = exports.MerchantForthCredentialsQuery = exports.MerchantForthCredentials = exports.CardCaptureFormQuery = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = void 0;
-exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = void 0;
+exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ForthActivityEventQuery = exports.ForthActivityEvent = exports.ForthScheduledChargeQuery = exports.ForthScheduledCharge = exports.ForthClientMappingQuery = exports.ForthClientMapping = exports.MerchantForthCredentialsQuery = exports.MerchantForthCredentials = exports.CardCaptureFormQuery = exports.TransferQuery = exports.Transfer = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = void 0;
+exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -76472,6 +76556,10 @@ var PaymentMethodOnFileQuery_1 = __webpack_require__(/*! ./PaymentMethodOnFileQu
 Object.defineProperty(exports, "PaymentMethodOnFileQuery", ({ enumerable: true, get: function () { return PaymentMethodOnFileQuery_1.PaymentMethodOnFileQuery; } }));
 var CardCaptureForm_1 = __webpack_require__(/*! ./CardCaptureForm */ "./src/flux_types/CardCaptureForm.ts");
 Object.defineProperty(exports, "CardCaptureForm", ({ enumerable: true, get: function () { return CardCaptureForm_1.CardCaptureForm; } }));
+var Transfer_1 = __webpack_require__(/*! ./Transfer */ "./src/flux_types/Transfer.ts");
+Object.defineProperty(exports, "Transfer", ({ enumerable: true, get: function () { return Transfer_1.Transfer; } }));
+var TransferQuery_1 = __webpack_require__(/*! ./TransferQuery */ "./src/flux_types/TransferQuery.ts");
+Object.defineProperty(exports, "TransferQuery", ({ enumerable: true, get: function () { return TransferQuery_1.TransferQuery; } }));
 var CardCaptureFormQuery_1 = __webpack_require__(/*! ./CardCaptureFormQuery */ "./src/flux_types/CardCaptureFormQuery.ts");
 Object.defineProperty(exports, "CardCaptureFormQuery", ({ enumerable: true, get: function () { return CardCaptureFormQuery_1.CardCaptureFormQuery; } }));
 var MerchantForthCredentials_1 = __webpack_require__(/*! ./MerchantForthCredentials */ "./src/flux_types/MerchantForthCredentials.ts");

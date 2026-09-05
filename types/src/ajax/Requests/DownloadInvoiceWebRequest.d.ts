@@ -4,6 +4,6 @@ export declare class DownloadInvoiceWebRequest extends RequestBodyBase {
     private transactionId;
     private documentType;
     constructor();
-    loadClientData(documentType?: "INVOICE" | "RECEIPT", paymentLinkNumericId?: number, transactionId?: number): void;
+    loadClientData(documentType?: "INVOICE" | "RECEIPT" | "REFUND", paymentLinkNumericId?: number, transactionId?: number): void;
     getRequestAsString(): string;
 }

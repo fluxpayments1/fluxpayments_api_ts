@@ -47,7 +47,7 @@ export class ProductQuery extends BaseQuery<Product> implements IProductQuery {
     id: number;
     uniqueId?: string;
     name?: string;
-    type?: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT';
+    type?: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT' | 'ACCOUNT_TRANSFER';
     subscriptionInterval?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
     category?: string;
     objectType: string = "product";

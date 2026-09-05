@@ -13,6 +13,8 @@ export declare class PaymentMethodOnFile extends FluxType implements IPaymentMet
         customerSensitiveDataUniqueId: string;
         paymentLinkId: number;
         payType: string;
+        pushConsent: boolean;
+        pullConsent: boolean;
         lastFour: string;
         cardBrand: string;
         zeroDollarAuthTxnId: number;
@@ -35,6 +37,8 @@ export declare class PaymentMethodOnFile extends FluxType implements IPaymentMet
     customerSensitiveDataUniqueId?: string;
     paymentLinkId?: number;
     payType?: string;
+    pushConsent?: boolean;
+    pullConsent?: boolean;
     lastFour?: string;
     cardBrand?: string;
     zeroDollarAuthTxnId?: number;

@@ -3,13 +3,13 @@ import { RequestBodyBase } from "./RequestBodyBase";
 export class DownloadInvoiceWebRequest extends RequestBodyBase {
     private paymentLinkNumericId: number;
     private transactionId: number;
-    private documentType: "INVOICE" | "RECEIPT";
+    private documentType: "INVOICE" | "RECEIPT" | "REFUND";
 
     constructor() {
         super();
     }
 
-    public loadClientData(documentType: "INVOICE" | "RECEIPT" = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): void {
+    public loadClientData(documentType: "INVOICE" | "RECEIPT" | "REFUND" = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): void {
         this.documentType = documentType;
         this.paymentLinkNumericId = paymentLinkNumericId;
         this.transactionId = transactionId;

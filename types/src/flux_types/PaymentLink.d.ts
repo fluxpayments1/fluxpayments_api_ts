@@ -26,7 +26,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
             price: number;
             sku: string;
             currency: string;
-            type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT" | "INSTALLMENT";
+            type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT" | "INSTALLMENT" | "ACCOUNT_TRANSFER";
             subscriptionInterval: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
             inventoryCount: number;
             imageUrl: string;
@@ -75,6 +75,8 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         minutesToExpire: number;
         isInvoice: boolean;
         isCardCapture: boolean;
+        transferDirection: "PUSH" | "PULL";
+        transferStatus: string;
         termsTextOverride: string;
         paymentMethodOnFileId: number;
         paymentMethodOnFileUniqueId: string;
@@ -155,6 +157,8 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     currencies: Currency[];
     isInvoice: boolean;
     isCardCapture: boolean;
+    transferDirection: 'PUSH' | 'PULL';
+    transferStatus: string;
     termsTextOverride: string;
     paymentMethodOnFileId: number;
     paymentMethodOnFileUniqueId: string;

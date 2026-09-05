@@ -11,4 +11,6 @@ export interface IBusiness {
     state?: string;
     postalCode?: string;
     country?: string;
+    /** Buyer's tax identifier (EIN); forwarded to the card networks as Level II buyer tax data. */
+    taxId?: string;
 }

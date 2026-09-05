@@ -16,6 +16,7 @@ export declare class BusinessQuery extends BaseQuery<Business> {
         state: string;
         postalCode: string;
         country: string;
+        taxId: string;
     };
     id: number;
     uniqueId: string;
@@ -28,6 +29,7 @@ export declare class BusinessQuery extends BaseQuery<Business> {
     state: string;
     postalCode: string;
     country: string;
+    taxId: string;
     objectType: string;
     constructor(q?: IBusinessQuery);
 }

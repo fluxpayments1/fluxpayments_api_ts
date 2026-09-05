@@ -64,6 +64,8 @@ export interface IPaymentLink {
     ccEmails?: string;
     isInvoice?: boolean;
     isCardCapture?: boolean;
+    transferDirection?: 'PUSH' | 'PULL';
+    transferStatus?: string;
     termsTextOverride?: string;
     paymentMethodOnFileId?: number;
     paymentMethodOnFileUniqueId?: string;

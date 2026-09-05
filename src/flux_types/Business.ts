@@ -26,7 +26,9 @@ export class Business extends FluxType implements IBusiness {
             city: this.city,
             state: this.state,
             postalCode: this.postalCode,
-            country: this.country
+            country: this.country,
+            // MUST stay in serialize() or the portal silently cannot save it.
+            taxId: this.taxId
         };
     }
 
@@ -44,6 +46,14 @@ export class Business extends FluxType implements IBusiness {
     state: string;
     postalCode: string;
     country: string;
+    /**
+     * The buyer's government tax identifier (US EIN in practice). Optional and
+     * merchant-entered. When an invoice/payment link is billed to this
+     * business the value is snapshotted onto the link at creation time and
+     * forwarded to the card networks as buyer tax data (Level II), the
+     * buyer-side counterpart to the merchant's own tax id.
+     */
+    taxId: string;
     protected objectType: string = "business";
 
     getDispName(): string {

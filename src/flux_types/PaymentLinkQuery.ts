@@ -53,11 +53,19 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
             dueDate: this.dueDate,
             currentStatus: this.currentStatus,
             hasBeenSent: this.hasBeenSent,
+            transferDirection: this.transferDirection,
+            transferStatus: this.transferStatus,
             qbInvoiceId: this.qbInvoiceId,
-            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks
+            hasBeenSyncedToQuickbooks: this.hasBeenSyncedToQuickbooks,
+            // Required by the Business detail page's Invoices/Transactions
+            // tabs. Without it in serialize() the filter silently does not
+            // transmit and the query returns EVERY invoice.
+            businessId: this.businessId
         }
     }
     id: number;
+    transferDirection?: 'PUSH' | 'PULL';
+    transferStatus?: string;
     metadata: string;
     disableACH: boolean;
     customerEmail: string;
@@ -79,6 +87,8 @@ export class PaymentLinkQuery extends BaseQuery<PaymentLink> implements IPayment
     hasBeenSent: boolean;
     qbInvoiceId: string;
     hasBeenSyncedToQuickbooks: boolean;
+    /** Filters links/invoices billed to one Business (Business detail page). */
+    businessId: number;
     objectType: string = "payment_link";
 
     public constructor(tokQ?: IPaymentLinkQuery) {

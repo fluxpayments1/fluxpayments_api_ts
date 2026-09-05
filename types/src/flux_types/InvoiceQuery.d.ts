@@ -24,7 +24,10 @@ export declare class InvoiceQuery extends PaymentLinkQuery {
         dueDate: number;
         currentStatus: string;
         hasBeenSent: boolean;
+        transferDirection: "PUSH" | "PULL";
+        transferStatus: string;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
+        businessId: number;
     };
 }

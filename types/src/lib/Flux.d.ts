@@ -189,7 +189,7 @@ export declare class FluxComms<A extends SecurityHandler> {
      * @param transactionId Optional: The numeric ID of the transaction
      * @returns Object containing downloadUrl (preferred) or pdfBase64 (fallback), filename, and message
      */
-    downloadInvoiceWeb(documentType?: "INVOICE" | "RECEIPT", paymentLinkNumericId?: number, transactionId?: number): Promise<{
+    downloadInvoiceWeb(documentType?: "INVOICE" | "RECEIPT" | "REFUND", paymentLinkNumericId?: number, transactionId?: number): Promise<{
         downloadUrl?: string;
         pdfBase64?: string;
         filename: string;

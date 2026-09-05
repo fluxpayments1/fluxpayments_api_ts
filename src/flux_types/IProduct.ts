@@ -28,7 +28,7 @@ export interface IProduct {
     description?: string,
     price: number,
     sku?: string,
-    type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT',
+    type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT' | 'ACCOUNT_TRANSFER',
     subscriptionInterval?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY',
     inventoryCount?: number,
     imageUrl?: string,

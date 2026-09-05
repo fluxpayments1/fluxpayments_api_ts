@@ -28,10 +28,15 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
         dueDate: number;
         currentStatus: string;
         hasBeenSent: boolean;
+        transferDirection: "PUSH" | "PULL";
+        transferStatus: string;
         qbInvoiceId: string;
         hasBeenSyncedToQuickbooks: boolean;
+        businessId: number;
     };
     id: number;
+    transferDirection?: 'PUSH' | 'PULL';
+    transferStatus?: string;
     metadata: string;
     disableACH: boolean;
     customerEmail: string;
@@ -53,6 +58,8 @@ export declare class PaymentLinkQuery extends BaseQuery<PaymentLink> implements 
     hasBeenSent: boolean;
     qbInvoiceId: string;
     hasBeenSyncedToQuickbooks: boolean;
+    /** Filters links/invoices billed to one Business (Business detail page). */
+    businessId: number;
     objectType: string;
     constructor(tokQ?: IPaymentLinkQuery);
     static createQuery(ipq: IPaymentLinkQuery): PaymentLinkQuery;
