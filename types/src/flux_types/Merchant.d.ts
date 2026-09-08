@@ -42,6 +42,8 @@ export declare class Merchant extends FluxType implements IMerchant {
         serviceCategory: string;
         processingFeeEnabled: boolean;
         processingFeeRate: number;
+        amexProcessingFeeRate: number;
+        amexProcessingFeeFlatAmount: number;
         achProcessingFeeRate: number;
         cryptoProcessingFeeRate: number;
         serviceFeeRate: number;
@@ -72,6 +74,11 @@ export declare class Merchant extends FluxType implements IMerchant {
     enableACH: boolean;
     processingFeeEnabled: boolean;
     processingFeeRate: number;
+    /** AMEX-specific rate. The checkout posts the AMEX-inclusive price as the
+     *  headline and discounts non-AMEX brands off it, so this MUST reach the
+     *  browser — without it the AMEX price silently equals the standard one. */
+    amexProcessingFeeRate: number;
+    amexProcessingFeeFlatAmount: number;
     achProcessingFeeRate: number;
     cryptoProcessingFeeRate: number;
     serviceFeeRate: number;

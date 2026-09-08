@@ -72781,6 +72781,8 @@ class Merchant extends FluxType_1.FluxType {
             serviceCategory: this.serviceCategory,
             processingFeeEnabled: this.processingFeeEnabled,
             processingFeeRate: this.processingFeeRate,
+            amexProcessingFeeRate: this.amexProcessingFeeRate,
+            amexProcessingFeeFlatAmount: this.amexProcessingFeeFlatAmount,
             achProcessingFeeRate: this.achProcessingFeeRate,
             cryptoProcessingFeeRate: this.cryptoProcessingFeeRate,
             serviceFeeRate: this.serviceFeeRate,
