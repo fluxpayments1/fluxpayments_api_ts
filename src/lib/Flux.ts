@@ -554,8 +554,6 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
-    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
-     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
     public async getPartnerDashboard(range?: string, probe?: boolean): Promise<import("../ajax/Responses/GetPartnerDashboardResponse").PartnerDashboardResult> {
         const { GetPartnerDashboardRequest } = await import("../ajax/Requests/GetPartnerDashboardRequest");
         const { GetPartnerDashboardResponse } = await import("../ajax/Responses/GetPartnerDashboardResponse");
@@ -579,13 +577,18 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
-    public async getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult> {
+    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
+     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100.
+     *  search (optional) filters clients SERVER-side across the whole list rather than just the
+     *  current page; blank/absent behaves exactly as before. GOTCHA: the portal runs the prebuilt
+     *  dist_web/lib.js, so the browser cannot send search until that bundle is rebuilt. */
+    public async getForthStatus(page?: number, pageSize?: number, search?: string): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult> {
         const { GetForthStatusRequest } = await import("../ajax/Requests/GetForthStatusRequest");
         const { GetForthStatusResponse } = await import("../ajax/Responses/GetForthStatusResponse");
         const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
         return CMMT.fetch<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult, typeof GetForthStatusRequest.prototype, typeof GetForthStatusResponse.prototype>(
             GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle,
-            page, pageSize
+            page, pageSize, search
         );
     }
 

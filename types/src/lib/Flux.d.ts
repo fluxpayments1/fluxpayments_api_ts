@@ -111,14 +111,17 @@ export declare class FluxComms<A extends SecurityHandler> {
         status: number;
         errorMsg?: string;
     }>;
-    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
-     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
     getPartnerDashboard(range?: string, probe?: boolean): Promise<import("../ajax/Responses/GetPartnerDashboardResponse").PartnerDashboardResult>;
     /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
      *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
      *  Every action returns the fresh full partner list. */
     managePartners(action: string, opts?: import("../ajax/Requests/ManagePartnersRequest").ManagePartnersOpts): Promise<import("../ajax/Responses/ManagePartnersResponse").ManagePartnersResult>;
-    getForthStatus(page?: number, pageSize?: number): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult>;
+    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
+     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100.
+     *  search (optional) filters clients SERVER-side across the whole list rather than just the
+     *  current page; blank/absent behaves exactly as before. GOTCHA: the portal runs the prebuilt
+     *  dist_web/lib.js, so the browser cannot send search until that bundle is rebuilt. */
+    getForthStatus(page?: number, pageSize?: number, search?: string): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult>;
     /** Pause or un-pause auto-charging for a specific Forth client mapping. */
     pauseForthClient(mappingId: number, paused: boolean): Promise<{
         status: number;

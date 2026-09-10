@@ -63783,12 +63783,13 @@ exports.GetForthStatusRequest = void 0;
 const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
 class GetForthStatusRequest extends RequestBodyBase_1.RequestBodyBase {
     constructor() { super(); }
-    loadClientData(page, pageSize) {
+    loadClientData(page, pageSize, search) {
         this.page = page;
         this.pageSize = pageSize;
+        this.search = search;
     }
     getRequestAsString() {
-        return JSON.stringify({ page: this.page, pageSize: this.pageSize });
+        return JSON.stringify({ page: this.page, pageSize: this.pageSize, search: this.search });
     }
 }
 exports.GetForthStatusRequest = GetForthStatusRequest;
@@ -65640,6 +65641,11 @@ class GetForthStatusResponse extends ResponseBodyBase_1.ResponseBodyBase {
             upcomingCharges: (p.upcomingCharges || []).map((c) => new ForthScheduledCharge_1.ForthScheduledCharge(c)),
             upcomingClientNames: (p.upcomingClientNames && typeof p.upcomingClientNames === 'object')
                 ? p.upcomingClientNames : {},
+            // Deliberately NOT `|| 0` like the sibling counts above: the portal's
+            // hasSevenDayMetric guard treats undefined as "server never sent it" and
+            // hides the tile. Coercing to 0 would render a fake "0 charges / $0.00".
+            upcomingSevenDayCount: p.upcomingSevenDayCount,
+            upcomingSevenDayAmount: p.upcomingSevenDayAmount,
         };
         return this;
     }
@@ -77021,8 +77027,6 @@ class FluxComms {
             return lib_1.CMMT.fetch(ForthMappingActionRequest, ForthGenericResponse, "disconnectForth", "POST", isolatedHandle);
         });
     }
-    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
-     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100. */
     getPartnerDashboard(range, probe) {
         return __awaiter(this, void 0, void 0, function* () {
             const { GetPartnerDashboardRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetPartnerDashboardRequest */ "./src/ajax/Requests/GetPartnerDashboardRequest.ts")));
@@ -77042,12 +77046,17 @@ class FluxComms {
             return lib_1.CMMT.fetch(ManagePartnersRequest, ManagePartnersResponse, "managePartners", "POST", isolatedHandle, action, opts);
         });
     }
-    getForthStatus(page, pageSize) {
+    /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
+     *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100.
+     *  search (optional) filters clients SERVER-side across the whole list rather than just the
+     *  current page; blank/absent behaves exactly as before. GOTCHA: the portal runs the prebuilt
+     *  dist_web/lib.js, so the browser cannot send search until that bundle is rebuilt. */
+    getForthStatus(page, pageSize, search) {
         return __awaiter(this, void 0, void 0, function* () {
             const { GetForthStatusRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetForthStatusRequest */ "./src/ajax/Requests/GetForthStatusRequest.ts")));
             const { GetForthStatusResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetForthStatusResponse */ "./src/ajax/Responses/GetForthStatusResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
-            return lib_1.CMMT.fetch(GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle, page, pageSize);
+            return lib_1.CMMT.fetch(GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle, page, pageSize, search);
         });
     }
     /** Pause or un-pause auto-charging for a specific Forth client mapping. */

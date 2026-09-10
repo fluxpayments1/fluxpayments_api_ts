@@ -23,6 +23,11 @@ export interface ForthStatusResult {
     upcomingCharges: ForthScheduledCharge[];
     /** mappingId -> client display name for the upcoming charges. */
     upcomingClientNames: { [mappingId: number]: string };
+    /** Charges due now through +7 days (merchant-scoped, chargeable statuses only).
+     *  Absent on an older backend - callers MUST distinguish absent from zero. */
+    upcomingSevenDayCount?: number;
+    /** Summed amount of the rows upcomingSevenDayCount counts. Absent on an older backend. */
+    upcomingSevenDayAmount?: string | number;
 }
 
 export class GetForthStatusResponse extends ResponseBodyBase {
@@ -74,6 +79,11 @@ export class GetForthStatusResponse extends ResponseBodyBase {
             upcomingCharges: (p.upcomingCharges || []).map((c: any) => new ForthScheduledCharge(c)),
             upcomingClientNames: (p.upcomingClientNames && typeof p.upcomingClientNames === 'object')
                 ? p.upcomingClientNames : {},
+            // Deliberately NOT `|| 0` like the sibling counts above: the portal's
+            // hasSevenDayMetric guard treats undefined as "server never sent it" and
+            // hides the tile. Coercing to 0 would render a fake "0 charges / $0.00".
+            upcomingSevenDayCount: p.upcomingSevenDayCount,
+            upcomingSevenDayAmount: p.upcomingSevenDayAmount,
         };
         return this;
     }

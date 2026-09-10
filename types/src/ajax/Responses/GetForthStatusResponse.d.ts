@@ -26,6 +26,11 @@ export interface ForthStatusResult {
     upcomingClientNames: {
         [mappingId: number]: string;
     };
+    /** Charges due now through +7 days (merchant-scoped, chargeable statuses only).
+     *  Absent on an older backend - callers MUST distinguish absent from zero. */
+    upcomingSevenDayCount?: number;
+    /** Summed amount of the rows upcomingSevenDayCount counts. Absent on an older backend. */
+    upcomingSevenDayAmount?: string | number;
 }
 export declare class GetForthStatusResponse extends ResponseBodyBase {
     private result;

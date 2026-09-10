@@ -145,3 +145,34 @@ catch it because portal call sites use `(Functions as any)`. Prod incident
 object — the partner "view as merchant" click died with no error visible.
 Checklist for any new SDK function the portal will call: FluxEntry.ts export →
 import in index.rn.standalone.ts → key in the `Functions` object → rebuild.
+
+## GOTCHA — Response classes are WHITELISTS too (`setResponseJSON` drops unknown keys)
+
+`serialize()` is the well-known outbound trap. The INBOUND direction has the exact
+same shape and is easier to miss: most `setResponseJSON(json)` implementations build
+`this.result` as an **explicit object literal with no `...p` spread**, so any key the
+backend adds is silently discarded in the SDK layer — the field reaches the browser
+in the HTTP body and then dies on the way to the caller.
+
+It fails silently in BOTH type systems: the response class compiles fine (you simply
+never mentioned the field), and portal call sites usually type the payload as `any`
+(e.g. `status: any` in `forth-pay.component.ts`), so `tsc` reports nothing at either
+end. The symptom is a UI element that never renders, with a correct backend and a
+correct template.
+
+Adding a backend response field is therefore a **three-place** SDK edit:
+1. the `...Result` interface,
+2. the object literal inside `setResponseJSON`,
+3. the default `private result = {...}` initializer — **only if the field should have
+   a default**.
+
+**Do not reflexively copy the `|| 0` / `|| []` idiom** from neighbouring lines. That
+coercion destroys the difference between "an older backend never sent this" and "the
+value is genuinely zero". When a caller guards on presence to decide whether to render
+at all (`hasSevenDayMetric` in `forth-pay.component.ts` does exactly this), `|| 0`
+turns a hidden tile into a fake `0 / $0.00` tile against every backend that predates
+the field. For optional/newer fields use a bare passthrough (`x: p.x`), leave them out
+of the default initializer, and let them stay `undefined`.
+
+Verify with `grep -c '<fieldName>' dist_web/lib.js` — 0 means it dies in the SDK,
+regardless of what the backend emits.
