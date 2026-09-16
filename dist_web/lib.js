@@ -62814,6 +62814,47 @@ exports.CancelSubscriptionRequest = CancelSubscriptionRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/CapturePaymentMethodRequest.ts"
+/*!**********************************************************!*\
+  !*** ./src/ajax/Requests/CapturePaymentMethodRequest.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CapturePaymentMethodRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class CapturePaymentMethodRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.paymentLink = params.paymentLink;
+        this.cardToken = params.cardToken;
+        this.termsAccepted = params.termsAccepted;
+        this.userAgent = params.userAgent;
+    }
+    getRequestAsString() {
+        const data = {
+            paymentLink: this.paymentLink,
+            cardToken: this.cardToken,
+            // Sent as the literal the caller passed. NOT coerced with `=== true`: a
+            // caller who fumbles this should get the server's refusal, not a silent
+            // downgrade to false that reads like their own bug.
+            termsAccepted: this.termsAccepted
+        };
+        if (this.userAgent !== undefined && this.userAgent !== null && this.userAgent !== '') {
+            data.userAgent = this.userAgent;
+        }
+        return JSON.stringify(data);
+    }
+}
+exports.CapturePaymentMethodRequest = CapturePaymentMethodRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/ChatRequest.ts"
 /*!******************************************!*\
   !*** ./src/ajax/Requests/ChatRequest.ts ***!
@@ -63048,6 +63089,106 @@ class ConnectForthRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.ConnectForthRequest = ConnectForthRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/CreateCardCaptureFormRequest.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Requests/CreateCardCaptureFormRequest.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateCardCaptureFormRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+const CardCaptureForm_1 = __webpack_require__(/*! ../../flux_types/CardCaptureForm */ "./src/flux_types/CardCaptureForm.ts");
+class CreateCardCaptureFormRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        const form = new CardCaptureForm_1.CardCaptureForm({
+            // isCardCapture is set by the CardCaptureForm constructor and is what the
+            // server keys every capture-specific rule on.
+            accountEmail: params.accountEmail,
+            accountId: params.accountId,
+            customerFirstName: params.customerFirstName,
+            customerLastName: params.customerLastName,
+            customerPhone: params.customerPhone,
+            emailNotificationDisabled: params.emailNotificationDisabled,
+            termsTextOverride: params.termsTextOverride,
+            redirectUrl: params.redirectUrl,
+            autoReauthEnabled: params.autoReauthEnabled,
+            reauthIntervalHours: params.reauthIntervalHours,
+            reauthMaxAttempts: params.reauthMaxAttempts,
+            ccEmails: params.ccEmails
+        });
+        // Drop keys the caller never supplied. The server merges non-null only, but an
+        // explicit null on a flag the caller did not mention is still noise on the wire
+        // and makes a diff of two requests unreadable.
+        const serialized = form.serialize();
+        Object.keys(serialized).forEach(k => {
+            if (serialized[k] === undefined || serialized[k] === null)
+                delete serialized[k];
+        });
+        // objectType is the Jackson subtype discriminator — never strip it.
+        serialized.objectType = 'payment_link';
+        serialized.isCardCapture = true;
+        this._createdObjects = [serialized];
+    }
+    /** `{"createdObjects":[{...}]}` — see the class header on why nothing else. */
+    getRequestAsString() {
+        return JSON.stringify({ createdObjects: this._createdObjects });
+    }
+}
+exports.CreateCardCaptureFormRequest = CreateCardCaptureFormRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/CreatePaymentIntentRequest.ts"
+/*!*********************************************************!*\
+  !*** ./src/ajax/Requests/CreatePaymentIntentRequest.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreatePaymentIntentRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class CreatePaymentIntentRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.params = params;
+    }
+    getRequestAsString() {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+        return JSON.stringify({
+            objectType: "payment_intent",
+            paymentLink: (_a = this.params) === null || _a === void 0 ? void 0 : _a.paymentLink,
+            cardToken: (_b = this.params) === null || _b === void 0 ? void 0 : _b.cardToken,
+            shippingAddress: (_c = this.params) === null || _c === void 0 ? void 0 : _c.shippingAddress,
+            shippingCity: (_d = this.params) === null || _d === void 0 ? void 0 : _d.shippingCity,
+            shippingState: (_e = this.params) === null || _e === void 0 ? void 0 : _e.shippingState,
+            shippingZip: (_f = this.params) === null || _f === void 0 ? void 0 : _f.shippingZip,
+            shippingCountry: (_g = this.params) === null || _g === void 0 ? void 0 : _g.shippingCountry,
+            termsAccepted: ((_h = this.params) === null || _h === void 0 ? void 0 : _h.termsAccepted) === true,
+            termsTextSnapshot: (_j = this.params) === null || _j === void 0 ? void 0 : _j.termsTextSnapshot,
+            refundPolicySnapshot: (_k = this.params) === null || _k === void 0 ? void 0 : _k.refundPolicySnapshot,
+            recurringAuthAccepted: ((_l = this.params) === null || _l === void 0 ? void 0 : _l.recurringAuthAccepted) === true,
+            recurringAuthText: (_m = this.params) === null || _m === void 0 ? void 0 : _m.recurringAuthText,
+            deviceFingerprint: (_o = this.params) === null || _o === void 0 ? void 0 : _o.deviceFingerprint,
+            checkoutSessionId: (_p = this.params) === null || _p === void 0 ? void 0 : _p.checkoutSessionId
+        });
+    }
+}
+exports.CreatePaymentIntentRequest = CreatePaymentIntentRequest;
 
 
 /***/ },
@@ -63365,6 +63506,52 @@ exports.DownloadTransactionRequest = DownloadTransactionRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/EvidenceAttachmentRequest.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Requests/EvidenceAttachmentRequest.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EvidenceAttachmentRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class EvidenceAttachmentRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.action = params.action;
+        this.transactionId = params.transactionId;
+        this.disputeId = params.disputeId;
+        this.fileName = params.fileName;
+        this.label = params.label;
+        this.sizeBytes = params.sizeBytes;
+        this.uploadKey = params.uploadKey;
+    }
+    getRequestAsString() {
+        const data = {
+            action: this.action,
+            transactionId: this.transactionId,
+            fileName: this.fileName
+        };
+        if (this.disputeId !== undefined && this.disputeId !== null)
+            data.disputeId = this.disputeId;
+        if (this.label !== undefined && this.label !== null)
+            data.label = this.label;
+        if (this.sizeBytes !== undefined && this.sizeBytes !== null)
+            data.sizeBytes = this.sizeBytes;
+        if (this.uploadKey !== undefined && this.uploadKey !== null)
+            data.uploadKey = this.uploadKey;
+        return JSON.stringify(data);
+    }
+}
+exports.EvidenceAttachmentRequest = EvidenceAttachmentRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/ForthMappingActionRequest.ts"
 /*!********************************************************!*\
   !*** ./src/ajax/Requests/ForthMappingActionRequest.ts ***!
@@ -63469,6 +63656,60 @@ class GenAuthReq extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.GenAuthReq = GenAuthReq;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/GenerateCardTokenRequest.ts"
+/*!*******************************************************!*\
+  !*** ./src/ajax/Requests/GenerateCardTokenRequest.ts ***!
+  \*******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GenerateCardTokenRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class GenerateCardTokenRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.params = params;
+    }
+    getRequestAsString() {
+        const p = this.params || {};
+        // JSON.stringify drops undefined values, which gives the
+        // omit-when-empty behaviour the coordinator implements by hand.
+        const body = {
+            objectType: "generate_card_token",
+            paymentLink: p.paymentLink,
+            encryptedPayload: p.encryptedPayload,
+            encryptedAESKey: p.encryptedAESKey,
+            nonce: p.nonce,
+            customerEmail: p.customerEmail,
+            customerFirstName: p.customerFirstName,
+            customerLastName: p.customerLastName,
+            customerPhone: p.customerPhone,
+            billingAddress: p.billingAddress,
+            billingCity: p.billingCity,
+            billingState: p.billingState,
+            billingZip: p.billingZip,
+            billingCountry: p.billingCountry,
+            deviceFingerprint: p.deviceFingerprint,
+            checkoutSessionId: p.checkoutSessionId,
+            billingPlaceId: p.billingPlaceId
+        };
+        // lat/lng are meaningless alone — a lone coordinate describes nothing.
+        if (p.billingLat != null && p.billingLng != null) {
+            body["billingLat"] = p.billingLat;
+            body["billingLng"] = p.billingLng;
+        }
+        return JSON.stringify(body);
+    }
+}
+exports.GenerateCardTokenRequest = GenerateCardTokenRequest;
 
 
 /***/ },
@@ -63743,6 +63984,47 @@ exports.GenericUpdaterRequest = GenericUpdaterRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/GetCardCaptureFormRequest.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Requests/GetCardCaptureFormRequest.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetCardCaptureFormRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * STEP 2 of the embedded card-capture flow: load what the form must DISPLAY.
+ *
+ * The important field in the response is `termsText`. It is built server-side by
+ * `CardCaptureTermsBuilder.build(paymentLink, merchant)` — the SAME call, over the
+ * same two rows, that produces the snapshot written onto the saved card at capture.
+ * So the string the customer reads and the string stored as their authorization are
+ * identical by construction, and neither is ever client-supplied. Render this text;
+ * do not compose your own.
+ *
+ * Auth: the link string only. No API keys in the browser.
+ * Endpoint string carries no "Web" suffix — CMMT appends it in the browser, and this
+ * endpoint exists ONLY as `getCardCaptureFormWeb`.
+ */
+class GetCardCaptureFormRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(paymentLink) {
+        this.paymentLink = paymentLink;
+    }
+    getRequestAsString() {
+        return JSON.stringify({ paymentLink: this.paymentLink });
+    }
+}
+exports.GetCardCaptureFormRequest = GetCardCaptureFormRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/GetChangelogRequest.ts"
 /*!**************************************************!*\
   !*** ./src/ajax/Requests/GetChangelogRequest.ts ***!
@@ -63766,6 +64048,69 @@ class GetChangelogRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.GetChangelogRequest = GetChangelogRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/GetDisputeBundleRequest.ts"
+/*!******************************************************!*\
+  !*** ./src/ajax/Requests/GetDisputeBundleRequest.ts ***!
+  \******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetDisputeBundleRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class GetDisputeBundleRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.disputeId = params.disputeId;
+    }
+    getRequestAsString() {
+        return JSON.stringify({ disputeId: this.disputeId });
+    }
+}
+exports.GetDisputeBundleRequest = GetDisputeBundleRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/GetEvidenceCoverageRequest.ts"
+/*!*********************************************************!*\
+  !*** ./src/ajax/Requests/GetEvidenceCoverageRequest.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetEvidenceCoverageRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * getEvidenceCoverageWeb takes NO parameters, deliberately.
+ *
+ * Scope comes from the authenticated session, never from the body: the merchant
+ * block is always the act-as-resolved merchant on the MAC, and the
+ * cross-merchant block is filled only if PartnerAccessGate allows it
+ * server-side. A merchantId in the body would be a request to widen visibility,
+ * which is exactly what this endpoint must not accept.
+ */
+class GetEvidenceCoverageRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData() {
+        // No parameters — see the class note.
+    }
+    getRequestAsString() {
+        return JSON.stringify({});
+    }
+}
+exports.GetEvidenceCoverageRequest = GetEvidenceCoverageRequest;
 
 
 /***/ },
@@ -64193,6 +64538,37 @@ exports.PruneClarifyRequest = PruneClarifyRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/RemoveEvidenceAttachmentRequest.ts"
+/*!**************************************************************!*\
+  !*** ./src/ajax/Requests/RemoveEvidenceAttachmentRequest.ts ***!
+  \**************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RemoveEvidenceAttachmentRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class RemoveEvidenceAttachmentRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.attachmentId = params.attachmentId;
+        this.reason = params.reason;
+    }
+    getRequestAsString() {
+        const data = { attachmentId: this.attachmentId };
+        if (this.reason !== undefined && this.reason !== null)
+            data.reason = this.reason;
+        return JSON.stringify(data);
+    }
+}
+exports.RemoveEvidenceAttachmentRequest = RemoveEvidenceAttachmentRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/RemovePaymentMethodRequest.ts"
 /*!*********************************************************!*\
   !*** ./src/ajax/Requests/RemovePaymentMethodRequest.ts ***!
@@ -64376,6 +64752,45 @@ class ResendTransactionEmailRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.ResendTransactionEmailRequest = ResendTransactionEmailRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/RespondToDisputeRequest.ts"
+/*!******************************************************!*\
+  !*** ./src/ajax/Requests/RespondToDisputeRequest.ts ***!
+  \******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RespondToDisputeRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class RespondToDisputeRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.disputeId = params.disputeId;
+        this.rebuttalText = params.rebuttalText;
+        this.markResponded = params.markResponded;
+    }
+    getRequestAsString() {
+        const data = { disputeId: this.disputeId };
+        // `!== undefined`, not a truthiness test: a truthiness test would swallow
+        // "" and make clearing impossible, which is the one behaviour this
+        // convention exists to add.
+        if (this.rebuttalText !== undefined && this.rebuttalText !== null) {
+            data.rebuttalText = this.rebuttalText;
+        }
+        if (this.markResponded !== undefined && this.markResponded !== null) {
+            data.markResponded = this.markResponded;
+        }
+        return JSON.stringify(data);
+    }
+}
+exports.RespondToDisputeRequest = RespondToDisputeRequest;
 
 
 /***/ },
@@ -64614,6 +65029,58 @@ exports.UpdatePaymentMethodSubscriptionRequest = UpdatePaymentMethodSubscription
 
 /***/ },
 
+/***/ "./src/ajax/Requests/UpdateTransactionFulfillmentRequest.ts"
+/*!******************************************************************!*\
+  !*** ./src/ajax/Requests/UpdateTransactionFulfillmentRequest.ts ***!
+  \******************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UpdateTransactionFulfillmentRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class UpdateTransactionFulfillmentRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(params) {
+        this.transactionId = params.transactionId;
+        this.fulfillmentCarrier = params.fulfillmentCarrier;
+        this.fulfillmentTracking = params.fulfillmentTracking;
+        this.shippedAt = params.shippedAt;
+        this.deliveredAt = params.deliveredAt;
+        this.refundReason = params.refundReason;
+    }
+    getRequestAsString() {
+        const data = { transactionId: this.transactionId };
+        // Emit a key ONLY when the caller supplied one, so an omitted field
+        // means "leave it alone" end to end. Note the `!== undefined` test: a
+        // truthiness test would silently swallow "" and make clearing
+        // impossible, which is the one behaviour this endpoint exists to add.
+        if (this.fulfillmentCarrier !== undefined && this.fulfillmentCarrier !== null) {
+            data.fulfillmentCarrier = this.fulfillmentCarrier;
+        }
+        if (this.fulfillmentTracking !== undefined && this.fulfillmentTracking !== null) {
+            data.fulfillmentTracking = this.fulfillmentTracking;
+        }
+        if (this.shippedAt !== undefined && this.shippedAt !== null) {
+            data.shippedAt = this.shippedAt;
+        }
+        if (this.deliveredAt !== undefined && this.deliveredAt !== null) {
+            data.deliveredAt = this.deliveredAt;
+        }
+        if (this.refundReason !== undefined && this.refundReason !== null) {
+            data.refundReason = this.refundReason;
+        }
+        return JSON.stringify(data);
+    }
+}
+exports.UpdateTransactionFulfillmentRequest = UpdateTransactionFulfillmentRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/WebAuthnRequest.ts"
 /*!**********************************************!*\
   !*** ./src/ajax/Requests/WebAuthnRequest.ts ***!
@@ -64730,7 +65197,7 @@ exports.WriteReportRequest = WriteReportRequest;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.DownloadInvoiceRequest = exports.SendInvoiceEmailRequest = exports.ResendPaymentRequestRequest = exports.ResendTransactionEmailRequest = exports.UpdateAccountInformationRequest = exports.RemovePaymentMethodRequest = exports.CancelSubscriptionRequest = exports.CreatePaymentMethodRequest = exports.UpdatePaymentMethodSubscriptionRequest = exports.DownloadTransactionRequest = exports.ConfirmEmailCodeRequest = exports.SendConfirmationEmailRequest = exports.AddSubscriptionRequest = exports.RequestBodyBase = exports.GetMetadataRequest = exports.GenericUpdaterRequest = exports.GenericGetterRequest = exports.GenericGetByIdRequest = exports.GenericDeleterRequest = exports.GenericCreatorRequest = exports.GenAuthReq = exports.CreateTransactionRequest = exports.CreateSessionRequest = exports.ChatRequest = exports.ChngProdInvCntRequest = exports.CheckWebsiteAuthCookieRequest = exports.AuthCookieRequst = void 0;
+exports.CapturePaymentMethodRequest = exports.GetCardCaptureFormRequest = exports.CreateCardCaptureFormRequest = exports.GenerateCardTokenRequest = exports.CreatePaymentIntentRequest = exports.DownloadInvoiceRequest = exports.SendInvoiceEmailRequest = exports.ResendPaymentRequestRequest = exports.ResendTransactionEmailRequest = exports.UpdateAccountInformationRequest = exports.RemovePaymentMethodRequest = exports.CancelSubscriptionRequest = exports.CreatePaymentMethodRequest = exports.UpdatePaymentMethodSubscriptionRequest = exports.DownloadTransactionRequest = exports.ConfirmEmailCodeRequest = exports.SendConfirmationEmailRequest = exports.AddSubscriptionRequest = exports.RequestBodyBase = exports.GetMetadataRequest = exports.GenericUpdaterRequest = exports.GenericGetterRequest = exports.GenericGetByIdRequest = exports.GenericDeleterRequest = exports.GenericCreatorRequest = exports.GenAuthReq = exports.CreateTransactionRequest = exports.CreateSessionRequest = exports.ChatRequest = exports.ChngProdInvCntRequest = exports.CheckWebsiteAuthCookieRequest = exports.AuthCookieRequst = void 0;
 // Export available request types
 var AuthCookieRequest_1 = __webpack_require__(/*! ./AuthCookieRequest */ "./src/ajax/Requests/AuthCookieRequest.ts");
 Object.defineProperty(exports, "AuthCookieRequst", ({ enumerable: true, get: function () { return AuthCookieRequest_1.AuthCookieRequst; } }));
@@ -64788,6 +65255,26 @@ var SendInvoiceEmailRequest_1 = __webpack_require__(/*! ./SendInvoiceEmailReques
 Object.defineProperty(exports, "SendInvoiceEmailRequest", ({ enumerable: true, get: function () { return SendInvoiceEmailRequest_1.SendInvoiceEmailRequest; } }));
 var DownloadInvoiceRequest_1 = __webpack_require__(/*! ./DownloadInvoiceRequest */ "./src/ajax/Requests/DownloadInvoiceRequest.ts");
 Object.defineProperty(exports, "DownloadInvoiceRequest", ({ enumerable: true, get: function () { return DownloadInvoiceRequest_1.DownloadInvoiceRequest; } }));
+// Checkout consent / device evidence bodies (chargeback evidence, 2026-09-11).
+// Endpoint strings stay suffix-free — CMMT appends "Web" in the browser.
+// Both classes are DOCUMENTATION ONLY — see their file headers for the two
+// hand-built bodies that are actually on the wire.
+// `GenerateCardTokenBillingFields` is gone on purpose: billing fields are FLAT
+// on this endpoint, there is no nested map to type.
+var CreatePaymentIntentRequest_1 = __webpack_require__(/*! ./CreatePaymentIntentRequest */ "./src/ajax/Requests/CreatePaymentIntentRequest.ts");
+Object.defineProperty(exports, "CreatePaymentIntentRequest", ({ enumerable: true, get: function () { return CreatePaymentIntentRequest_1.CreatePaymentIntentRequest; } }));
+var GenerateCardTokenRequest_1 = __webpack_require__(/*! ./GenerateCardTokenRequest */ "./src/ajax/Requests/GenerateCardTokenRequest.ts");
+Object.defineProperty(exports, "GenerateCardTokenRequest", ({ enumerable: true, get: function () { return GenerateCardTokenRequest_1.GenerateCardTokenRequest; } }));
+// Embedded card capture (2026-09-12): a merchant's OWN site saves a card on file
+// without charging it. Endpoint strings stay suffix-free — CMMT appends "Web" in
+// the browser. Step 1 runs on the merchant's SERVER with API keys; steps 2 and 4
+// are BROWSER-ONLY and authenticated by the link string alone.
+var CreateCardCaptureFormRequest_1 = __webpack_require__(/*! ./CreateCardCaptureFormRequest */ "./src/ajax/Requests/CreateCardCaptureFormRequest.ts");
+Object.defineProperty(exports, "CreateCardCaptureFormRequest", ({ enumerable: true, get: function () { return CreateCardCaptureFormRequest_1.CreateCardCaptureFormRequest; } }));
+var GetCardCaptureFormRequest_1 = __webpack_require__(/*! ./GetCardCaptureFormRequest */ "./src/ajax/Requests/GetCardCaptureFormRequest.ts");
+Object.defineProperty(exports, "GetCardCaptureFormRequest", ({ enumerable: true, get: function () { return GetCardCaptureFormRequest_1.GetCardCaptureFormRequest; } }));
+var CapturePaymentMethodRequest_1 = __webpack_require__(/*! ./CapturePaymentMethodRequest */ "./src/ajax/Requests/CapturePaymentMethodRequest.ts");
+Object.defineProperty(exports, "CapturePaymentMethodRequest", ({ enumerable: true, get: function () { return CapturePaymentMethodRequest_1.CapturePaymentMethodRequest; } }));
 
 
 /***/ },
@@ -64916,6 +65403,54 @@ class CancelSubscriptionResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.CancelSubscriptionResponse = CancelSubscriptionResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/CapturePaymentMethodResponse.ts"
+/*!************************************************************!*\
+  !*** ./src/ajax/Responses/CapturePaymentMethodResponse.ts ***!
+  \************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CapturePaymentMethodResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class CapturePaymentMethodResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this._status = p.status;
+        this.paymentMethodOnFileId = p.paymentMethodOnFileId;
+        this.paymentMethodOnFileUniqueId = p.paymentMethodOnFileUniqueId;
+        this.payType = p.payType;
+        this.lastFour = p.lastFour;
+        this.cardBrand = p.cardBrand;
+        this.becameDefault = p.becameDefault === true;
+        this.redirectUrl = p.redirectUrl;
+        this.authRejected = p.authRejected === true;
+        this.authRejectionReason = p.authRejectionReason;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            paymentMethodOnFileId: this.paymentMethodOnFileId,
+            paymentMethodOnFileUniqueId: this.paymentMethodOnFileUniqueId,
+            payType: this.payType,
+            lastFour: this.lastFour,
+            cardBrand: this.cardBrand,
+            becameDefault: this.becameDefault,
+            redirectUrl: this.redirectUrl,
+            authRejected: this.authRejected,
+            authRejectionReason: this.authRejectionReason
+        };
+    }
+}
+exports.CapturePaymentMethodResponse = CapturePaymentMethodResponse;
 
 
 /***/ },
@@ -65086,6 +65621,51 @@ class ConnectForthResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.ConnectForthResponse = ConnectForthResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/CreateCardCaptureFormResponse.ts"
+/*!*************************************************************!*\
+  !*** ./src/ajax/Responses/CreateCardCaptureFormResponse.ts ***!
+  \*************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateCardCaptureFormResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+/**
+ * Reads `createdObjects` off the standard creator envelope. `GenericCreatorResponse`
+ * cannot be reused: it exposes `FluxIdentifier[]` — ids only — and the link string is
+ * the entire point of the call.
+ */
+class CreateCardCaptureFormResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        const list = parsed.createdObjects;
+        this.created = Array.isArray(list) && list.length > 0 ? list[0] : null;
+        this._status = parsed.status;
+        return this;
+    }
+    getClientReturnValue() {
+        const o = this.created || {};
+        return {
+            paymentLinkId: o.id,
+            paymentLink: o.paymentLink,
+            paymentLinkUrl: o.paymentLinkUrl,
+            accountId: o.accountId,
+            accountEmail: o.accountEmail,
+            currentStatus: o.currentStatus,
+            paymentLinkObject: this.created
+        };
+    }
+}
+exports.CreateCardCaptureFormResponse = CreateCardCaptureFormResponse;
 
 
 /***/ },
@@ -65286,6 +65866,43 @@ class DownloadTransactionResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.DownloadTransactionResponse = DownloadTransactionResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/EvidenceAttachmentResponse.ts"
+/*!**********************************************************!*\
+  !*** ./src/ajax/Responses/EvidenceAttachmentResponse.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EvidenceAttachmentResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class EvidenceAttachmentResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.uploadUrl = parsed.uploadUrl || undefined;
+        this.uploadKey = parsed.uploadKey || undefined;
+        this.attachment = parsed.attachment || undefined;
+        this.message = parsed.message || '';
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            uploadUrl: this.uploadUrl,
+            uploadKey: this.uploadKey,
+            attachment: this.attachment,
+            message: this.message
+        };
+    }
+}
+exports.EvidenceAttachmentResponse = EvidenceAttachmentResponse;
 
 
 /***/ },
@@ -65545,6 +66162,54 @@ exports.GenericUpdaterResponse = GenericUpdaterResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/GetCardCaptureFormResponse.ts"
+/*!**********************************************************!*\
+  !*** ./src/ajax/Responses/GetCardCaptureFormResponse.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetCardCaptureFormResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class GetCardCaptureFormResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this._status = p.status;
+        this.merchantName = p.merchantName;
+        this.customerEmail = p.customerEmail;
+        this.customerFirstName = p.customerFirstName;
+        this.customerLastName = p.customerLastName;
+        this.termsText = p.termsText;
+        this.allowCardEntry = p.allowCardEntry === true;
+        this.allowACHEntry = p.allowACHEntry === true;
+        this.allowSavedMethod = p.allowSavedMethod === true;
+        this.redirectUrl = p.redirectUrl;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            merchantName: this.merchantName,
+            customerEmail: this.customerEmail,
+            customerFirstName: this.customerFirstName,
+            customerLastName: this.customerLastName,
+            termsText: this.termsText,
+            allowCardEntry: this.allowCardEntry,
+            allowACHEntry: this.allowACHEntry,
+            allowSavedMethod: this.allowSavedMethod,
+            redirectUrl: this.redirectUrl
+        };
+    }
+}
+exports.GetCardCaptureFormResponse = GetCardCaptureFormResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/GetChangelogResponse.ts"
 /*!****************************************************!*\
   !*** ./src/ajax/Responses/GetChangelogResponse.ts ***!
@@ -65573,6 +66238,137 @@ class GetChangelogResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.GetChangelogResponse = GetChangelogResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/GetDisputeBundleResponse.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Responses/GetDisputeBundleResponse.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetDisputeBundleResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class GetDisputeBundleResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.downloadUrl = parsed.downloadUrl || undefined;
+        this.pdfBase64 = parsed.pdfBase64 || undefined;
+        this.filename = parsed.filename || 'dispute-response.pdf';
+        this.sha256 = parsed.sha256 || undefined;
+        this.sizeBytes = parsed.sizeBytes || undefined;
+        this.manifest = Array.isArray(parsed.manifest) ? parsed.manifest : [];
+        this.message = parsed.message || '';
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            downloadUrl: this.downloadUrl,
+            pdfBase64: this.pdfBase64,
+            filename: this.filename,
+            sha256: this.sha256,
+            sizeBytes: this.sizeBytes,
+            manifest: this.manifest,
+            message: this.message
+        };
+    }
+}
+exports.GetDisputeBundleResponse = GetDisputeBundleResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/GetEvidenceCoverageResponse.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Responses/GetEvidenceCoverageResponse.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetEvidenceCoverageResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+const emptyBlock = () => ({
+    countsOk: false,
+    eligibleCount: 0,
+    sealedCount: 0,
+    sealedReconstructedCount: 0,
+    sealedLiveCount: 0,
+    pendingCount: 0,
+    backfillCount: 0,
+    failedCount: 0,
+    unclaimedCount: 0,
+    sealedPct: 100,
+    sealedLast7Days: 0,
+    failedLast7Days: 0,
+    lastSealedAt: null,
+    oldestUnsealedAt: null,
+    openDisputeCount: 0,
+    disputesDueWithin7Days: 0,
+});
+const toBlock = (raw) => {
+    var _a, _b;
+    const b = emptyBlock();
+    if (!raw)
+        return b;
+    return {
+        // Absent => false => the panel hides. A backend that predates the flag is a
+        // version skew, and hiding is this panel's established safe state.
+        countsOk: raw.countsOk === true,
+        eligibleCount: raw.eligibleCount || 0,
+        sealedCount: raw.sealedCount || 0,
+        sealedReconstructedCount: raw.sealedReconstructedCount || 0,
+        sealedLiveCount: raw.sealedLiveCount || 0,
+        pendingCount: raw.pendingCount || 0,
+        backfillCount: raw.backfillCount || 0,
+        failedCount: raw.failedCount || 0,
+        unclaimedCount: raw.unclaimedCount || 0,
+        // 0 is NOT a safe default for a percentage: a payload missing the field
+        // would render as "0% sealed" and read as a platform-wide outage.
+        sealedPct: typeof raw.sealedPct === "number" ? raw.sealedPct : 100,
+        sealedLast7Days: raw.sealedLast7Days || 0,
+        failedLast7Days: raw.failedLast7Days || 0,
+        lastSealedAt: (_a = raw.lastSealedAt) !== null && _a !== void 0 ? _a : null,
+        oldestUnsealedAt: (_b = raw.oldestUnsealedAt) !== null && _b !== void 0 ? _b : null,
+        openDisputeCount: raw.openDisputeCount || 0,
+        disputesDueWithin7Days: raw.disputesDueWithin7Days || 0,
+    };
+};
+class GetEvidenceCoverageResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            partnerView: false,
+            admin: false,
+            merchant: emptyBlock(),
+            crossMerchant: null,
+            merchants: [],
+        };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            partnerView: !!p.partnerView,
+            admin: !!p.admin,
+            merchant: toBlock(p.merchant),
+            crossMerchant: p.crossMerchant ? toBlock(p.crossMerchant) : null,
+            merchants: p.merchants || [],
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.GetEvidenceCoverageResponse = GetEvidenceCoverageResponse;
 
 
 /***/ },
@@ -66032,6 +66828,36 @@ exports.PruneClarifyResponse = PruneClarifyResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/RemoveEvidenceAttachmentResponse.ts"
+/*!****************************************************************!*\
+  !*** ./src/ajax/Responses/RemoveEvidenceAttachmentResponse.ts ***!
+  \****************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RemoveEvidenceAttachmentResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class RemoveEvidenceAttachmentResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.attachment = parsed.attachment || null;
+        this.message = parsed.message || '';
+        return this;
+    }
+    getClientReturnValue() {
+        return { attachment: this.attachment, message: this.message };
+    }
+}
+exports.RemoveEvidenceAttachmentResponse = RemoveEvidenceAttachmentResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/RemovePaymentMethodResponse.ts"
 /*!***********************************************************!*\
   !*** ./src/ajax/Responses/RemovePaymentMethodResponse.ts ***!
@@ -66144,6 +66970,41 @@ class ResendTransactionEmailResponse extends ResponseBodyBase_1.ResponseBodyBase
     }
 }
 exports.ResendTransactionEmailResponse = ResendTransactionEmailResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/RespondToDisputeResponse.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Responses/RespondToDisputeResponse.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.RespondToDisputeResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class RespondToDisputeResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.dispute = parsed.dispute || null;
+        this.message = parsed.message || '';
+        this.changedFields = Array.isArray(parsed.changedFields) ? parsed.changedFields : [];
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            dispute: this.dispute,
+            message: this.message,
+            changedFields: this.changedFields
+        };
+    }
+}
+exports.RespondToDisputeResponse = RespondToDisputeResponse;
 
 
 /***/ },
@@ -66495,6 +67356,41 @@ exports.UpdateProductResponse = UpdateProductResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/UpdateTransactionFulfillmentResponse.ts"
+/*!********************************************************************!*\
+  !*** ./src/ajax/Responses/UpdateTransactionFulfillmentResponse.ts ***!
+  \********************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.UpdateTransactionFulfillmentResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class UpdateTransactionFulfillmentResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+    }
+    setResponseJSON(jsonString) {
+        const parsed = JSON.parse(jsonString);
+        this.transaction = parsed.transaction || null;
+        this.message = parsed.message || '';
+        this.changedFields = Array.isArray(parsed.changedFields) ? parsed.changedFields : [];
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            transaction: this.transaction,
+            message: this.message,
+            changedFields: this.changedFields
+        };
+    }
+}
+exports.UpdateTransactionFulfillmentResponse = UpdateTransactionFulfillmentResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/WebAuthnResponse.ts"
 /*!************************************************!*\
   !*** ./src/ajax/Responses/WebAuthnResponse.ts ***!
@@ -66615,7 +67511,7 @@ exports.WriteReportResponse = WriteReportResponse;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.DownloadInvoiceResponse = exports.SendInvoiceEmailResponse = exports.ResendPaymentRequestResponse = exports.ResendTransactionEmailResponse = exports.UpdateAccountInformationResponse = exports.RemovePaymentMethodResponse = exports.CancelSubscriptionResponse = exports.CreatePaymentMethodResponse = exports.UpdatePaymentMethodSubscriptionResponse = exports.DownloadTransactionResponse = exports.ConfirmEmailCodeResponse = exports.SendConfirmationEmailResponse = exports.GetMetadataResponse = exports.AddSubscriptionResponse = exports.GenericUpdaterResponse = exports.UpdateProductResponse = exports.CreateSessionResponse = exports.GenericDeleterResponse = exports.GenericGetterResponse = exports.GenAuthRes = exports.GenericCreatorResponse = exports.ChatResponse = exports.ResponseBodyBase = void 0;
+exports.CapturePaymentMethodResponse = exports.GetCardCaptureFormResponse = exports.CreateCardCaptureFormResponse = exports.DownloadInvoiceResponse = exports.SendInvoiceEmailResponse = exports.ResendPaymentRequestResponse = exports.ResendTransactionEmailResponse = exports.UpdateAccountInformationResponse = exports.RemovePaymentMethodResponse = exports.CancelSubscriptionResponse = exports.CreatePaymentMethodResponse = exports.UpdatePaymentMethodSubscriptionResponse = exports.DownloadTransactionResponse = exports.ConfirmEmailCodeResponse = exports.SendConfirmationEmailResponse = exports.GetMetadataResponse = exports.AddSubscriptionResponse = exports.GenericUpdaterResponse = exports.UpdateProductResponse = exports.CreateSessionResponse = exports.GenericDeleterResponse = exports.GenericGetterResponse = exports.GenAuthRes = exports.GenericCreatorResponse = exports.ChatResponse = exports.ResponseBodyBase = void 0;
 /*
  * Copyright (c) 2024 Flux Payment Solutions Company
  *
@@ -66684,6 +67580,14 @@ var SendInvoiceEmailResponse_1 = __webpack_require__(/*! ./SendInvoiceEmailRespo
 Object.defineProperty(exports, "SendInvoiceEmailResponse", ({ enumerable: true, get: function () { return SendInvoiceEmailResponse_1.SendInvoiceEmailResponse; } }));
 var DownloadInvoiceResponse_1 = __webpack_require__(/*! ./DownloadInvoiceResponse */ "./src/ajax/Responses/DownloadInvoiceResponse.ts");
 Object.defineProperty(exports, "DownloadInvoiceResponse", ({ enumerable: true, get: function () { return DownloadInvoiceResponse_1.DownloadInvoiceResponse; } }));
+// Embedded card capture (2026-09-12). CreateCardCaptureFormResult.paymentLink is
+// the value the whole flow turns on — pass it VERBATIM to the browser.
+var CreateCardCaptureFormResponse_1 = __webpack_require__(/*! ./CreateCardCaptureFormResponse */ "./src/ajax/Responses/CreateCardCaptureFormResponse.ts");
+Object.defineProperty(exports, "CreateCardCaptureFormResponse", ({ enumerable: true, get: function () { return CreateCardCaptureFormResponse_1.CreateCardCaptureFormResponse; } }));
+var GetCardCaptureFormResponse_1 = __webpack_require__(/*! ./GetCardCaptureFormResponse */ "./src/ajax/Responses/GetCardCaptureFormResponse.ts");
+Object.defineProperty(exports, "GetCardCaptureFormResponse", ({ enumerable: true, get: function () { return GetCardCaptureFormResponse_1.GetCardCaptureFormResponse; } }));
+var CapturePaymentMethodResponse_1 = __webpack_require__(/*! ./CapturePaymentMethodResponse */ "./src/ajax/Responses/CapturePaymentMethodResponse.ts");
+Object.defineProperty(exports, "CapturePaymentMethodResponse", ({ enumerable: true, get: function () { return CapturePaymentMethodResponse_1.CapturePaymentMethodResponse; } }));
 
 
 /***/ },
@@ -69234,7 +70138,8 @@ class AccountBusiness extends FluxType_1.FluxType {
             accountId: this.accountId,
             businessId: this.businessId,
             businessName: this.businessName,
-            accountName: this.accountName
+            accountName: this.accountName,
+            accountEmail: this.accountEmail
         };
     }
     getDispName() {
@@ -69286,7 +70191,8 @@ class AccountBusinessQuery extends BaseQuery_1.BaseQuery {
             accountId: this.accountId,
             businessId: this.businessId,
             businessName: this.businessName,
-            accountName: this.accountName
+            accountName: this.accountName,
+            accountEmail: this.accountEmail
         };
     }
     constructor(q) {
@@ -70953,7 +71859,11 @@ class CustomerSensitiveData extends FluxType_1.FluxType {
             shippingAddressId: this.shippingAddressId,
             objectType: this.objectType,
             oneTimeUseToken: this.oneTimeUseToken,
-            transactionId: this.transactionId
+            transactionId: this.transactionId,
+            // ACH authorization evidence — the server stamps accepted-at, the
+            // text hash, the IP and the user agent itself.
+            achAuthAccepted: this.achAuthAccepted,
+            achAuthText: this.achAuthText
         };
     }
     constructor(c) {
@@ -71388,6 +72298,142 @@ exports.DiscountQuery = DiscountQuery;
 
 /***/ },
 
+/***/ "./src/flux_types/Dispute.ts"
+/*!***********************************!*\
+  !*** ./src/flux_types/Dispute.ts ***!
+  \***********************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.Dispute = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * A dispute (chargeback) case against a transaction.
+ *
+ * The merchant-editable surface is the rebuttal narrative and the case
+ * metadata a manually-opened case needs (network, caseNumber, reasonCode,
+ * amount, openedAt, respondByAt). The bundle key/hash are never serialized,
+ * and `source` is server-owned — see serialize().
+ *
+ * NOTE FOR THE BACKEND OWNER: there is no dispute service, so this rides
+ * GenericCreator/GenericUpdater, and GenericUpdater's evidence strip is gated
+ * on `ob instanceof Transaction` — it does not cover Dispute, and Dispute has
+ * no certifyUpdatedFields override. Until a Dispute strip lands, a client can
+ * still flip a REPORTING_API-ingested case to WON with a resolvedAt. Dropping
+ * `source` here closes provenance laundering only; the resolution fields need
+ * the server-side strip to be durably safe.
+ */
+class Dispute extends FluxType_1.FluxType {
+    getDispName() {
+        return this.caseNumber || ("Dispute " + this.id);
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            transactionId: this.transactionId,
+            network: this.network,
+            caseNumber: this.caseNumber,
+            reasonCode: this.reasonCode,
+            reasonCategory: this.reasonCategory,
+            amount: this.amount,
+            currency: this.currency,
+            status: this.status,
+            openedAt: this.openedAt,
+            respondByAt: this.respondByAt,
+            respondedAt: this.respondedAt,
+            resolvedAt: this.resolvedAt,
+            rebuttalText: this.rebuttalText,
+            // `source` is DELIBERATELY NOT SENT. It is the provenance of the
+            // case — REPORTING_API (processor-ingested) vs MANUAL
+            // (merchant-typed) — and a client that can assert it can make a
+            // hand-entered case read as processor-ingested in the evidence
+            // record. The server owns it: it forces MANUAL on every
+            // client-side create. Readable below, never writable.
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, Dispute);
+        this.obName = "Dispute";
+        this.objectType = "dispute";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.Dispute = Dispute;
+
+
+/***/ },
+
+/***/ "./src/flux_types/DisputeQuery.ts"
+/*!****************************************!*\
+  !*** ./src/flux_types/DisputeQuery.ts ***!
+  \****************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.DisputeQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const Dispute_1 = __webpack_require__(/*! ./Dispute */ "./src/flux_types/Dispute.ts");
+class DisputeQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            transactionId: this.transactionId,
+            network: this.network,
+            caseNumber: this.caseNumber,
+            reasonCode: this.reasonCode,
+            reasonCategory: this.reasonCategory,
+            status: this.status,
+            source: this.source,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(Dispute_1.Dispute);
+        this.objectType = "dispute";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new DisputeQuery(q);
+    }
+}
+exports.DisputeQuery = DisputeQuery;
+
+
+/***/ },
+
 /***/ "./src/flux_types/EmailConfirmation.ts"
 /*!*********************************************!*\
   !*** ./src/flux_types/EmailConfirmation.ts ***!
@@ -71482,6 +72528,109 @@ class EmailConfirmationQuery extends BaseQuery_1.BaseQuery {
     }
 }
 exports.EmailConfirmationQuery = EmailConfirmationQuery;
+
+
+/***/ },
+
+/***/ "./src/flux_types/EmailLog.ts"
+/*!************************************!*\
+  !*** ./src/flux_types/EmailLog.ts ***!
+  \************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EmailLog = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * READ-ONLY. An outbound email plus its delivery/open/click/bounce timeline.
+ * Written by the mail engine and the provider webhooks; serialize() carries
+ * identity only.
+ */
+class EmailLog extends FluxType_1.FluxType {
+    getDispName() {
+        return (this.template || "Email") + " to " + (this.recipient || "");
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, EmailLog);
+        this.obName = "EmailLog";
+        this.objectType = "email_log";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.EmailLog = EmailLog;
+
+
+/***/ },
+
+/***/ "./src/flux_types/EmailLogQuery.ts"
+/*!*****************************************!*\
+  !*** ./src/flux_types/EmailLogQuery.ts ***!
+  \*****************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EmailLogQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const EmailLog_1 = __webpack_require__(/*! ./EmailLog */ "./src/flux_types/EmailLog.ts");
+class EmailLogQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            providerMessageId: this.providerMessageId,
+            transactionId: this.transactionId,
+            paymentLinkId: this.paymentLinkId,
+            accountId: this.accountId,
+            recipient: this.recipient,
+            template: this.template,
+            provider: this.provider,
+            status: this.status,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(EmailLog_1.EmailLog);
+        this.objectType = "email_log";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new EmailLogQuery(q);
+    }
+}
+exports.EmailLogQuery = EmailLogQuery;
 
 
 /***/ },
@@ -71625,6 +72774,214 @@ class EnabledStatesTaxQuery extends BaseQuery_1.BaseQuery {
     }
 }
 exports.EnabledStatesTaxQuery = EnabledStatesTaxQuery;
+
+
+/***/ },
+
+/***/ "./src/flux_types/EvidenceAddendum.ts"
+/*!********************************************!*\
+  !*** ./src/flux_types/EvidenceAddendum.ts ***!
+  \********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EvidenceAddendum = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * READ-ONLY. A post-seal event appended to a transaction's evidence record.
+ * The server writes these; serialize() carries identity only.
+ */
+class EvidenceAddendum extends FluxType_1.FluxType {
+    getDispName() {
+        return (this.type || "Addendum") + " #" + this.sequence;
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, EvidenceAddendum);
+        this.obName = "EvidenceAddendum";
+        this.objectType = "evidence_addendum";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.EvidenceAddendum = EvidenceAddendum;
+
+
+/***/ },
+
+/***/ "./src/flux_types/EvidenceAddendumQuery.ts"
+/*!*************************************************!*\
+  !*** ./src/flux_types/EvidenceAddendumQuery.ts ***!
+  \*************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EvidenceAddendumQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const EvidenceAddendum_1 = __webpack_require__(/*! ./EvidenceAddendum */ "./src/flux_types/EvidenceAddendum.ts");
+class EvidenceAddendumQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            transactionId: this.transactionId,
+            type: this.type,
+            sequence: this.sequence,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(EvidenceAddendum_1.EvidenceAddendum);
+        this.objectType = "evidence_addendum";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new EvidenceAddendumQuery(q);
+    }
+}
+exports.EvidenceAddendumQuery = EvidenceAddendumQuery;
+
+
+/***/ },
+
+/***/ "./src/flux_types/EvidenceAttachment.ts"
+/*!**********************************************!*\
+  !*** ./src/flux_types/EvidenceAttachment.ts ***!
+  \**********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EvidenceAttachment = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * A file the merchant attaches as evidence (delivery proof, contract,
+ * correspondence). The descriptive fields and the document payload are
+ * client-writable; sha256 / uploadedBy* / uploadedAt / removedAt are
+ * server-written and are NOT serialized.
+ */
+class EvidenceAttachment extends FluxType_1.FluxType {
+    getDispName() {
+        return this.label || this.fileName || ("Attachment " + this.id);
+    }
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            transactionId: this.transactionId,
+            disputeId: this.disputeId,
+            label: this.label,
+            fileName: this.fileName,
+            contentType: this.contentType,
+            sizeBytes: this.sizeBytes,
+            s3Key: this.s3Key,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            version: this.version,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, EvidenceAttachment);
+        this.obName = "EvidenceAttachment";
+        this.objectType = "evidence_attachment";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.EvidenceAttachment = EvidenceAttachment;
+
+
+/***/ },
+
+/***/ "./src/flux_types/EvidenceAttachmentQuery.ts"
+/*!***************************************************!*\
+  !*** ./src/flux_types/EvidenceAttachmentQuery.ts ***!
+  \***************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.EvidenceAttachmentQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const EvidenceAttachment_1 = __webpack_require__(/*! ./EvidenceAttachment */ "./src/flux_types/EvidenceAttachment.ts");
+class EvidenceAttachmentQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            transactionId: this.transactionId,
+            disputeId: this.disputeId,
+            label: this.label,
+            fileName: this.fileName,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(EvidenceAttachment_1.EvidenceAttachment);
+        this.objectType = "evidence_attachment";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new EvidenceAttachmentQuery(q);
+    }
+}
+exports.EvidenceAttachmentQuery = EvidenceAttachmentQuery;
 
 
 /***/ },
@@ -72811,7 +74168,8 @@ class Merchant extends FluxType_1.FluxType {
             checkoutTermsUrl: this.checkoutTermsUrl,
             checkoutRefundPolicyUrl: this.checkoutRefundPolicyUrl,
             checkoutPrivacyUrl: this.checkoutPrivacyUrl,
-            checkoutRefundPolicyText: this.checkoutRefundPolicyText
+            checkoutRefundPolicyText: this.checkoutRefundPolicyText,
+            statementDescriptor: this.statementDescriptor
         };
     }
     constructor(merchant) {
@@ -75759,6 +77117,16 @@ class Transaction extends FluxType_1.FluxType {
             baseTransaction: this.baseTransaction,
             accountSession: this.accountSession,
             oneTimeUseToken: this.oneTimeUseToken,
+            // Checkout consent carriers — see the block comment on the fields.
+            // Request-hop only: the backend reads them off @Transient carriers and
+            // never persists them under these names.
+            consentTermsAccepted: this.consentTermsAccepted,
+            consentTermsTextSnapshot: this.consentTermsTextSnapshot,
+            consentRefundPolicySnapshot: this.consentRefundPolicySnapshot,
+            consentRecurringAuthAccepted: this.consentRecurringAuthAccepted,
+            consentRecurringAuthText: this.consentRecurringAuthText,
+            consentDeviceFingerprint: this.consentDeviceFingerprint,
+            consentCheckoutSessionId: this.consentCheckoutSessionId,
             transactionType: this.transactionType,
             createdAt: this.createdAt,
             currency: this.currency,
@@ -75779,11 +77147,120 @@ class Transaction extends FluxType_1.FluxType {
             customerLastName: this.customerLastName,
             customerPhone: this.customerPhone,
             processorError: this.processorError,
-            gatewayResponse: this.gatewayResponse
+            gatewayResponse: this.gatewayResponse,
+            // ---- Chargeback evidence: the ONLY merchant-writable fields ----
+            // Every other evidence field is server-written and deliberately
+            // absent from serialize() so a portal edit can never send it.
+            fulfillmentCarrier: this.fulfillmentCarrier,
+            fulfillmentTracking: this.fulfillmentTracking,
+            shippedAt: this.shippedAt,
+            deliveredAt: this.deliveredAt,
+            refundReason: this.refundReason
         };
     }
 }
 exports.Transaction = Transaction;
+
+
+/***/ },
+
+/***/ "./src/flux_types/TransactionEvidence.ts"
+/*!***********************************************!*\
+  !*** ./src/flux_types/TransactionEvidence.ts ***!
+  \***********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionEvidence = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * READ-ONLY. The sealed evidence packet for a transaction — append-only on the
+ * server (no update service; the generic updater rejects it). serialize() only
+ * carries the identity fields a read/query needs; nothing here is client-writable.
+ */
+class TransactionEvidence extends FluxType_1.FluxType {
+    getDispName() {
+        return "Evidence packet for transaction " + this.transactionId;
+    }
+    /**
+     * Identity only — this entity is append-only server-side, so no content
+     * field is sent back up. A create/update attempt is rejected by the backend.
+     */
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, TransactionEvidence);
+        this.obName = "TransactionEvidence";
+        this.objectType = "transaction_evidence";
+        Object.assign(this, data);
+    }
+    static createInstanceLazy(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateLazyInstance(data, this);
+        });
+    }
+    static createInstanceSafe(data) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return yield FluxType_1.FluxType.instantiateInstance(data, this);
+        });
+    }
+}
+exports.TransactionEvidence = TransactionEvidence;
+
+
+/***/ },
+
+/***/ "./src/flux_types/TransactionEvidenceQuery.ts"
+/*!****************************************************!*\
+  !*** ./src/flux_types/TransactionEvidenceQuery.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.TransactionEvidenceQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const TransactionEvidence_1 = __webpack_require__(/*! ./TransactionEvidence */ "./src/flux_types/TransactionEvidence.ts");
+class TransactionEvidenceQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            uniqueId: this.uniqueId,
+            merchantId: this.merchantId,
+            transactionId: this.transactionId,
+            status: this.status,
+            activeStatus: this.activeStatus,
+            metadata: this.metadata,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(TransactionEvidence_1.TransactionEvidence);
+        this.objectType = "transaction_evidence";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new TransactionEvidenceQuery(q);
+    }
+}
+exports.TransactionEvidenceQuery = TransactionEvidenceQuery;
 
 
 /***/ },
@@ -76445,7 +77922,7 @@ exports.WalletQuery = WalletQuery;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.AccountBusinessQuery = exports.AccountBusiness = exports.BusinessQuery = exports.Business = exports.DiscountQuery = exports.Discount = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
 exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ForthActivityEventQuery = exports.ForthActivityEvent = exports.ForthScheduledChargeQuery = exports.ForthScheduledCharge = exports.ForthClientMappingQuery = exports.ForthClientMapping = exports.MerchantForthCredentialsQuery = exports.MerchantForthCredentials = exports.CardCaptureFormQuery = exports.TransferQuery = exports.Transfer = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = void 0;
-exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = void 0;
+exports.DisputeQuery = exports.Dispute = exports.EmailLogQuery = exports.EmailLog = exports.EvidenceAttachmentQuery = exports.EvidenceAttachment = exports.EvidenceAddendumQuery = exports.EvidenceAddendum = exports.TransactionEvidenceQuery = exports.TransactionEvidence = exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -76666,6 +78143,27 @@ var TransactionProduct_1 = __webpack_require__(/*! ./TransactionProduct */ "./sr
 Object.defineProperty(exports, "TransactionProduct", ({ enumerable: true, get: function () { return TransactionProduct_1.TransactionProduct; } }));
 var TransactionProductQuery_1 = __webpack_require__(/*! ./TransactionProductQuery */ "./src/flux_types/TransactionProductQuery.ts");
 Object.defineProperty(exports, "TransactionProductQuery", ({ enumerable: true, get: function () { return TransactionProductQuery_1.TransactionProductQuery; } }));
+// ---- Chargeback evidence (2026-09-11) ----
+var TransactionEvidence_1 = __webpack_require__(/*! ./TransactionEvidence */ "./src/flux_types/TransactionEvidence.ts");
+Object.defineProperty(exports, "TransactionEvidence", ({ enumerable: true, get: function () { return TransactionEvidence_1.TransactionEvidence; } }));
+var TransactionEvidenceQuery_1 = __webpack_require__(/*! ./TransactionEvidenceQuery */ "./src/flux_types/TransactionEvidenceQuery.ts");
+Object.defineProperty(exports, "TransactionEvidenceQuery", ({ enumerable: true, get: function () { return TransactionEvidenceQuery_1.TransactionEvidenceQuery; } }));
+var EvidenceAddendum_1 = __webpack_require__(/*! ./EvidenceAddendum */ "./src/flux_types/EvidenceAddendum.ts");
+Object.defineProperty(exports, "EvidenceAddendum", ({ enumerable: true, get: function () { return EvidenceAddendum_1.EvidenceAddendum; } }));
+var EvidenceAddendumQuery_1 = __webpack_require__(/*! ./EvidenceAddendumQuery */ "./src/flux_types/EvidenceAddendumQuery.ts");
+Object.defineProperty(exports, "EvidenceAddendumQuery", ({ enumerable: true, get: function () { return EvidenceAddendumQuery_1.EvidenceAddendumQuery; } }));
+var EvidenceAttachment_1 = __webpack_require__(/*! ./EvidenceAttachment */ "./src/flux_types/EvidenceAttachment.ts");
+Object.defineProperty(exports, "EvidenceAttachment", ({ enumerable: true, get: function () { return EvidenceAttachment_1.EvidenceAttachment; } }));
+var EvidenceAttachmentQuery_1 = __webpack_require__(/*! ./EvidenceAttachmentQuery */ "./src/flux_types/EvidenceAttachmentQuery.ts");
+Object.defineProperty(exports, "EvidenceAttachmentQuery", ({ enumerable: true, get: function () { return EvidenceAttachmentQuery_1.EvidenceAttachmentQuery; } }));
+var EmailLog_1 = __webpack_require__(/*! ./EmailLog */ "./src/flux_types/EmailLog.ts");
+Object.defineProperty(exports, "EmailLog", ({ enumerable: true, get: function () { return EmailLog_1.EmailLog; } }));
+var EmailLogQuery_1 = __webpack_require__(/*! ./EmailLogQuery */ "./src/flux_types/EmailLogQuery.ts");
+Object.defineProperty(exports, "EmailLogQuery", ({ enumerable: true, get: function () { return EmailLogQuery_1.EmailLogQuery; } }));
+var Dispute_1 = __webpack_require__(/*! ./Dispute */ "./src/flux_types/Dispute.ts");
+Object.defineProperty(exports, "Dispute", ({ enumerable: true, get: function () { return Dispute_1.Dispute; } }));
+var DisputeQuery_1 = __webpack_require__(/*! ./DisputeQuery */ "./src/flux_types/DisputeQuery.ts");
+Object.defineProperty(exports, "DisputeQuery", ({ enumerable: true, get: function () { return DisputeQuery_1.DisputeQuery; } }));
 
 
 /***/ },
@@ -77035,6 +78533,27 @@ class FluxComms {
             return lib_1.CMMT.fetch(GetPartnerDashboardRequest, GetPartnerDashboardResponse, "getPartnerDashboard", "POST", isolatedHandle, range, probe);
         });
     }
+    /**
+     * Chargeback-evidence coverage: how much of this merchant's card/ACH volume
+     * actually has a sealed evidence packet behind it, plus open-dispute counts.
+     *
+     * No parameters by design — scope is taken from the session, never the body.
+     * The `merchant` block is always the act-as-resolved merchant; `crossMerchant`
+     * and `merchants` are filled only for a caller the server's PartnerAccessGate
+     * allows (null / empty otherwise, so a plain merchant renders nothing).
+     *
+     * GOTCHA: the portal runs the PREBUILT dist_web/lib.js, so the browser cannot
+     * call this until that bundle is rebuilt — both portal surfaces feature-detect
+     * the method and hide their section when it is absent rather than throwing.
+     */
+    getEvidenceCoverage() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetEvidenceCoverageRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetEvidenceCoverageRequest */ "./src/ajax/Requests/GetEvidenceCoverageRequest.ts")));
+            const { GetEvidenceCoverageResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetEvidenceCoverageResponse */ "./src/ajax/Responses/GetEvidenceCoverageResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetEvidenceCoverageRequest, GetEvidenceCoverageResponse, "getEvidenceCoverage", "POST", isolatedHandle);
+        });
+    }
     /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
      *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
      *  Every action returns the fresh full partner list. */
@@ -77200,8 +78719,20 @@ class FluxComms {
         });
     }
     /**
-     * Download invoice or receipt PDF from merchant website
-     * @param documentType "INVOICE" or "RECEIPT" - type of document to download
+     * Download a document for a payment link or transaction from the merchant portal.
+     *
+     * @param documentType One of:
+     *   "INVOICE" | "RECEIPT" | "REFUND" — the customer-facing documents.
+     *   "EVIDENCE" — the sealed chargeback evidence record PDF (requires transactionId).
+     *   "EVIDENCE_JSON" — its machine-readable sidecar, the canonical record.
+     *   "ADDENDUM:<id>" — one later event appended to that record (requires transactionId
+     *   as well, which scopes the lookup).
+     *   Evidence downloads return a 404-class message while a record is still being
+     *   prepared: a sealed record is never re-rendered on demand, so there is no
+     *   inline-generation fallback for them. They are also REFUSED (403) while a
+     *   partner is viewing another merchant's account — the packet carries the
+     *   cardholder's IP, device fingerprint, full addresses and consent text, and a
+     *   partner holds it only by an explicit per-merchant grant, never by default.
      * @param paymentLinkNumericId Optional: The numeric ID of the payment link
      * @param transactionId Optional: The numeric ID of the transaction
      * @returns Object containing downloadUrl (preferred) or pdfBase64 (fallback), filename, and message
@@ -77227,6 +78758,130 @@ class FluxComms {
             // Clone security handle for request isolation
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(MarkInvoiceAsPaidRequest, MarkInvoiceAsPaidResponse, "markInvoiceAsPaid", "POST", isolatedHandle, params);
+        });
+    }
+    /**
+     * Save the merchant's own fulfillment assertions (and, on a refund row, the
+     * refund reason) against one transaction — carrier, tracking number, ship
+     * date, delivery date. These are the ONLY merchant-writable chargeback
+     * evidence fields (docs/chargeback-evidence/DESIGN.md 6.2 / 6.8); every
+     * other evidence field is server-written.
+     *
+     * This is a dedicated endpoint rather than a transaction update because
+     * there IS no client-reachable transaction update — the rest of the evidence
+     * columns must not be client-writable. Omit a field to leave it alone; pass
+     * "" to clear it.
+     *
+     * Endpoint string carries no "Web" suffix: CMMT appends it in the browser.
+     */
+    updateTransactionFulfillment(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { UpdateTransactionFulfillmentRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/UpdateTransactionFulfillmentRequest */ "./src/ajax/Requests/UpdateTransactionFulfillmentRequest.ts")));
+            const { UpdateTransactionFulfillmentResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/UpdateTransactionFulfillmentResponse */ "./src/ajax/Responses/UpdateTransactionFulfillmentResponse.ts")));
+            // Clone security handle for request isolation
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(UpdateTransactionFulfillmentRequest, UpdateTransactionFulfillmentResponse, "updateTransactionFulfillment", "POST", isolatedHandle, params);
+        });
+    }
+    /**
+     * Write the merchant's rebuttal on a dispute, and optionally mark the case
+     * responded (docs/chargeback-evidence/DESIGN.md 2.4, 7.3).
+     *
+     * The rebuttal is MANDATORY network content for Visa 13.3 — an argument
+     * answering the cardholder's specific claim, alongside the
+     * matching-description evidence. Before this endpoint the platform had no
+     * free-text dispute response field at all.
+     *
+     * Omit `rebuttalText` to leave it alone, send "" to clear it. `markResponded`
+     * sets RESPONDED and stamps the time; it can never set an OUTCOME — WON /
+     * LOST / EXPIRED come only from the processor's own chargeback report.
+     *
+     * Endpoint string carries no "Web" suffix: CMMT appends it in the browser.
+     */
+    respondToDispute(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { RespondToDisputeRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/RespondToDisputeRequest */ "./src/ajax/Requests/RespondToDisputeRequest.ts")));
+            const { RespondToDisputeResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/RespondToDisputeResponse */ "./src/ajax/Responses/RespondToDisputeResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(RespondToDisputeRequest, RespondToDisputeResponse, "respondToDispute", "POST", isolatedHandle, params);
+        });
+    }
+    /**
+     * STEP 1 of an evidence upload: ask for a short-lived presigned PUT URL
+     * (DESIGN 7.4.1).
+     *
+     * Two steps because these files are forwarded to an acquirer, which makes them
+     * the one part of the evidence packet that leaves the platform as arbitrary
+     * merchant-supplied bytes. The platform's usual one-step upload validates the
+     * file EXTENSION and never looks at the bytes.
+     *
+     * `sizeBytes` is your claim and is not trusted — it only lets an oversized
+     * file be refused before it is uploaded. The real size and the real type are
+     * enforced in {@link confirmEvidenceAttachment}.
+     */
+    uploadEvidenceAttachment(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.evidenceAttachmentCall(Object.assign(Object.assign({}, params), { action: "presign" }));
+        });
+    }
+    /**
+     * STEP 2 of an evidence upload: confirm the bytes that landed.
+     *
+     * The server reads the object, SNIFFS its real type from the magic bytes,
+     * enforces the real size, takes the SHA-256, and copies it into the evidence
+     * store. A file whose contents disagree with its extension is REJECTED, not
+     * corrected.
+     */
+    confirmEvidenceAttachment(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.evidenceAttachmentCall(Object.assign(Object.assign({}, params), { action: "confirm" }));
+        });
+    }
+    evidenceAttachmentCall(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { EvidenceAttachmentRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/EvidenceAttachmentRequest */ "./src/ajax/Requests/EvidenceAttachmentRequest.ts")));
+            const { EvidenceAttachmentResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/EvidenceAttachmentResponse */ "./src/ajax/Responses/EvidenceAttachmentResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(EvidenceAttachmentRequest, EvidenceAttachmentResponse, "uploadEvidenceAttachment", "POST", isolatedHandle, params);
+        });
+    }
+    /**
+     * Detach one evidence file (DESIGN 7.4).
+     *
+     * A REMOVAL, not a deletion: the file drops out of the response bundle, while
+     * the row, the stored object and the custody entry for the original upload all
+     * remain. An evidence set files can silently disappear from is not a chain of
+     * custody.
+     */
+    removeEvidenceAttachment(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { RemoveEvidenceAttachmentRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/RemoveEvidenceAttachmentRequest */ "./src/ajax/Requests/RemoveEvidenceAttachmentRequest.ts")));
+            const { RemoveEvidenceAttachmentResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/RemoveEvidenceAttachmentResponse */ "./src/ajax/Responses/RemoveEvidenceAttachmentResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(RemoveEvidenceAttachmentRequest, RemoveEvidenceAttachmentResponse, "removeEvidenceAttachment", "POST", isolatedHandle, params);
+        });
+    }
+    /**
+     * Assemble and download the Dispute Response Bundle — the single PDF a human
+     * forwards to their acquirer (DESIGN 3.2).
+     *
+     * Built on demand, so it always reflects the evidence uploaded so far. Returns
+     * a short-lived signed `downloadUrl` where the evidence store can be signed,
+     * and `pdfBase64` otherwise. `sha256` is the hash of exactly the bytes handed
+     * over, and `manifest` names every source that went in — including anything
+     * that could not be embedded and has to be supplied separately.
+     *
+     * It has its OWN permission (DISPUTE:READ) rather than riding
+     * downloadInvoiceWeb's INVOICE:READ: the bundle carries the cardholder IP, the
+     * submitted billing address and the card fragment, which is not the same
+     * sensitivity class as an invoice (DESIGN 7.2.1).
+     */
+    getDisputeBundle(disputeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetDisputeBundleRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetDisputeBundleRequest */ "./src/ajax/Requests/GetDisputeBundleRequest.ts")));
+            const { GetDisputeBundleResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetDisputeBundleResponse */ "./src/ajax/Responses/GetDisputeBundleResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetDisputeBundleRequest, GetDisputeBundleResponse, "getDisputeBundle", "POST", isolatedHandle, { disputeId });
         });
     }
     /**
@@ -77297,6 +78952,95 @@ class FluxComms {
     rejectChatActions(messageId) {
         return __awaiter(this, void 0, void 0, function* () {
             return this.approveChatActions(messageId, false);
+        });
+    }
+    // ═══════════════════════════════════════════════════════════════════════
+    // EMBEDDED CARD CAPTURE — save a card on file, without charging it, from a
+    // merchant's OWN site. The embedded equivalent of a Card Capture Form.
+    //
+    // FOUR CALLS, and only the first needs merchant credentials:
+    //
+    //   1. MERCHANT SERVER  flux.createCardCaptureForm({ accountEmail, ... })
+    //                       -> { paymentLink }                       [API keys]
+    //   2. BROWSER          FluxComms.getCardCaptureForm(paymentLink)
+    //                       -> { termsText, customerEmail, ... }     [no keys]
+    //   3. BROWSER          FluxHostedFields.forPaymentLink(paymentLink)
+    //                       ... mount fields ... createToken()
+    //                       -> { token }                             [no keys]
+    //   4. BROWSER          FluxComms.capturePaymentMethod({ paymentLink,
+    //                          cardToken, termsAccepted: true })     [no keys]
+    //
+    // Steps 2-4 are authenticated by the LINK STRING alone, which is why they are
+    // STATIC: they need no authenticated Flux instance, and a merchant's API keys
+    // must never reach a browser. Exactly the shape `exchangeOTPLForSession` and
+    // `getMerchantPublicKeyFromOTPL` already use.
+    //
+    // NO SERVER-SIDE SIBLING EXISTS for steps 2-4 — only the `...Web` registrations
+    // do, and CMMT appends that suffix in the browser. Calling them from Node
+    // resolves to endpoints that do not exist. That is deliberate: see
+    // CapturePaymentMethodRequest for why the consent record needs the browser.
+    //
+    // EXACTLY ONE $0 HOLD, and it is $0: minting the auth token for a card-capture
+    // link tags it `skipCardAuth`, so tokenization skips its own verification and
+    // the capture in step 4 runs the single authoritative establishment auth.
+    // ═══════════════════════════════════════════════════════════════════════
+    /**
+     * STEP 1 — the merchant's SERVER mints a card capture form.
+     *
+     * Reuses the existing `createPaymentLink` API-key registration; card-capture
+     * validation lives in that service keyed on the `isCardCapture` flag, not on which
+     * registration was used. Needs PAYMENT_LINK:CREATE on the key.
+     *
+     * Endpoint string carries no "Web" suffix — CMMT appends it in the browser, where
+     * it correctly resolves to the portal's `createPaymentLinkWeb`.
+     *
+     * Set `emailNotificationDisabled: true` unless you actually want Flux to email the
+     * customer a link to the HOSTED form — which is rarely what an embedded page wants.
+     *
+     * `customerFirstName` and `customerLastName` are REQUIRED when `accountEmail` is a
+     * NEW customer (CreateAccountService rejects a blank name); ignored for an existing
+     * customer or an explicit `accountId`. See CreateCardCaptureFormParams.
+     */
+    createCardCaptureForm(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { CreateCardCaptureFormRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/CreateCardCaptureFormRequest */ "./src/ajax/Requests/CreateCardCaptureFormRequest.ts")));
+            const { CreateCardCaptureFormResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/CreateCardCaptureFormResponse */ "./src/ajax/Responses/CreateCardCaptureFormResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone
+                ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(CreateCardCaptureFormRequest, CreateCardCaptureFormResponse, "createPaymentLink", "POST", isolatedHandle, params);
+        });
+    }
+    /**
+     * STEP 2 — BROWSER ONLY. What the embedded form must display, above all the
+     * `termsText` to render beside the acceptance checkbox.
+     *
+     * That text is produced by the same server-side builder that snapshots the
+     * authorization onto the saved card in step 4, so displayed and recorded cannot
+     * drift. Render it; do not compose your own.
+     */
+    static getCardCaptureForm(paymentLink) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetCardCaptureFormRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetCardCaptureFormRequest */ "./src/ajax/Requests/GetCardCaptureFormRequest.ts")));
+            const { GetCardCaptureFormResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetCardCaptureFormResponse */ "./src/ajax/Responses/GetCardCaptureFormResponse.ts")));
+            return lib_1.CMMT.fetch(GetCardCaptureFormRequest, GetCardCaptureFormResponse, "getCardCaptureForm", "POST", new security_1.GenAuthDataSecurityHandle(), paymentLink);
+        });
+    }
+    /**
+     * STEP 4 — BROWSER ONLY. Save the card on file against the recorded consent.
+     *
+     * `termsAccepted` must be a checkbox the customer actually ticked next to the
+     * `termsText` from step 2. The server refuses anything else — a saved card with no
+     * recorded consent is the one outcome a card capture form exists to prevent.
+     *
+     * Check `authRejected` on the result: with `autoReauthEnabled` on the form, a
+     * declined $0 verification still SAVES the card and returns 200, and the customer
+     * should see a success screen carrying `authRejectionReason`.
+     */
+    static capturePaymentMethod(params) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { CapturePaymentMethodRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/CapturePaymentMethodRequest */ "./src/ajax/Requests/CapturePaymentMethodRequest.ts")));
+            const { CapturePaymentMethodResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/CapturePaymentMethodResponse */ "./src/ajax/Responses/CapturePaymentMethodResponse.ts")));
+            return lib_1.CMMT.fetch(CapturePaymentMethodRequest, CapturePaymentMethodResponse, "capturePaymentMethod", "POST", new security_1.GenAuthDataSecurityHandle(), params);
         });
     }
 }
@@ -77398,6 +79142,8 @@ exports.fluxSocketBrowser = fluxSocketBrowser;
 exports.fluxTokGetter = fluxTokGetter;
 exports.getAccountSessionFromOTPL = getAccountSessionFromOTPL;
 exports.getMerchantPublicKeyFromOTPL = getMerchantPublicKeyFromOTPL;
+exports.getCardCaptureForm = getCardCaptureForm;
+exports.capturePaymentMethod = capturePaymentMethod;
 exports.fluxReactNativeSignInAuthorization = fluxReactNativeSignInAuthorization;
 exports.fluxReactNativeSessionAuthorization = fluxReactNativeSessionAuthorization;
 exports.fluxSendConfirmationEmail = fluxSendConfirmationEmail;
@@ -77786,6 +79532,39 @@ function getAccountSessionFromOTPL(otpl) {
 function getMerchantPublicKeyFromOTPL(otpl) {
     return __awaiter(this, void 0, void 0, function* () {
         return FluxTokenBackend_1.FluxTokenBackend.getMerchantPublicKeyFromOTPL(otpl);
+    });
+}
+// ============================================================================
+// EMBEDDED CARD CAPTURE (BROWSER HALF)
+//
+// A merchant embedding Flux hosted fields on their OWN site saves a card on file
+// without charging it. Steps 2 and 4 of the four-call flow — see the block comment
+// above `createCardCaptureForm` in Flux.ts for the whole sequence.
+//
+// Standalone because they are authenticated by the LINK STRING alone and need no
+// authenticated Flux instance: the merchant's API keys must never reach a browser.
+// Same shape as getAccountSessionFromOTPL / getMerchantPublicKeyFromOTPL above.
+//
+// BROWSER ONLY. CMMT appends "Web" in the browser and these endpoints exist only
+// as `getCardCaptureFormWeb` / `capturePaymentMethodWeb`; from Node the suffix is
+// not appended and the call resolves to nothing. That is intentional — the consent
+// record (accepted-at, IP, user agent) has to describe whoever ticked the box.
+//
+// BOTH are listed in the `Functions` object in index.rn.standalone.ts. They are
+// useless to a browser if they are not: webpack tree-shakes anything that object
+// does not reference straight out of dist_web/lib.js and the call site gets
+// `undefined` with no error (prod incident 2026-07-15, setActAsMerchant).
+// ============================================================================
+/** STEP 2 — the terms text and customer details the embedded form must display. */
+function getCardCaptureForm(paymentLink) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return Flux_1.FluxComms.getCardCaptureForm(paymentLink);
+    });
+}
+/** STEP 4 — save the card on file against the customer's recorded acceptance. */
+function capturePaymentMethod(params) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return Flux_1.FluxComms.capturePaymentMethod(params);
     });
 }
 // ============================================================================
@@ -78492,6 +80271,10 @@ exports.Functions = {
     // and silently becomes `undefined` at runtime (prod incident 2026-07-15: the
     // partner "view as merchant" click died on exactly that).
     setActAsMerchant: FluxEntry_1.setActAsMerchant,
+    // Embedded card capture, browser half (steps 2 and 4). Same tree-shaking rule as
+    // setActAsMerchant above: absent from this object = absent from dist_web/lib.js.
+    getCardCaptureForm: FluxEntry_1.getCardCaptureForm,
+    capturePaymentMethod: FluxEntry_1.capturePaymentMethod,
     Subscription: FluxSockets_1.Subscription,
 };
 exports.FluxTypes = FluxTypesImport;

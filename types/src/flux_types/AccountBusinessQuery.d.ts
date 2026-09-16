@@ -13,6 +13,7 @@ export declare class AccountBusinessQuery extends BaseQuery<AccountBusiness> {
         businessId: number;
         businessName: string;
         accountName: string;
+        accountEmail: string;
     };
     id: number;
     uniqueId: string;
@@ -22,6 +23,7 @@ export declare class AccountBusinessQuery extends BaseQuery<AccountBusiness> {
     businessId: number;
     businessName: string;
     accountName: string;
+    accountEmail: string;
     objectType: string;
     constructor(q?: IAccountBusinessQuery);
 }

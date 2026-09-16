@@ -29,6 +29,9 @@ import { FullTextSearchRequestBody } from "../ajax/Requests/FullTextSearchReques
 import { DashboardTotalsRequestBody } from "../ajax/Requests/DashboardTotalsRequestBody";
 import { DashboardTotalsResponseBody } from "../ajax/Responses/DashboardTotalsResponseBody";
 import { ChngProdInvCntRequest } from "../ajax/Requests/ChngProdInvCntRequest";
+// Type-only: the request class itself is dynamically imported inside
+// downloadInvoiceWeb, so this adds nothing to the bundle.
+import type { DownloadDocumentType } from "../ajax/Requests/DownloadInvoiceWebRequest";
 
 import { GenAuthReq } from "../ajax/Requests/GenAuthReq";
 import { GenAuthRes, CreateSessionResponse, GenericCreatorResponse, GenericGetterResponse, GenericDeleterResponse, GenericUpdaterResponse, UpdateProductResponse, GetMetadataResponse } from "../ajax/Responses";
@@ -564,6 +567,28 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
+    /**
+     * Chargeback-evidence coverage: how much of this merchant's card/ACH volume
+     * actually has a sealed evidence packet behind it, plus open-dispute counts.
+     *
+     * No parameters by design — scope is taken from the session, never the body.
+     * The `merchant` block is always the act-as-resolved merchant; `crossMerchant`
+     * and `merchants` are filled only for a caller the server's PartnerAccessGate
+     * allows (null / empty otherwise, so a plain merchant renders nothing).
+     *
+     * GOTCHA: the portal runs the PREBUILT dist_web/lib.js, so the browser cannot
+     * call this until that bundle is rebuilt — both portal surfaces feature-detect
+     * the method and hide their section when it is absent rather than throwing.
+     */
+    public async getEvidenceCoverage(): Promise<import("../ajax/Responses/GetEvidenceCoverageResponse").EvidenceCoverageResult> {
+        const { GetEvidenceCoverageRequest } = await import("../ajax/Requests/GetEvidenceCoverageRequest");
+        const { GetEvidenceCoverageResponse } = await import("../ajax/Responses/GetEvidenceCoverageResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/GetEvidenceCoverageResponse").EvidenceCoverageResult, typeof GetEvidenceCoverageRequest.prototype, typeof GetEvidenceCoverageResponse.prototype>(
+            GetEvidenceCoverageRequest, GetEvidenceCoverageResponse, "getEvidenceCoverage", "POST", isolatedHandle
+        );
+    }
+
     /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
      *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
      *  Every action returns the fresh full partner list. */
@@ -766,13 +791,25 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
-     * Download invoice or receipt PDF from merchant website
-     * @param documentType "INVOICE" or "RECEIPT" - type of document to download
+     * Download a document for a payment link or transaction from the merchant portal.
+     *
+     * @param documentType One of:
+     *   "INVOICE" | "RECEIPT" | "REFUND" — the customer-facing documents.
+     *   "EVIDENCE" — the sealed chargeback evidence record PDF (requires transactionId).
+     *   "EVIDENCE_JSON" — its machine-readable sidecar, the canonical record.
+     *   "ADDENDUM:<id>" — one later event appended to that record (requires transactionId
+     *   as well, which scopes the lookup).
+     *   Evidence downloads return a 404-class message while a record is still being
+     *   prepared: a sealed record is never re-rendered on demand, so there is no
+     *   inline-generation fallback for them. They are also REFUSED (403) while a
+     *   partner is viewing another merchant's account — the packet carries the
+     *   cardholder's IP, device fingerprint, full addresses and consent text, and a
+     *   partner holds it only by an explicit per-merchant grant, never by default.
      * @param paymentLinkNumericId Optional: The numeric ID of the payment link
      * @param transactionId Optional: The numeric ID of the transaction
      * @returns Object containing downloadUrl (preferred) or pdfBase64 (fallback), filename, and message
      */
-    public async downloadInvoiceWeb(documentType: "INVOICE" | "RECEIPT" | "REFUND" = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): Promise<{ downloadUrl?: string; pdfBase64?: string; filename: string; message: string; compressed?: boolean }> {
+    public async downloadInvoiceWeb(documentType: DownloadDocumentType = "INVOICE", paymentLinkNumericId?: number, transactionId?: number): Promise<{ downloadUrl?: string; pdfBase64?: string; filename: string; message: string; compressed?: boolean }> {
         const { DownloadInvoiceWebRequest } = await import("../ajax/Requests/DownloadInvoiceWebRequest");
         const { DownloadInvoiceResponse } = await import("../ajax/Responses/DownloadInvoiceResponse");
         
@@ -815,6 +852,194 @@ export class FluxComms<A extends SecurityHandler> {
             "POST",
             isolatedHandle,
             params
+        );
+    }
+
+    /**
+     * Save the merchant's own fulfillment assertions (and, on a refund row, the
+     * refund reason) against one transaction — carrier, tracking number, ship
+     * date, delivery date. These are the ONLY merchant-writable chargeback
+     * evidence fields (docs/chargeback-evidence/DESIGN.md 6.2 / 6.8); every
+     * other evidence field is server-written.
+     *
+     * This is a dedicated endpoint rather than a transaction update because
+     * there IS no client-reachable transaction update — the rest of the evidence
+     * columns must not be client-writable. Omit a field to leave it alone; pass
+     * "" to clear it.
+     *
+     * Endpoint string carries no "Web" suffix: CMMT appends it in the browser.
+     */
+    public async updateTransactionFulfillment(params: {
+        transactionId: number;
+        fulfillmentCarrier?: string;
+        fulfillmentTracking?: string;
+        shippedAt?: string;
+        deliveredAt?: string;
+        refundReason?: string;
+    }): Promise<{ transaction: any; message: string; changedFields: string[] }> {
+        const { UpdateTransactionFulfillmentRequest } = await import("../ajax/Requests/UpdateTransactionFulfillmentRequest");
+        const { UpdateTransactionFulfillmentResponse } = await import("../ajax/Responses/UpdateTransactionFulfillmentResponse");
+
+        // Clone security handle for request isolation
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ transaction: any; message: string; changedFields: string[] }, typeof UpdateTransactionFulfillmentRequest.prototype, typeof UpdateTransactionFulfillmentResponse.prototype>(
+            UpdateTransactionFulfillmentRequest,
+            UpdateTransactionFulfillmentResponse,
+            "updateTransactionFulfillment",
+            "POST",
+            isolatedHandle,
+            params
+        );
+    }
+
+    /**
+     * Write the merchant's rebuttal on a dispute, and optionally mark the case
+     * responded (docs/chargeback-evidence/DESIGN.md 2.4, 7.3).
+     *
+     * The rebuttal is MANDATORY network content for Visa 13.3 — an argument
+     * answering the cardholder's specific claim, alongside the
+     * matching-description evidence. Before this endpoint the platform had no
+     * free-text dispute response field at all.
+     *
+     * Omit `rebuttalText` to leave it alone, send "" to clear it. `markResponded`
+     * sets RESPONDED and stamps the time; it can never set an OUTCOME — WON /
+     * LOST / EXPIRED come only from the processor's own chargeback report.
+     *
+     * Endpoint string carries no "Web" suffix: CMMT appends it in the browser.
+     */
+    public async respondToDispute(params: {
+        disputeId: number;
+        rebuttalText?: string;
+        markResponded?: boolean;
+    }): Promise<{ dispute: any; message: string; changedFields: string[] }> {
+        const { RespondToDisputeRequest } = await import("../ajax/Requests/RespondToDisputeRequest");
+        const { RespondToDisputeResponse } = await import("../ajax/Responses/RespondToDisputeResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ dispute: any; message: string; changedFields: string[] }, typeof RespondToDisputeRequest.prototype, typeof RespondToDisputeResponse.prototype>(
+            RespondToDisputeRequest,
+            RespondToDisputeResponse,
+            "respondToDispute",
+            "POST",
+            isolatedHandle,
+            params
+        );
+    }
+
+    /**
+     * STEP 1 of an evidence upload: ask for a short-lived presigned PUT URL
+     * (DESIGN 7.4.1).
+     *
+     * Two steps because these files are forwarded to an acquirer, which makes them
+     * the one part of the evidence packet that leaves the platform as arbitrary
+     * merchant-supplied bytes. The platform's usual one-step upload validates the
+     * file EXTENSION and never looks at the bytes.
+     *
+     * `sizeBytes` is your claim and is not trusted — it only lets an oversized
+     * file be refused before it is uploaded. The real size and the real type are
+     * enforced in {@link confirmEvidenceAttachment}.
+     */
+    public async uploadEvidenceAttachment(params: {
+        transactionId: number;
+        fileName: string;
+        label?: string;
+        sizeBytes?: number;
+        disputeId?: number;
+    }): Promise<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string }> {
+        return this.evidenceAttachmentCall({ ...params, action: "presign" });
+    }
+
+    /**
+     * STEP 2 of an evidence upload: confirm the bytes that landed.
+     *
+     * The server reads the object, SNIFFS its real type from the magic bytes,
+     * enforces the real size, takes the SHA-256, and copies it into the evidence
+     * store. A file whose contents disagree with its extension is REJECTED, not
+     * corrected.
+     */
+    public async confirmEvidenceAttachment(params: {
+        transactionId: number;
+        fileName: string;
+        uploadKey: string;
+        label?: string;
+        disputeId?: number;
+    }): Promise<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string }> {
+        return this.evidenceAttachmentCall({ ...params, action: "confirm" });
+    }
+
+    private async evidenceAttachmentCall(params: any): Promise<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string }> {
+        const { EvidenceAttachmentRequest } = await import("../ajax/Requests/EvidenceAttachmentRequest");
+        const { EvidenceAttachmentResponse } = await import("../ajax/Responses/EvidenceAttachmentResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string }, typeof EvidenceAttachmentRequest.prototype, typeof EvidenceAttachmentResponse.prototype>(
+            EvidenceAttachmentRequest,
+            EvidenceAttachmentResponse,
+            "uploadEvidenceAttachment",
+            "POST",
+            isolatedHandle,
+            params
+        );
+    }
+
+    /**
+     * Detach one evidence file (DESIGN 7.4).
+     *
+     * A REMOVAL, not a deletion: the file drops out of the response bundle, while
+     * the row, the stored object and the custody entry for the original upload all
+     * remain. An evidence set files can silently disappear from is not a chain of
+     * custody.
+     */
+    public async removeEvidenceAttachment(params: {
+        attachmentId: number;
+        reason?: string;
+    }): Promise<{ attachment: any; message: string }> {
+        const { RemoveEvidenceAttachmentRequest } = await import("../ajax/Requests/RemoveEvidenceAttachmentRequest");
+        const { RemoveEvidenceAttachmentResponse } = await import("../ajax/Responses/RemoveEvidenceAttachmentResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ attachment: any; message: string }, typeof RemoveEvidenceAttachmentRequest.prototype, typeof RemoveEvidenceAttachmentResponse.prototype>(
+            RemoveEvidenceAttachmentRequest,
+            RemoveEvidenceAttachmentResponse,
+            "removeEvidenceAttachment",
+            "POST",
+            isolatedHandle,
+            params
+        );
+    }
+
+    /**
+     * Assemble and download the Dispute Response Bundle — the single PDF a human
+     * forwards to their acquirer (DESIGN 3.2).
+     *
+     * Built on demand, so it always reflects the evidence uploaded so far. Returns
+     * a short-lived signed `downloadUrl` where the evidence store can be signed,
+     * and `pdfBase64` otherwise. `sha256` is the hash of exactly the bytes handed
+     * over, and `manifest` names every source that went in — including anything
+     * that could not be embedded and has to be supplied separately.
+     *
+     * It has its OWN permission (DISPUTE:READ) rather than riding
+     * downloadInvoiceWeb's INVOICE:READ: the bundle carries the cardholder IP, the
+     * submitted billing address and the card fragment, which is not the same
+     * sensitivity class as an invoice (DESIGN 7.2.1).
+     */
+    public async getDisputeBundle(disputeId: number): Promise<{ downloadUrl?: string; pdfBase64?: string; filename: string; sha256?: string; sizeBytes?: number; manifest: string[]; message: string }> {
+        const { GetDisputeBundleRequest } = await import("../ajax/Requests/GetDisputeBundleRequest");
+        const { GetDisputeBundleResponse } = await import("../ajax/Responses/GetDisputeBundleResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<{ downloadUrl?: string; pdfBase64?: string; filename: string; sha256?: string; sizeBytes?: number; manifest: string[]; message: string }, typeof GetDisputeBundleRequest.prototype, typeof GetDisputeBundleResponse.prototype>(
+            GetDisputeBundleRequest,
+            GetDisputeBundleResponse,
+            "getDisputeBundle",
+            "POST",
+            isolatedHandle,
+            { disputeId }
         );
     }
 
@@ -961,6 +1186,127 @@ export class FluxComms<A extends SecurityHandler> {
         messageId: number; todoList: string; createdObjects: string; completionMessage: string;
     }> {
         return this.approveChatActions(messageId, false);
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // EMBEDDED CARD CAPTURE — save a card on file, without charging it, from a
+    // merchant's OWN site. The embedded equivalent of a Card Capture Form.
+    //
+    // FOUR CALLS, and only the first needs merchant credentials:
+    //
+    //   1. MERCHANT SERVER  flux.createCardCaptureForm({ accountEmail, ... })
+    //                       -> { paymentLink }                       [API keys]
+    //   2. BROWSER          FluxComms.getCardCaptureForm(paymentLink)
+    //                       -> { termsText, customerEmail, ... }     [no keys]
+    //   3. BROWSER          FluxHostedFields.forPaymentLink(paymentLink)
+    //                       ... mount fields ... createToken()
+    //                       -> { token }                             [no keys]
+    //   4. BROWSER          FluxComms.capturePaymentMethod({ paymentLink,
+    //                          cardToken, termsAccepted: true })     [no keys]
+    //
+    // Steps 2-4 are authenticated by the LINK STRING alone, which is why they are
+    // STATIC: they need no authenticated Flux instance, and a merchant's API keys
+    // must never reach a browser. Exactly the shape `exchangeOTPLForSession` and
+    // `getMerchantPublicKeyFromOTPL` already use.
+    //
+    // NO SERVER-SIDE SIBLING EXISTS for steps 2-4 — only the `...Web` registrations
+    // do, and CMMT appends that suffix in the browser. Calling them from Node
+    // resolves to endpoints that do not exist. That is deliberate: see
+    // CapturePaymentMethodRequest for why the consent record needs the browser.
+    //
+    // EXACTLY ONE $0 HOLD, and it is $0: minting the auth token for a card-capture
+    // link tags it `skipCardAuth`, so tokenization skips its own verification and
+    // the capture in step 4 runs the single authoritative establishment auth.
+    // ═══════════════════════════════════════════════════════════════════════
+
+    /**
+     * STEP 1 — the merchant's SERVER mints a card capture form.
+     *
+     * Reuses the existing `createPaymentLink` API-key registration; card-capture
+     * validation lives in that service keyed on the `isCardCapture` flag, not on which
+     * registration was used. Needs PAYMENT_LINK:CREATE on the key.
+     *
+     * Endpoint string carries no "Web" suffix — CMMT appends it in the browser, where
+     * it correctly resolves to the portal's `createPaymentLinkWeb`.
+     *
+     * Set `emailNotificationDisabled: true` unless you actually want Flux to email the
+     * customer a link to the HOSTED form — which is rarely what an embedded page wants.
+     *
+     * `customerFirstName` and `customerLastName` are REQUIRED when `accountEmail` is a
+     * NEW customer (CreateAccountService rejects a blank name); ignored for an existing
+     * customer or an explicit `accountId`. See CreateCardCaptureFormParams.
+     */
+    public async createCardCaptureForm(
+        params: import("../ajax/Requests/CreateCardCaptureFormRequest").CreateCardCaptureFormParams
+    ): Promise<import("../ajax/Responses/CreateCardCaptureFormResponse").CreateCardCaptureFormResult> {
+        const { CreateCardCaptureFormRequest } = await import("../ajax/Requests/CreateCardCaptureFormRequest");
+        const { CreateCardCaptureFormResponse } = await import("../ajax/Responses/CreateCardCaptureFormResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone
+            ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<import("../ajax/Responses/CreateCardCaptureFormResponse").CreateCardCaptureFormResult,
+                typeof CreateCardCaptureFormRequest.prototype, typeof CreateCardCaptureFormResponse.prototype>(
+            CreateCardCaptureFormRequest,
+            CreateCardCaptureFormResponse,
+            "createPaymentLink",
+            "POST",
+            isolatedHandle,
+            params
+        );
+    }
+
+    /**
+     * STEP 2 — BROWSER ONLY. What the embedded form must display, above all the
+     * `termsText` to render beside the acceptance checkbox.
+     *
+     * That text is produced by the same server-side builder that snapshots the
+     * authorization onto the saved card in step 4, so displayed and recorded cannot
+     * drift. Render it; do not compose your own.
+     */
+    public static async getCardCaptureForm(
+        paymentLink: string
+    ): Promise<import("../ajax/Responses/GetCardCaptureFormResponse").GetCardCaptureFormResult> {
+        const { GetCardCaptureFormRequest } = await import("../ajax/Requests/GetCardCaptureFormRequest");
+        const { GetCardCaptureFormResponse } = await import("../ajax/Responses/GetCardCaptureFormResponse");
+
+        return CMMT.fetch<import("../ajax/Responses/GetCardCaptureFormResponse").GetCardCaptureFormResult,
+                typeof GetCardCaptureFormRequest.prototype, typeof GetCardCaptureFormResponse.prototype>(
+            GetCardCaptureFormRequest,
+            GetCardCaptureFormResponse,
+            "getCardCaptureForm",
+            "POST",
+            new GenAuthDataSecurityHandle(),
+            paymentLink
+        );
+    }
+
+    /**
+     * STEP 4 — BROWSER ONLY. Save the card on file against the recorded consent.
+     *
+     * `termsAccepted` must be a checkbox the customer actually ticked next to the
+     * `termsText` from step 2. The server refuses anything else — a saved card with no
+     * recorded consent is the one outcome a card capture form exists to prevent.
+     *
+     * Check `authRejected` on the result: with `autoReauthEnabled` on the form, a
+     * declined $0 verification still SAVES the card and returns 200, and the customer
+     * should see a success screen carrying `authRejectionReason`.
+     */
+    public static async capturePaymentMethod(
+        params: import("../ajax/Requests/CapturePaymentMethodRequest").CapturePaymentMethodParams
+    ): Promise<import("../ajax/Responses/CapturePaymentMethodResponse").CapturePaymentMethodResult> {
+        const { CapturePaymentMethodRequest } = await import("../ajax/Requests/CapturePaymentMethodRequest");
+        const { CapturePaymentMethodResponse } = await import("../ajax/Responses/CapturePaymentMethodResponse");
+
+        return CMMT.fetch<import("../ajax/Responses/CapturePaymentMethodResponse").CapturePaymentMethodResult,
+                typeof CapturePaymentMethodRequest.prototype, typeof CapturePaymentMethodResponse.prototype>(
+            CapturePaymentMethodRequest,
+            CapturePaymentMethodResponse,
+            "capturePaymentMethod",
+            "POST",
+            new GenAuthDataSecurityHandle(),
+            params
+        );
     }
 }
 

@@ -14,7 +14,8 @@ export class AccountBusinessQuery extends BaseQuery<AccountBusiness> {
             accountId: this.accountId,
             businessId: this.businessId,
             businessName: this.businessName,
-            accountName: this.accountName
+            accountName: this.accountName,
+            accountEmail: this.accountEmail
         };
     }
 
@@ -26,6 +27,7 @@ export class AccountBusinessQuery extends BaseQuery<AccountBusiness> {
     businessId: number;
     businessName: string;
     accountName: string;
+    accountEmail: string;
     objectType: string = "account_business";
 
     public constructor(q?: IAccountBusinessQuery) {

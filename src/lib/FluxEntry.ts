@@ -564,6 +564,46 @@ export async function getMerchantPublicKeyFromOTPL(
 }
 
 // ============================================================================
+// EMBEDDED CARD CAPTURE (BROWSER HALF)
+//
+// A merchant embedding Flux hosted fields on their OWN site saves a card on file
+// without charging it. Steps 2 and 4 of the four-call flow — see the block comment
+// above `createCardCaptureForm` in Flux.ts for the whole sequence.
+//
+// Standalone because they are authenticated by the LINK STRING alone and need no
+// authenticated Flux instance: the merchant's API keys must never reach a browser.
+// Same shape as getAccountSessionFromOTPL / getMerchantPublicKeyFromOTPL above.
+//
+// BROWSER ONLY. CMMT appends "Web" in the browser and these endpoints exist only
+// as `getCardCaptureFormWeb` / `capturePaymentMethodWeb`; from Node the suffix is
+// not appended and the call resolves to nothing. That is intentional — the consent
+// record (accepted-at, IP, user agent) has to describe whoever ticked the box.
+//
+// BOTH are listed in the `Functions` object in index.rn.standalone.ts. They are
+// useless to a browser if they are not: webpack tree-shakes anything that object
+// does not reference straight out of dist_web/lib.js and the call site gets
+// `undefined` with no error (prod incident 2026-07-15, setActAsMerchant).
+// ============================================================================
+
+/** STEP 2 — the terms text and customer details the embedded form must display. */
+export async function getCardCaptureForm(
+  paymentLink: string
+): Promise<
+  import("../ajax/Responses/GetCardCaptureFormResponse").GetCardCaptureFormResult
+> {
+  return FluxComms.getCardCaptureForm(paymentLink);
+}
+
+/** STEP 4 — save the card on file against the customer's recorded acceptance. */
+export async function capturePaymentMethod(
+  params: import("../ajax/Requests/CapturePaymentMethodRequest").CapturePaymentMethodParams
+): Promise<
+  import("../ajax/Responses/CapturePaymentMethodResponse").CapturePaymentMethodResult
+> {
+  return FluxComms.capturePaymentMethod(params);
+}
+
+// ============================================================================
 // REACT NATIVE FUNCTIONS
 // ============================================================================
 

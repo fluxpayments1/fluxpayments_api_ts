@@ -25,4 +25,8 @@ export interface ICustomerSensitiveData {
     transactionId?: number;
     approvalStatus?: string;
     processorError?: string;
+    /** True when the customer ticked the ACH authorization box. */
+    achAuthAccepted?: boolean;
+    /** The exact ACH authorization text that was displayed and accepted. */
+    achAuthText?: string;
 }

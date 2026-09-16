@@ -97,6 +97,10 @@ export declare function fluxSocketBrowser(secHandle: WebsiteSecurityHandle): Pro
 export declare function fluxTokGetter(): FluxComms<import("../ajax/security/SecurityHandler").SecurityHandler>;
 export declare function getAccountSessionFromOTPL(otpl: string): Promise<CreateSessionResponse>;
 export declare function getMerchantPublicKeyFromOTPL(otpl: string): Promise<CreateSessionResponse>;
+/** STEP 2 — the terms text and customer details the embedded form must display. */
+export declare function getCardCaptureForm(paymentLink: string): Promise<import("../ajax/Responses/GetCardCaptureFormResponse").GetCardCaptureFormResult>;
+/** STEP 4 — save the card on file against the customer's recorded acceptance. */
+export declare function capturePaymentMethod(params: import("../ajax/Requests/CapturePaymentMethodRequest").CapturePaymentMethodParams): Promise<import("../ajax/Responses/CapturePaymentMethodResponse").CapturePaymentMethodResult>;
 /**
  * React Native Sign-In Authorization
  *

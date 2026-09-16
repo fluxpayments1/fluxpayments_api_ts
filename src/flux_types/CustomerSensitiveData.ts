@@ -58,7 +58,11 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
             shippingAddressId: this.shippingAddressId,
             objectType: this.objectType,
             oneTimeUseToken: this.oneTimeUseToken,
-            transactionId: this.transactionId
+            transactionId: this.transactionId,
+            // ACH authorization evidence — the server stamps accepted-at, the
+            // text hash, the IP and the user agent itself.
+            achAuthAccepted: this.achAuthAccepted,
+            achAuthText: this.achAuthText
         }
     }
 
@@ -86,6 +90,10 @@ export class CustomerSensitiveData extends FluxType implements ICustomerSensitiv
     zipCode: string;
     transactionId: number;
     processorError: string; // Last decline error, if any
+    /** True when the customer ticked the ACH authorization box. */
+    achAuthAccepted?: boolean;
+    /** The exact ACH authorization text that was displayed and accepted. */
+    achAuthText?: string;
     objectType: string = "customer_sensitive_data";
 
 

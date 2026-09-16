@@ -46,6 +46,8 @@ import {
   fluxWebsiteSignUp,
   fluxSocketBrowser,
   setActAsMerchant,
+  getCardCaptureForm,
+  capturePaymentMethod,
 } from './FluxEntry';
 
 
@@ -94,6 +96,10 @@ export const Functions = {
   // and silently becomes `undefined` at runtime (prod incident 2026-07-15: the
   // partner "view as merchant" click died on exactly that).
   setActAsMerchant,
+  // Embedded card capture, browser half (steps 2 and 4). Same tree-shaking rule as
+  // setActAsMerchant above: absent from this object = absent from dist_web/lib.js.
+  getCardCaptureForm,
+  capturePaymentMethod,
   Subscription,
 };
 

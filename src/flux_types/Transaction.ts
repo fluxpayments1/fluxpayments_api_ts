@@ -93,6 +93,35 @@ export class Transaction extends FluxType implements ITransaction {
     id: number;
     oneTimeUseToken?: string;
     accountSession?: string;
+
+    // ── Checkout consent carriers — REQUEST-HOP ONLY, chargeback evidence ──
+    //
+    // WHY THEY EXIST. One OTPL checkout reaches the backend down two different
+    // endpoints. A TYPED card goes through createPaymentIntentWeb, whose request
+    // object carries the consent payload. A SAVED CARD / SAVED BANK posts THIS
+    // object to createTransactionInstanceSafeWeb — which had no vehicle for the
+    // same seven facts, so that half of the checkout recorded none of them and
+    // its sealed evidence record denied an emailed verification the platform
+    // actually held.
+    //
+    // WHY THE PREFIX. deviceFingerprint / checkoutSessionId further down this
+    // class are SERVER-WRITTEN evidence columns on the TRANSACTION row; a carrier
+    // sharing either name would deserialize straight onto them server-side, which
+    // makes a server-written column client-settable. Prefixing five of the seven
+    // and not the other two is how the wrong one eventually gets bound, so all
+    // seven carry it.
+    //
+    // These are in serialize() BECAUSE THEY MUST BE SENT. The OTPL runs the
+    // PREBUILT dist_web/lib.js, so this file changing is not enough on its own —
+    // the SDK bundle has to be rebuilt or the fields silently never arrive.
+    consentTermsAccepted?: boolean;
+    consentTermsTextSnapshot?: string;
+    consentRefundPolicySnapshot?: string;
+    consentRecurringAuthAccepted?: boolean;
+    consentRecurringAuthText?: string;
+    consentDeviceFingerprint?: string;
+    consentCheckoutSessionId?: string;
+
     hasBeenSyncedToQuickbooks?: boolean;
     quickbooksTransactionId?: string;
     quickbooksSyncDate?: number;
@@ -326,6 +355,16 @@ export class Transaction extends FluxType implements ITransaction {
             baseTransaction: this.baseTransaction,
             accountSession: this.accountSession,
             oneTimeUseToken: this.oneTimeUseToken,
+            // Checkout consent carriers — see the block comment on the fields.
+            // Request-hop only: the backend reads them off @Transient carriers and
+            // never persists them under these names.
+            consentTermsAccepted: this.consentTermsAccepted,
+            consentTermsTextSnapshot: this.consentTermsTextSnapshot,
+            consentRefundPolicySnapshot: this.consentRefundPolicySnapshot,
+            consentRecurringAuthAccepted: this.consentRecurringAuthAccepted,
+            consentRecurringAuthText: this.consentRecurringAuthText,
+            consentDeviceFingerprint: this.consentDeviceFingerprint,
+            consentCheckoutSessionId: this.consentCheckoutSessionId,
             transactionType: this.transactionType,
             createdAt: this.createdAt,
             currency: this.currency,
@@ -346,7 +385,15 @@ export class Transaction extends FluxType implements ITransaction {
             customerLastName: this.customerLastName,
             customerPhone: this.customerPhone,
             processorError: this.processorError,
-            gatewayResponse: this.gatewayResponse
+            gatewayResponse: this.gatewayResponse,
+            // ---- Chargeback evidence: the ONLY merchant-writable fields ----
+            // Every other evidence field is server-written and deliberately
+            // absent from serialize() so a portal edit can never send it.
+            fulfillmentCarrier: this.fulfillmentCarrier,
+            fulfillmentTracking: this.fulfillmentTracking,
+            shippedAt: this.shippedAt,
+            deliveredAt: this.deliveredAt,
+            refundReason: this.refundReason
         };
     }
 
@@ -356,5 +403,70 @@ export class Transaction extends FluxType implements ITransaction {
     customerPhone: string;
     processorError: string;
     gatewayResponse: string;
+
+    // ---- Chargeback evidence (2026-09-11) --------------------------------
+    // READ-ONLY unless flagged MERCHANT-EDITABLE. Read-only fields are not in
+    // serialize(), so they can never be sent back up by a portal edit.
+
+    /** PCI-permitted truncation only — last four digits, never a full PAN. */
+    cardLastFour?: string;
+    /** PCI-permitted truncation only — BIN (first six), never a full PAN. */
+    cardBin?: string;
+
+    // Gateway / network identifiers off the authorization response
+    approvalCode?: string;
+    avsCode?: string;
+    cvvResult?: string;
+    /**
+     * Stored-credential chaining anchor for this charge. Server-written; it
+     * became a mapped column with the chargeback-evidence work (it was a
+     * request-hop-only value before).
+     */
+    networkTransactionId?: string;
+    retrievalReferenceNumber?: string;
+    reconciliationId?: string;
+    gatewayRequestId?: string;
+    commerceIndicator?: string;
+    initiatorType?: string;
+    credentialStoredOnFile?: string;
+    storedCredentialUsed?: boolean;
+    previousTransactionIdSent?: string;
+    entryMethod?: string;
+
+    // Customer context + consent evidence captured at checkout
+    customerUserAgent?: string;
+    customerAcceptLanguage?: string;
+    deviceFingerprint?: string;
+    checkoutSessionId?: string;
+    termsAcceptedAt?: number;
+    termsTextHash?: string;
+    refundPolicyHash?: string;
+    recurringAuthAcceptedAt?: number;
+    achAuthAcceptedAt?: number;
+    emailVerifiedAt?: number;
+    /** JSON: line1,line2,city,state,zip,country,placeId,lat,lng */
+    billingAddressSnapshot?: string;
+
+    /** MERCHANT-EDITABLE. Shipping carrier for fulfillment proof. */
+    fulfillmentCarrier?: string;
+    /** MERCHANT-EDITABLE. Tracking number for fulfillment proof. */
+    fulfillmentTracking?: string;
+    /** MERCHANT-EDITABLE. When the order shipped. */
+    shippedAt?: number;
+    /** MERCHANT-EDITABLE. When the order was delivered. */
+    deliveredAt?: number;
+    /** MERCHANT-EDITABLE. Set on REFUND rows. */
+    refundReason?: string;
+
+    // Sealed evidence packet pointers (server-written)
+    evidencePacketS3Key?: string;
+    evidencePacketJsonS3Key?: string;
+    evidencePacketSha256?: string;
+    evidencePacketSealedAt?: number;
+    evidencePacketVersion?: number;
+    /** PENDING | SEALED | FAILED | BACKFILL */
+    evidencePacketStatus?: string;
+    evidenceRetainUntil?: number;
+    evidenceLegalHold?: boolean;
 
 }

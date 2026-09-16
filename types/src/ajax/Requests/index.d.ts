@@ -26,3 +26,8 @@ export { ResendTransactionEmailRequest } from "./ResendTransactionEmailRequest";
 export { ResendPaymentRequestRequest } from "./ResendPaymentRequestRequest";
 export { SendInvoiceEmailRequest } from "./SendInvoiceEmailRequest";
 export { DownloadInvoiceRequest } from "./DownloadInvoiceRequest";
+export { CreatePaymentIntentRequest, CreatePaymentIntentParams } from "./CreatePaymentIntentRequest";
+export { GenerateCardTokenRequest, GenerateCardTokenParams } from "./GenerateCardTokenRequest";
+export { CreateCardCaptureFormRequest, CreateCardCaptureFormParams } from "./CreateCardCaptureFormRequest";
+export { GetCardCaptureFormRequest } from "./GetCardCaptureFormRequest";
+export { CapturePaymentMethodRequest, CapturePaymentMethodParams } from "./CapturePaymentMethodRequest";

@@ -55,6 +55,13 @@ export declare class Transaction extends FluxType implements ITransaction {
     id: number;
     oneTimeUseToken?: string;
     accountSession?: string;
+    consentTermsAccepted?: boolean;
+    consentTermsTextSnapshot?: string;
+    consentRefundPolicySnapshot?: string;
+    consentRecurringAuthAccepted?: boolean;
+    consentRecurringAuthText?: string;
+    consentDeviceFingerprint?: string;
+    consentCheckoutSessionId?: string;
     hasBeenSyncedToQuickbooks?: boolean;
     quickbooksTransactionId?: string;
     quickbooksSyncDate?: number;
@@ -167,6 +174,13 @@ export declare class Transaction extends FluxType implements ITransaction {
         baseTransaction: number;
         accountSession: string;
         oneTimeUseToken: string;
+        consentTermsAccepted: boolean;
+        consentTermsTextSnapshot: string;
+        consentRefundPolicySnapshot: string;
+        consentRecurringAuthAccepted: boolean;
+        consentRecurringAuthText: string;
+        consentDeviceFingerprint: string;
+        consentCheckoutSessionId: string;
         transactionType: string;
         createdAt: number;
         currency: string;
@@ -188,6 +202,11 @@ export declare class Transaction extends FluxType implements ITransaction {
         customerPhone: string;
         processorError: string;
         gatewayResponse: string;
+        fulfillmentCarrier: string;
+        fulfillmentTracking: string;
+        shippedAt: number;
+        deliveredAt: number;
+        refundReason: string;
     };
     customerEmail: string;
     customerFirstName: string;
@@ -195,4 +214,57 @@ export declare class Transaction extends FluxType implements ITransaction {
     customerPhone: string;
     processorError: string;
     gatewayResponse: string;
+    /** PCI-permitted truncation only — last four digits, never a full PAN. */
+    cardLastFour?: string;
+    /** PCI-permitted truncation only — BIN (first six), never a full PAN. */
+    cardBin?: string;
+    approvalCode?: string;
+    avsCode?: string;
+    cvvResult?: string;
+    /**
+     * Stored-credential chaining anchor for this charge. Server-written; it
+     * became a mapped column with the chargeback-evidence work (it was a
+     * request-hop-only value before).
+     */
+    networkTransactionId?: string;
+    retrievalReferenceNumber?: string;
+    reconciliationId?: string;
+    gatewayRequestId?: string;
+    commerceIndicator?: string;
+    initiatorType?: string;
+    credentialStoredOnFile?: string;
+    storedCredentialUsed?: boolean;
+    previousTransactionIdSent?: string;
+    entryMethod?: string;
+    customerUserAgent?: string;
+    customerAcceptLanguage?: string;
+    deviceFingerprint?: string;
+    checkoutSessionId?: string;
+    termsAcceptedAt?: number;
+    termsTextHash?: string;
+    refundPolicyHash?: string;
+    recurringAuthAcceptedAt?: number;
+    achAuthAcceptedAt?: number;
+    emailVerifiedAt?: number;
+    /** JSON: line1,line2,city,state,zip,country,placeId,lat,lng */
+    billingAddressSnapshot?: string;
+    /** MERCHANT-EDITABLE. Shipping carrier for fulfillment proof. */
+    fulfillmentCarrier?: string;
+    /** MERCHANT-EDITABLE. Tracking number for fulfillment proof. */
+    fulfillmentTracking?: string;
+    /** MERCHANT-EDITABLE. When the order shipped. */
+    shippedAt?: number;
+    /** MERCHANT-EDITABLE. When the order was delivered. */
+    deliveredAt?: number;
+    /** MERCHANT-EDITABLE. Set on REFUND rows. */
+    refundReason?: string;
+    evidencePacketS3Key?: string;
+    evidencePacketJsonS3Key?: string;
+    evidencePacketSha256?: string;
+    evidencePacketSealedAt?: number;
+    evidencePacketVersion?: number;
+    /** PENDING | SEALED | FAILED | BACKFILL */
+    evidencePacketStatus?: string;
+    evidenceRetainUntil?: number;
+    evidenceLegalHold?: boolean;
 }

@@ -24,6 +24,8 @@ export declare class CustomerSensitiveData extends FluxType implements ICustomer
         objectType: string;
         oneTimeUseToken: string;
         transactionId: number;
+        achAuthAccepted: boolean;
+        achAuthText: string;
     };
     lastFour: string;
     token: string;
@@ -49,6 +51,10 @@ export declare class CustomerSensitiveData extends FluxType implements ICustomer
     zipCode: string;
     transactionId: number;
     processorError: string;
+    /** True when the customer ticked the ACH authorization box. */
+    achAuthAccepted?: boolean;
+    /** The exact ACH authorization text that was displayed and accepted. */
+    achAuthText?: string;
     objectType: string;
     constructor(c?: Partial<ICustomerSensitiveData>);
     static createInstanceLazy(acc: Partial<ICustomerSensitiveData>): Promise<CustomerSensitiveData>;

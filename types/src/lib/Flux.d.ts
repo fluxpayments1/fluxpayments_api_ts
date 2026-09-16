@@ -1,3 +1,4 @@
+import type { DownloadDocumentType } from "../ajax/Requests/DownloadInvoiceWebRequest";
 import { CreateSessionResponse } from "../ajax/Responses";
 import { SecurityHandler } from "../ajax/security";
 import { FluxIdentifier, Product } from "../flux_types";
@@ -112,6 +113,20 @@ export declare class FluxComms<A extends SecurityHandler> {
         errorMsg?: string;
     }>;
     getPartnerDashboard(range?: string, probe?: boolean): Promise<import("../ajax/Responses/GetPartnerDashboardResponse").PartnerDashboardResult>;
+    /**
+     * Chargeback-evidence coverage: how much of this merchant's card/ACH volume
+     * actually has a sealed evidence packet behind it, plus open-dispute counts.
+     *
+     * No parameters by design — scope is taken from the session, never the body.
+     * The `merchant` block is always the act-as-resolved merchant; `crossMerchant`
+     * and `merchants` are filled only for a caller the server's PartnerAccessGate
+     * allows (null / empty otherwise, so a plain merchant renders nothing).
+     *
+     * GOTCHA: the portal runs the PREBUILT dist_web/lib.js, so the browser cannot
+     * call this until that bundle is rebuilt — both portal surfaces feature-detect
+     * the method and hide their section when it is absent rather than throwing.
+     */
+    getEvidenceCoverage(): Promise<import("../ajax/Responses/GetEvidenceCoverageResponse").EvidenceCoverageResult>;
     /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
      *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
      *  Every action returns the fresh full partner list. */
@@ -186,13 +201,25 @@ export declare class FluxComms<A extends SecurityHandler> {
         compressed?: boolean;
     }>;
     /**
-     * Download invoice or receipt PDF from merchant website
-     * @param documentType "INVOICE" or "RECEIPT" - type of document to download
+     * Download a document for a payment link or transaction from the merchant portal.
+     *
+     * @param documentType One of:
+     *   "INVOICE" | "RECEIPT" | "REFUND" — the customer-facing documents.
+     *   "EVIDENCE" — the sealed chargeback evidence record PDF (requires transactionId).
+     *   "EVIDENCE_JSON" — its machine-readable sidecar, the canonical record.
+     *   "ADDENDUM:<id>" — one later event appended to that record (requires transactionId
+     *   as well, which scopes the lookup).
+     *   Evidence downloads return a 404-class message while a record is still being
+     *   prepared: a sealed record is never re-rendered on demand, so there is no
+     *   inline-generation fallback for them. They are also REFUSED (403) while a
+     *   partner is viewing another merchant's account — the packet carries the
+     *   cardholder's IP, device fingerprint, full addresses and consent text, and a
+     *   partner holds it only by an explicit per-merchant grant, never by default.
      * @param paymentLinkNumericId Optional: The numeric ID of the payment link
      * @param transactionId Optional: The numeric ID of the transaction
      * @returns Object containing downloadUrl (preferred) or pdfBase64 (fallback), filename, and message
      */
-    downloadInvoiceWeb(documentType?: "INVOICE" | "RECEIPT" | "REFUND", paymentLinkNumericId?: number, transactionId?: number): Promise<{
+    downloadInvoiceWeb(documentType?: DownloadDocumentType, paymentLinkNumericId?: number, transactionId?: number): Promise<{
         downloadUrl?: string;
         pdfBase64?: string;
         filename: string;
@@ -211,6 +238,141 @@ export declare class FluxComms<A extends SecurityHandler> {
         notes?: string;
     }): Promise<{
         transaction: any;
+        message: string;
+    }>;
+    /**
+     * Save the merchant's own fulfillment assertions (and, on a refund row, the
+     * refund reason) against one transaction — carrier, tracking number, ship
+     * date, delivery date. These are the ONLY merchant-writable chargeback
+     * evidence fields (docs/chargeback-evidence/DESIGN.md 6.2 / 6.8); every
+     * other evidence field is server-written.
+     *
+     * This is a dedicated endpoint rather than a transaction update because
+     * there IS no client-reachable transaction update — the rest of the evidence
+     * columns must not be client-writable. Omit a field to leave it alone; pass
+     * "" to clear it.
+     *
+     * Endpoint string carries no "Web" suffix: CMMT appends it in the browser.
+     */
+    updateTransactionFulfillment(params: {
+        transactionId: number;
+        fulfillmentCarrier?: string;
+        fulfillmentTracking?: string;
+        shippedAt?: string;
+        deliveredAt?: string;
+        refundReason?: string;
+    }): Promise<{
+        transaction: any;
+        message: string;
+        changedFields: string[];
+    }>;
+    /**
+     * Write the merchant's rebuttal on a dispute, and optionally mark the case
+     * responded (docs/chargeback-evidence/DESIGN.md 2.4, 7.3).
+     *
+     * The rebuttal is MANDATORY network content for Visa 13.3 — an argument
+     * answering the cardholder's specific claim, alongside the
+     * matching-description evidence. Before this endpoint the platform had no
+     * free-text dispute response field at all.
+     *
+     * Omit `rebuttalText` to leave it alone, send "" to clear it. `markResponded`
+     * sets RESPONDED and stamps the time; it can never set an OUTCOME — WON /
+     * LOST / EXPIRED come only from the processor's own chargeback report.
+     *
+     * Endpoint string carries no "Web" suffix: CMMT appends it in the browser.
+     */
+    respondToDispute(params: {
+        disputeId: number;
+        rebuttalText?: string;
+        markResponded?: boolean;
+    }): Promise<{
+        dispute: any;
+        message: string;
+        changedFields: string[];
+    }>;
+    /**
+     * STEP 1 of an evidence upload: ask for a short-lived presigned PUT URL
+     * (DESIGN 7.4.1).
+     *
+     * Two steps because these files are forwarded to an acquirer, which makes them
+     * the one part of the evidence packet that leaves the platform as arbitrary
+     * merchant-supplied bytes. The platform's usual one-step upload validates the
+     * file EXTENSION and never looks at the bytes.
+     *
+     * `sizeBytes` is your claim and is not trusted — it only lets an oversized
+     * file be refused before it is uploaded. The real size and the real type are
+     * enforced in {@link confirmEvidenceAttachment}.
+     */
+    uploadEvidenceAttachment(params: {
+        transactionId: number;
+        fileName: string;
+        label?: string;
+        sizeBytes?: number;
+        disputeId?: number;
+    }): Promise<{
+        uploadUrl?: string;
+        uploadKey?: string;
+        attachment?: any;
+        message: string;
+    }>;
+    /**
+     * STEP 2 of an evidence upload: confirm the bytes that landed.
+     *
+     * The server reads the object, SNIFFS its real type from the magic bytes,
+     * enforces the real size, takes the SHA-256, and copies it into the evidence
+     * store. A file whose contents disagree with its extension is REJECTED, not
+     * corrected.
+     */
+    confirmEvidenceAttachment(params: {
+        transactionId: number;
+        fileName: string;
+        uploadKey: string;
+        label?: string;
+        disputeId?: number;
+    }): Promise<{
+        uploadUrl?: string;
+        uploadKey?: string;
+        attachment?: any;
+        message: string;
+    }>;
+    private evidenceAttachmentCall;
+    /**
+     * Detach one evidence file (DESIGN 7.4).
+     *
+     * A REMOVAL, not a deletion: the file drops out of the response bundle, while
+     * the row, the stored object and the custody entry for the original upload all
+     * remain. An evidence set files can silently disappear from is not a chain of
+     * custody.
+     */
+    removeEvidenceAttachment(params: {
+        attachmentId: number;
+        reason?: string;
+    }): Promise<{
+        attachment: any;
+        message: string;
+    }>;
+    /**
+     * Assemble and download the Dispute Response Bundle — the single PDF a human
+     * forwards to their acquirer (DESIGN 3.2).
+     *
+     * Built on demand, so it always reflects the evidence uploaded so far. Returns
+     * a short-lived signed `downloadUrl` where the evidence store can be signed,
+     * and `pdfBase64` otherwise. `sha256` is the hash of exactly the bytes handed
+     * over, and `manifest` names every source that went in — including anything
+     * that could not be embedded and has to be supplied separately.
+     *
+     * It has its OWN permission (DISPUTE:READ) rather than riding
+     * downloadInvoiceWeb's INVOICE:READ: the bundle carries the cardholder IP, the
+     * submitted billing address and the card fragment, which is not the same
+     * sensitivity class as an invoice (DESIGN 7.2.1).
+     */
+    getDisputeBundle(disputeId: number): Promise<{
+        downloadUrl?: string;
+        pdfBase64?: string;
+        filename: string;
+        sha256?: string;
+        sizeBytes?: number;
+        manifest: string[];
         message: string;
     }>;
     /**
@@ -304,4 +466,43 @@ export declare class FluxComms<A extends SecurityHandler> {
         createdObjects: string;
         completionMessage: string;
     }>;
+    /**
+     * STEP 1 — the merchant's SERVER mints a card capture form.
+     *
+     * Reuses the existing `createPaymentLink` API-key registration; card-capture
+     * validation lives in that service keyed on the `isCardCapture` flag, not on which
+     * registration was used. Needs PAYMENT_LINK:CREATE on the key.
+     *
+     * Endpoint string carries no "Web" suffix — CMMT appends it in the browser, where
+     * it correctly resolves to the portal's `createPaymentLinkWeb`.
+     *
+     * Set `emailNotificationDisabled: true` unless you actually want Flux to email the
+     * customer a link to the HOSTED form — which is rarely what an embedded page wants.
+     *
+     * `customerFirstName` and `customerLastName` are REQUIRED when `accountEmail` is a
+     * NEW customer (CreateAccountService rejects a blank name); ignored for an existing
+     * customer or an explicit `accountId`. See CreateCardCaptureFormParams.
+     */
+    createCardCaptureForm(params: import("../ajax/Requests/CreateCardCaptureFormRequest").CreateCardCaptureFormParams): Promise<import("../ajax/Responses/CreateCardCaptureFormResponse").CreateCardCaptureFormResult>;
+    /**
+     * STEP 2 — BROWSER ONLY. What the embedded form must display, above all the
+     * `termsText` to render beside the acceptance checkbox.
+     *
+     * That text is produced by the same server-side builder that snapshots the
+     * authorization onto the saved card in step 4, so displayed and recorded cannot
+     * drift. Render it; do not compose your own.
+     */
+    static getCardCaptureForm(paymentLink: string): Promise<import("../ajax/Responses/GetCardCaptureFormResponse").GetCardCaptureFormResult>;
+    /**
+     * STEP 4 — BROWSER ONLY. Save the card on file against the recorded consent.
+     *
+     * `termsAccepted` must be a checkbox the customer actually ticked next to the
+     * `termsText` from step 2. The server refuses anything else — a saved card with no
+     * recorded consent is the one outcome a card capture form exists to prevent.
+     *
+     * Check `authRejected` on the result: with `autoReauthEnabled` on the form, a
+     * declined $0 verification still SAVES the card and returns 200, and the customer
+     * should see a success screen carrying `authRejectionReason`.
+     */
+    static capturePaymentMethod(params: import("../ajax/Requests/CapturePaymentMethodRequest").CapturePaymentMethodParams): Promise<import("../ajax/Responses/CapturePaymentMethodResponse").CapturePaymentMethodResult>;
 }

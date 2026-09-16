@@ -67,6 +67,7 @@ export declare class Merchant extends FluxType implements IMerchant {
         checkoutRefundPolicyUrl: string;
         checkoutPrivacyUrl: string;
         checkoutRefundPolicyText: string;
+        statementDescriptor: string;
     };
     id: number;
     merchantApproved: boolean;
@@ -131,6 +132,12 @@ export declare class Merchant extends FluxType implements IMerchant {
     checkoutRefundPolicyUrl: string;
     checkoutPrivacyUrl: string;
     checkoutRefundPolicyText: string;
+    /**
+     * What the cardholder sees on their bank statement. Merchant-editable —
+     * an unrecognizable descriptor is a leading cause of "I don't recognize
+     * this charge" chargebacks, so it is in serialize().
+     */
+    statementDescriptor: string;
     protected objectType: string;
     constructor(merchant?: Partial<Merchant>);
 }

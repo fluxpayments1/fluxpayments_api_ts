@@ -19,6 +19,7 @@ export declare class AccountBusiness extends FluxType implements IAccountBusines
         businessId: number;
         businessName: string;
         accountName: string;
+        accountEmail: string;
     };
     id: number;
     uniqueId: string;
@@ -29,6 +30,8 @@ export declare class AccountBusiness extends FluxType implements IAccountBusines
     businessId: number;
     businessName: string;
     accountName: string;
+    /** Denormalized customer email (create-only, set server-side). */
+    accountEmail: string;
     protected objectType: string;
     getDispName(): string;
     constructor(accountBusiness?: Partial<AccountBusiness>);

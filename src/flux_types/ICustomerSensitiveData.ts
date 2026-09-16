@@ -48,4 +48,14 @@ export interface ICustomerSensitiveData {
     transactionId?: number,
     approvalStatus?: string,
     processorError?: string, // Last decline error, if any
+
+    // ---- ACH authorization evidence (chargeback evidence, 2026-09-11) ----
+    // The customer's NACHA authorization, captured when the bank account is
+    // vaulted (createCustomerSensitiveDataInstanceSafe). The server stamps the
+    // accepted-at timestamp, the text hash, the IP and the user agent from the
+    // HTTP request and never trusts a client for those.
+    /** True when the customer ticked the ACH authorization box. */
+    achAuthAccepted?: boolean,
+    /** The exact ACH authorization text that was displayed and accepted. */
+    achAuthText?: string,
 }

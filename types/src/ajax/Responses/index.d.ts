@@ -22,3 +22,6 @@ export { ResendTransactionEmailResponse } from './ResendTransactionEmailResponse
 export { ResendPaymentRequestResponse } from './ResendPaymentRequestResponse';
 export { SendInvoiceEmailResponse } from './SendInvoiceEmailResponse';
 export { DownloadInvoiceResponse, DownloadInvoiceResult } from './DownloadInvoiceResponse';
+export { CreateCardCaptureFormResponse, CreateCardCaptureFormResult } from './CreateCardCaptureFormResponse';
+export { GetCardCaptureFormResponse, GetCardCaptureFormResult } from './GetCardCaptureFormResponse';
+export { CapturePaymentMethodResponse, CapturePaymentMethodResult } from './CapturePaymentMethodResponse';

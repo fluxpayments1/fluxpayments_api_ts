@@ -6,4 +6,5 @@ export interface IAccountBusiness {
     businessId: number;
     businessName?: string;
     accountName?: string;
+    accountEmail?: string;
 }

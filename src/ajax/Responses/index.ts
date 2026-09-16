@@ -45,3 +45,8 @@ export { ResendTransactionEmailResponse } from './ResendTransactionEmailResponse
 export { ResendPaymentRequestResponse } from './ResendPaymentRequestResponse'
 export { SendInvoiceEmailResponse } from './SendInvoiceEmailResponse'
 export { DownloadInvoiceResponse, DownloadInvoiceResult } from './DownloadInvoiceResponse'
+// Embedded card capture (2026-09-12). CreateCardCaptureFormResult.paymentLink is
+// the value the whole flow turns on — pass it VERBATIM to the browser.
+export { CreateCardCaptureFormResponse, CreateCardCaptureFormResult } from './CreateCardCaptureFormResponse'
+export { GetCardCaptureFormResponse, GetCardCaptureFormResult } from './GetCardCaptureFormResponse'
+export { CapturePaymentMethodResponse, CapturePaymentMethodResult } from './CapturePaymentMethodResponse'
