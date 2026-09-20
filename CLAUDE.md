@@ -506,3 +506,21 @@ standalone functions must stay in the `Functions` object literal in
 `undefined` (prod incident 2026-07-15, `setActAsMerchant`). **A page that talks to the
 endpoints over its own proxy — which is how the shipped hosted-fields example works —
 needs NO SDK bundle at all**: every body is plain JSON on an unencrypted endpoint.
+
+## `reviewMerchantApplications` (2026-09-18)
+
+`Flux.reviewMerchantApplications(action, opts)` -> `reviewMerchantApplicationsWeb`. Admin-only
+merchant application review; actions `list` | `get` | `decide` | `packet`.
+
+- Endpoint string is `"reviewMerchantApplications"` with **no `Web` suffix** — `CMMT` appends it
+  in the browser (see the naming convention above).
+- `packet` returns the whole application as one PDF, **base64 on `packetBase64`**, plus
+  `packetFileName` and a `packetDocumentsNotEmbedded` count. It is rendered on demand and never
+  stored, so there is no key to sign and no URL to hand out.
+- `MerchantApplicationDetail` is deliberately `{ [key: string]: any }`. The server builds that
+  map field by field precisely so nothing is serialized by reflection — the row carries an
+  encrypted SSN, an encrypted bank account number and a Plaid access token — and restating forty
+  fields as a strict interface would only drift from it.
+- **Instance method on `Flux`, so no `Functions`-namespace registration is needed** (same as
+  `managePartners`). It still needs the `dist_web/lib.js` rebuild before a browser can call it.
+

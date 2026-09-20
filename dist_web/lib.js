@@ -64795,6 +64795,80 @@ exports.RespondToDisputeRequest = RespondToDisputeRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/ReviewMerchantApplicationsRequest.ts"
+/*!****************************************************************!*\
+  !*** ./src/ajax/Requests/ReviewMerchantApplicationsRequest.ts ***!
+  \****************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReviewMerchantApplicationsRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Admin-only merchant application review
+ * (reviewMerchantApplications -> reviewMerchantApplicationsWeb).
+ *
+ * <p>action: "list" | "get" | "decide" | "approve" | "delete" | "packet".
+ *
+ * <p>NEEDS_INFO is the only decision that reopens an application: it mints a
+ * fresh link token, clears any browser session already holding it, and emails
+ * the applicant a way back in.
+ *
+ * <p>"packet" returns the whole application as one PDF, base64 on the
+ * response. It is rendered on demand and never stored, so it always reflects
+ * the application as it stands right now.
+ */
+class ReviewMerchantApplicationsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(action, opts) {
+        this.action = action;
+        this.applicationId = opts === null || opts === void 0 ? void 0 : opts.applicationId;
+        this.status = opts === null || opts === void 0 ? void 0 : opts.status;
+        this.notes = opts === null || opts === void 0 ? void 0 : opts.notes;
+        this.limit = opts === null || opts === void 0 ? void 0 : opts.limit;
+        this.csMerchantId = opts === null || opts === void 0 ? void 0 : opts.csMerchantId;
+        this.p12Password = opts === null || opts === void 0 ? void 0 : opts.p12Password;
+        this.p12PasswordConfirm = opts === null || opts === void 0 ? void 0 : opts.p12PasswordConfirm;
+        this.cardRatePercent = opts === null || opts === void 0 ? void 0 : opts.cardRatePercent;
+        this.cardFlatAmount = opts === null || opts === void 0 ? void 0 : opts.cardFlatAmount;
+        this.amexRatePercent = opts === null || opts === void 0 ? void 0 : opts.amexRatePercent;
+        this.amexFlatAmount = opts === null || opts === void 0 ? void 0 : opts.amexFlatAmount;
+        this.achRatePercent = opts === null || opts === void 0 ? void 0 : opts.achRatePercent;
+        this.achFlatAmount = opts === null || opts === void 0 ? void 0 : opts.achFlatAmount;
+        this.processingFeeEnabled = opts === null || opts === void 0 ? void 0 : opts.processingFeeEnabled;
+        this.acceptRounding = opts === null || opts === void 0 ? void 0 : opts.acceptRounding;
+        this.acceptUnverifiedP12 = opts === null || opts === void 0 ? void 0 : opts.acceptUnverifiedP12;
+        return this;
+    }
+    getRequestAsString() {
+        return JSON.stringify({
+            action: this.action,
+            applicationId: this.applicationId,
+            status: this.status,
+            notes: this.notes,
+            limit: this.limit,
+            csMerchantId: this.csMerchantId,
+            p12Password: this.p12Password,
+            p12PasswordConfirm: this.p12PasswordConfirm,
+            cardRatePercent: this.cardRatePercent,
+            cardFlatAmount: this.cardFlatAmount,
+            amexRatePercent: this.amexRatePercent,
+            amexFlatAmount: this.amexFlatAmount,
+            achRatePercent: this.achRatePercent,
+            achFlatAmount: this.achFlatAmount,
+            processingFeeEnabled: this.processingFeeEnabled,
+            acceptRounding: this.acceptRounding,
+            acceptUnverifiedP12: this.acceptUnverifiedP12,
+        });
+    }
+}
+exports.ReviewMerchantApplicationsRequest = ReviewMerchantApplicationsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/RollupReportRequest.ts"
 /*!**************************************************!*\
   !*** ./src/ajax/Requests/RollupReportRequest.ts ***!
@@ -67053,6 +67127,76 @@ class ResponseBodyBase {
     }
 }
 exports.ResponseBodyBase = ResponseBodyBase;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ReviewMerchantApplicationsResponse.ts"
+/*!******************************************************************!*\
+  !*** ./src/ajax/Responses/ReviewMerchantApplicationsResponse.ts ***!
+  \******************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ReviewMerchantApplicationsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ReviewMerchantApplicationsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            applications: [],
+            application: {},
+            packetBase64: null,
+            deletedApplicationId: null,
+            packetFileName: null,
+            packetDocumentsEmbedded: null,
+            packetDocumentsNotEmbedded: null,
+            confirmRequired: null,
+            confirmMessage: null,
+        };
+    }
+    setResponseJSON(jsonString) {
+        var _a, _b, _c, _d, _e, _f, _g;
+        const p = JSON.parse(jsonString);
+        this.result = {
+            applications: (p.applications || []).map((r) => {
+                var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+                return ({
+                    applicationId: r.applicationId,
+                    status: r.status,
+                    organizationName: (_a = r.organizationName) !== null && _a !== void 0 ? _a : null,
+                    dbaName: (_b = r.dbaName) !== null && _b !== void 0 ? _b : null,
+                    contactEmail: (_c = r.contactEmail) !== null && _c !== void 0 ? _c : null,
+                    businessState: (_d = r.businessState) !== null && _d !== void 0 ? _d : null,
+                    monthlyMaximum: (_e = r.monthlyMaximum) !== null && _e !== void 0 ? _e : null,
+                    bankStatus: (_f = r.bankStatus) !== null && _f !== void 0 ? _f : null,
+                    signed: !!r.signed,
+                    submittedAt: (_g = r.submittedAt) !== null && _g !== void 0 ? _g : null,
+                    reviewedAt: (_h = r.reviewedAt) !== null && _h !== void 0 ? _h : null,
+                    reviewedBy: (_j = r.reviewedBy) !== null && _j !== void 0 ? _j : null,
+                    documentsReceived: (_k = r.documentsReceived) !== null && _k !== void 0 ? _k : 0,
+                    documentsRequired: (_l = r.documentsRequired) !== null && _l !== void 0 ? _l : 0,
+                    owners: (_m = r.owners) !== null && _m !== void 0 ? _m : 0,
+                });
+            }),
+            application: p.application || {},
+            packetBase64: (_a = p.packetBase64) !== null && _a !== void 0 ? _a : null,
+            deletedApplicationId: (_b = p.deletedApplicationId) !== null && _b !== void 0 ? _b : null,
+            packetFileName: (_c = p.packetFileName) !== null && _c !== void 0 ? _c : null,
+            packetDocumentsEmbedded: (_d = p.packetDocumentsEmbedded) !== null && _d !== void 0 ? _d : null,
+            packetDocumentsNotEmbedded: (_e = p.packetDocumentsNotEmbedded) !== null && _e !== void 0 ? _e : null,
+            confirmRequired: (_f = p.confirmRequired) !== null && _f !== void 0 ? _f : null,
+            confirmMessage: (_g = p.confirmMessage) !== null && _g !== void 0 ? _g : null,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.ReviewMerchantApplicationsResponse = ReviewMerchantApplicationsResponse;
 
 
 /***/ },
@@ -74169,6 +74313,7 @@ class Merchant extends FluxType_1.FluxType {
             checkoutRefundPolicyUrl: this.checkoutRefundPolicyUrl,
             checkoutPrivacyUrl: this.checkoutPrivacyUrl,
             checkoutRefundPolicyText: this.checkoutRefundPolicyText,
+            checkoutAuthText: this.checkoutAuthText,
             statementDescriptor: this.statementDescriptor
         };
     }
@@ -78563,6 +78708,26 @@ class FluxComms {
             const { ManagePartnersResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ManagePartnersResponse */ "./src/ajax/Responses/ManagePartnersResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(ManagePartnersRequest, ManagePartnersResponse, "managePartners", "POST", isolatedHandle, action, opts);
+        });
+    }
+    /**
+     * Admin-only merchant application review.
+     *
+     * action:
+     *  - "list"   — the queue. `status` narrows it and is the only way to see a DRAFT.
+     *  - "get"    — one application in full (`applicationId`).
+     *  - "decide" — record a decision (`applicationId` + `status`; `notes` required to decline).
+     *  - "packet" — the whole application as ONE PDF, base64 on `packetBase64`.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so none of this is
+     * reachable from a browser until that bundle is rebuilt.
+     */
+    reviewMerchantApplications(action, opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ReviewMerchantApplicationsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ReviewMerchantApplicationsRequest */ "./src/ajax/Requests/ReviewMerchantApplicationsRequest.ts")));
+            const { ReviewMerchantApplicationsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ReviewMerchantApplicationsResponse */ "./src/ajax/Responses/ReviewMerchantApplicationsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ReviewMerchantApplicationsRequest, ReviewMerchantApplicationsResponse, "reviewMerchantApplications", "POST", isolatedHandle, action, opts);
         });
     }
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.

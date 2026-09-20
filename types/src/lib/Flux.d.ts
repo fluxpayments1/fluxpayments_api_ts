@@ -131,6 +131,19 @@ export declare class FluxComms<A extends SecurityHandler> {
      *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
      *  Every action returns the fresh full partner list. */
     managePartners(action: string, opts?: import("../ajax/Requests/ManagePartnersRequest").ManagePartnersOpts): Promise<import("../ajax/Responses/ManagePartnersResponse").ManagePartnersResult>;
+    /**
+     * Admin-only merchant application review.
+     *
+     * action:
+     *  - "list"   — the queue. `status` narrows it and is the only way to see a DRAFT.
+     *  - "get"    — one application in full (`applicationId`).
+     *  - "decide" — record a decision (`applicationId` + `status`; `notes` required to decline).
+     *  - "packet" — the whole application as ONE PDF, base64 on `packetBase64`.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so none of this is
+     * reachable from a browser until that bundle is rebuilt.
+     */
+    reviewMerchantApplications(action: string, opts?: import("../ajax/Requests/ReviewMerchantApplicationsRequest").ReviewMerchantApplicationsOpts): Promise<import("../ajax/Responses/ReviewMerchantApplicationsResponse").ReviewMerchantApplicationsResult>;
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
      *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100.
      *  search (optional) filters clients SERVER-side across the whole list rather than just the

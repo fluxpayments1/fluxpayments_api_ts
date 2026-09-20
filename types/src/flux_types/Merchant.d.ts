@@ -67,6 +67,7 @@ export declare class Merchant extends FluxType implements IMerchant {
         checkoutRefundPolicyUrl: string;
         checkoutPrivacyUrl: string;
         checkoutRefundPolicyText: string;
+        checkoutAuthText: string;
         statementDescriptor: string;
     };
     id: number;
@@ -132,6 +133,13 @@ export declare class Merchant extends FluxType implements IMerchant {
     checkoutRefundPolicyUrl: string;
     checkoutPrivacyUrl: string;
     checkoutRefundPolicyText: string;
+    /**
+     * The sentence the customer ticks at checkout to authorize the charge.
+     * Placeholders {{merchantName}} and {{amount}} are resolved on the payment
+     * page. Blank = the platform default, which the guest payment-link load
+     * fills in. Merchant-editable (Checkout tab).
+     */
+    checkoutAuthText: string;
     /**
      * What the cardholder sees on their bank statement. Merchant-editable —
      * an unrecognizable descriptor is a leading cause of "I don't recognize

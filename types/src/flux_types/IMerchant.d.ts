@@ -58,6 +58,8 @@ export interface IMerchant {
     checkoutRefundPolicyUrl?: string;
     checkoutPrivacyUrl?: string;
     checkoutRefundPolicyText?: string;
+    /** Checkout authorization sentence; {{merchantName}} / {{amount}} placeholders. Blank = platform default. */
+    checkoutAuthText?: string;
     /** Cardholder-facing statement descriptor. Merchant-editable. */
     statementDescriptor?: string;
 }
