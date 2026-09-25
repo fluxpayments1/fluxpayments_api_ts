@@ -624,6 +624,27 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
+    /**
+     * Admin-only: create a merchant account directly, with no application —
+     * the same creation an approved application gets (merchant row + owner
+     * login + set-your-password invite email). `createMerchantAccount` ->
+     * `createMerchantAccountWeb`. A `confirmRequired` of 'ROUNDING' or
+     * 'P12_UNVERIFIED' on the result means nothing was created yet: re-send
+     * with the matching accept flag.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this is not
+     * reachable from a browser until that bundle is rebuilt.
+     */
+    public async createMerchantAccount(opts: import("../ajax/Requests/CreateMerchantAccountRequest").CreateMerchantAccountOpts): Promise<import("../ajax/Responses/CreateMerchantAccountResponse").CreateMerchantAccountResult> {
+        const { CreateMerchantAccountRequest } = await import("../ajax/Requests/CreateMerchantAccountRequest");
+        const { CreateMerchantAccountResponse } = await import("../ajax/Responses/CreateMerchantAccountResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/CreateMerchantAccountResponse").CreateMerchantAccountResult, typeof CreateMerchantAccountRequest.prototype, typeof CreateMerchantAccountResponse.prototype>(
+            CreateMerchantAccountRequest, CreateMerchantAccountResponse, "createMerchantAccount", "POST", isolatedHandle,
+            opts
+        );
+    }
+
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.
      *  page is 1-indexed; pageSize defaults to 25 server-side, capped at 100.
      *  search (optional) filters clients SERVER-side across the whole list rather than just the

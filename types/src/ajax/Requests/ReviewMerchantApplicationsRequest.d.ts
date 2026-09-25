@@ -21,6 +21,10 @@ export interface ReviewMerchantApplicationsOpts {
     amexFlatAmount?: number;
     achRatePercent?: number;
     achFlatAmount?: number;
+    /** Per-authorization fee, dollars (what Flux charges per $0 verification / declined attempt). Blank leaves the default. */
+    authFeeAmount?: number;
+    /** Monthly platform fee, dollars. Blank leaves the column default. */
+    monthlyFeeAmount?: number;
     processingFeeEnabled?: boolean;
     /** Second call, after the server reported what a scale will really store. */
     acceptRounding?: boolean;
@@ -56,6 +60,8 @@ export declare class ReviewMerchantApplicationsRequest extends RequestBodyBase {
     private amexFlatAmount?;
     private achRatePercent?;
     private achFlatAmount?;
+    private authFeeAmount?;
+    private monthlyFeeAmount?;
     private processingFeeEnabled?;
     private acceptRounding?;
     private acceptUnverifiedP12?;

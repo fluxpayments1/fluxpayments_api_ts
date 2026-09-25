@@ -63149,6 +63149,65 @@ exports.CreateCardCaptureFormRequest = CreateCardCaptureFormRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/CreateMerchantAccountRequest.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Requests/CreateMerchantAccountRequest.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateMerchantAccountRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Admin-only merchant creation (createMerchantAccount -> createMerchantAccountWeb).
+ *
+ * <p>Creates the merchant AND the owner's login exactly as approving an
+ * application does, and emails the owner a set-your-password invite.
+ */
+class CreateMerchantAccountRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(opts) {
+        this.opts = opts;
+        return this;
+    }
+    getRequestAsString() {
+        const o = this.opts || {};
+        return JSON.stringify({
+            email: o.email,
+            businessName: o.businessName,
+            dbaName: o.dbaName,
+            ein: o.ein,
+            streetAddress: o.streetAddress,
+            city: o.city,
+            state: o.state,
+            zip: o.zip,
+            phone: o.phone,
+            firstName: o.firstName,
+            lastName: o.lastName,
+            csMerchantId: o.csMerchantId,
+            p12Password: o.p12Password,
+            p12PasswordConfirm: o.p12PasswordConfirm,
+            cardRatePercent: o.cardRatePercent,
+            cardFlatAmount: o.cardFlatAmount,
+            amexRatePercent: o.amexRatePercent,
+            amexFlatAmount: o.amexFlatAmount,
+            achRatePercent: o.achRatePercent,
+            achFlatAmount: o.achFlatAmount,
+            authFeeAmount: o.authFeeAmount,
+            monthlyFeeAmount: o.monthlyFeeAmount,
+            processingFeeEnabled: o.processingFeeEnabled,
+            acceptRounding: o.acceptRounding,
+            acceptUnverifiedP12: o.acceptUnverifiedP12,
+        });
+    }
+}
+exports.CreateMerchantAccountRequest = CreateMerchantAccountRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/CreatePaymentIntentRequest.ts"
 /*!*********************************************************!*\
   !*** ./src/ajax/Requests/CreatePaymentIntentRequest.ts ***!
@@ -64837,6 +64896,8 @@ class ReviewMerchantApplicationsRequest extends RequestBodyBase_1.RequestBodyBas
         this.amexFlatAmount = opts === null || opts === void 0 ? void 0 : opts.amexFlatAmount;
         this.achRatePercent = opts === null || opts === void 0 ? void 0 : opts.achRatePercent;
         this.achFlatAmount = opts === null || opts === void 0 ? void 0 : opts.achFlatAmount;
+        this.authFeeAmount = opts === null || opts === void 0 ? void 0 : opts.authFeeAmount;
+        this.monthlyFeeAmount = opts === null || opts === void 0 ? void 0 : opts.monthlyFeeAmount;
         this.processingFeeEnabled = opts === null || opts === void 0 ? void 0 : opts.processingFeeEnabled;
         this.acceptRounding = opts === null || opts === void 0 ? void 0 : opts.acceptRounding;
         this.acceptUnverifiedP12 = opts === null || opts === void 0 ? void 0 : opts.acceptUnverifiedP12;
@@ -64858,6 +64919,8 @@ class ReviewMerchantApplicationsRequest extends RequestBodyBase_1.RequestBodyBas
             amexFlatAmount: this.amexFlatAmount,
             achRatePercent: this.achRatePercent,
             achFlatAmount: this.achFlatAmount,
+            authFeeAmount: this.authFeeAmount,
+            monthlyFeeAmount: this.monthlyFeeAmount,
             processingFeeEnabled: this.processingFeeEnabled,
             acceptRounding: this.acceptRounding,
             acceptUnverifiedP12: this.acceptUnverifiedP12,
@@ -65740,6 +65803,48 @@ class CreateCardCaptureFormResponse extends ResponseBodyBase_1.ResponseBodyBase 
     }
 }
 exports.CreateCardCaptureFormResponse = CreateCardCaptureFormResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/CreateMerchantAccountResponse.ts"
+/*!*************************************************************!*\
+  !*** ./src/ajax/Responses/CreateMerchantAccountResponse.ts ***!
+  \*************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateMerchantAccountResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class CreateMerchantAccountResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            merchantId: null, macId: null, email: null, businessName: null,
+            inviteEmailSent: false, confirmRequired: null, confirmMessage: null,
+        };
+    }
+    setResponseJSON(jsonString) {
+        var _a, _b, _c, _d, _e, _f;
+        const p = JSON.parse(jsonString);
+        this.result = {
+            merchantId: (_a = p.merchantId) !== null && _a !== void 0 ? _a : null,
+            macId: (_b = p.macId) !== null && _b !== void 0 ? _b : null,
+            email: (_c = p.email) !== null && _c !== void 0 ? _c : null,
+            businessName: (_d = p.businessName) !== null && _d !== void 0 ? _d : null,
+            inviteEmailSent: !!p.inviteEmailSent,
+            confirmRequired: (_e = p.confirmRequired) !== null && _e !== void 0 ? _e : null,
+            confirmMessage: (_f = p.confirmMessage) !== null && _f !== void 0 ? _f : null,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.CreateMerchantAccountResponse = CreateMerchantAccountResponse;
 
 
 /***/ },
@@ -78728,6 +78833,25 @@ class FluxComms {
             const { ReviewMerchantApplicationsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ReviewMerchantApplicationsResponse */ "./src/ajax/Responses/ReviewMerchantApplicationsResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(ReviewMerchantApplicationsRequest, ReviewMerchantApplicationsResponse, "reviewMerchantApplications", "POST", isolatedHandle, action, opts);
+        });
+    }
+    /**
+     * Admin-only: create a merchant account directly, with no application —
+     * the same creation an approved application gets (merchant row + owner
+     * login + set-your-password invite email). `createMerchantAccount` ->
+     * `createMerchantAccountWeb`. A `confirmRequired` of 'ROUNDING' or
+     * 'P12_UNVERIFIED' on the result means nothing was created yet: re-send
+     * with the matching accept flag.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this is not
+     * reachable from a browser until that bundle is rebuilt.
+     */
+    createMerchantAccount(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { CreateMerchantAccountRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/CreateMerchantAccountRequest */ "./src/ajax/Requests/CreateMerchantAccountRequest.ts")));
+            const { CreateMerchantAccountResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/CreateMerchantAccountResponse */ "./src/ajax/Responses/CreateMerchantAccountResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(CreateMerchantAccountRequest, CreateMerchantAccountResponse, "createMerchantAccount", "POST", isolatedHandle, opts);
         });
     }
     /** Fetch the full Forth Pay dashboard payload: connection state, stats, recent activity, paginated mappings.

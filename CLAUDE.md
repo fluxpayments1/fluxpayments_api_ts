@@ -507,6 +507,18 @@ standalone functions must stay in the `Functions` object literal in
 endpoints over its own proxy — which is how the shipped hosted-fields example works —
 needs NO SDK bundle at all**: every body is plain JSON on an unencrypted endpoint.
 
+## `createMerchantAccount` (2026-09-24)
+
+`Flux.createMerchantAccount(opts)` -> `createMerchantAccountWeb`. Admin-only: creates a
+merchant + owner login + set-your-password invite with no application, through the same
+server writer approving an application uses. Endpoint string `"createMerchantAccount"`, **no
+`Web` suffix**. `opts` = the merchant facts (`email`, `businessName`, `firstName`,
+`lastName` required) + the identical CyberSource/pricing block `reviewMerchantApplications`'s
+approve takes. A `confirmRequired` of `'ROUNDING' | 'P12_UNVERIFIED'` on the result (a 200)
+means nothing was created yet — re-send with `acceptRounding` / `acceptUnverifiedP12`. The
+result carries `merchantId`, `macId`, `email`, `businessName`, `inviteEmailSent`. Needs the
+`dist_web/lib.js` rebuild; the portal feature-detects.
+
 ## `reviewMerchantApplications` (2026-09-18)
 
 `Flux.reviewMerchantApplications(action, opts)` -> `reviewMerchantApplicationsWeb`. Admin-only
