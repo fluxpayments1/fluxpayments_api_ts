@@ -33,6 +33,8 @@ export interface ReviewMerchantApplicationsOpts {
     /** Monthly platform fee, dollars. Blank leaves the column default. */
     monthlyFeeAmount?: number;
     processingFeeEnabled?: boolean;
+    /** Interchange-plus merchant: every platform fee figure is hidden from them. */
+    icPlus?: boolean;
     /** Second call, after the server reported what a scale will really store. */
     acceptRounding?: boolean;
     /** Go ahead although no .p12 could be read to check the password against. */
@@ -71,6 +73,7 @@ export class ReviewMerchantApplicationsRequest extends RequestBodyBase {
     private authFeeAmount?: number;
     private monthlyFeeAmount?: number;
     private processingFeeEnabled?: boolean;
+    private icPlus?: boolean;
     private acceptRounding?: boolean;
     private acceptUnverifiedP12?: boolean;
 
@@ -94,6 +97,7 @@ export class ReviewMerchantApplicationsRequest extends RequestBodyBase {
         this.authFeeAmount = opts?.authFeeAmount;
         this.monthlyFeeAmount = opts?.monthlyFeeAmount;
         this.processingFeeEnabled = opts?.processingFeeEnabled;
+        this.icPlus = opts?.icPlus;
         this.acceptRounding = opts?.acceptRounding;
         this.acceptUnverifiedP12 = opts?.acceptUnverifiedP12;
         return this;
@@ -118,6 +122,7 @@ export class ReviewMerchantApplicationsRequest extends RequestBodyBase {
             authFeeAmount: this.authFeeAmount,
             monthlyFeeAmount: this.monthlyFeeAmount,
             processingFeeEnabled: this.processingFeeEnabled,
+            icPlus: this.icPlus,
             acceptRounding: this.acceptRounding,
             acceptUnverifiedP12: this.acceptUnverifiedP12,
         });

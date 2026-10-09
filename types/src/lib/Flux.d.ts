@@ -127,6 +127,16 @@ export declare class FluxComms<A extends SecurityHandler> {
      * the method and hide their section when it is absent rather than throwing.
      */
     getEvidenceCoverage(): Promise<import("../ajax/Responses/GetEvidenceCoverageResponse").EvidenceCoverageResult>;
+    /** Does the signed-in merchant still have to accept the Merchant Services Agreement?
+     *  Permission-less server-side; scope is the session's merchant. Endpoint string carries
+     *  no "Web" suffix — CMMT appends it in the browser. */
+    getTermsStatus(): Promise<import("../ajax/Responses/GetTermsStatusResponse").TermsStatusResult>;
+    /** Record the portal's acceptance of the agreement: typed name, drawn signature (PNG data URL),
+     *  and the hash of the text that was rendered. The server stores version, hash, signature, IP and
+     *  user agent. Rejects a stale hash with a reload-and-review message. */
+    acceptTerms(opts: import("../ajax/Requests/AcceptTermsRequest").AcceptTermsOpts): Promise<import("../ajax/Responses/GetTermsStatusResponse").TermsStatusResult>;
+    /** ADMIN-only: every merchant that has agreed to the terms (portal + onboarding), newest first. */
+    listTermsAcceptances(): Promise<import("../ajax/Responses/ListTermsAcceptancesResponse").TermsAcceptanceListResult>;
     /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
      *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
      *  Every action returns the fresh full partner list. */

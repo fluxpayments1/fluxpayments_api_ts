@@ -37,6 +37,8 @@ export interface CreateMerchantAccountOpts {
     /** Monthly platform fee, dollars. Blank leaves the column default. */
     monthlyFeeAmount?: number;
     processingFeeEnabled?: boolean;
+    /** Interchange-plus merchant: every platform fee figure is hidden from them. */
+    icPlus?: boolean;
     /** Second call, after the server reported what a scale will really store. */
     acceptRounding?: boolean;
     /** Go ahead although no .p12 could be read to check the password against. */

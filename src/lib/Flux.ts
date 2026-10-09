@@ -589,6 +589,41 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
+    /** Does the signed-in merchant still have to accept the Merchant Services Agreement?
+     *  Permission-less server-side; scope is the session's merchant. Endpoint string carries
+     *  no "Web" suffix — CMMT appends it in the browser. */
+    public async getTermsStatus(): Promise<import("../ajax/Responses/GetTermsStatusResponse").TermsStatusResult> {
+        const { GetTermsStatusRequest } = await import("../ajax/Requests/GetTermsStatusRequest");
+        const { GetTermsStatusResponse } = await import("../ajax/Responses/GetTermsStatusResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/GetTermsStatusResponse").TermsStatusResult, typeof GetTermsStatusRequest.prototype, typeof GetTermsStatusResponse.prototype>(
+            GetTermsStatusRequest, GetTermsStatusResponse, "getTermsStatus", "POST", isolatedHandle
+        );
+    }
+
+    /** Record the portal's acceptance of the agreement: typed name, drawn signature (PNG data URL),
+     *  and the hash of the text that was rendered. The server stores version, hash, signature, IP and
+     *  user agent. Rejects a stale hash with a reload-and-review message. */
+    public async acceptTerms(opts: import("../ajax/Requests/AcceptTermsRequest").AcceptTermsOpts): Promise<import("../ajax/Responses/GetTermsStatusResponse").TermsStatusResult> {
+        const { AcceptTermsRequest } = await import("../ajax/Requests/AcceptTermsRequest");
+        const { GetTermsStatusResponse } = await import("../ajax/Responses/GetTermsStatusResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/GetTermsStatusResponse").TermsStatusResult, typeof AcceptTermsRequest.prototype, typeof GetTermsStatusResponse.prototype>(
+            AcceptTermsRequest, GetTermsStatusResponse, "acceptTerms", "POST", isolatedHandle,
+            opts
+        );
+    }
+
+    /** ADMIN-only: every merchant that has agreed to the terms (portal + onboarding), newest first. */
+    public async listTermsAcceptances(): Promise<import("../ajax/Responses/ListTermsAcceptancesResponse").TermsAcceptanceListResult> {
+        const { ListTermsAcceptancesRequest } = await import("../ajax/Requests/ListTermsAcceptancesRequest");
+        const { ListTermsAcceptancesResponse } = await import("../ajax/Responses/ListTermsAcceptancesResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/ListTermsAcceptancesResponse").TermsAcceptanceListResult, typeof ListTermsAcceptancesRequest.prototype, typeof ListTermsAcceptancesResponse.prototype>(
+            ListTermsAcceptancesRequest, ListTermsAcceptancesResponse, "listTermsAcceptances", "POST", isolatedHandle
+        );
+    }
+
     /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
      *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
      *  Every action returns the fresh full partner list. */

@@ -62661,6 +62661,40 @@ window.process = {
 
 /***/ },
 
+/***/ "./src/ajax/Requests/AcceptTermsRequest.ts"
+/*!*************************************************!*\
+  !*** ./src/ajax/Requests/AcceptTermsRequest.ts ***!
+  \*************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.AcceptTermsRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class AcceptTermsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(opts) {
+        this.opts = opts;
+        return this;
+    }
+    getRequestAsString() {
+        const o = this.opts || {};
+        return JSON.stringify({
+            agreed: !!o.agreed,
+            scrolledToEnd: !!o.scrolledToEnd,
+            signerName: o.signerName,
+            signerTitle: o.signerTitle,
+            signatureDataUrl: o.signatureDataUrl,
+            agreementSha256: o.agreementSha256,
+        });
+    }
+}
+exports.AcceptTermsRequest = AcceptTermsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/ApproveChatActionsRequest.ts"
 /*!********************************************************!*\
   !*** ./src/ajax/Requests/ApproveChatActionsRequest.ts ***!
@@ -63198,6 +63232,7 @@ class CreateMerchantAccountRequest extends RequestBodyBase_1.RequestBodyBase {
             authFeeAmount: o.authFeeAmount,
             monthlyFeeAmount: o.monthlyFeeAmount,
             processingFeeEnabled: o.processingFeeEnabled,
+            icPlus: o.icPlus,
             acceptRounding: o.acceptRounding,
             acceptUnverifiedP12: o.acceptUnverifiedP12,
         });
@@ -64350,6 +64385,28 @@ exports.GetPartnerDashboardRequest = GetPartnerDashboardRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/GetTermsStatusRequest.ts"
+/*!****************************************************!*\
+  !*** ./src/ajax/Requests/GetTermsStatusRequest.ts ***!
+  \****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetTermsStatusRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/** getTermsStatusWeb takes NO parameters: scope is the signed-in merchant, never a body value. */
+class GetTermsStatusRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData() { }
+    getRequestAsString() { return JSON.stringify({}); }
+}
+exports.GetTermsStatusRequest = GetTermsStatusRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/IdentificationDocumentRequst.ts"
 /*!***********************************************************!*\
   !*** ./src/ajax/Requests/IdentificationDocumentRequst.ts ***!
@@ -64447,6 +64504,28 @@ class InvoicePreviewRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.InvoicePreviewRequest = InvoicePreviewRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/ListTermsAcceptancesRequest.ts"
+/*!**********************************************************!*\
+  !*** ./src/ajax/Requests/ListTermsAcceptancesRequest.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ListTermsAcceptancesRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/** listTermsAcceptancesWeb takes NO parameters; admin-gated server-side. */
+class ListTermsAcceptancesRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData() { }
+    getRequestAsString() { return JSON.stringify({}); }
+}
+exports.ListTermsAcceptancesRequest = ListTermsAcceptancesRequest;
 
 
 /***/ },
@@ -64899,6 +64978,7 @@ class ReviewMerchantApplicationsRequest extends RequestBodyBase_1.RequestBodyBas
         this.authFeeAmount = opts === null || opts === void 0 ? void 0 : opts.authFeeAmount;
         this.monthlyFeeAmount = opts === null || opts === void 0 ? void 0 : opts.monthlyFeeAmount;
         this.processingFeeEnabled = opts === null || opts === void 0 ? void 0 : opts.processingFeeEnabled;
+        this.icPlus = opts === null || opts === void 0 ? void 0 : opts.icPlus;
         this.acceptRounding = opts === null || opts === void 0 ? void 0 : opts.acceptRounding;
         this.acceptUnverifiedP12 = opts === null || opts === void 0 ? void 0 : opts.acceptUnverifiedP12;
         return this;
@@ -64922,6 +65002,7 @@ class ReviewMerchantApplicationsRequest extends RequestBodyBase_1.RequestBodyBas
             authFeeAmount: this.authFeeAmount,
             monthlyFeeAmount: this.monthlyFeeAmount,
             processingFeeEnabled: this.processingFeeEnabled,
+            icPlus: this.icPlus,
             acceptRounding: this.acceptRounding,
             acceptUnverifiedP12: this.acceptUnverifiedP12,
         });
@@ -66829,6 +66910,47 @@ exports.GetPartnerDashboardResponse = GetPartnerDashboardResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/GetTermsStatusResponse.ts"
+/*!******************************************************!*\
+  !*** ./src/ajax/Responses/GetTermsStatusResponse.ts ***!
+  \******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetTermsStatusResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+/** Shared by getTermsStatus and acceptTerms — the server answers both with the same shape. */
+class GetTermsStatusResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            required: false, version: null, agreementSha256: null, agreementMarkdown: null,
+            acceptedAt: null, acceptedBy: null, source: null,
+        };
+    }
+    setResponseJSON(jsonString) {
+        var _a, _b, _c, _d, _e, _f;
+        const p = JSON.parse(jsonString);
+        this.result = {
+            required: !!p.required,
+            version: (_a = p.version) !== null && _a !== void 0 ? _a : null,
+            agreementSha256: (_b = p.agreementSha256) !== null && _b !== void 0 ? _b : null,
+            agreementMarkdown: (_c = p.agreementMarkdown) !== null && _c !== void 0 ? _c : null,
+            acceptedAt: (_d = p.acceptedAt) !== null && _d !== void 0 ? _d : null,
+            acceptedBy: (_e = p.acceptedBy) !== null && _e !== void 0 ? _e : null,
+            source: (_f = p.source) !== null && _f !== void 0 ? _f : null,
+        };
+        return this;
+    }
+    getClientReturnValue() { return this.result; }
+}
+exports.GetTermsStatusResponse = GetTermsStatusResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/InvoicePreviewResponse.ts"
 /*!******************************************************!*\
   !*** ./src/ajax/Responses/InvoicePreviewResponse.ts ***!
@@ -66856,6 +66978,35 @@ class InvoicePreviewResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.InvoicePreviewResponse = InvoicePreviewResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ListTermsAcceptancesResponse.ts"
+/*!************************************************************!*\
+  !*** ./src/ajax/Responses/ListTermsAcceptancesResponse.ts ***!
+  \************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ListTermsAcceptancesResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ListTermsAcceptancesResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = { version: null, rows: [] };
+    }
+    setResponseJSON(jsonString) {
+        var _a;
+        const p = JSON.parse(jsonString);
+        this.result = { version: (_a = p.version) !== null && _a !== void 0 ? _a : null, rows: Array.isArray(p.rows) ? p.rows : [] };
+        return this;
+    }
+    getClientReturnValue() { return this.result; }
+}
+exports.ListTermsAcceptancesResponse = ListTermsAcceptancesResponse;
 
 
 /***/ },
@@ -78802,6 +78953,37 @@ class FluxComms {
             const { GetEvidenceCoverageResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetEvidenceCoverageResponse */ "./src/ajax/Responses/GetEvidenceCoverageResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(GetEvidenceCoverageRequest, GetEvidenceCoverageResponse, "getEvidenceCoverage", "POST", isolatedHandle);
+        });
+    }
+    /** Does the signed-in merchant still have to accept the Merchant Services Agreement?
+     *  Permission-less server-side; scope is the session's merchant. Endpoint string carries
+     *  no "Web" suffix — CMMT appends it in the browser. */
+    getTermsStatus() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetTermsStatusRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetTermsStatusRequest */ "./src/ajax/Requests/GetTermsStatusRequest.ts")));
+            const { GetTermsStatusResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetTermsStatusResponse */ "./src/ajax/Responses/GetTermsStatusResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetTermsStatusRequest, GetTermsStatusResponse, "getTermsStatus", "POST", isolatedHandle);
+        });
+    }
+    /** Record the portal's acceptance of the agreement: typed name, drawn signature (PNG data URL),
+     *  and the hash of the text that was rendered. The server stores version, hash, signature, IP and
+     *  user agent. Rejects a stale hash with a reload-and-review message. */
+    acceptTerms(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { AcceptTermsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/AcceptTermsRequest */ "./src/ajax/Requests/AcceptTermsRequest.ts")));
+            const { GetTermsStatusResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetTermsStatusResponse */ "./src/ajax/Responses/GetTermsStatusResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(AcceptTermsRequest, GetTermsStatusResponse, "acceptTerms", "POST", isolatedHandle, opts);
+        });
+    }
+    /** ADMIN-only: every merchant that has agreed to the terms (portal + onboarding), newest first. */
+    listTermsAcceptances() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ListTermsAcceptancesRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ListTermsAcceptancesRequest */ "./src/ajax/Requests/ListTermsAcceptancesRequest.ts")));
+            const { ListTermsAcceptancesResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ListTermsAcceptancesResponse */ "./src/ajax/Responses/ListTermsAcceptancesResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ListTermsAcceptancesRequest, ListTermsAcceptancesResponse, "listTermsAcceptances", "POST", isolatedHandle);
         });
     }
     /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";

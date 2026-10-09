@@ -507,6 +507,17 @@ standalone functions must stay in the `Functions` object literal in
 endpoints over its own proxy — which is how the shipped hosted-fields example works —
 needs NO SDK bundle at all**: every body is plain JSON on an unencrypted endpoint.
 
+## Terms gate — `getTermsStatus` / `acceptTerms` / `listTermsAcceptances` (2026-10-06)
+
+`Flux.getTermsStatus()` → `getTermsStatusWeb` (no params; `TermsStatusResult` with
+`required`, `version`, and `agreementMarkdown` + `agreementSha256` ONLY when required).
+`Flux.acceptTerms({agreed, scrolledToEnd, signerName, signerTitle?, signatureDataUrl,
+agreementSha256})` → `acceptTermsWeb`, same result shape. `Flux.listTermsAcceptances()` →
+`listTermsAcceptancesWeb` (admin; `rows[]` with `merchantId`, `signerName`, `acceptedAt`,
+`ip`, `source` portal|onboarding, signed `signatureUrl`). Endpoint strings carry **no `Web`**.
+Instance methods, so no `Functions` registration — but the portal runs the prebuilt
+`dist_web/lib.js`, so **rebuild it** or every caller's feature-detect hides the feature.
+
 ## `createMerchantAccount` (2026-09-24)
 
 `Flux.createMerchantAccount(opts)` -> `createMerchantAccountWeb`. Admin-only: creates a
@@ -536,3 +547,16 @@ merchant application review; actions `list` | `get` | `decide` | `packet`.
 - **Instance method on `Flux`, so no `Functions`-namespace registration is needed** (same as
   `managePartners`). It still needs the `dist_web/lib.js` rebuild before a browser can call it.
 
+
+## Interchange-plus flag on the admin requests (2026-10-07)
+
+`CreateMerchantAccountRequest` and `ReviewMerchantApplicationsRequest` carry `icPlus?: boolean`
+(null = leave as is). Server-managed on the merchant row, so it is deliberately NOT in
+`Merchant.serialize()`; the portal reads `merchant.icPlus` off the raw JSON. Needs the
+`dist_web/lib.js` rebuild before the admin forms can send it.
+
+## `PaymentLink.currency` (2026-10-08)
+
+`IPaymentLink.currency?: string` + in `PaymentLink.serialize()`. ISO-4217 code the link is
+charged in (root CLAUDE.md §10.20); the server refuses anything outside its 2-decimal allowlist. Needs the `dist_web/lib.js` rebuild
+before the portal can send it.

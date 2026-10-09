@@ -26,6 +26,8 @@ export interface ReviewMerchantApplicationsOpts {
     /** Monthly platform fee, dollars. Blank leaves the column default. */
     monthlyFeeAmount?: number;
     processingFeeEnabled?: boolean;
+    /** Interchange-plus merchant: every platform fee figure is hidden from them. */
+    icPlus?: boolean;
     /** Second call, after the server reported what a scale will really store. */
     acceptRounding?: boolean;
     /** Go ahead although no .p12 could be read to check the password against. */
@@ -63,6 +65,7 @@ export declare class ReviewMerchantApplicationsRequest extends RequestBodyBase {
     private authFeeAmount?;
     private monthlyFeeAmount?;
     private processingFeeEnabled?;
+    private icPlus?;
     private acceptRounding?;
     private acceptUnverifiedP12?;
     constructor();
