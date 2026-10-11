@@ -74,6 +74,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         isReusable: boolean;
         minutesToExpire: number;
         isInvoice: boolean;
+        cancelOnFailedAutoCharge: boolean;
         isCardCapture: boolean;
         transferDirection: "PUSH" | "PULL";
         transferStatus: string;
@@ -156,6 +157,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     productDumps: ProductDump[];
     currencies: Currency[];
     isInvoice: boolean;
+    cancelOnFailedAutoCharge: boolean;
     isCardCapture: boolean;
     transferDirection: 'PUSH' | 'PULL';
     transferStatus: string;

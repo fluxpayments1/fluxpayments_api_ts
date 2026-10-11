@@ -40,6 +40,7 @@ export interface IPaymentLink {
     suppressMerchantReceipt?: boolean;
     ccEmails?: string;
     isInvoice?: boolean;
+    cancelOnFailedAutoCharge?: boolean;
     isCardCapture?: boolean;
     transferDirection?: 'PUSH' | 'PULL';
     transferStatus?: string;

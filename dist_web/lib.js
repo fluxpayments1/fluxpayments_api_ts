@@ -75444,6 +75444,7 @@ class PaymentLink extends FluxType_1.FluxType {
             isReusable: this.isReusable,
             minutesToExpire: this.minutesToExpire,
             isInvoice: this.isInvoice,
+            cancelOnFailedAutoCharge: this.cancelOnFailedAutoCharge,
             isCardCapture: this.isCardCapture,
             transferDirection: this.transferDirection,
             transferStatus: this.transferStatus,

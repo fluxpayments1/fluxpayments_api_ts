@@ -94,6 +94,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             isReusable: this.isReusable,
             minutesToExpire: this.minutesToExpire,
             isInvoice: this.isInvoice,
+            cancelOnFailedAutoCharge: this.cancelOnFailedAutoCharge,
             isCardCapture: this.isCardCapture,
             transferDirection: this.transferDirection,
             transferStatus: this.transferStatus,
@@ -177,6 +178,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     productDumps: ProductDump[];
     currencies : Currency[];
     isInvoice: boolean;
+    cancelOnFailedAutoCharge: boolean;
     isCardCapture: boolean;
     // Visa Direct transfer variant: PUSH | PULL; status is server-owned.
     transferDirection: 'PUSH' | 'PULL';

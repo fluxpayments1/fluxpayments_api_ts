@@ -76,6 +76,8 @@ const products = await Product.queryObjects(new ProductQuery());
 const one = await Product.getObjectsById(new FluxIdentifier(123));
 ```
 
+**`PaymentLink.cancelOnFailedAutoCharge` (2026-10-11):** new boolean in `PaymentLink.serialize()` + `IPaymentLink` — an invoice whose saved-card auto-charge fails is auto-cancelled. Forth sets it server-side; an API/portal consumer sets it at create. Portal carries it only after a `dist_web/lib.js` rebuild.
+
 **CRITICAL — `serialize()`:** Every entity implements `serialize()` returning only the fields sent to the backend. If a field isn't in `serialize()`, it won't be transmitted. Always check this before wondering why a field isn't being saved.
 
 ## objectType Convention
