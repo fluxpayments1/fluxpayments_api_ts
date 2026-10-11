@@ -562,3 +562,21 @@ merchant application review; actions `list` | `get` | `decide` | `packet`.
 `IPaymentLink.currency?: string` + in `PaymentLink.serialize()`. ISO-4217 code the link is
 charged in (root CLAUDE.md §10.20); the server refuses anything outside its 2-decimal allowlist. Needs the `dist_web/lib.js` rebuild
 before the portal can send it.
+
+## Forth client detail — `getForthClientDetail` + `getForthStatus` includeInactive (2026-10-11)
+
+`Flux.getForthClientDetail(mappingId)` → `getForthClientDetail` (endpoint string, **no `Web`**;
+reuses `ForthMappingActionRequest`). Returns `ForthClientDetailResult` — mapping, `charges[]`,
+`events[]`, `cardBrand`/`cardLastFour`/`cardAuthStatus`/`cardLastAuthError`,
+`clientName`/`clientEmail`/`clientPhone`, `openIntakeUrl?`, `activeDunningCount`. Backs the portal's
+`/ForthClient/:id` page.
+
+`getForthStatus(page, pageSize, search, includeInactive?)` gained a 4th arg (also on
+`GetForthStatusRequest.loadClientData`/`serialize`): `true` = include clients deleted in Forth
+(soft-deleted mappings), for the Clients tab. Absent/false keeps the active-only view.
+
+Instance methods, so no `Functions` registration — but **the portal runs the prebuilt
+`dist_web/lib.js`, so both need the bundle rebuilt** (and `ng serve` restarted) before they work.
+`getForthStatus` with the extra arg degrades gracefully on a stale bundle (an extra JS arg is
+ignored → active-only list). `ForthClientDetailResponse.setResponseJSON` follows the explicit
+object-literal whitelist pattern (reads each field by name).

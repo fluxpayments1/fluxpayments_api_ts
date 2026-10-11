@@ -685,13 +685,31 @@ export class FluxComms<A extends SecurityHandler> {
      *  search (optional) filters clients SERVER-side across the whole list rather than just the
      *  current page; blank/absent behaves exactly as before. GOTCHA: the portal runs the prebuilt
      *  dist_web/lib.js, so the browser cannot send search until that bundle is rebuilt. */
-    public async getForthStatus(page?: number, pageSize?: number, search?: string): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult> {
+    public async getForthStatus(page?: number, pageSize?: number, search?: string, includeInactive?: boolean): Promise<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult> {
         const { GetForthStatusRequest } = await import("../ajax/Requests/GetForthStatusRequest");
         const { GetForthStatusResponse } = await import("../ajax/Responses/GetForthStatusResponse");
         const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
         return CMMT.fetch<import("../ajax/Responses/GetForthStatusResponse").ForthStatusResult, typeof GetForthStatusRequest.prototype, typeof GetForthStatusResponse.prototype>(
             GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle,
-            page, pageSize, search
+            page, pageSize, search, includeInactive
+        );
+    }
+
+    /**
+     * Full detail for ONE Forth client: the mapping, all its debts/charges, its
+     * complete activity history, the card on file, and whether an intake form is
+     * already open. Read-only — backs the client detail page.
+     *
+     * Reuses ForthMappingActionRequest (it already carries mappingId). Endpoint
+     * string omits "Web" — CMMT appends it in the browser.
+     */
+    public async getForthClientDetail(mappingId: number): Promise<import("../ajax/Responses/ForthClientDetailResponse").ForthClientDetailResult> {
+        const { ForthMappingActionRequest } = await import("../ajax/Requests/ForthMappingActionRequest");
+        const { ForthClientDetailResponse } = await import("../ajax/Responses/ForthClientDetailResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/ForthClientDetailResponse").ForthClientDetailResult, typeof ForthMappingActionRequest.prototype, typeof ForthClientDetailResponse.prototype>(
+            ForthMappingActionRequest, ForthClientDetailResponse, "getForthClientDetail", "POST", isolatedHandle,
+            mappingId
         );
     }
 

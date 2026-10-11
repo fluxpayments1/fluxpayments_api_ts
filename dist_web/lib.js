@@ -64222,13 +64222,14 @@ exports.GetForthStatusRequest = void 0;
 const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
 class GetForthStatusRequest extends RequestBodyBase_1.RequestBodyBase {
     constructor() { super(); }
-    loadClientData(page, pageSize, search) {
+    loadClientData(page, pageSize, search, includeInactive) {
         this.page = page;
         this.pageSize = pageSize;
         this.search = search;
+        this.includeInactive = includeInactive;
     }
     getRequestAsString() {
-        return JSON.stringify({ page: this.page, pageSize: this.pageSize, search: this.search });
+        return JSON.stringify({ page: this.page, pageSize: this.pageSize, search: this.search, includeInactive: this.includeInactive });
     }
 }
 exports.GetForthStatusRequest = GetForthStatusRequest;
@@ -66163,6 +66164,58 @@ class EvidenceAttachmentResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.EvidenceAttachmentResponse = EvidenceAttachmentResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ForthClientDetailResponse.ts"
+/*!*********************************************************!*\
+  !*** ./src/ajax/Responses/ForthClientDetailResponse.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ForthClientDetailResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+const ForthClientMapping_1 = __webpack_require__(/*! ../../flux_types/ForthClientMapping */ "./src/flux_types/ForthClientMapping.ts");
+const ForthActivityEvent_1 = __webpack_require__(/*! ../../flux_types/ForthActivityEvent */ "./src/flux_types/ForthActivityEvent.ts");
+const ForthScheduledCharge_1 = __webpack_require__(/*! ../../flux_types/ForthScheduledCharge */ "./src/flux_types/ForthScheduledCharge.ts");
+class ForthClientDetailResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            status: 0,
+            mapping: null,
+            charges: [],
+            events: [],
+            activeDunningCount: 0,
+        };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            status: typeof p.status === "number" ? p.status : 0,
+            errorMsg: p.errorMsg,
+            mapping: p.mapping ? new ForthClientMapping_1.ForthClientMapping(p.mapping) : null,
+            charges: (p.charges || []).map((c) => new ForthScheduledCharge_1.ForthScheduledCharge(c)),
+            events: (p.events || []).map((e) => new ForthActivityEvent_1.ForthActivityEvent(e)),
+            cardBrand: p.cardBrand,
+            cardLastFour: p.cardLastFour,
+            cardAuthStatus: p.cardAuthStatus,
+            cardLastAuthError: p.cardLastAuthError,
+            clientName: p.clientName,
+            clientEmail: p.clientEmail,
+            clientPhone: p.clientPhone,
+            openIntakeUrl: p.openIntakeUrl,
+            activeDunningCount: p.activeDunningCount || 0,
+        };
+        return this;
+    }
+    getClientReturnValue() { return this.result; }
+}
+exports.ForthClientDetailResponse = ForthClientDetailResponse;
 
 
 /***/ },
@@ -79042,12 +79095,28 @@ class FluxComms {
      *  search (optional) filters clients SERVER-side across the whole list rather than just the
      *  current page; blank/absent behaves exactly as before. GOTCHA: the portal runs the prebuilt
      *  dist_web/lib.js, so the browser cannot send search until that bundle is rebuilt. */
-    getForthStatus(page, pageSize, search) {
+    getForthStatus(page, pageSize, search, includeInactive) {
         return __awaiter(this, void 0, void 0, function* () {
             const { GetForthStatusRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetForthStatusRequest */ "./src/ajax/Requests/GetForthStatusRequest.ts")));
             const { GetForthStatusResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetForthStatusResponse */ "./src/ajax/Responses/GetForthStatusResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
-            return lib_1.CMMT.fetch(GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle, page, pageSize, search);
+            return lib_1.CMMT.fetch(GetForthStatusRequest, GetForthStatusResponse, "getForthStatus", "POST", isolatedHandle, page, pageSize, search, includeInactive);
+        });
+    }
+    /**
+     * Full detail for ONE Forth client: the mapping, all its debts/charges, its
+     * complete activity history, the card on file, and whether an intake form is
+     * already open. Read-only — backs the client detail page.
+     *
+     * Reuses ForthMappingActionRequest (it already carries mappingId). Endpoint
+     * string omits "Web" — CMMT appends it in the browser.
+     */
+    getForthClientDetail(mappingId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ForthMappingActionRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ForthMappingActionRequest */ "./src/ajax/Requests/ForthMappingActionRequest.ts")));
+            const { ForthClientDetailResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ForthClientDetailResponse */ "./src/ajax/Responses/ForthClientDetailResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ForthMappingActionRequest, ForthClientDetailResponse, "getForthClientDetail", "POST", isolatedHandle, mappingId);
         });
     }
     /** Pause or un-pause auto-charging for a specific Forth client mapping. */
