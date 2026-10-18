@@ -36,7 +36,7 @@ import type { DownloadDocumentType } from "../ajax/Requests/DownloadInvoiceWebRe
 import { GenAuthReq } from "../ajax/Requests/GenAuthReq";
 import { GenAuthRes, CreateSessionResponse, GenericCreatorResponse, GenericGetterResponse, GenericDeleterResponse, GenericUpdaterResponse, UpdateProductResponse, GetMetadataResponse } from "../ajax/Responses";
 import { CMMT } from "../ajax/lib";
-import { MerchantEndpointsSecurityHandle, GenAuthDataSecurityHandle, SecurityHandler } from "../ajax/security";
+import { MerchantEndpointsSecurityHandle, GenAuthDataSecurityHandle, SecurityHandler, SessionStorage } from "../ajax/security";
 import { FluxIdentifier, Product } from "../flux_types";
 import { GetMetadataRequest } from "../ajax/Requests/GetMetadataRequest";
 import { IFlux } from "../lib/IFlux";
@@ -624,17 +624,48 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
-    /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
-     *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
-     *  Every action returns the fresh full partner list. */
-    public async managePartners(action: string, opts?: import("../ajax/Requests/ManagePartnersRequest").ManagePartnersOpts): Promise<import("../ajax/Responses/ManagePartnersResponse").ManagePartnersResult> {
-        const { ManagePartnersRequest } = await import("../ajax/Requests/ManagePartnersRequest");
-        const { ManagePartnersResponse } = await import("../ajax/Responses/ManagePartnersResponse");
+    /**
+     * Every merchant the signed-in LOGIN belongs to (one MAC = one membership), plus
+     * `admin` (env-allowlisted platform admin) and `multiMerchant` (>= 2 memberships,
+     * i.e. the portal should offer a merchant switcher). `listMemberships` ->
+     * `listMembershipsWeb`; permission-less server-side, no body — scope is the session.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at
+     * runtime until that bundle is rebuilt (and ng serve restarted). Feature-detect it.
+     */
+    public async listMemberships(): Promise<import("../ajax/Responses/ListMembershipsResponse").ListMembershipsResult> {
+        const { MembershipRequest } = await import("../ajax/Requests/MembershipRequest");
+        const { ListMembershipsResponse } = await import("../ajax/Responses/ListMembershipsResponse");
         const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
-        return CMMT.fetch<import("../ajax/Responses/ManagePartnersResponse").ManagePartnersResult, typeof ManagePartnersRequest.prototype, typeof ManagePartnersResponse.prototype>(
-            ManagePartnersRequest, ManagePartnersResponse, "managePartners", "POST", isolatedHandle,
-            action, opts
+        return CMMT.fetch<import("../ajax/Responses/ListMembershipsResponse").ListMembershipsResult, typeof MembershipRequest.prototype, typeof ListMembershipsResponse.prototype>(
+            MembershipRequest, ListMembershipsResponse, "listMemberships", "POST", isolatedHandle
         );
+    }
+
+    /**
+     * Make one of MY memberships the current one for this session (`selectMembership` ->
+     * `selectMembershipWeb`). The server re-validates on every call that the MAC is active
+     * AND belongs to the session's login — this is a selection among the caller's own
+     * memberships, never impersonation (admin act-as is `setActAsMerchant`, a different thing).
+     *
+     * NEVER THROWS ON A REFUSAL: the server answers HTTP 200 with `{ok:false, reason}` rather
+     * than a 401, because the portal signs the user out on any "401" and a wrong switcher
+     * click must not do that. Read `ok`. On success the macId is remembered in SessionStorage
+     * (`getSelectedMembership()`), beside the credential trio, and wiped by `fluxWebsiteLogout`.
+     * The caller still owns clearing its client-side caches when switching.
+     */
+    public async selectMembership(macId: number): Promise<import("../ajax/Responses/SelectMembershipResponse").SelectMembershipResult> {
+        const { MembershipRequest } = await import("../ajax/Requests/MembershipRequest");
+        const { SelectMembershipResponse } = await import("../ajax/Responses/SelectMembershipResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        const result = await CMMT.fetch<import("../ajax/Responses/SelectMembershipResponse").SelectMembershipResult, typeof MembershipRequest.prototype, typeof SelectMembershipResponse.prototype>(
+            MembershipRequest, SelectMembershipResponse, "selectMembership", "POST", isolatedHandle,
+            macId
+        );
+        if (result.ok) {
+            SessionStorage.setSelectedMembership(result.macId ?? macId);
+        }
+        return result;
     }
 
     /**
@@ -766,6 +797,135 @@ export class FluxComms<A extends SecurityHandler> {
             "POST",
             isolatedHandle
         );
+    }
+
+    /** One-call aggregate for the portal Transactions page: money-bar dollars +
+     *  chip counts for ONE range ("7d" | "30d" | "90d" | "ytd" | "all", default
+     *  "30d"; the server resolves anything else to "30d" and echoes the resolved
+     *  range + lower bound). Endpoint getTransactionMetrics (browser appends Web).
+     *  The range travels as a CMMT.fetch trailing arg -> loadClientData(range),
+     *  the getPartnerDashboard pattern — fetch instantiates the request with no
+     *  constructor args. */
+    public async getTransactionMetrics(range: string = '30d'): Promise<import("../ajax/Responses/GetTransactionMetricsResponse").TransactionMetrics> {
+        const { GetTransactionMetricsRequest } = await import("../ajax/Requests/GetTransactionMetricsRequest");
+        const { GetTransactionMetricsResponse } = await import("../ajax/Responses/GetTransactionMetricsResponse");
+
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+
+        return CMMT.fetch<import("../ajax/Responses/GetTransactionMetricsResponse").TransactionMetrics, typeof GetTransactionMetricsRequest.prototype, typeof GetTransactionMetricsResponse.prototype>(
+            GetTransactionMetricsRequest,
+            GetTransactionMetricsResponse,
+            "getTransactionMetrics",
+            "POST",
+            isolatedHandle,
+            range
+        );
+    }
+
+    // ------------------------------------------------------------------ subscriptions
+    // Endpoint strings carry no "Web" - the browser transport appends it.
+
+    private async subscriptionCall(endpoint: string, body: { [key: string]: unknown }): Promise<import("../ajax/Responses/SubscriptionDetailResponse").SubscriptionDetailResult> {
+        const { SubscriptionRequest } = await import("../ajax/Requests/SubscriptionRequest");
+        const { SubscriptionDetailResponse } = await import("../ajax/Responses/SubscriptionDetailResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/SubscriptionDetailResponse").SubscriptionDetailResult, typeof SubscriptionRequest.prototype, typeof SubscriptionDetailResponse.prototype>(
+            SubscriptionRequest,
+            SubscriptionDetailResponse,
+            endpoint,
+            "POST",
+            isolatedHandle,
+            body
+        );
+    }
+
+    /** The subscriptions list's volume card for a forward window: '7d' | '30d' (default) | '90d' | '12m'. */
+    public async getSubscriptionMetrics(range?: '7d' | '30d' | '90d' | '12m'): Promise<import("../ajax/Responses/SubscriptionMetricsResponse").SubscriptionMetricsResult> {
+        const { SubscriptionRequest } = await import("../ajax/Requests/SubscriptionRequest");
+        const { SubscriptionMetricsResponse } = await import("../ajax/Responses/SubscriptionMetricsResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/SubscriptionMetricsResponse").SubscriptionMetricsResult, typeof SubscriptionRequest.prototype, typeof SubscriptionMetricsResponse.prototype>(
+            SubscriptionRequest, SubscriptionMetricsResponse, "getSubscriptionMetrics", "POST", isolatedHandle, { range }
+        );
+    }
+
+    /** Everything the subscription page shows: state, customer, cards, charges, retries, allowed actions. */
+    public async getSubscriptionDetail(subscriptionId: number) {
+        return this.subscriptionCall("getSubscriptionDetail", { subscriptionId });
+    }
+
+    /**
+     * One action on a subscription: CANCEL, DEFER (months 1-12, default 1), RESCHEDULE
+     * (date yyyy-MM-dd), CHANGE_CARD (paymentMethodOnFileId) or SEND_CARD_FORM (emails the
+     * customer a card form; the card they save becomes this subscription's card). Answers
+     * with the refreshed detail plus a plain-words `note`.
+     */
+    public async manageSubscription(subscriptionId: number, action: 'CANCEL' | 'DEFER' | 'RESCHEDULE' | 'CHANGE_CARD' | 'SEND_CARD_FORM',
+                                    opts?: { months?: number; date?: string; paymentMethodOnFileId?: number }) {
+        return this.subscriptionCall("manageSubscription", { subscriptionId, action, ...(opts || {}) });
+    }
+
+    // ------------------------------------------------------------------ webhooks
+    // Endpoint strings carry no "Web" - the browser transport appends it.
+
+    private async webhookCall(endpoint: string, body: { [key: string]: unknown }): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult> {
+        const { WebhookRequest } = await import("../ajax/Requests/WebhookRequest");
+        const { WebhookResponse } = await import("../ajax/Responses/WebhookResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/WebhookResponse").WebhookResult, typeof WebhookRequest.prototype, typeof WebhookResponse.prototype>(
+            WebhookRequest,
+            WebhookResponse,
+            endpoint,
+            "POST",
+            isolatedHandle,
+            body
+        );
+    }
+
+    /** Registers an endpoint. The response's `secret` is shown ONCE. */
+    public async createWebhookEndpoint(opts: { url: string; events: string[]; description?: string }) {
+        return this.webhookCall("createWebhookEndpoint", { url: opts.url, events: opts.events, description: opts.description });
+    }
+
+    /** All endpoints, or one when `endpointId` is given. */
+    public async getWebhookEndpoints(endpointId?: number) {
+        return this.webhookCall("getWebhookEndpoints", { endpointId });
+    }
+
+    public async updateWebhookEndpoint(endpointId: number, opts: { url?: string; events?: string[]; description?: string; enabled?: boolean }) {
+        return this.webhookCall("updateWebhookEndpoint", { endpointId, ...opts });
+    }
+
+    public async deleteWebhookEndpoint(endpointId: number) {
+        return this.webhookCall("deleteWebhookEndpoint", { endpointId });
+    }
+
+    /** New signing secret (shown once). The old one keeps working for `keepPreviousHours` (default 24, 0 = now). */
+    public async rotateWebhookSecret(endpointId: number, keepPreviousHours?: number) {
+        return this.webhookCall("rotateWebhookSecret", { endpointId, keepPreviousHours });
+    }
+
+    /** Queues a webhook.test delivery (sent within seconds; 10 per minute). */
+    public async testWebhookEndpoint(endpointId: number) {
+        return this.webhookCall("testWebhookEndpoint", { endpointId });
+    }
+
+    public async getWebhookDeliveries(endpointId: number, opts?: { status?: string; limit?: number; before?: number }) {
+        return this.webhookCall("getWebhookDeliveries", { endpointId, ...(opts || {}) });
+    }
+
+    public async resendWebhookDelivery(deliveryId: number) {
+        return this.webhookCall("resendWebhookDelivery", { deliveryId });
+    }
+
+    /** Re-sends every event since `since` (ISO-8601 or epoch ms, within 30 days). */
+    public async replayWebhookEndpoint(endpointId: number, since: string | number, types?: string[]) {
+        return this.webhookCall("replayWebhookEndpoint", { endpointId, since: String(since), types });
+    }
+
+    /** The catch-up feed: events after `after` (an event id), or one event by `eventId`. */
+    public async getWebhookEvents(opts?: { after?: string; types?: string[]; limit?: number; eventId?: string }) {
+        return this.webhookCall("getWebhookEvents", { ...(opts || {}) });
     }
 
     public async getChangelog(): Promise<import("../ajax/Responses/GetChangelogResponse").ChangelogResult> {

@@ -144,7 +144,8 @@ references it, webpack production tree-shakes it out of `dist_web/lib.js`, and
 `Functions.yourNewFn` is silently `undefined` at runtime. TypeScript can't
 catch it because portal call sites use `(Functions as any)`. Prod incident
 2026-07-15: `setActAsMerchant` existed in FluxEntry.ts but was missing from the
-object — the partner "view as merchant" click died with no error visible.
+object — the admin "view as merchant" click died with no error visible. (`listMemberships` /
+`selectMembership` are INSTANCE methods on `Flux`, so they need no entry here — see below.)
 Checklist for any new SDK function the portal will call: FluxEntry.ts export →
 import in index.rn.standalone.ts → key in the `Functions` object → rebuild.
 
@@ -327,12 +328,12 @@ bundle — the request class is still dynamically imported inside the method).
 compile-time correctness only — it is NOT a gate, and a value it does not list still
 reaches the backend.
 
-**Evidence types are REFUSED (403) while a partner is viewing another merchant's account**
-(`executeEvidenceDownload` checks `isPartnerActAsApplied()`): the packet carries the
+**Evidence types are REFUSED (403) under admin act-as and for any MAC without `EVIDENCE:READ`**
+(`executeEvidenceDownload`; since the MAC split, 2026-10-12 — act-as is admin-only and the
+non-admin case is a real catalog permission checked in-service): the packet carries the
 cardholder IP, device fingerprint, full billing AND delivery address and the rendered
 consent text, which is not the sensitivity class the endpoint's `INVOICE:READ` permission
-covers, and a partner's default grant at attach includes every READ permission outside
-`PARTNER_DEFAULT_EXCLUDE_TYPES`. `INVOICE`/`RECEIPT`/`REFUND` are unaffected.
+covers. `EVIDENCE:READ` is in NO default grant. `INVOICE`/`RECEIPT`/`REFUND` are unaffected.
 
 `EVIDENCE` is the sealed chargeback evidence record PDF, `EVIDENCE_JSON` its
 machine-readable sidecar (the canonical record and the surface a Visa CE3.0 / Mastercard
@@ -397,8 +398,8 @@ visibility.
 `EvidenceCoverageResult` = `{ partnerView, admin, merchant: EvidenceCoverageBlock,
 crossMerchant: EvidenceCoverageBlock | null, merchants: EvidenceCoverageMerchantRow[] }`.
 `merchant` is ALWAYS the act-as-resolved merchant; `crossMerchant` is **null** for a
-non-partner (not a zeroed block — see `Spring/CLAUDE.md`), and `merchants` is worst-coverage
-first.
+single-merchant login (not a zeroed block — see `Spring/CLAUDE.md`; it is filled for an env admin
+or a multi-merchant login since 2026-10-12), and `merchants` is worst-coverage first.
 
 **`sealedPct` defaults to 100, not 0,** in `toBlock()`. A missing field must not render as
 "0% sealed", which reads as a platform-wide outage; "nothing eligible yet" is 100%.
@@ -547,7 +548,70 @@ merchant application review; actions `list` | `get` | `decide` | `packet`.
   encrypted SSN, an encrypted bank account number and a Plaid access token — and restating forty
   fields as a strict interface would only drift from it.
 - **Instance method on `Flux`, so no `Functions`-namespace registration is needed** (same as
-  `managePartners`). It still needs the `dist_web/lib.js` rebuild before a browser can call it.
+  every other admin / terms / evidence method). It still needs the `dist_web/lib.js` rebuild
+  before a browser can call it.
+
+## `listMemberships` / `selectMembership` — the merchant switcher (2026-10-12)
+
+The MAC split: one `PORTAL_LOGIN` per person, one MAC per merchant they belong to, and a login
+with two or more active memberships is a *multi-merchant login* that SWITCHES between its own
+memberships — never impersonation. `Flux.managePartners` and its request/response classes are
+DELETED (the backend endpoint is gone; `types/src/ajax/{Requests,Responses}/ManagePartners*.d.ts`
+are stale build output until `npm run compile-src` regenerates `types/`).
+
+- `Flux.listMemberships()` → `listMembershipsWeb`; `Flux.selectMembership(macId)` →
+  `selectMembershipWeb`. Endpoint strings `"listMemberships"` / `"selectMembership"` — **no
+  `Web`**, `CMMT` appends it. Instance methods, so no `Functions` registration. **`dist_web/lib.js`
+  was rebuilt 2026-10-12 18:57 and carries both endpoints** (`grep -c listMembershipsWeb
+  dist_web/lib.js` = 2, `selectMembershipWeb` = 2, `managePartners` = 0; no source under `src/`
+  is newer; `dist_web` is NOT gitignored — only `src/dist_web` is — so it is a tracked file the
+  deploy ships once committed) — commit it with the SDK sources and restart `ng serve`; a portal
+  served from an older bundle feature-detects and treats the missing method as "one membership,
+  no switcher".
+- **`ListMembershipsResult` gained `merchants` + `actingAsMerchantId` (2026-10-14).** `merchants`
+  (`MerchantCatalogRow{merchantId, businessName}`) is every active merchant, served to env ADMINS
+  only (empty for everyone else) — the portal switcher's "All businesses" list, which replaced the
+  admin act-as banner. `actingAsMerchantId` is `undefined` when the key is absent (an older
+  backend), `null` when the server applied no act-as, else the acted-as merchant id. Both are on
+  the response WHITELIST, so they reach the portal only after the `dist_web/lib.js` rebuild.
+- **The AI stream's 403 body is surfaced (2026-10-13).** `CMMT`'s streaming fetch used to throw
+  the bare `HTTP error! status: 403`; the AI gate answers 403 with `{"error":"<a sentence written
+  for the person>"}` (admin-only, or a login that belongs to several businesses), so `CMMT` now
+  reads the body, throws `new Error(serverMessage)` with `status` kept on the error (the portal's
+  401 interceptor still recognises an expired session) and `userFacing = true` when the server
+  explained itself; non-JSON bodies keep the status line and `userFacing = false`. The portal
+  chatbot renders a `userFacing` message as written and everything else as its generic line.
+- `ListMembershipsResult` = `{ memberships: MembershipRow[], admin, multiMerchant, currentMacId,
+  loginId }`; each row carries `macId, merchantId, businessName, isAdminKey, permissionCount,
+  current`. **`currentMacId` / `current` are the SERVER's verdict** (`PORTAL_LOGIN.LAST_SELECTED_MAC_ID`,
+  else the lowest-id active MAC) — prefer them over any client memory; both are `null`/`false`
+  against a backend that predates them (bare passthrough, no `|| 0`).
+- `selectMembership` answers HTTP 200 for BOTH outcomes: `{ok:true, macId, merchantId}` or
+  `{ok:false, reason}` — a refusal is deliberately NEVER a 401, because `CommsService.isUnauthorizedError`
+  signs the user out on any "401". The SDK persists the macId in `SessionStorage` under
+  `XSELECTED_MAC` ONLY on `ok:true` (`Functions.getSelectedMembership()` /
+  `setSelectedMembership(macId)` are the standalone accessors, keyed into the `Functions`
+  object so they survive tree-shaking); `clearSession()` wipes it with the other keys on
+  logout. The server never reads that value — it resolves the current membership from the
+  session it holds — so a tampered entry can only misdraw the switcher.
+- **`reason` is display text, never a switch (2026-10-12).** The server collapsed its refusals so
+  `selectMembership` is not a MAC-id oracle: a target that is missing, login-less, an API key or
+  another person's membership ALL answer one wording ("That business is not one you belong to."),
+  decided before the row's active flag is read; your OWN membership that was removed answers "Your
+  access to that business has been removed."; a session with no login answers its own line. Show
+  `reason` verbatim and do not branch on it (the portal's `comms.switchMembership` passes it
+  through, defaulting to "Could not switch businesses.").
+- **MAC reads come back credential-free.** `getUserWeb`, `getMerchantAccessCredentialsWeb` and a
+  `fulltextSearchWeb` over `user` / `merchant_access_credentials` null password, aesKey,
+  privateKey, publicKey, publicDataKey, username, nonce and the 2FA / reset code (the first and the
+  fulltext path also their timestamps + `paswwordResetTries`) — a membership row carries the
+  PERSON's shared credential since the split. `MerchantAccessCredentials.ts` / `User.ts` still
+  DECLARE (and `serialize()` still sends) those fields: treat them as always-absent on a read and
+  never echo one back. The fulltext path additionally requires USER:READ /
+  MERCHANT_ACCESS_CREDENTIALS:READ and refuses with a 400 (not a 401, so no sign-out). The
+  one place an API key's `aesKey` is ever returned is still the create response.
+- `GetPartnerDashboardResponse` maps `multiMerchant` (the backend's name since the split);
+  the pre-split `partnerOnly` is gone from both sides.
 
 
 ## Interchange-plus flag on the admin requests (2026-10-07)
@@ -580,3 +644,44 @@ Instance methods, so no `Functions` registration — but **the portal runs the p
 `getForthStatus` with the extra arg degrades gracefully on a stale bundle (an extra JS arg is
 ignored → active-only list). `ForthClientDetailResponse.setResponseJSON` follows the explicit
 object-literal whitelist pattern (reads each field by name).
+
+## `getTransactionMetrics(range)` — the Transactions page aggregate (2026-10-14)
+
+`Flux.getTransactionMetrics(range = '30d')` → `getTransactionMetricsWeb` (`TRANSACTION:READ`).
+Endpoint string `"getTransactionMetrics"` — **no `Web`**, `CMMT` appends it in the browser. The
+sibling of `getInvoiceMetrics()`: one call returns the money-bar dollars + chip counts for ONE
+range (`"7d" | "30d" | "90d" | "ytd" | "all"`; the server resolves anything else to `"30d"` and
+echoes the resolved `range` + `sinceMillis` lower bound, `null` for `"all"`).
+
+- **The range reaches the body through `loadClientData`, not the constructor.** `CMMT.fetch`
+  instantiates every request with `new req()` (no args) and then calls
+  `loadClientData(...trailingArgs)`, so `GetTransactionMetricsRequest`'s constructor default
+  (`'30d'`) only covers a direct `new`; the Flux method passes `range` as the trailing
+  `CMMT.fetch` arg exactly like `getPartnerDashboard(range, probe)`. A no-op `loadClientData`
+  would silently send `'30d'` for every call.
+- `GetTransactionMetricsResponse` exports `TransactionMetrics` — the explicit whitelist
+  (`Number(x ?? 0)` for the numerics, `String(range ?? '')`, `sinceMillis` passthrough-or-null):
+  `paymentsTotal/Count`, `refundTotal/Count`, `netTotal` (payments minus refunds),
+  `cardTotal/Count` (CREDIT_CARD + DEBIT_CARD), `achTotal/Count`, `achPendingTotal/Count`,
+  `authCount`, `feeTotal/Count` (MONTHLY_FEE — the platform fee, not a processing fee),
+  `declinedCount`, `allCount` (every non-AUTH row). No `transactionCost` figure is returned.
+- Instance method, so no `Functions` registration — but the portal runs the prebuilt
+  `dist_web/lib.js`, so **it needs the bundle rebuilt** (and `ng serve` restarted) before a
+  browser can call it; the portal should feature-detect `typeof f.getTransactionMetrics`.
+
+## `PaymentLink.charge` — the saved-card charge outcome on create (2026-10-15)
+
+`PaymentLink.charge?: PaymentLinkChargeResult` (`{status: 'APPROVED'|'DECLINED'|'NOT_CHARGED'|'UNKNOWN', transactionId?, declineReason?, retryable?: 'RETRYABLE'|'NOT_RETRYABLE', retryAfterHours?, networkResponse?}` — the last three added 2026-10-15, see Spring/CLAUDE.md, exported from `flux_types/index.ts`). Present ONLY on the `createPaymentLink` response for a link created with a `paymentMethodOnFileId`; read-only (deliberately NOT in `serialize()`, and the server ignores it on input). It arrives through the constructor's `Object.assign`, so even a stale bundle carries the raw value; the type needs the `dist_web/lib.js` rebuild.
+
+## Webhooks (2026-10-16 — root CLAUDE.md §10.24)
+
+`Flux.createWebhookEndpoint`, `getWebhookEndpoints`, `updateWebhookEndpoint`, `deleteWebhookEndpoint`, `rotateWebhookSecret`, `testWebhookEndpoint`, `getWebhookDeliveries`, `resendWebhookDelivery`, `replayWebhookEndpoint`, `getWebhookEvents` — instance methods sharing a private `webhookCall`; endpoint strings carry no `Web` (CMMT appends it in the browser). Types: `ajax/Requests/WebhookRequest.ts`, `ajax/Responses/WebhookResponse.ts` (`WebhookResult` copies a whitelist of fields). **Needs the `dist_web/lib.js` rebuild** — the portal's Webhooks pages feature-detect and say so until then. The detail pages need NO new SDK method: `getWebhookDeliveries(undefined, {deliveryId})` and `getWebhookEvents({newestFirst, beforeEventId, eventId})` pass the extra keys straight through (`WebhookRequest` copies every set key), and the answers come back in fields `WebhookResponse` already whitelists (`deliveries`, `endpoint`, `event`).
+
+## Subscription page calls (2026-10-16)
+
+`Flux.getSubscriptionMetrics(range?)` (list volume card, `SubscriptionMetricsResponse.ts` whitelist), `Flux.getSubscriptionDetail(subscriptionId)` and `Flux.manageSubscription(subscriptionId, 'CANCEL'|'DEFER'|'RESCHEDULE'|'CHANGE_CARD'|'SEND_CARD_FORM', {months?, date?, paymentMethodOnFileId?})` share a private `subscriptionCall` (endpoint strings carry no `Web`). Types: `ajax/Requests/SubscriptionRequest.ts` (sends only set keys), `ajax/Responses/SubscriptionDetailResponse.ts` (`SubscriptionDetailResult` whitelist, incl. `cardForm`). `RecurringTransaction` declares `productName?` / `customerName?` - server-computed list columns, read-only, deliberately NOT in `serialize()`; they arrive through the constructor's `Object.assign`, so a stale bundle still shows them. **Needs the `dist_web/lib.js` rebuild** + an `ng serve` restart.
+
+
+## Billing interval values (2026-10-17)
+
+`Product` / `IProduct` / `ProductQuery` / `ProductDump` `subscriptionInterval` is now typed `'MONTHLY' | 'QUARTERLY' | 'ANNUALLY'` — the backend `Frequency` enum. The old union (`DAILY | WEEKLY | MONTHLY | YEARLY`) named three values that never existed, so any non-monthly product failed the request. The backend still reads `YEARLY` as `ANNUALLY` for older bundles. Type-only change; the prebuilt `dist_web/lib.js` carries no runtime difference.

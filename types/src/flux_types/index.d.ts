@@ -81,7 +81,7 @@ export { InstallmentTransaction } from './InstallmentTransaction';
 export { InstallmentTransactionQuery } from './InstallmentTransactionQuery';
 export { RecurringTransaction } from './RecurringTransaction';
 export { RecurringTransactionQuery } from './RecurringTransactionQuery';
-export { PaymentLink } from './PaymentLink';
+export { PaymentLink, PaymentLinkChargeResult } from './PaymentLink';
 export { PaymentLinkQuery } from './PaymentLinkQuery';
 export { Invoice } from './Invoice';
 export { InvoiceQuery } from './InvoiceQuery';

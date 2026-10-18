@@ -79,6 +79,15 @@ export declare function passkeySupported(): boolean;
  */
 export declare function setActAsMerchant(merchantId: number | string | null): Promise<void>;
 /**
+ * The membership (MAC id) this login last selected as current, or null. Written by
+ * `Flux.selectMembership` on success and wiped by `fluxWebsiteLogout`. A client-side
+ * convenience for the merchant switcher — the server resolves the current membership
+ * from the session it holds and never trusts this value.
+ */
+export declare function getSelectedMembership(): number | null;
+/** Remember (or, with null, forget) the selected membership without a server round trip. */
+export declare function setSelectedMembership(macId: number | null): void;
+/**
  * Enroll a new passkey for the signed-in merchant: fetch creation options, run
  * navigator.credentials.create(), and persist the attestation. Returns the
  * created credential's id + label.

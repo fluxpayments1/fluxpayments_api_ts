@@ -11,7 +11,11 @@ export class SessionStorage {
         AUTH_KEY_PUB: 'XAUTH_KEY_PUB',
         PUB_KEY: 'PUB_KEY',
         AUTH_TOKEN: 'XAUTH_TOKEN', // Store the serialized auth token
-        TWO_FA_PRESENT: '2FA'
+        TWO_FA_PRESENT: '2FA',
+        // The membership (MAC id) the login last selected as current. Lives beside the
+        // credential trio because it describes THIS session; clearSession() iterates KEYS,
+        // so it is wiped on logout with the rest.
+        SELECTED_MAC: 'XSELECTED_MAC'
     };
 
     /**
@@ -91,6 +95,32 @@ export class SessionStorage {
         
         // Also clear in-memory auth cache
         AuthCache.clearCache();
+    }
+
+    /**
+     * The MAC id of the membership currently selected for this login, or null.
+     * A client-side convenience for the portal's merchant switcher only — the
+     * server resolves the current membership from the SESSION it holds and never
+     * trusts this value.
+     */
+    static getSelectedMembership(): number | null {
+        if (typeof localStorage === 'undefined') return null;
+        const raw = localStorage.getItem(this.KEYS.SELECTED_MAC);
+        if (raw === null || raw === '') return null;
+        const n = Number(raw);
+        return Number.isFinite(n) ? n : null;
+    }
+
+    /**
+     * Remember the selected membership (pass null to forget it).
+     */
+    static setSelectedMembership(macId: number | null): void {
+        if (typeof localStorage === 'undefined') return;
+        if (macId === null || macId === undefined) {
+            localStorage.removeItem(this.KEYS.SELECTED_MAC);
+        } else {
+            localStorage.setItem(this.KEYS.SELECTED_MAC, String(macId));
+        }
     }
 
     /**

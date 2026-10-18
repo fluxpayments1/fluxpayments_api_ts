@@ -353,7 +353,27 @@ export class CMMT {
             const response = await fetch(env.AI_CONNECTION_ENDPOINT_PROD + arh.path, fetchOptions);
 
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                // A refused stream carries its reason in the body: the AI gate answers 403
+                // with {"error":"<a sentence written for the person>"} (admin-only, or a
+                // login that belongs to several businesses). Throwing the bare status line
+                // left the chat showing a generic failure for a refusal the server had
+                // explained. `status` stays on the error so the portal's 401 interceptor
+                // still recognises an expired session; `userFacing` marks a message that
+                // is safe to show as-is.
+                let serverMessage: string | null = null;
+                try {
+                    const text = await response.text();
+                    const parsed = JSON.parse(text);
+                    if (parsed && typeof parsed.error === 'string' && parsed.error.trim()) {
+                        serverMessage = parsed.error.trim();
+                    }
+                } catch (e) {
+                    // not JSON, or unreadable - the status line below is all we have
+                }
+                const err: any = new Error(serverMessage ?? `HTTP error! status: ${response.status}`);
+                err.status = response.status;
+                err.userFacing = serverMessage != null;
+                throw err;
             }
 
 

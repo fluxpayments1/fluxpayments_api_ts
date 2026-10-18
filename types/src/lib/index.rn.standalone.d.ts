@@ -1,4 +1,4 @@
-import { flux, fluxSocket, fluxBrowser, fluxSocketBrowserSessionBased, fluxReactNativeSignInAuthorization, fluxReactNativeSessionAuthorization, getMerchantPublicKeyFromOTPL, getAccountSessionFromOTPL, updatePassword, fluxWebsiteSignInAuthorization, fluxWebsiteCookieAuthorization, fluxWebsite2fa, fluxWebsitePasskey2fa, passkeySupported, fluxWebsiteRegisterPasskey, fluxWebsiteListPasskeys, fluxWebsiteDeletePasskey, resetPassword, fluxWebsiteSignUp, fluxSocketBrowser, setActAsMerchant, getCardCaptureForm, capturePaymentMethod } from './FluxEntry';
+import { flux, fluxSocket, fluxBrowser, fluxSocketBrowserSessionBased, fluxReactNativeSignInAuthorization, fluxReactNativeSessionAuthorization, getMerchantPublicKeyFromOTPL, getAccountSessionFromOTPL, updatePassword, fluxWebsiteSignInAuthorization, fluxWebsiteCookieAuthorization, fluxWebsite2fa, fluxWebsitePasskey2fa, passkeySupported, fluxWebsiteRegisterPasskey, fluxWebsiteListPasskeys, fluxWebsiteDeletePasskey, resetPassword, fluxWebsiteSignUp, fluxSocketBrowser, setActAsMerchant, getSelectedMembership, setSelectedMembership, getCardCaptureForm, capturePaymentMethod } from './FluxEntry';
 import { FluxComms } from './Flux';
 import { Subscription } from './FluxSockets';
 import * as FluxTypesImport from '../flux_types';
@@ -26,6 +26,8 @@ export declare const Functions: {
     getMerchantPublicKeyFromOTPL: typeof getMerchantPublicKeyFromOTPL;
     getAccountSessionFromOTPL: typeof getAccountSessionFromOTPL;
     setActAsMerchant: typeof setActAsMerchant;
+    getSelectedMembership: typeof getSelectedMembership;
+    setSelectedMembership: typeof setSelectedMembership;
     getCardCaptureForm: typeof getCardCaptureForm;
     capturePaymentMethod: typeof capturePaymentMethod;
     Subscription: typeof Subscription;

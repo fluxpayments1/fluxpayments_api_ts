@@ -30,8 +30,11 @@ export interface PartnerDashboardResult {
     allowed: boolean;
     /** True only for the ADMIN tier (unscoped view + Partners management). */
     admin: boolean;
-    /** True when the login exists only for the partner surface (no merchant permissions). */
-    partnerOnly: boolean;
+    /**
+     * True when the caller's login holds two or more active memberships (MAC split,
+     * 2026-10-12 — replaces the pre-split `partnerOnly`). Display-only, never enforcement.
+     */
+    multiMerchant: boolean;
     grossVolume: string | number;
     transactionCount: number;
     finalizedCount: number;

@@ -34,6 +34,17 @@ export declare class SessionStorage {
      */
     static clearSession(): void;
     /**
+     * The MAC id of the membership currently selected for this login, or null.
+     * A client-side convenience for the portal's merchant switcher only — the
+     * server resolves the current membership from the SESSION it holds and never
+     * trusts this value.
+     */
+    static getSelectedMembership(): number | null;
+    /**
+     * Remember the selected membership (pass null to forget it).
+     */
+    static setSelectedMembership(macId: number | null): void;
+    /**
      * Mark 2FA as present
      */
     static set2FAPresent(): void;

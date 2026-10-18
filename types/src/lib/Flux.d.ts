@@ -137,10 +137,29 @@ export declare class FluxComms<A extends SecurityHandler> {
     acceptTerms(opts: import("../ajax/Requests/AcceptTermsRequest").AcceptTermsOpts): Promise<import("../ajax/Responses/GetTermsStatusResponse").TermsStatusResult>;
     /** ADMIN-only: every merchant that has agreed to the terms (portal + onboarding), newest first. */
     listTermsAcceptances(): Promise<import("../ajax/Responses/ListTermsAcceptancesResponse").TermsAcceptanceListResult>;
-    /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
-     *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
-     *  Every action returns the fresh full partner list. */
-    managePartners(action: string, opts?: import("../ajax/Requests/ManagePartnersRequest").ManagePartnersOpts): Promise<import("../ajax/Responses/ManagePartnersResponse").ManagePartnersResult>;
+    /**
+     * Every merchant the signed-in LOGIN belongs to (one MAC = one membership), plus
+     * `admin` (env-allowlisted platform admin) and `multiMerchant` (>= 2 memberships,
+     * i.e. the portal should offer a merchant switcher). `listMemberships` ->
+     * `listMembershipsWeb`; permission-less server-side, no body — scope is the session.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at
+     * runtime until that bundle is rebuilt (and ng serve restarted). Feature-detect it.
+     */
+    listMemberships(): Promise<import("../ajax/Responses/ListMembershipsResponse").ListMembershipsResult>;
+    /**
+     * Make one of MY memberships the current one for this session (`selectMembership` ->
+     * `selectMembershipWeb`). The server re-validates on every call that the MAC is active
+     * AND belongs to the session's login — this is a selection among the caller's own
+     * memberships, never impersonation (admin act-as is `setActAsMerchant`, a different thing).
+     *
+     * NEVER THROWS ON A REFUSAL: the server answers HTTP 200 with `{ok:false, reason}` rather
+     * than a 401, because the portal signs the user out on any "401" and a wrong switcher
+     * click must not do that. Read `ok`. On success the macId is remembered in SessionStorage
+     * (`getSelectedMembership()`), beside the credential trio, and wiped by `fluxWebsiteLogout`.
+     * The caller still owns clearing its client-side caches when switching.
+     */
+    selectMembership(macId: number): Promise<import("../ajax/Responses/SelectMembershipResponse").SelectMembershipResult>;
     /**
      * Admin-only merchant application review.
      *
@@ -206,6 +225,65 @@ export declare class FluxComms<A extends SecurityHandler> {
     /** One-call aggregate for the portal Invoices page: money-bar dollars +
      *  smart-filter chip counts. Endpoint getInvoiceMetrics (browser appends Web). */
     getInvoiceMetrics(): Promise<import("../ajax/Responses/GetInvoiceMetricsResponse").InvoiceMetrics>;
+    /** One-call aggregate for the portal Transactions page: money-bar dollars +
+     *  chip counts for ONE range ("7d" | "30d" | "90d" | "ytd" | "all", default
+     *  "30d"; the server resolves anything else to "30d" and echoes the resolved
+     *  range + lower bound). Endpoint getTransactionMetrics (browser appends Web).
+     *  The range travels as a CMMT.fetch trailing arg -> loadClientData(range),
+     *  the getPartnerDashboard pattern — fetch instantiates the request with no
+     *  constructor args. */
+    getTransactionMetrics(range?: string): Promise<import("../ajax/Responses/GetTransactionMetricsResponse").TransactionMetrics>;
+    private subscriptionCall;
+    /** The subscriptions list's volume card for a forward window: '7d' | '30d' (default) | '90d' | '12m'. */
+    getSubscriptionMetrics(range?: '7d' | '30d' | '90d' | '12m'): Promise<import("../ajax/Responses/SubscriptionMetricsResponse").SubscriptionMetricsResult>;
+    /** Everything the subscription page shows: state, customer, cards, charges, retries, allowed actions. */
+    getSubscriptionDetail(subscriptionId: number): Promise<import("../ajax/Responses/SubscriptionDetailResponse").SubscriptionDetailResult>;
+    /**
+     * One action on a subscription: CANCEL, DEFER (months 1-12, default 1), RESCHEDULE
+     * (date yyyy-MM-dd), CHANGE_CARD (paymentMethodOnFileId) or SEND_CARD_FORM (emails the
+     * customer a card form; the card they save becomes this subscription's card). Answers
+     * with the refreshed detail plus a plain-words `note`.
+     */
+    manageSubscription(subscriptionId: number, action: 'CANCEL' | 'DEFER' | 'RESCHEDULE' | 'CHANGE_CARD' | 'SEND_CARD_FORM', opts?: {
+        months?: number;
+        date?: string;
+        paymentMethodOnFileId?: number;
+    }): Promise<import("../ajax/Responses/SubscriptionDetailResponse").SubscriptionDetailResult>;
+    private webhookCall;
+    /** Registers an endpoint. The response's `secret` is shown ONCE. */
+    createWebhookEndpoint(opts: {
+        url: string;
+        events: string[];
+        description?: string;
+    }): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    /** All endpoints, or one when `endpointId` is given. */
+    getWebhookEndpoints(endpointId?: number): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    updateWebhookEndpoint(endpointId: number, opts: {
+        url?: string;
+        events?: string[];
+        description?: string;
+        enabled?: boolean;
+    }): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    deleteWebhookEndpoint(endpointId: number): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    /** New signing secret (shown once). The old one keeps working for `keepPreviousHours` (default 24, 0 = now). */
+    rotateWebhookSecret(endpointId: number, keepPreviousHours?: number): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    /** Queues a webhook.test delivery (sent within seconds; 10 per minute). */
+    testWebhookEndpoint(endpointId: number): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    getWebhookDeliveries(endpointId: number, opts?: {
+        status?: string;
+        limit?: number;
+        before?: number;
+    }): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    resendWebhookDelivery(deliveryId: number): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    /** Re-sends every event since `since` (ISO-8601 or epoch ms, within 30 days). */
+    replayWebhookEndpoint(endpointId: number, since: string | number, types?: string[]): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
+    /** The catch-up feed: events after `after` (an event id), or one event by `eventId`. */
+    getWebhookEvents(opts?: {
+        after?: string;
+        types?: string[];
+        limit?: number;
+        eventId?: string;
+    }): Promise<import("../ajax/Responses/WebhookResponse").WebhookResult>;
     getChangelog(): Promise<import("../ajax/Responses/GetChangelogResponse").ChangelogResult>;
     private webauthnCall;
     /** Enroll step 1: PublicKeyCredentialCreationOptions JSON for navigator.credentials.create(). */

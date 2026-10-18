@@ -7,7 +7,7 @@ export interface IProduct {
     price: number;
     sku?: string;
     type: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT' | 'ACCOUNT_TRANSFER';
-    subscriptionInterval?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+    subscriptionInterval?: 'MONTHLY' | 'QUARTERLY' | 'ANNUALLY';
     inventoryCount?: number;
     imageUrl?: string;
     category?: string;

@@ -64408,6 +64408,51 @@ exports.GetTermsStatusRequest = GetTermsStatusRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/GetTransactionMetricsRequest.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Requests/GetTransactionMetricsRequest.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetTransactionMetricsRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body for getTransactionMetricsWeb: {"range":"30d"}.
+ *
+ * `range` is one of "7d" | "30d" | "90d" | "ytd" | "all" (UTC on the server:
+ * 7d/30d/90d = createdAt >= now - N days, "ytd" = Jan 1 00:00:00 UTC of the
+ * current year, "all" = no lower bound). Unknown/blank resolves to "30d"
+ * server-side, and the server echoes the resolved range + lower bound back.
+ *
+ * HOW THE RANGE REACHES THE WIRE: `CMMT.fetch` instantiates the request with NO
+ * constructor args (`new req()`) and then calls `loadClientData(...args)` with
+ * whatever the Flux method passed after the security handle — the same
+ * mechanism `GetPartnerDashboardRequest` uses. So the value a caller hands to
+ * `Flux.getTransactionMetrics(range)` arrives through `loadClientData`, never
+ * through the constructor; the constructor default only covers a direct
+ * `new GetTransactionMetricsRequest()`.
+ */
+class GetTransactionMetricsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor(range = "30d") {
+        super();
+        this.range = range;
+    }
+    loadClientData(range) {
+        if (typeof range === "string" && range.trim() !== "")
+            this.range = range;
+    }
+    getRequestAsString() {
+        return JSON.stringify({ range: this.range });
+    }
+}
+exports.GetTransactionMetricsRequest = GetTransactionMetricsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/IdentificationDocumentRequst.ts"
 /*!***********************************************************!*\
   !*** ./src/ajax/Requests/IdentificationDocumentRequst.ts ***!
@@ -64558,49 +64603,6 @@ exports.LookupCustomerByEmailRequest = LookupCustomerByEmailRequest;
 
 /***/ },
 
-/***/ "./src/ajax/Requests/ManagePartnersRequest.ts"
-/*!****************************************************!*\
-  !*** ./src/ajax/Requests/ManagePartnersRequest.ts ***!
-  \****************************************************/
-(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ManagePartnersRequest = void 0;
-const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
-/**
- * Admin-only partner account management (managePartners -> managePartnersWeb).
- * action: "list" | "create" | "update" | "remove". For update, merchantIds is
- * the COMPLETE replacement list (attach/detach are client-side list edits).
- */
-class ManagePartnersRequest extends RequestBodyBase_1.RequestBodyBase {
-    constructor() { super(); }
-    loadClientData(action, opts) {
-        this.action = action;
-        this.partnerId = opts === null || opts === void 0 ? void 0 : opts.partnerId;
-        this.partnerEmail = opts === null || opts === void 0 ? void 0 : opts.partnerEmail;
-        this.partnerName = opts === null || opts === void 0 ? void 0 : opts.partnerName;
-        this.merchantIds = opts === null || opts === void 0 ? void 0 : opts.merchantIds;
-        this.merchantPermissions = opts === null || opts === void 0 ? void 0 : opts.merchantPermissions;
-        return this;
-    }
-    getRequestAsString() {
-        return JSON.stringify({
-            action: this.action,
-            partnerId: this.partnerId,
-            partnerEmail: this.partnerEmail,
-            partnerName: this.partnerName,
-            merchantIds: this.merchantIds,
-            merchantPermissions: this.merchantPermissions,
-        });
-    }
-}
-exports.ManagePartnersRequest = ManagePartnersRequest;
-
-
-/***/ },
-
 /***/ "./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts"
 /*!*******************************************************!*\
   !*** ./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts ***!
@@ -64637,6 +64639,44 @@ class MarkInvoiceAsPaidRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.MarkInvoiceAsPaidRequest = MarkInvoiceAsPaidRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/MembershipRequest.ts"
+/*!************************************************!*\
+  !*** ./src/ajax/Requests/MembershipRequest.ts ***!
+  \************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.MembershipRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Shared body for the two membership endpoints (listMemberships -> listMembershipsWeb,
+ * selectMembership -> selectMembershipWeb). Both are PERMISSION-LESS server-side and
+ * scoped to the session's login, never to anything in the body.
+ *
+ * listMemberships sends `{}` — the server lists the caller's OWN memberships, so a
+ * body value would be a request to widen visibility.
+ * selectMembership sends `{ macId }` — which of MY memberships to make current. The
+ * server re-validates (active + belongs to this login) on every call; this is a
+ * selection among the caller's own MACs, never impersonation.
+ */
+class MembershipRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(macId) {
+        this.macId = macId;
+        return this;
+    }
+    getRequestAsString() {
+        // Emit the key only when a selection was made, so the list call stays `{}`.
+        return JSON.stringify(this.macId !== undefined ? { macId: this.macId } : {});
+    }
+}
+exports.MembershipRequest = MembershipRequest;
 
 
 /***/ },
@@ -65124,6 +65164,45 @@ exports.SendInvoiceEmailRequest = SendInvoiceEmailRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/SubscriptionRequest.ts"
+/*!**************************************************!*\
+  !*** ./src/ajax/Requests/SubscriptionRequest.ts ***!
+  \**************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SubscriptionRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body for getSubscriptionDetail / manageSubscription. Only keys the caller set are sent
+ * (undefined is dropped, never sent as null).
+ */
+class SubscriptionRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+        this.payload = {};
+    }
+    loadClientData(body) {
+        const out = {};
+        if (body) {
+            for (const k of Object.keys(body)) {
+                if (body[k] !== undefined)
+                    out[k] = body[k];
+            }
+        }
+        this.payload = out;
+    }
+    getRequestAsString() {
+        return JSON.stringify(this.payload);
+    }
+}
+exports.SubscriptionRequest = SubscriptionRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/UpdateAccountInformationRequest.ts"
 /*!**************************************************************!*\
   !*** ./src/ajax/Requests/UpdateAccountInformationRequest.ts ***!
@@ -65330,6 +65409,47 @@ class WebAuthnRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.WebAuthnRequest = WebAuthnRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/WebhookRequest.ts"
+/*!*********************************************!*\
+  !*** ./src/ajax/Requests/WebhookRequest.ts ***!
+  \*********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WebhookRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * One body for every webhook call (createWebhookEndpointWeb, getWebhookDeliveriesWeb, ...).
+ * `CMMT.fetch` builds the request with no constructor args and hands the Flux method's
+ * extra argument to `loadClientData`, so the body object arrives there. Only keys the
+ * caller actually set are sent (undefined is dropped, never sent as null).
+ */
+class WebhookRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+        this.payload = {};
+    }
+    loadClientData(body) {
+        const out = {};
+        if (body) {
+            for (const k of Object.keys(body)) {
+                if (body[k] !== undefined)
+                    out[k] = body[k];
+            }
+        }
+        this.payload = out;
+    }
+    getRequestAsString() {
+        return JSON.stringify(this.payload);
+    }
+}
+exports.WebhookRequest = WebhookRequest;
 
 
 /***/ },
@@ -66917,7 +67037,7 @@ class GetPartnerDashboardResponse extends ResponseBodyBase_1.ResponseBodyBase {
         this.result = {
             allowed: false,
             admin: false,
-            partnerOnly: false,
+            multiMerchant: false,
             grossVolume: 0,
             transactionCount: 0,
             finalizedCount: 0,
@@ -66938,7 +67058,7 @@ class GetPartnerDashboardResponse extends ResponseBodyBase_1.ResponseBodyBase {
         this.result = {
             allowed: !!p.allowed,
             admin: !!p.admin,
-            partnerOnly: !!p.partnerOnly,
+            multiMerchant: !!p.multiMerchant,
             grossVolume: (_a = p.grossVolume) !== null && _a !== void 0 ? _a : 0,
             transactionCount: p.transactionCount || 0,
             finalizedCount: p.finalizedCount || 0,
@@ -67004,6 +67124,61 @@ exports.GetTermsStatusResponse = GetTermsStatusResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/GetTransactionMetricsResponse.ts"
+/*!*************************************************************!*\
+  !*** ./src/ajax/Responses/GetTransactionMetricsResponse.ts ***!
+  \*************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetTransactionMetricsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class GetTransactionMetricsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.metrics = null;
+    }
+    /**
+     * Explicit whitelist (no `...parsed` spread): a key the backend adds is
+     * dropped here until it is named below — see the "Response classes are
+     * WHITELISTS too" note in CLAUDE.md.
+     */
+    setResponseJSON(jsonString) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+        const parsed = JSON.parse(jsonString);
+        this.metrics = {
+            range: String((_a = parsed.range) !== null && _a !== void 0 ? _a : ''),
+            sinceMillis: parsed.sinceMillis == null ? null : Number(parsed.sinceMillis),
+            paymentsTotal: Number((_b = parsed.paymentsTotal) !== null && _b !== void 0 ? _b : 0),
+            paymentsCount: Number((_c = parsed.paymentsCount) !== null && _c !== void 0 ? _c : 0),
+            refundTotal: Number((_d = parsed.refundTotal) !== null && _d !== void 0 ? _d : 0),
+            refundCount: Number((_e = parsed.refundCount) !== null && _e !== void 0 ? _e : 0),
+            netTotal: Number((_f = parsed.netTotal) !== null && _f !== void 0 ? _f : 0),
+            cardTotal: Number((_g = parsed.cardTotal) !== null && _g !== void 0 ? _g : 0),
+            cardCount: Number((_h = parsed.cardCount) !== null && _h !== void 0 ? _h : 0),
+            achTotal: Number((_j = parsed.achTotal) !== null && _j !== void 0 ? _j : 0),
+            achCount: Number((_k = parsed.achCount) !== null && _k !== void 0 ? _k : 0),
+            achPendingTotal: Number((_l = parsed.achPendingTotal) !== null && _l !== void 0 ? _l : 0),
+            achPendingCount: Number((_m = parsed.achPendingCount) !== null && _m !== void 0 ? _m : 0),
+            authCount: Number((_o = parsed.authCount) !== null && _o !== void 0 ? _o : 0),
+            feeTotal: Number((_p = parsed.feeTotal) !== null && _p !== void 0 ? _p : 0),
+            feeCount: Number((_q = parsed.feeCount) !== null && _q !== void 0 ? _q : 0),
+            declinedCount: Number((_r = parsed.declinedCount) !== null && _r !== void 0 ? _r : 0),
+            allCount: Number((_s = parsed.allCount) !== null && _s !== void 0 ? _s : 0),
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.metrics;
+    }
+}
+exports.GetTransactionMetricsResponse = GetTransactionMetricsResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/InvoicePreviewResponse.ts"
 /*!******************************************************!*\
   !*** ./src/ajax/Responses/InvoicePreviewResponse.ts ***!
@@ -67031,6 +67206,67 @@ class InvoicePreviewResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.InvoicePreviewResponse = InvoicePreviewResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ListMembershipsResponse.ts"
+/*!*******************************************************!*\
+  !*** ./src/ajax/Responses/ListMembershipsResponse.ts ***!
+  \*******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ListMembershipsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ListMembershipsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            memberships: [], merchants: [], actingAsMerchantId: undefined,
+            admin: false, multiMerchant: false, currentMacId: null, loginId: null,
+        };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            memberships: (p.memberships || []).map((r) => {
+                var _a, _b;
+                return ({
+                    macId: r.macId,
+                    merchantId: r.merchantId,
+                    businessName: (_a = r.businessName) !== null && _a !== void 0 ? _a : null,
+                    isAdminKey: !!r.isAdminKey,
+                    permissionCount: (_b = r.permissionCount) !== null && _b !== void 0 ? _b : 0,
+                    current: !!r.current,
+                });
+            }),
+            merchants: (Array.isArray(p.merchants) ? p.merchants : [])
+                .filter((r) => r && r.merchantId != null)
+                .map((r) => {
+                var _a;
+                return ({
+                    merchantId: Number(r.merchantId),
+                    businessName: String((_a = r.businessName) !== null && _a !== void 0 ? _a : ('Merchant ' + r.merchantId)),
+                });
+            }),
+            // undefined (key absent) = an older backend that never said; null = not acting-as.
+            actingAsMerchantId: !('actingAsMerchantId' in p) ? undefined
+                : (p.actingAsMerchantId != null ? Number(p.actingAsMerchantId) : null),
+            admin: !!p.admin,
+            multiMerchant: !!p.multiMerchant,
+            currentMacId: p.currentMacId != null ? Number(p.currentMacId) : null,
+            loginId: p.loginId != null ? Number(p.loginId) : null,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.ListMembershipsResponse = ListMembershipsResponse;
 
 
 /***/ },
@@ -67097,49 +67333,6 @@ class LookupCustomerByEmailResponse extends ResponseBodyBase_1.ResponseBodyBase 
     }
 }
 exports.LookupCustomerByEmailResponse = LookupCustomerByEmailResponse;
-
-
-/***/ },
-
-/***/ "./src/ajax/Responses/ManagePartnersResponse.ts"
-/*!******************************************************!*\
-  !*** ./src/ajax/Responses/ManagePartnersResponse.ts ***!
-  \******************************************************/
-(__unused_webpack_module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.ManagePartnersResponse = void 0;
-const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
-class ManagePartnersResponse extends ResponseBodyBase_1.ResponseBodyBase {
-    constructor() {
-        super();
-        this.result = { partners: [], invitedLoginCreated: false };
-    }
-    setResponseJSON(jsonString) {
-        const p = JSON.parse(jsonString);
-        this.result = {
-            partners: (p.partners || []).map((r) => {
-                var _a, _b;
-                return ({
-                    id: r.id,
-                    email: r.email,
-                    name: (_a = r.name) !== null && _a !== void 0 ? _a : null,
-                    merchantIds: r.merchantIds || [],
-                    merchantPermissions: r.merchantPermissions || {},
-                    createdAt: (_b = r.createdAt) !== null && _b !== void 0 ? _b : null,
-                });
-            }),
-            invitedLoginCreated: !!p.invitedLoginCreated,
-        };
-        return this;
-    }
-    getClientReturnValue() {
-        return this.result;
-    }
-}
-exports.ManagePartnersResponse = ManagePartnersResponse;
 
 
 /***/ },
@@ -67541,6 +67734,43 @@ exports.RollupReportResponse = RollupReportResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/SelectMembershipResponse.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Responses/SelectMembershipResponse.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SelectMembershipResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class SelectMembershipResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = { ok: false, reason: null };
+    }
+    setResponseJSON(jsonString) {
+        var _a;
+        const p = JSON.parse(jsonString);
+        this.result = {
+            ok: !!p.ok,
+            reason: (_a = p.reason) !== null && _a !== void 0 ? _a : null,
+            // Bare passthrough: an older backend may not echo these; undefined keeps that visible.
+            macId: p.macId,
+            merchantId: p.merchantId,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.SelectMembershipResponse = SelectMembershipResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/SendConfirmationEmailResponse.ts"
 /*!*************************************************************!*\
   !*** ./src/ajax/Responses/SendConfirmationEmailResponse.ts ***!
@@ -67654,6 +67884,89 @@ class SendInvoiceEmailResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.SendInvoiceEmailResponse = SendInvoiceEmailResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/SubscriptionDetailResponse.ts"
+/*!**********************************************************!*\
+  !*** ./src/ajax/Responses/SubscriptionDetailResponse.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SubscriptionDetailResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+/** Explicit whitelist: a key the backend adds is dropped until it is named here. */
+class SubscriptionDetailResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {};
+    }
+    setResponseJSON(jsonString) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        const p = JSON.parse(jsonString);
+        this.result = {
+            subscription: (_a = p.subscription) !== null && _a !== void 0 ? _a : undefined,
+            account: (_b = p.account) !== null && _b !== void 0 ? _b : undefined,
+            product: (_c = p.product) !== null && _c !== void 0 ? _c : undefined,
+            paymentLink: (_d = p.paymentLink) !== null && _d !== void 0 ? _d : undefined,
+            card: (_e = p.card) !== null && _e !== void 0 ? _e : undefined,
+            savedCards: (_f = p.savedCards) !== null && _f !== void 0 ? _f : undefined,
+            transactions: (_g = p.transactions) !== null && _g !== void 0 ? _g : undefined,
+            retryAttempts: (_h = p.retryAttempts) !== null && _h !== void 0 ? _h : undefined,
+            upcoming: (_j = p.upcoming) !== null && _j !== void 0 ? _j : undefined,
+            actions: (_k = p.actions) !== null && _k !== void 0 ? _k : undefined,
+            note: (_l = p.note) !== null && _l !== void 0 ? _l : undefined,
+            cardForm: (_m = p.cardForm) !== null && _m !== void 0 ? _m : undefined,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.SubscriptionDetailResponse = SubscriptionDetailResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/SubscriptionMetricsResponse.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Responses/SubscriptionMetricsResponse.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SubscriptionMetricsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+const KEYS = ['range', 'untilMillis', 'scheduledTotal', 'scheduledCount',
+    'monthlyRecurring', 'activeCount', 'activePlanCount', 'issuesCount', 'issuesAmount', 'retryingCount',
+    'cancelledCount', 'cancelledLast30Count', 'allCount'];
+/** Explicit whitelist: a key the backend adds is dropped until it is named here. */
+class SubscriptionMetricsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {};
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        const out = {};
+        for (const k of KEYS)
+            if (p[k] !== undefined && p[k] !== null)
+                out[k] = p[k];
+        this.result = out;
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.SubscriptionMetricsResponse = SubscriptionMetricsResponse;
 
 
 /***/ },
@@ -67878,6 +68191,50 @@ class WebAuthnResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.WebAuthnResponse = WebAuthnResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/WebhookResponse.ts"
+/*!***********************************************!*\
+  !*** ./src/ajax/Responses/WebhookResponse.ts ***!
+  \***********************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.WebhookResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+/** Explicit whitelist: a key the backend adds is dropped until it is named here. */
+class WebhookResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {};
+    }
+    setResponseJSON(jsonString) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        const p = JSON.parse(jsonString);
+        this.result = {
+            endpoint: (_a = p.endpoint) !== null && _a !== void 0 ? _a : undefined,
+            endpoints: (_b = p.endpoints) !== null && _b !== void 0 ? _b : undefined,
+            secret: (_c = p.secret) !== null && _c !== void 0 ? _c : undefined,
+            deliveries: (_d = p.deliveries) !== null && _d !== void 0 ? _d : undefined,
+            events: (_e = p.events) !== null && _e !== void 0 ? _e : undefined,
+            event: (_f = p.event) !== null && _f !== void 0 ? _f : undefined,
+            queued: (_g = p.queued) !== null && _g !== void 0 ? _g : undefined,
+            deliveryId: (_h = p.deliveryId) !== null && _h !== void 0 ? _h : undefined,
+            note: (_j = p.note) !== null && _j !== void 0 ? _j : undefined,
+            hasMore: (_k = p.hasMore) !== null && _k !== void 0 ? _k : undefined,
+            eventTypes: (_l = p.eventTypes) !== null && _l !== void 0 ? _l : undefined,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.WebhookResponse = WebhookResponse;
 
 
 /***/ },
@@ -68459,7 +68816,28 @@ class CMMT {
                 };
                 const response = yield fetch(env.AI_CONNECTION_ENDPOINT_PROD + arh.path, fetchOptions);
                 if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                    // A refused stream carries its reason in the body: the AI gate answers 403
+                    // with {"error":"<a sentence written for the person>"} (admin-only, or a
+                    // login that belongs to several businesses). Throwing the bare status line
+                    // left the chat showing a generic failure for a refusal the server had
+                    // explained. `status` stays on the error so the portal's 401 interceptor
+                    // still recognises an expired session; `userFacing` marks a message that
+                    // is safe to show as-is.
+                    let serverMessage = null;
+                    try {
+                        const text = yield response.text();
+                        const parsed = JSON.parse(text);
+                        if (parsed && typeof parsed.error === 'string' && parsed.error.trim()) {
+                            serverMessage = parsed.error.trim();
+                        }
+                    }
+                    catch (e) {
+                        // not JSON, or unreadable - the status line below is all we have
+                    }
+                    const err = new Error(serverMessage !== null && serverMessage !== void 0 ? serverMessage : `HTTP error! status: ${response.status}`);
+                    err.status = response.status;
+                    err.userFacing = serverMessage != null;
+                    throw err;
                 }
                 // Get the response headers for decryption
                 const responseHeaders = {};
@@ -69612,6 +69990,34 @@ class SessionStorage {
         AuthCache_1.AuthCache.clearCache();
     }
     /**
+     * The MAC id of the membership currently selected for this login, or null.
+     * A client-side convenience for the portal's merchant switcher only — the
+     * server resolves the current membership from the SESSION it holds and never
+     * trusts this value.
+     */
+    static getSelectedMembership() {
+        if (typeof localStorage === 'undefined')
+            return null;
+        const raw = localStorage.getItem(this.KEYS.SELECTED_MAC);
+        if (raw === null || raw === '')
+            return null;
+        const n = Number(raw);
+        return Number.isFinite(n) ? n : null;
+    }
+    /**
+     * Remember the selected membership (pass null to forget it).
+     */
+    static setSelectedMembership(macId) {
+        if (typeof localStorage === 'undefined')
+            return;
+        if (macId === null || macId === undefined) {
+            localStorage.removeItem(this.KEYS.SELECTED_MAC);
+        }
+        else {
+            localStorage.setItem(this.KEYS.SELECTED_MAC, String(macId));
+        }
+    }
+    /**
      * Mark 2FA as present
      */
     static set2FAPresent() {
@@ -69634,7 +70040,11 @@ SessionStorage.KEYS = {
     AUTH_KEY_PUB: 'XAUTH_KEY_PUB',
     PUB_KEY: 'PUB_KEY',
     AUTH_TOKEN: 'XAUTH_TOKEN', // Store the serialized auth token
-    TWO_FA_PRESENT: '2FA'
+    TWO_FA_PRESENT: '2FA',
+    // The membership (MAC id) the login last selected as current. Lives beside the
+    // credential trio because it describes THIS session; clearSession() iterates KEYS,
+    // so it is wiped on logout with the rest.
+    SELECTED_MAC: 'XSELECTED_MAC'
 };
 
 
@@ -79040,15 +79450,46 @@ class FluxComms {
             return lib_1.CMMT.fetch(ListTermsAcceptancesRequest, ListTermsAcceptancesResponse, "listTermsAcceptances", "POST", isolatedHandle);
         });
     }
-    /** ADMIN-only partner account management. action: "list" | "create" | "update" | "remove";
-     *  opts carries partnerId / partnerEmail / partnerName / merchantIds (complete replacement list).
-     *  Every action returns the fresh full partner list. */
-    managePartners(action, opts) {
+    /**
+     * Every merchant the signed-in LOGIN belongs to (one MAC = one membership), plus
+     * `admin` (env-allowlisted platform admin) and `multiMerchant` (>= 2 memberships,
+     * i.e. the portal should offer a merchant switcher). `listMemberships` ->
+     * `listMembershipsWeb`; permission-less server-side, no body — scope is the session.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at
+     * runtime until that bundle is rebuilt (and ng serve restarted). Feature-detect it.
+     */
+    listMemberships() {
         return __awaiter(this, void 0, void 0, function* () {
-            const { ManagePartnersRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ManagePartnersRequest */ "./src/ajax/Requests/ManagePartnersRequest.ts")));
-            const { ManagePartnersResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ManagePartnersResponse */ "./src/ajax/Responses/ManagePartnersResponse.ts")));
+            const { MembershipRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/MembershipRequest */ "./src/ajax/Requests/MembershipRequest.ts")));
+            const { ListMembershipsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ListMembershipsResponse */ "./src/ajax/Responses/ListMembershipsResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
-            return lib_1.CMMT.fetch(ManagePartnersRequest, ManagePartnersResponse, "managePartners", "POST", isolatedHandle, action, opts);
+            return lib_1.CMMT.fetch(MembershipRequest, ListMembershipsResponse, "listMemberships", "POST", isolatedHandle);
+        });
+    }
+    /**
+     * Make one of MY memberships the current one for this session (`selectMembership` ->
+     * `selectMembershipWeb`). The server re-validates on every call that the MAC is active
+     * AND belongs to the session's login — this is a selection among the caller's own
+     * memberships, never impersonation (admin act-as is `setActAsMerchant`, a different thing).
+     *
+     * NEVER THROWS ON A REFUSAL: the server answers HTTP 200 with `{ok:false, reason}` rather
+     * than a 401, because the portal signs the user out on any "401" and a wrong switcher
+     * click must not do that. Read `ok`. On success the macId is remembered in SessionStorage
+     * (`getSelectedMembership()`), beside the credential trio, and wiped by `fluxWebsiteLogout`.
+     * The caller still owns clearing its client-side caches when switching.
+     */
+    selectMembership(macId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            var _a;
+            const { MembershipRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/MembershipRequest */ "./src/ajax/Requests/MembershipRequest.ts")));
+            const { SelectMembershipResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SelectMembershipResponse */ "./src/ajax/Responses/SelectMembershipResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            const result = yield lib_1.CMMT.fetch(MembershipRequest, SelectMembershipResponse, "selectMembership", "POST", isolatedHandle, macId);
+            if (result.ok) {
+                security_1.SessionStorage.setSelectedMembership((_a = result.macId) !== null && _a !== void 0 ? _a : macId);
+            }
+            return result;
         });
     }
     /**
@@ -79160,6 +79601,123 @@ class FluxComms {
             const { GetInvoiceMetricsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetInvoiceMetricsResponse */ "./src/ajax/Responses/GetInvoiceMetricsResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(GetInvoiceMetricsRequest, GetInvoiceMetricsResponse, "getInvoiceMetrics", "POST", isolatedHandle);
+        });
+    }
+    /** One-call aggregate for the portal Transactions page: money-bar dollars +
+     *  chip counts for ONE range ("7d" | "30d" | "90d" | "ytd" | "all", default
+     *  "30d"; the server resolves anything else to "30d" and echoes the resolved
+     *  range + lower bound). Endpoint getTransactionMetrics (browser appends Web).
+     *  The range travels as a CMMT.fetch trailing arg -> loadClientData(range),
+     *  the getPartnerDashboard pattern — fetch instantiates the request with no
+     *  constructor args. */
+    getTransactionMetrics() {
+        return __awaiter(this, arguments, void 0, function* (range = '30d') {
+            const { GetTransactionMetricsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetTransactionMetricsRequest */ "./src/ajax/Requests/GetTransactionMetricsRequest.ts")));
+            const { GetTransactionMetricsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetTransactionMetricsResponse */ "./src/ajax/Responses/GetTransactionMetricsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetTransactionMetricsRequest, GetTransactionMetricsResponse, "getTransactionMetrics", "POST", isolatedHandle, range);
+        });
+    }
+    // ------------------------------------------------------------------ subscriptions
+    // Endpoint strings carry no "Web" - the browser transport appends it.
+    subscriptionCall(endpoint, body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { SubscriptionRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/SubscriptionRequest */ "./src/ajax/Requests/SubscriptionRequest.ts")));
+            const { SubscriptionDetailResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SubscriptionDetailResponse */ "./src/ajax/Responses/SubscriptionDetailResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(SubscriptionRequest, SubscriptionDetailResponse, endpoint, "POST", isolatedHandle, body);
+        });
+    }
+    /** The subscriptions list's volume card for a forward window: '7d' | '30d' (default) | '90d' | '12m'. */
+    getSubscriptionMetrics(range) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { SubscriptionRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/SubscriptionRequest */ "./src/ajax/Requests/SubscriptionRequest.ts")));
+            const { SubscriptionMetricsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SubscriptionMetricsResponse */ "./src/ajax/Responses/SubscriptionMetricsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(SubscriptionRequest, SubscriptionMetricsResponse, "getSubscriptionMetrics", "POST", isolatedHandle, { range });
+        });
+    }
+    /** Everything the subscription page shows: state, customer, cards, charges, retries, allowed actions. */
+    getSubscriptionDetail(subscriptionId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.subscriptionCall("getSubscriptionDetail", { subscriptionId });
+        });
+    }
+    /**
+     * One action on a subscription: CANCEL, DEFER (months 1-12, default 1), RESCHEDULE
+     * (date yyyy-MM-dd), CHANGE_CARD (paymentMethodOnFileId) or SEND_CARD_FORM (emails the
+     * customer a card form; the card they save becomes this subscription's card). Answers
+     * with the refreshed detail plus a plain-words `note`.
+     */
+    manageSubscription(subscriptionId, action, opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.subscriptionCall("manageSubscription", Object.assign({ subscriptionId, action }, (opts || {})));
+        });
+    }
+    // ------------------------------------------------------------------ webhooks
+    // Endpoint strings carry no "Web" - the browser transport appends it.
+    webhookCall(endpoint, body) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { WebhookRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/WebhookRequest */ "./src/ajax/Requests/WebhookRequest.ts")));
+            const { WebhookResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/WebhookResponse */ "./src/ajax/Responses/WebhookResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(WebhookRequest, WebhookResponse, endpoint, "POST", isolatedHandle, body);
+        });
+    }
+    /** Registers an endpoint. The response's `secret` is shown ONCE. */
+    createWebhookEndpoint(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("createWebhookEndpoint", { url: opts.url, events: opts.events, description: opts.description });
+        });
+    }
+    /** All endpoints, or one when `endpointId` is given. */
+    getWebhookEndpoints(endpointId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("getWebhookEndpoints", { endpointId });
+        });
+    }
+    updateWebhookEndpoint(endpointId, opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("updateWebhookEndpoint", Object.assign({ endpointId }, opts));
+        });
+    }
+    deleteWebhookEndpoint(endpointId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("deleteWebhookEndpoint", { endpointId });
+        });
+    }
+    /** New signing secret (shown once). The old one keeps working for `keepPreviousHours` (default 24, 0 = now). */
+    rotateWebhookSecret(endpointId, keepPreviousHours) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("rotateWebhookSecret", { endpointId, keepPreviousHours });
+        });
+    }
+    /** Queues a webhook.test delivery (sent within seconds; 10 per minute). */
+    testWebhookEndpoint(endpointId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("testWebhookEndpoint", { endpointId });
+        });
+    }
+    getWebhookDeliveries(endpointId, opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("getWebhookDeliveries", Object.assign({ endpointId }, (opts || {})));
+        });
+    }
+    resendWebhookDelivery(deliveryId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("resendWebhookDelivery", { deliveryId });
+        });
+    }
+    /** Re-sends every event since `since` (ISO-8601 or epoch ms, within 30 days). */
+    replayWebhookEndpoint(endpointId, since, types) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("replayWebhookEndpoint", { endpointId, since: String(since), types });
+        });
+    }
+    /** The catch-up feed: events after `after` (an event id), or one event by `eventId`. */
+    getWebhookEvents(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.webhookCall("getWebhookEvents", Object.assign({}, (opts || {})));
         });
     }
     getChangelog() {
@@ -79674,6 +80232,8 @@ exports.fluxWebsite2fa = fluxWebsite2fa;
 exports.fluxWebsitePasskey2fa = fluxWebsitePasskey2fa;
 exports.passkeySupported = passkeySupported;
 exports.setActAsMerchant = setActAsMerchant;
+exports.getSelectedMembership = getSelectedMembership;
+exports.setSelectedMembership = setSelectedMembership;
 exports.fluxWebsiteRegisterPasskey = fluxWebsiteRegisterPasskey;
 exports.fluxWebsiteListPasskeys = fluxWebsiteListPasskeys;
 exports.fluxWebsiteDeletePasskey = fluxWebsiteDeletePasskey;
@@ -79964,6 +80524,19 @@ function setActAsMerchant(merchantId) {
         const { CMMT } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/lib/CMMT */ "./src/ajax/lib/CMMT.ts")));
         CMMT.setGlobalHeader("X-Act-As-Merchant", merchantId != null ? String(merchantId) : null);
     });
+}
+/**
+ * The membership (MAC id) this login last selected as current, or null. Written by
+ * `Flux.selectMembership` on success and wiped by `fluxWebsiteLogout`. A client-side
+ * convenience for the merchant switcher — the server resolves the current membership
+ * from the session it holds and never trusts this value.
+ */
+function getSelectedMembership() {
+    return SessionStorage_1.SessionStorage.getSelectedMembership();
+}
+/** Remember (or, with null, forget) the selected membership without a server round trip. */
+function setSelectedMembership(macId) {
+    SessionStorage_1.SessionStorage.setSelectedMembership(macId);
 }
 /**
  * Enroll a new passkey for the signed-in merchant: fetch creation options, run
@@ -80812,6 +81385,10 @@ exports.Functions = {
     // and silently becomes `undefined` at runtime (prod incident 2026-07-15: the
     // partner "view as merchant" click died on exactly that).
     setActAsMerchant: FluxEntry_1.setActAsMerchant,
+    // Multi-merchant login: the membership the portal last selected (read/write of the
+    // SessionStorage key beside the credential trio). Same tree-shaking rule as above.
+    getSelectedMembership: FluxEntry_1.getSelectedMembership,
+    setSelectedMembership: FluxEntry_1.setSelectedMembership,
     // Embedded card capture, browser half (steps 2 and 4). Same tree-shaking rule as
     // setActAsMerchant above: absent from this object = absent from dist_web/lib.js.
     getCardCaptureForm: FluxEntry_1.getCardCaptureForm,

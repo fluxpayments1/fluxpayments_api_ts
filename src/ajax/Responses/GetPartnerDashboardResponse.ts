@@ -34,8 +34,11 @@ export interface PartnerDashboardResult {
     allowed: boolean;
     /** True only for the ADMIN tier (unscoped view + Partners management). */
     admin: boolean;
-    /** True when the login exists only for the partner surface (no merchant permissions). */
-    partnerOnly: boolean;
+    /**
+     * True when the caller's login holds two or more active memberships (MAC split,
+     * 2026-10-12 — replaces the pre-split `partnerOnly`). Display-only, never enforcement.
+     */
+    multiMerchant: boolean;
     grossVolume: string | number;
     transactionCount: number;
     finalizedCount: number;
@@ -59,7 +62,7 @@ export class GetPartnerDashboardResponse extends ResponseBodyBase {
     private result: PartnerDashboardResult = {
         allowed: false,
         admin: false,
-        partnerOnly: false,
+        multiMerchant: false,
         grossVolume: 0,
         transactionCount: 0,
         finalizedCount: 0,
@@ -81,7 +84,7 @@ export class GetPartnerDashboardResponse extends ResponseBodyBase {
         this.result = {
             allowed: !!p.allowed,
             admin: !!p.admin,
-            partnerOnly: !!p.partnerOnly,
+            multiMerchant: !!p.multiMerchant,
             grossVolume: p.grossVolume ?? 0,
             transactionCount: p.transactionCount || 0,
             finalizedCount: p.finalizedCount || 0,

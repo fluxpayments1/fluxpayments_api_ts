@@ -84,6 +84,10 @@ export class RecurringTransaction extends FluxType implements IRecurringTransact
     /** Smart-retry mirror (server-owned, display-only — deliberately NOT in serialize()). */
     retryStatus: string;
     nextRetryAt: Date;
+    /** List-page display columns computed by the server on read (the product's current
+     *  name; "First Last" from the customer snapshot). Never stored, NOT in serialize(). */
+    productName?: string;
+    customerName?: string;
 
     protected objectType: string = "recurring_transaction";
 

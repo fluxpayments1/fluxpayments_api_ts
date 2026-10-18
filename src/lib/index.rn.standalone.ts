@@ -46,6 +46,8 @@ import {
   fluxWebsiteSignUp,
   fluxSocketBrowser,
   setActAsMerchant,
+  getSelectedMembership,
+  setSelectedMembership,
   getCardCaptureForm,
   capturePaymentMethod,
 } from './FluxEntry';
@@ -96,6 +98,10 @@ export const Functions = {
   // and silently becomes `undefined` at runtime (prod incident 2026-07-15: the
   // partner "view as merchant" click died on exactly that).
   setActAsMerchant,
+  // Multi-merchant login: the membership the portal last selected (read/write of the
+  // SessionStorage key beside the credential trio). Same tree-shaking rule as above.
+  getSelectedMembership,
+  setSelectedMembership,
   // Embedded card capture, browser half (steps 2 and 4). Same tree-shaking rule as
   // setActAsMerchant above: absent from this object = absent from dist_web/lib.js.
   getCardCaptureForm,

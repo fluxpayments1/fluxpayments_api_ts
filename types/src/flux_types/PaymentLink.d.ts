@@ -27,7 +27,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
             sku: string;
             currency: string;
             type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT" | "INSTALLMENT" | "ACCOUNT_TRANSFER";
-            subscriptionInterval: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+            subscriptionInterval: "MONTHLY" | "QUARTERLY" | "ANNUALLY";
             inventoryCount: number;
             imageUrl: string;
             category: string;
@@ -173,8 +173,34 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     businessId: number;
     /** Server-denormalized business name — read-only display. */
     businessName: string;
+    /**
+     * Outcome of the saved-card charge, present ONLY on the createPaymentLink response
+     * for a link created with a paymentMethodOnFileId (2026-10-15). Read-only: never
+     * in serialize(), and the server ignores it on input.
+     */
+    charge?: PaymentLinkChargeResult;
     protected objectType: string;
     constructor(pl?: Partial<PaymentLink>);
     static createInstanceLazy(acc: Partial<IPaymentLink>): Promise<PaymentLink>;
     static createInstanceSafe(acc: Partial<IPaymentLink>): Promise<PaymentLink>;
+}
+/**
+ * APPROVED: the card was charged (transactionId set). DECLINED: the card was tried and
+ * refused (declineReason set). NOT_CHARGED: stopped before the card was tried
+ * (declineReason says why). UNKNOWN: the charge was started but its result could not
+ * be read - check the invoice before retrying.
+ */
+export interface PaymentLinkChargeResult {
+    status: 'APPROVED' | 'DECLINED' | 'NOT_CHARGED' | 'UNKNOWN';
+    transactionId?: number;
+    declineReason?: string;
+    /** Set on every DECLINED charge (same classifier as the platform's own retry engine). */
+    retryable?: 'RETRYABLE' | 'NOT_RETRYABLE';
+    /** Issuer-stated minimum wait before the next attempt, when given. */
+    retryAfterHours?: number;
+    /** The card network's answer on APPROVED / DECLINED (status, reason, responseCode,
+     *  merchantAdvice, categoryCode, avs, cvv, approvalCode, message, description). */
+    networkResponse?: {
+        [field: string]: string;
+    };
 }

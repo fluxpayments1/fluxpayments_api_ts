@@ -419,6 +419,21 @@ export async function setActAsMerchant(merchantId: number | string | null): Prom
 }
 
 /**
+ * The membership (MAC id) this login last selected as current, or null. Written by
+ * `Flux.selectMembership` on success and wiped by `fluxWebsiteLogout`. A client-side
+ * convenience for the merchant switcher — the server resolves the current membership
+ * from the session it holds and never trusts this value.
+ */
+export function getSelectedMembership(): number | null {
+  return SessionStorage.getSelectedMembership();
+}
+
+/** Remember (or, with null, forget) the selected membership without a server round trip. */
+export function setSelectedMembership(macId: number | null): void {
+  SessionStorage.setSelectedMembership(macId);
+}
+
+/**
  * Enroll a new passkey for the signed-in merchant: fetch creation options, run
  * navigator.credentials.create(), and persist the attestation. Returns the
  * created credential's id + label.

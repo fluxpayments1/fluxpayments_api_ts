@@ -11,7 +11,7 @@ export declare class ProductQuery extends BaseQuery<Product> implements IProduct
         metadata: string;
         name: string;
         type: "SUBSCRIPTION" | "SERVICE" | "PHYSICAL_PRODUCT" | "INSTALLMENT" | "ACCOUNT_TRANSFER";
-        subscriptionInterval: "DAILY" | "WEEKLY" | "MONTHLY" | "YEARLY";
+        subscriptionInterval: "MONTHLY" | "QUARTERLY" | "ANNUALLY";
         category: string;
         createdAt: number;
         objectType: string;
@@ -23,7 +23,7 @@ export declare class ProductQuery extends BaseQuery<Product> implements IProduct
     uniqueId?: string;
     name?: string;
     type?: 'SUBSCRIPTION' | 'SERVICE' | 'PHYSICAL_PRODUCT' | 'INSTALLMENT' | 'ACCOUNT_TRANSFER';
-    subscriptionInterval?: 'DAILY' | 'WEEKLY' | 'MONTHLY' | 'YEARLY';
+    subscriptionInterval?: 'MONTHLY' | 'QUARTERLY' | 'ANNUALLY';
     category?: string;
     objectType: string;
     constructor(productQuery?: IProductQuery);
