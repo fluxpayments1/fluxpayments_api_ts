@@ -6,6 +6,8 @@ export interface PartnerMerchantRow {
     transactionCount: number;
     failedCount: number;
     lastActivity: string | number | null;
+    /** The business's AI switch (2026-10-19). Absent on an older backend = on. */
+    aiEnabled: boolean;
 }
 export interface PartnerFeedRow {
     transactionId: number;

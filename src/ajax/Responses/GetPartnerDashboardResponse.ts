@@ -7,6 +7,8 @@ export interface PartnerMerchantRow {
     transactionCount: number;
     failedCount: number;
     lastActivity: string | number | null;
+    /** The business's AI switch (2026-10-19). Absent on an older backend = on. */
+    aiEnabled: boolean;
 }
 
 export interface PartnerFeedRow {
@@ -93,7 +95,7 @@ export class GetPartnerDashboardResponse extends ResponseBodyBase {
             totalMerchantCount: p.totalMerchantCount || 0,
             newCustomerCount: p.newCustomerCount || 0,
             pendingAchCount: p.pendingAchCount || 0,
-            merchants: p.merchants || [],
+            merchants: (p.merchants || []).map((r: any) => ({ ...r, aiEnabled: r?.aiEnabled !== false })),
             recentTransactions: p.recentTransactions || [],
             recentAuths: p.recentAuths || [],
             forthEvents: p.forthEvents || [],

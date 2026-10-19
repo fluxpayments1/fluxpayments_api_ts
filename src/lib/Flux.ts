@@ -589,6 +589,46 @@ export class FluxComms<A extends SecurityHandler> {
         );
     }
 
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn a business's AI
+     * features on or off (`setMerchantAiEnabled` -> `setMerchantAiEnabledWeb`). The target is
+     * the act-as-resolved merchant of the request, so the Partner dashboard calls this under
+     * the admin's act-as header for the row it is toggling; `merchantId` is a cross-check only.
+     * Off = no chat assistant, no nightly AI insights, no report embeddings, no AI reports for
+     * that business (root CLAUDE.md section 10.28).
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    public async setMerchantAiEnabled(merchantId: number, aiEnabled: boolean): Promise<import("../ajax/Responses/SetMerchantAiEnabledResponse").SetMerchantAiEnabledResult> {
+        const { SetMerchantAiEnabledRequest } = await import("../ajax/Requests/SetMerchantAiEnabledRequest");
+        const { SetMerchantAiEnabledResponse } = await import("../ajax/Responses/SetMerchantAiEnabledResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/SetMerchantAiEnabledResponse").SetMerchantAiEnabledResult, typeof SetMerchantAiEnabledRequest.prototype, typeof SetMerchantAiEnabledResponse.prototype>(
+            SetMerchantAiEnabledRequest, SetMerchantAiEnabledResponse, "setMerchantAiEnabled", "POST", isolatedHandle,
+            merchantId, aiEnabled
+        );
+    }
+
+    /**
+     * Platform admins only (server-gated): the Partners panel on the Partner dashboard
+     * (`managePartnerAccess` -> `managePartnerAccessWeb`). Lists every partner and the businesses
+     * they reach; adds a person to one or more businesses as a partner; changes or removes that
+     * access; re-sends an invite. Every action answers with the full, fresh list.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    public async managePartnerAccess(opts: import("../ajax/Requests/ManagePartnerAccessRequest").ManagePartnerAccessOpts): Promise<import("../ajax/Responses/ManagePartnerAccessResponse").PartnerAccessResult> {
+        const { ManagePartnerAccessRequest } = await import("../ajax/Requests/ManagePartnerAccessRequest");
+        const { ManagePartnerAccessResponse } = await import("../ajax/Responses/ManagePartnerAccessResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/ManagePartnerAccessResponse").PartnerAccessResult, typeof ManagePartnerAccessRequest.prototype, typeof ManagePartnerAccessResponse.prototype>(
+            ManagePartnerAccessRequest, ManagePartnerAccessResponse, "managePartnerAccess", "POST", isolatedHandle,
+            opts
+        );
+    }
+
     /** Does the signed-in merchant still have to accept the Merchant Services Agreement?
      *  Permission-less server-side; scope is the session's merchant. Endpoint string carries
      *  no "Web" suffix — CMMT appends it in the browser. */

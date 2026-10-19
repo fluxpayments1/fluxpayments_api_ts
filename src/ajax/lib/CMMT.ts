@@ -157,7 +157,12 @@ export class CMMT {
         arh.path = url;
         const hdrs = await arh.securityHandler.createHeaders(true);
         //encode the request
-        const headersObject = Object.fromEntries(hdrs.entries());
+        // The global headers ride the websocket's auth message too, same order as
+        // the HTTP paths (security headers first, globals after). The one global is
+        // X-Act-As-Merchant: without it the server files an admin's connection under
+        // the admin's OWN merchant, and that merchant's live events land on whatever
+        // merchant the admin is viewing.
+        const headersObject = { ...Object.fromEntries(hdrs.entries()), ...CMMT.globalHeaders };
 
         if (typeof window !== 'undefined') {
             return await CMMT.initializeBrowserWebsocketConnection(url, headersObject);

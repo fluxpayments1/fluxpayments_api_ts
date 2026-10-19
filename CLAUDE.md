@@ -108,6 +108,8 @@ Always snake_case: `"product"`, `"payment_link"`, `"transaction"`. Never PascalC
 
 ## WebSocket Subscriptions
 
+**The websocket login carries the global headers (2026-10-18).** `CMMT.initializeWebSocketConnection` builds its auth message from the security handle's headers PLUS `CMMT.globalHeaders` (security headers first, globals after — the HTTP order). The only global is `X-Act-As-Merchant`; without it an admin viewing another merchant got their OWN merchant's live events. Anything added to `globalHeaders` now reaches the websocket login too.
+
 ```typescript
 const ws = await fluxSocket(publicKey, privateKey, username, passphrase);
 await ws.subscribe(Subscription.TRANSACTION_CREATE, (data: EmissionData) => {
@@ -685,3 +687,7 @@ echoes the resolved `range` + `sinceMillis` lower bound, `null` for `"all"`).
 ## Billing interval values (2026-10-17)
 
 `Product` / `IProduct` / `ProductQuery` / `ProductDump` `subscriptionInterval` is now typed `'MONTHLY' | 'QUARTERLY' | 'ANNUALLY'` — the backend `Frequency` enum. The old union (`DAILY | WEEKLY | MONTHLY | YEARLY`) named three values that never existed, so any non-monthly product failed the request. The backend still reads `YEARLY` as `ANNUALLY` for older bundles. Type-only change; the prebuilt `dist_web/lib.js` carries no runtime difference.
+
+## `setMerchantAiEnabled` + two response fields (2026-10-19 — root CLAUDE.md §10.28)
+
+`Flux.setMerchantAiEnabled(merchantId, aiEnabled)` → `setMerchantAiEnabledWeb` (endpoint string carries no `Web`; `SetMerchantAiEnabledRequest` / `SetMerchantAiEnabledResponse` → `{ok, merchantId, aiEnabled}`). PLATFORM ADMINS ONLY, server-gated; the target is the act-as-resolved merchant, so the portal calls it under `runAsMerchant` and `merchantId` is a cross-check. Two whitelist additions: `PartnerMerchantRow.aiEnabled` (`r.aiEnabled !== false` — absent on an older backend = on) and `MembershipRow.partnerMembership` (`!!r.partnerMembership`). `Merchant.aiEnabled` is deliberately NOT in `Merchant.serialize()` (server-managed; the portal reads it off the raw JSON like `icPlus`). Instance method, no `Functions` registration — but **needs the `dist_web/lib.js` rebuild** (and an `ng serve` restart) before the dashboard toggle works; the portal feature-detects.

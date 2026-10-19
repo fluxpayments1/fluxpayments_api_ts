@@ -8,6 +8,9 @@ export interface MembershipRow {
     permissionCount: number;
     /** True for the membership this request ran as (the server's own verdict). */
     current: boolean;
+    /** Partner-provisioned membership (2026-10-19): Flux gave this person access to a client's
+     *  business. Display only - the server refuses the AI assistant on it. */
+    partnerMembership: boolean;
 }
 /** One business an env-allowlisted ADMIN can view through the switcher (admin act-as). */
 export interface MerchantCatalogRow {

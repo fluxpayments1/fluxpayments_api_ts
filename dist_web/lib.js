@@ -64603,6 +64603,51 @@ exports.LookupCustomerByEmailRequest = LookupCustomerByEmailRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/ManagePartnerAccessRequest.ts"
+/*!*********************************************************!*\
+  !*** ./src/ajax/Requests/ManagePartnerAccessRequest.ts ***!
+  \*********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ManagePartnerAccessRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body of managePartnerAccessWeb - the Partner dashboard's Partners panel. Only the keys the
+ * caller supplied are sent; the server answers every action with the full, fresh picture.
+ */
+class ManagePartnerAccessRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+        this.opts = { action: "list" };
+    }
+    loadClientData(opts) {
+        this.opts = opts || { action: "list" };
+        return this;
+    }
+    getRequestAsString() {
+        const o = this.opts || { action: "list" };
+        const body = { action: o.action || "list" };
+        if (o.email !== undefined && o.email !== null)
+            body.email = o.email;
+        if (Array.isArray(o.merchantIds))
+            body.merchantIds = o.merchantIds;
+        if (Array.isArray(o.permissionIds))
+            body.permissionIds = o.permissionIds;
+        if (o.macId !== undefined && o.macId !== null)
+            body.macId = o.macId;
+        if (o.loginId !== undefined && o.loginId !== null)
+            body.loginId = o.loginId;
+        return JSON.stringify(body);
+    }
+}
+exports.ManagePartnerAccessRequest = ManagePartnerAccessRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts"
 /*!*******************************************************!*\
   !*** ./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts ***!
@@ -65160,6 +65205,45 @@ class SendInvoiceEmailRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.SendInvoiceEmailRequest = SendInvoiceEmailRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/SetMerchantAiEnabledRequest.ts"
+/*!**********************************************************!*\
+  !*** ./src/ajax/Requests/SetMerchantAiEnabledRequest.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SetMerchantAiEnabledRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body of setMerchantAiEnabledWeb (platform admins only, server-gated): flips the
+ * business's AI switch. The TARGET is the act-as-resolved merchant of the request —
+ * the Partner dashboard runs this under the admin's act-as header for the row being
+ * toggled — and `merchantId` is a cross-check against that context, never a selector:
+ * a mismatch is refused.
+ */
+class SetMerchantAiEnabledRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(merchantId, aiEnabled) {
+        this.merchantId = merchantId;
+        this.aiEnabled = aiEnabled;
+        return this;
+    }
+    getRequestAsString() {
+        const body = {};
+        if (this.merchantId !== undefined && this.merchantId !== null)
+            body.merchantId = this.merchantId;
+        if (this.aiEnabled !== undefined && this.aiEnabled !== null)
+            body.aiEnabled = this.aiEnabled;
+        return JSON.stringify(body);
+    }
+}
+exports.SetMerchantAiEnabledRequest = SetMerchantAiEnabledRequest;
 
 
 /***/ },
@@ -67067,7 +67151,7 @@ class GetPartnerDashboardResponse extends ResponseBodyBase_1.ResponseBodyBase {
             totalMerchantCount: p.totalMerchantCount || 0,
             newCustomerCount: p.newCustomerCount || 0,
             pendingAchCount: p.pendingAchCount || 0,
-            merchants: p.merchants || [],
+            merchants: (p.merchants || []).map((r) => (Object.assign(Object.assign({}, r), { aiEnabled: (r === null || r === void 0 ? void 0 : r.aiEnabled) !== false }))),
             recentTransactions: p.recentTransactions || [],
             recentAuths: p.recentAuths || [],
             forthEvents: p.forthEvents || [],
@@ -67241,6 +67325,7 @@ class ListMembershipsResponse extends ResponseBodyBase_1.ResponseBodyBase {
                     isAdminKey: !!r.isAdminKey,
                     permissionCount: (_b = r.permissionCount) !== null && _b !== void 0 ? _b : 0,
                     current: !!r.current,
+                    partnerMembership: !!r.partnerMembership,
                 });
             }),
             merchants: (Array.isArray(p.merchants) ? p.merchants : [])
@@ -67333,6 +67418,43 @@ class LookupCustomerByEmailResponse extends ResponseBodyBase_1.ResponseBodyBase 
     }
 }
 exports.LookupCustomerByEmailResponse = LookupCustomerByEmailResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ManagePartnerAccessResponse.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Responses/ManagePartnerAccessResponse.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ManagePartnerAccessResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ManagePartnerAccessResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = { ok: false, partners: [], merchants: [], catalog: [], results: [], notice: null };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            ok: !!p.ok,
+            partners: Array.isArray(p.partners) ? p.partners : [],
+            merchants: Array.isArray(p.merchants) ? p.merchants : [],
+            catalog: Array.isArray(p.catalog) ? p.catalog : [],
+            results: Array.isArray(p.results) ? p.results : [],
+            notice: p.notice != null ? String(p.notice) : null,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.ManagePartnerAccessResponse = ManagePartnerAccessResponse;
 
 
 /***/ },
@@ -67884,6 +68006,40 @@ class SendInvoiceEmailResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.SendInvoiceEmailResponse = SendInvoiceEmailResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/SetMerchantAiEnabledResponse.ts"
+/*!************************************************************!*\
+  !*** ./src/ajax/Responses/SetMerchantAiEnabledResponse.ts ***!
+  \************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SetMerchantAiEnabledResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class SetMerchantAiEnabledResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = { ok: false, merchantId: null, aiEnabled: true };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            ok: !!p.ok,
+            merchantId: p.merchantId != null ? Number(p.merchantId) : null,
+            aiEnabled: p.aiEnabled !== false,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.SetMerchantAiEnabledResponse = SetMerchantAiEnabledResponse;
 
 
 /***/ },
@@ -68686,7 +68842,12 @@ class CMMT {
             arh.path = url;
             const hdrs = yield arh.securityHandler.createHeaders(true);
             //encode the request
-            const headersObject = Object.fromEntries(hdrs.entries());
+            // The global headers ride the websocket's auth message too, same order as
+            // the HTTP paths (security headers first, globals after). The one global is
+            // X-Act-As-Merchant: without it the server files an admin's connection under
+            // the admin's OWN merchant, and that merchant's live events land on whatever
+            // merchant the admin is viewing.
+            const headersObject = Object.assign(Object.assign({}, Object.fromEntries(hdrs.entries())), CMMT.globalHeaders);
             if (typeof window !== 'undefined') {
                 return yield CMMT.initializeBrowserWebsocketConnection(url, headersObject);
             }
@@ -79417,6 +79578,42 @@ class FluxComms {
             const { GetEvidenceCoverageResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetEvidenceCoverageResponse */ "./src/ajax/Responses/GetEvidenceCoverageResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(GetEvidenceCoverageRequest, GetEvidenceCoverageResponse, "getEvidenceCoverage", "POST", isolatedHandle);
+        });
+    }
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn a business's AI
+     * features on or off (`setMerchantAiEnabled` -> `setMerchantAiEnabledWeb`). The target is
+     * the act-as-resolved merchant of the request, so the Partner dashboard calls this under
+     * the admin's act-as header for the row it is toggling; `merchantId` is a cross-check only.
+     * Off = no chat assistant, no nightly AI insights, no report embeddings, no AI reports for
+     * that business (root CLAUDE.md section 10.28).
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    setMerchantAiEnabled(merchantId, aiEnabled) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { SetMerchantAiEnabledRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/SetMerchantAiEnabledRequest */ "./src/ajax/Requests/SetMerchantAiEnabledRequest.ts")));
+            const { SetMerchantAiEnabledResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SetMerchantAiEnabledResponse */ "./src/ajax/Responses/SetMerchantAiEnabledResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(SetMerchantAiEnabledRequest, SetMerchantAiEnabledResponse, "setMerchantAiEnabled", "POST", isolatedHandle, merchantId, aiEnabled);
+        });
+    }
+    /**
+     * Platform admins only (server-gated): the Partners panel on the Partner dashboard
+     * (`managePartnerAccess` -> `managePartnerAccessWeb`). Lists every partner and the businesses
+     * they reach; adds a person to one or more businesses as a partner; changes or removes that
+     * access; re-sends an invite. Every action answers with the full, fresh list.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    managePartnerAccess(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ManagePartnerAccessRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ManagePartnerAccessRequest */ "./src/ajax/Requests/ManagePartnerAccessRequest.ts")));
+            const { ManagePartnerAccessResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ManagePartnerAccessResponse */ "./src/ajax/Responses/ManagePartnerAccessResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ManagePartnerAccessRequest, ManagePartnerAccessResponse, "managePartnerAccess", "POST", isolatedHandle, opts);
         });
     }
     /** Does the signed-in merchant still have to accept the Merchant Services Agreement?

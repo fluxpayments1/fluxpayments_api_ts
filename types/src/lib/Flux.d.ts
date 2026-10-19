@@ -127,6 +127,28 @@ export declare class FluxComms<A extends SecurityHandler> {
      * the method and hide their section when it is absent rather than throwing.
      */
     getEvidenceCoverage(): Promise<import("../ajax/Responses/GetEvidenceCoverageResponse").EvidenceCoverageResult>;
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn a business's AI
+     * features on or off (`setMerchantAiEnabled` -> `setMerchantAiEnabledWeb`). The target is
+     * the act-as-resolved merchant of the request, so the Partner dashboard calls this under
+     * the admin's act-as header for the row it is toggling; `merchantId` is a cross-check only.
+     * Off = no chat assistant, no nightly AI insights, no report embeddings, no AI reports for
+     * that business (root CLAUDE.md section 10.28).
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    setMerchantAiEnabled(merchantId: number, aiEnabled: boolean): Promise<import("../ajax/Responses/SetMerchantAiEnabledResponse").SetMerchantAiEnabledResult>;
+    /**
+     * Platform admins only (server-gated): the Partners panel on the Partner dashboard
+     * (`managePartnerAccess` -> `managePartnerAccessWeb`). Lists every partner and the businesses
+     * they reach; adds a person to one or more businesses as a partner; changes or removes that
+     * access; re-sends an invite. Every action answers with the full, fresh list.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    managePartnerAccess(opts: import("../ajax/Requests/ManagePartnerAccessRequest").ManagePartnerAccessOpts): Promise<import("../ajax/Responses/ManagePartnerAccessResponse").PartnerAccessResult>;
     /** Does the signed-in merchant still have to accept the Merchant Services Agreement?
      *  Permission-less server-side; scope is the session's merchant. Endpoint string carries
      *  no "Web" suffix — CMMT appends it in the browser. */
