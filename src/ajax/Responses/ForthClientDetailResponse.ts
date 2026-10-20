@@ -20,7 +20,7 @@ export interface ForthClientDetailResult {
     clientPhone?: string;
     /** A card-intake form already open for this client, if any. */
     openIntakeUrl?: string;
-    /** Charges still retrying (dunning). Powers the "they'll move to the new card" warning. */
+    /** Charges on the automatic retry schedule. A completed card form pauses them until they are rescheduled in Forth; powers the warning before sending a form. */
     activeDunningCount: number;
 }
 

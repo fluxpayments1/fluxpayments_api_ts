@@ -691,3 +691,7 @@ echoes the resolved `range` + `sinceMillis` lower bound, `null` for `"all"`).
 ## `setMerchantAiEnabled` + two response fields (2026-10-19 — root CLAUDE.md §10.28)
 
 `Flux.setMerchantAiEnabled(merchantId, aiEnabled)` → `setMerchantAiEnabledWeb` (endpoint string carries no `Web`; `SetMerchantAiEnabledRequest` / `SetMerchantAiEnabledResponse` → `{ok, merchantId, aiEnabled}`). PLATFORM ADMINS ONLY, server-gated; the target is the act-as-resolved merchant, so the portal calls it under `runAsMerchant` and `merchantId` is a cross-check. Two whitelist additions: `PartnerMerchantRow.aiEnabled` (`r.aiEnabled !== false` — absent on an older backend = on) and `MembershipRow.partnerMembership` (`!!r.partnerMembership`). `Merchant.aiEnabled` is deliberately NOT in `Merchant.serialize()` (server-managed; the portal reads it off the raw JSON like `icPlus`). Instance method, no `Functions` registration — but **needs the `dist_web/lib.js` rebuild** (and an `ng serve` restart) before the dashboard toggle works; the portal feature-detects.
+
+## `managePartnerAccess` — the Partners panel (2026-10-19)
+
+`Flux.managePartnerAccess(opts)` (instance method, endpoint string `managePartnerAccess`, no `Web`) with `ManagePartnerAccessRequest` / `ManagePartnerAccessResponse` (`PartnerAccessResult`). Actions `list` / `add` / `update` / `remove` / `removePartner` / `resendInvite`; admin-only server-side. **Needs the `dist_web/lib.js` rebuild + an `ng serve` restart** — the panel says so on an older bundle.
