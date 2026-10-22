@@ -707,3 +707,20 @@ echoes the resolved `range` + `sinceMillis` lower bound, `null` for `"all"`).
 ## `manageSubscription` gained `STOP_RETRIES` (2026-10-21 — root CLAUDE.md §10.30)
 
 The action union is `'CANCEL' | 'DEFER' | 'RESCHEDULE' | 'CHANGE_CARD' | 'SEND_CARD_FORM' | 'STOP_RETRIES'` (`opts.date` optional for the stop). Type-only: the prebuilt `dist_web/lib.js` passes the string through unchanged, so the portal's button works on the current bundle. The integration API twin is `POST /v2/recurring-transactions/{id}/stop-retries` (no SDK method; a plain REST call with the API key).
+
+## Platform fee fields (2026-10-22)
+
+Flux's own per-charge fee, computed like the service fee (same base: subtotal after discounts + shipping; taxed the same way) and shown to customers as "Platform fee". **The one difference from the service fee: it is Flux's charge, not the merchant's, so the backend also folds it into `transactionCost`.** Rates are PERCENTS (10.4823 = 10.4823%), like `serviceFeeRate`.
+
+| Type | Added | In `serialize()`? |
+|---|---|---|
+| `PaymentLink` / `IPaymentLink` | `platformFeeRate` (sent on create/update exactly like `serviceFeeRate`), `totalPlatformFee` (server-computed) | rate YES; amount NO — the running totals (`totalPreTaxFee` etc.) are never serialized on this type |
+| `GuestPaymentLink` / `IGuestPaymentLink` | `platformFeeRate`, `totalPlatformFee` | BOTH — that type already serializes `totalPreServiceFee` / `totalPreTaxFee` |
+| `Transaction` / `ITransaction` | `platformFee?`, `platformFeeRate?` (server-written at charge time) | NO — read-only, like every server-written column; `serviceFee` / `shippingFee` / `transactionCost` were never declared here at all and still arrive on the raw JSON |
+| `InvoicePreviewParams` + `Flux.getInvoicePreviewHtml` opts | `platformFeeRate?` | threaded into the preview body beside `serviceFeeRate` |
+
+Interface fields are optional (`?`) because older links / backends carry none. **`PaymentLink.getTotalServiceFee()` on the backend is now `totalPreTaxFee − totalPreServiceFee − totalPlatformFee`** — anyone deriving the service fee from the running totals client-side must subtract `totalPlatformFee` too (the portal's `payment-link-detail` does; a missing value counts as 0).
+
+**Not done, deliberately:** `CreatePaymentIntentRequest.ts` is documentation-only and carries no `serviceFeeRate` today (the OTPL body it mirrors never sends one), so no `platformFeeRate` was added there — adding an unmirrored key would be exactly the drift its header warns about. The API-key `createPaymentIntent` accepts `platformFeeRate` in a hand-built body the same way it accepts `serviceFeeRate`.
+
+**Rebuild caveat:** reading the new fields works on the prebuilt `dist_web/lib.js` today (raw-JSON `Object.assign`), but SENDING `platformFeeRate` on `createPaymentLink` / the invoice preview silently drops until the bundle is rebuilt (+ `ng serve` restart).

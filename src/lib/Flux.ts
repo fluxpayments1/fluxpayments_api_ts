@@ -1428,6 +1428,8 @@ export class FluxComms<A extends SecurityHandler> {
         products?: Array<{ id?: number; name?: string; description?: string; price?: number; orderQuantity?: number; memo?: string; discountId?: number }>;
         taxRate?: number;
         serviceFeeRate?: number;
+        /** Platform fee rate, PERCENT — previewed exactly like serviceFeeRate. */
+        platformFeeRate?: number;
         shippingFee?: number;
         discountId?: number;
         businessId?: number;

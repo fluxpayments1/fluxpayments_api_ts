@@ -63,9 +63,13 @@ export interface IGuestPaymentLink {
     totalPreShipping: number;
     totalPreServiceFee: number;
     totalPreTaxFee: number;
+    /** Server-computed platform fee amount. Optional: older links / backends carry none. */
+    totalPlatformFee?: number;
     total: number;
     paymentLink?: string;
     serviceFeeRate: number
+    /** Platform fee rate, PERCENT. */
+    platformFeeRate?: number;
     accountId?: number;
     oneTimeUseToken?: string;
     accountSession?: string;

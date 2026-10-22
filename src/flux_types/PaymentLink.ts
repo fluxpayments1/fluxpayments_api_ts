@@ -69,6 +69,7 @@ export class PaymentLink extends FluxType implements IPaymentLink {
             updateAccInfo: this.updateAccInfo,
             updateAddInfo: this.updateAddInfo,
             serviceFeeRate: this.serviceFeeRate,
+            platformFeeRate: this.platformFeeRate,
             disableACH: this.disableACH,
             disableCard: this.disableCard,
             isMoto: this.isMoto,
@@ -136,6 +137,17 @@ export class PaymentLink extends FluxType implements IPaymentLink {
     updateAccInfo: boolean;
     updateAddInfo: boolean
     serviceFeeRate: number;
+    /**
+     * Platform fee rate as a PERCENT (10.4823 = 10.4823%). Computed like the
+     * service fee (same base, taxed the same way) but it is Flux's charge, not
+     * the merchant's. Sent on create exactly like serviceFeeRate (2026-10-22).
+     */
+    platformFeeRate: number;
+    /**
+     * Server-computed platform fee amount for the link. READ-ONLY — like the
+     * other running totals on this type it is never in serialize().
+     */
+    totalPlatformFee: number;
     isReusable: boolean;
     taxRatesId: number;
     discountId: number;

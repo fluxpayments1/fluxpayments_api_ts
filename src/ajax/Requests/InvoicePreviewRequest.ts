@@ -20,6 +20,8 @@ export interface InvoicePreviewParams {
     products?: InvoicePreviewProduct[];
     taxRate?: number;
     serviceFeeRate?: number;
+    /** Platform fee rate, PERCENT — Flux's charge, previewed like the service fee. */
+    platformFeeRate?: number;
     shippingFee?: number;
     discountId?: number;
     // Business picked on the invoice — server loads its full BILL TO details.
@@ -63,6 +65,7 @@ export class InvoicePreviewRequest extends RequestBodyBase {
             })),
             taxRate: this.params?.taxRate,
             serviceFeeRate: this.params?.serviceFeeRate,
+            platformFeeRate: this.params?.platformFeeRate,
             shippingFee: this.params?.shippingFee,
             discountId: this.params?.discountId,
             businessId: this.params?.businessId,

@@ -404,6 +404,14 @@ export class Transaction extends FluxType implements ITransaction {
     processorError: string;
     gatewayResponse: string;
 
+    // ---- Platform fee (2026-10-22) ----------------------------------------
+    // SERVER-WRITTEN at charge time, like serviceFee / serviceFeeRate (which
+    // this type never declared — they arrive on the raw JSON). Read-only:
+    // deliberately NOT in serialize(). platformFeeRate is a PERCENT. The
+    // backend also folds platformFee into transactionCost (Flux's charge).
+    platformFee?: number;
+    platformFeeRate?: number;
+
     // ---- Chargeback evidence (2026-09-11) --------------------------------
     // READ-ONLY unless flagged MERCHANT-EDITABLE. Read-only fields are not in
     // serialize(), so they can never be sent back up by a portal edit.

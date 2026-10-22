@@ -74,6 +74,12 @@ export interface ITransaction {
     processorError?: string,
     gatewayResponse?: string,
 
+    // ---- Platform fee (2026-10-22) — SERVER-WRITTEN, read-only ----------
+    /** Platform fee amount charged on this payment (also inside transactionCost). */
+    platformFee?: number,
+    /** Platform fee rate as a PERCENT. */
+    platformFeeRate?: number,
+
     // ---- Chargeback evidence (2026-09-11) -------------------------------
     // Everything in this block is SERVER-WRITTEN and read-only, EXCEPT the
     // five fulfillment/refund fields flagged below, which the merchant edits
