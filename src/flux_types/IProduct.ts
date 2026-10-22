@@ -40,6 +40,7 @@ export interface IProduct {
     enableInventoryManagement: boolean,
     hasDynamicPrice: boolean,
     installments?: number,
+    trialDays?: number, // SUBSCRIPTION only: free-trial days; the first charge runs when the trial ends
     orderQuantity?: number, //Must be included in a transaction.
     memo?: string, //Custom memo for this product on a payment link
     discountId?: number, //Discount to apply to this product on a payment link

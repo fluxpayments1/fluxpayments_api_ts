@@ -695,3 +695,15 @@ echoes the resolved `range` + `sinceMillis` lower bound, `null` for `"all"`).
 ## `managePartnerAccess` — the Partners panel (2026-10-19)
 
 `Flux.managePartnerAccess(opts)` (instance method, endpoint string `managePartnerAccess`, no `Web`) with `ManagePartnerAccessRequest` / `ManagePartnerAccessResponse` (`PartnerAccessResult`). Actions `list` / `add` / `update` / `remove` / `removePartner` / `resendInvite`; admin-only server-side. **Needs the `dist_web/lib.js` rebuild + an `ng serve` restart** — the panel says so on an older bundle.
+
+## Tax rates + isTaxExempt (2026-10-21 — root CLAUDE.md §10.29)
+
+`TaxRates.taxRate` is a PERCENT on every read and write; `getDispName()` returns `"<rate>%"`. `isTaxExempt` is removed from `IAccount` / `Account` / `AccountQuery` (the backend ignores the key if an older bundle sends it). Needs the `dist_web/lib.js` rebuild + an `ng serve` restart for the display name.
+
+## `Product.trialDays` (2026-10-21 — root CLAUDE.md §10.30)
+
+`Product.serialize()` sends `trialDays` (declared `trialDays: number`, `IProduct.trialDays?: number`) — a free trial on a SUBSCRIPTION product; the backend refuses it on any other type. **Needs the `dist_web/lib.js` rebuild** before the portal can create one. `RecurringTransaction` carries `trialDays` back on the raw JSON (no type change needed to read it); the PATCH body may carry `paymentMethodId` (write-only on the server) — no SDK field was added, send it on the plain object.
+
+## `manageSubscription` gained `STOP_RETRIES` (2026-10-21 — root CLAUDE.md §10.30)
+
+The action union is `'CANCEL' | 'DEFER' | 'RESCHEDULE' | 'CHANGE_CARD' | 'SEND_CARD_FORM' | 'STOP_RETRIES'` (`opts.date` optional for the stop). Type-only: the prebuilt `dist_web/lib.js` passes the string through unchanged, so the portal's button works on the current bundle. The integration API twin is `POST /v2/recurring-transactions/{id}/stop-retries` (no SDK method; a plain REST call with the API key).

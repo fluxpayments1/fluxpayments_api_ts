@@ -70781,7 +70781,6 @@ class Account extends FluxType_1.FluxType {
             currency: this.currency,
             metadata: this.metadata,
             accountEmail: this.accountEmail,
-            isTaxExempt: this.isTaxExempt,
             firstName: this.firstName,
             middleName: this.middleName,
             lastName: this.lastName,
@@ -71363,8 +71362,7 @@ class AccountQuery extends BaseQuery_1.BaseQuery {
             defaultShippingAddressId: this.defaultShippingAddressId,
             defaultShippingAddressUniqueId: this.defaultShippingAddressUniqueId,
             defaultPaymentMethodId: this.defaultPaymentMethodId,
-            defaultPaymentMethodUniqueId: this.defaultPaymentMethodUniqueId,
-            isTaxExempt: this.isTaxExempt
+            defaultPaymentMethodUniqueId: this.defaultPaymentMethodUniqueId
         };
     }
     constructor(accQ, overrideClass) {
@@ -77599,9 +77597,9 @@ class TaxRates extends FluxType_1.FluxType {
             taxRate: this.taxRate
         };
     }
+    /** "8.25%". The API sends and returns the rate as a PERCENT (2026-10-21). */
     getDispName() {
-        var _a;
-        return ((_a = this.taxRate) === null || _a === void 0 ? void 0 : _a.toString()) || "0";
+        return this.taxRate === undefined || this.taxRate === null ? "0%" : `${Number(this.taxRate)}%`;
     }
     constructor(taxRatesUserSpecific) {
         super(taxRatesUserSpecific, TaxRates);

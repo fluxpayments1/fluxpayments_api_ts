@@ -19,7 +19,6 @@ export declare class AccountWithAddressQuery extends AccountQuery {
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;
         defaultPaymentMethodUniqueId: string;
-        isTaxExempt: boolean;
     };
     addresses: Address[];
     objectType: string;

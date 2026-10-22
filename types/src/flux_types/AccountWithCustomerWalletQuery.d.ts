@@ -19,7 +19,6 @@ export declare class AccountWithCustomerWalletQuery extends AccountQuery {
         defaultShippingAddressUniqueId: string;
         defaultPaymentMethodId: number;
         defaultPaymentMethodUniqueId: string;
-        isTaxExempt: boolean;
     };
     customerWallets: CustomerWallet[];
     objectType: string;

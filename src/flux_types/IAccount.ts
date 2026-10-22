@@ -38,7 +38,6 @@ export interface IAccount {
     disableCardPassthrough?: boolean
     firstName?: string
     middleName?: string
-    isTaxExempt?: boolean
     lastName?: string
     phoneNumber?: string
     businessName?: string

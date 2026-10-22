@@ -9,7 +9,6 @@ export declare class AccountWithAddress extends Account {
         currency: string;
         metadata: string;
         accountEmail: string;
-        isTaxExempt: boolean;
         firstName: string;
         middleName: string;
         lastName: string;

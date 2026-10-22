@@ -58,7 +58,6 @@ export class Account extends FluxType implements IAccount {
             currency: this.currency,
             metadata: this.metadata,
             accountEmail: this.accountEmail,
-            isTaxExempt: this.isTaxExempt,
             firstName: this.firstName,
             middleName: this.middleName,
             lastName: this.lastName,
@@ -83,7 +82,6 @@ export class Account extends FluxType implements IAccount {
         return this.accountEmail
     }
 
-    isTaxExempt: boolean;
     currency: string;
     id: number;
     uniqueId: string;
