@@ -18,6 +18,7 @@ export interface IProduct {
     enableInventoryManagement: boolean;
     hasDynamicPrice: boolean;
     installments?: number;
+    trialDays?: number;
     orderQuantity?: number;
     memo?: string;
     discountId?: number;

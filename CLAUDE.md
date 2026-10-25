@@ -42,7 +42,7 @@ const api = await fluxWebsiteSignInAuthorization(email, password, recaptchaToken
 const api = await fluxWebsite2fa(code, recaptchaToken);
 const api = await fluxWebsiteSignUp(email, password, recaptchaToken, additionalInfo);
 
-// React Native
+// React Native - DEAD: the backend endpoints were removed 2026-10-24 (root CLAUDE.md §10.34)
 const api = await fluxReactNativeSignInAuthorization(email, password);
 const api = await fluxReactNativeSessionAuthorization(email, sessionToken);
 
@@ -91,7 +91,7 @@ Always snake_case: `"product"`, `"payment_link"`, `"transaction"`. Never PascalC
 | `MerchantEndpointsSecurityHandle` | Server-side API calls | RSA-4096 + AES-256-GCM |
 | `WebsiteSecurityHandle` | Merchant portal browser | JWT + cookies + 2FA (only handler with `clone()`) |
 | `SensitiveClientDataSecurityHandle` | Payment forms | Account session token |
-| `ReactNativeSecurityHandle` | Mobile apps | Expo SecureStore |
+| `ReactNativeSecurityHandle` | Mobile apps (dead) | Expo SecureStore - **the backend no longer serves any React Native endpoint (removed 2026-10-24, §10.34); the SDK functions fail** |
 | `GeneralSecurityHandle` | Anonymous browser | Basic exchanged key |
 | `GenAuthDataSecurityHandle` | Auth exchanges | Minimal security |
 | `WebsiteSignUpSecurityHandle` | Sign-up flow | RSA + identity docs |

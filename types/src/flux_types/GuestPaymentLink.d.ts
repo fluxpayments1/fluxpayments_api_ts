@@ -30,6 +30,7 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
         reusableLinkId: number;
         redirectUrl: string;
         serviceFeeRate: number;
+        platformFeeRate: number;
         updateAccInfo: boolean;
         shippingAddressId: number;
         updateAddInfo: boolean;
@@ -47,6 +48,7 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
         totalPreShipping: number;
         totalPreServiceFee: number;
         totalPreTaxFee: number;
+        totalPlatformFee: number;
         total: number;
         oneTimeUseToken: string;
         accountSession: string;
@@ -98,6 +100,8 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
     chosenCurrency: Currency;
     chosenWallet: Wallet;
     serviceFeeRate: number;
+    /** Platform fee rate, PERCENT — Flux's charge, shown to the customer as "Platform fee". */
+    platformFeeRate: number;
     currentStatus: string;
     priceToPay: number;
     accountEmail: string;
@@ -112,6 +116,8 @@ export declare class GuestPaymentLink extends FluxType implements IGuestPaymentL
     totalPreShipping: number;
     totalPreServiceFee: number;
     totalPreTaxFee: number;
+    /** Server-computed platform fee amount (sits inside the taxable chain, beside the service fee). */
+    totalPlatformFee: number;
     total: number;
     authAttempts: number;
     processingFeeInversion: boolean;

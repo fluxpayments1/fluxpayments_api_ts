@@ -22,6 +22,7 @@ export declare class Product extends FluxType implements IProduct {
         enableInventoryManagement: boolean;
         hasDynamicPrice: boolean;
         installments: number;
+        trialDays: number;
         objectType: string;
         orderQuantity: number;
         memo: string;
@@ -47,6 +48,8 @@ export declare class Product extends FluxType implements IProduct {
     enableBackorderedProducts: boolean;
     hasDynamicPrice: boolean;
     installments: number;
+    /** Free-trial length in days on a SUBSCRIPTION plan (0/absent = none): nothing is charged for the line at checkout; the first charge runs when the trial ends. */
+    trialDays: number;
     memo: string;
     discountId: number;
     /**

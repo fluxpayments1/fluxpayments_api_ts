@@ -35,6 +35,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
             enableInventoryManagement: boolean;
             hasDynamicPrice: boolean;
             installments: number;
+            trialDays: number;
             objectType: string;
             orderQuantity: number;
             memo: string;
@@ -49,6 +50,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         updateAccInfo: boolean;
         updateAddInfo: boolean;
         serviceFeeRate: number;
+        platformFeeRate: number;
         disableACH: boolean;
         disableCard: boolean;
         isMoto: boolean;
@@ -115,6 +117,17 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     updateAccInfo: boolean;
     updateAddInfo: boolean;
     serviceFeeRate: number;
+    /**
+     * Platform fee rate as a PERCENT (10.4823 = 10.4823%). Computed like the
+     * service fee (same base, taxed the same way) but it is Flux's charge, not
+     * the merchant's. Sent on create exactly like serviceFeeRate (2026-10-22).
+     */
+    platformFeeRate: number;
+    /**
+     * Server-computed platform fee amount for the link. READ-ONLY — like the
+     * other running totals on this type it is never in serialize().
+     */
+    totalPlatformFee: number;
     isReusable: boolean;
     taxRatesId: number;
     discountId: number;

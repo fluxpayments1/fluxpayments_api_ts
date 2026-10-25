@@ -26,6 +26,10 @@ export interface IPaymentLink {
     reusableLinkId: number;
     currentStatus: string;
     serviceFeeRate: number;
+    /** Platform fee rate, PERCENT. Optional: older links / backends carry none. */
+    platformFeeRate?: number;
+    /** Server-computed platform fee amount (read-only). */
+    totalPlatformFee?: number;
     liveStatus?: any;
     wallets?: Wallet[];
     currencies?: Currency[];

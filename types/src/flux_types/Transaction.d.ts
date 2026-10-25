@@ -214,6 +214,8 @@ export declare class Transaction extends FluxType implements ITransaction {
     customerPhone: string;
     processorError: string;
     gatewayResponse: string;
+    platformFee?: number;
+    platformFeeRate?: number;
     /** PCI-permitted truncation only — last four digits, never a full PAN. */
     cardLastFour?: string;
     /** PCI-permitted truncation only — BIN (first six), never a full PAN. */

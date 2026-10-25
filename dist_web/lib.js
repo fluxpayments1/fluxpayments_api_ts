@@ -64520,7 +64520,7 @@ class InvoicePreviewRequest extends RequestBodyBase_1.RequestBodyBase {
         this.params = params;
     }
     getRequestAsString() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
         return JSON.stringify({
             paymentLinkName: (_a = this.params) === null || _a === void 0 ? void 0 : _a.paymentLinkName,
             customerName: (_b = this.params) === null || _b === void 0 ? void 0 : _b.customerName,
@@ -64539,13 +64539,14 @@ class InvoicePreviewRequest extends RequestBodyBase_1.RequestBodyBase {
             })),
             taxRate: (_j = this.params) === null || _j === void 0 ? void 0 : _j.taxRate,
             serviceFeeRate: (_k = this.params) === null || _k === void 0 ? void 0 : _k.serviceFeeRate,
-            shippingFee: (_l = this.params) === null || _l === void 0 ? void 0 : _l.shippingFee,
-            discountId: (_m = this.params) === null || _m === void 0 ? void 0 : _m.discountId,
-            businessId: (_o = this.params) === null || _o === void 0 ? void 0 : _o.businessId,
-            inlineDiscountType: (_p = this.params) === null || _p === void 0 ? void 0 : _p.inlineDiscountType,
-            inlineDiscountAmount: (_q = this.params) === null || _q === void 0 ? void 0 : _q.inlineDiscountAmount,
-            inlineDiscountName: (_r = this.params) === null || _r === void 0 ? void 0 : _r.inlineDiscountName,
-            businessName: (_s = this.params) === null || _s === void 0 ? void 0 : _s.businessName
+            platformFeeRate: (_l = this.params) === null || _l === void 0 ? void 0 : _l.platformFeeRate,
+            shippingFee: (_m = this.params) === null || _m === void 0 ? void 0 : _m.shippingFee,
+            discountId: (_o = this.params) === null || _o === void 0 ? void 0 : _o.discountId,
+            businessId: (_p = this.params) === null || _p === void 0 ? void 0 : _p.businessId,
+            inlineDiscountType: (_q = this.params) === null || _q === void 0 ? void 0 : _q.inlineDiscountType,
+            inlineDiscountAmount: (_r = this.params) === null || _r === void 0 ? void 0 : _r.inlineDiscountAmount,
+            inlineDiscountName: (_s = this.params) === null || _s === void 0 ? void 0 : _s.inlineDiscountName,
+            businessName: (_t = this.params) === null || _t === void 0 ? void 0 : _t.businessName
         });
     }
 }
@@ -74737,6 +74738,7 @@ class GuestPaymentLink extends FluxType_1.FluxType {
             reusableLinkId: this.reusableLinkId,
             redirectUrl: this.redirectUrl,
             serviceFeeRate: this.serviceFeeRate,
+            platformFeeRate: this.platformFeeRate,
             updateAccInfo: this.updateAccInfo,
             shippingAddressId: this.shippingAddressId,
             updateAddInfo: this.updateAddInfo,
@@ -74754,6 +74756,7 @@ class GuestPaymentLink extends FluxType_1.FluxType {
             totalPreShipping: this.totalPreShipping,
             totalPreServiceFee: this.totalPreServiceFee,
             totalPreTaxFee: this.totalPreTaxFee,
+            totalPlatformFee: this.totalPlatformFee,
             total: this.total,
             oneTimeUseToken: this.oneTimeUseToken,
             accountSession: this.accountSession,
@@ -76041,6 +76044,7 @@ class PaymentLink extends FluxType_1.FluxType {
             updateAccInfo: this.updateAccInfo,
             updateAddInfo: this.updateAddInfo,
             serviceFeeRate: this.serviceFeeRate,
+            platformFeeRate: this.platformFeeRate,
             disableACH: this.disableACH,
             disableCard: this.disableCard,
             isMoto: this.isMoto,
@@ -76833,6 +76837,7 @@ class Product extends FluxType_1.FluxType {
             enableInventoryManagement: this.enableInventoryManagement,
             hasDynamicPrice: this.hasDynamicPrice,
             installments: this.installments,
+            trialDays: this.trialDays,
             objectType: "product",
             orderQuantity: this.orderQuantity,
             memo: this.memo,
@@ -79840,9 +79845,11 @@ class FluxComms {
     }
     /**
      * One action on a subscription: CANCEL, DEFER (months 1-12, default 1), RESCHEDULE
-     * (date yyyy-MM-dd), CHANGE_CARD (paymentMethodOnFileId) or SEND_CARD_FORM (emails the
-     * customer a card form; the card they save becomes this subscription's card). Answers
-     * with the refreshed detail plus a plain-words `note`.
+     * (date yyyy-MM-dd), CHANGE_CARD (paymentMethodOnFileId), SEND_CARD_FORM (emails the
+     * customer a card form; the card they save becomes this subscription's card) or
+     * STOP_RETRIES (stop retrying the failed payment: it is written off and the subscription
+     * goes back on schedule, with the next payment on `date` when given). Answers with the
+     * refreshed detail plus a plain-words `note`.
      */
     manageSubscription(subscriptionId, action, opts) {
         return __awaiter(this, void 0, void 0, function* () {

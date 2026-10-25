@@ -18,6 +18,8 @@ export interface InvoicePreviewParams {
     products?: InvoicePreviewProduct[];
     taxRate?: number;
     serviceFeeRate?: number;
+    /** Platform fee rate, PERCENT — Flux's charge, previewed like the service fee. */
+    platformFeeRate?: number;
     shippingFee?: number;
     discountId?: number;
     businessId?: number;

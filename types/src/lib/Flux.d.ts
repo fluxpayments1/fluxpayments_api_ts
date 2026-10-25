@@ -262,11 +262,13 @@ export declare class FluxComms<A extends SecurityHandler> {
     getSubscriptionDetail(subscriptionId: number): Promise<import("../ajax/Responses/SubscriptionDetailResponse").SubscriptionDetailResult>;
     /**
      * One action on a subscription: CANCEL, DEFER (months 1-12, default 1), RESCHEDULE
-     * (date yyyy-MM-dd), CHANGE_CARD (paymentMethodOnFileId) or SEND_CARD_FORM (emails the
-     * customer a card form; the card they save becomes this subscription's card). Answers
-     * with the refreshed detail plus a plain-words `note`.
+     * (date yyyy-MM-dd), CHANGE_CARD (paymentMethodOnFileId), SEND_CARD_FORM (emails the
+     * customer a card form; the card they save becomes this subscription's card) or
+     * STOP_RETRIES (stop retrying the failed payment: it is written off and the subscription
+     * goes back on schedule, with the next payment on `date` when given). Answers with the
+     * refreshed detail plus a plain-words `note`.
      */
-    manageSubscription(subscriptionId: number, action: 'CANCEL' | 'DEFER' | 'RESCHEDULE' | 'CHANGE_CARD' | 'SEND_CARD_FORM', opts?: {
+    manageSubscription(subscriptionId: number, action: 'CANCEL' | 'DEFER' | 'RESCHEDULE' | 'CHANGE_CARD' | 'SEND_CARD_FORM' | 'STOP_RETRIES', opts?: {
         months?: number;
         date?: string;
         paymentMethodOnFileId?: number;
@@ -581,6 +583,8 @@ export declare class FluxComms<A extends SecurityHandler> {
         }>;
         taxRate?: number;
         serviceFeeRate?: number;
+        /** Platform fee rate, PERCENT — previewed exactly like serviceFeeRate. */
+        platformFeeRate?: number;
         shippingFee?: number;
         discountId?: number;
         businessId?: number;

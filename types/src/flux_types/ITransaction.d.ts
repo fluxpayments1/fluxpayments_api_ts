@@ -42,6 +42,10 @@ export interface ITransaction {
     customerPhone?: string;
     processorError?: string;
     gatewayResponse?: string;
+    /** Platform fee amount charged on this payment (also inside transactionCost). */
+    platformFee?: number;
+    /** Platform fee rate as a PERCENT. */
+    platformFeeRate?: number;
     /** PCI-permitted truncation only — last four digits, never a full PAN. */
     cardLastFour?: string;
     /** PCI-permitted truncation only — BIN (first six), never a full PAN. */
