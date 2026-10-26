@@ -19,6 +19,8 @@ export interface IProduct {
     hasDynamicPrice: boolean;
     installments?: number;
     trialDays?: number;
+    taxRatesId?: number;
+    fixedTaxAmount?: number;
     orderQuantity?: number;
     memo?: string;
     discountId?: number;

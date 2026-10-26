@@ -57,6 +57,13 @@ export class ProductDump extends FluxType implements IProduct {
     public discountId: number;
     public discountName: string;
     public discountValue: number;
+    /** The line's tax as snapshotted on the invoice (2026-10-25): rate id, PERCENT, name, or a fixed amount. */
+    public taxRatesId: number;
+    public taxRate: number;
+    public taxName: string;
+    public fixedTaxAmount: number;
+    /** Read-only: the tax on this line. */
+    public lineTax: number;
 
     public getInterface(): IProduct {
         return {

@@ -7,6 +7,9 @@ export interface InvoicePreviewProduct {
     orderQuantity?: number;
     memo?: string;
     discountId?: number;
+    /** This line's tax rate (overrides the product's own), or a fixed tax amount instead. */
+    taxRatesId?: number;
+    fixedTaxAmount?: number;
 }
 export interface InvoicePreviewParams {
     paymentLinkName?: string;
@@ -17,6 +20,8 @@ export interface InvoicePreviewParams {
     memo?: string;
     products?: InvoicePreviewProduct[];
     taxRate?: number;
+    /** A fixed tax amount for the whole invoice instead of a rate. */
+    fixedTaxAmount?: number;
     serviceFeeRate?: number;
     /** Platform fee rate, PERCENT — Flux's charge, previewed like the service fee. */
     platformFeeRate?: number;

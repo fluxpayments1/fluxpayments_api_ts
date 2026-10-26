@@ -64520,7 +64520,7 @@ class InvoicePreviewRequest extends RequestBodyBase_1.RequestBodyBase {
         this.params = params;
     }
     getRequestAsString() {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t, _u;
         return JSON.stringify({
             paymentLinkName: (_a = this.params) === null || _a === void 0 ? void 0 : _a.paymentLinkName,
             customerName: (_b = this.params) === null || _b === void 0 ? void 0 : _b.customerName,
@@ -64535,18 +64535,21 @@ class InvoicePreviewRequest extends RequestBodyBase_1.RequestBodyBase {
                 price: p.price,
                 orderQuantity: p.orderQuantity || 1,
                 memo: p.memo,
-                discountId: p.discountId
+                discountId: p.discountId,
+                taxRatesId: p.taxRatesId,
+                fixedTaxAmount: p.fixedTaxAmount
             })),
             taxRate: (_j = this.params) === null || _j === void 0 ? void 0 : _j.taxRate,
-            serviceFeeRate: (_k = this.params) === null || _k === void 0 ? void 0 : _k.serviceFeeRate,
-            platformFeeRate: (_l = this.params) === null || _l === void 0 ? void 0 : _l.platformFeeRate,
-            shippingFee: (_m = this.params) === null || _m === void 0 ? void 0 : _m.shippingFee,
-            discountId: (_o = this.params) === null || _o === void 0 ? void 0 : _o.discountId,
-            businessId: (_p = this.params) === null || _p === void 0 ? void 0 : _p.businessId,
-            inlineDiscountType: (_q = this.params) === null || _q === void 0 ? void 0 : _q.inlineDiscountType,
-            inlineDiscountAmount: (_r = this.params) === null || _r === void 0 ? void 0 : _r.inlineDiscountAmount,
-            inlineDiscountName: (_s = this.params) === null || _s === void 0 ? void 0 : _s.inlineDiscountName,
-            businessName: (_t = this.params) === null || _t === void 0 ? void 0 : _t.businessName
+            fixedTaxAmount: (_k = this.params) === null || _k === void 0 ? void 0 : _k.fixedTaxAmount,
+            serviceFeeRate: (_l = this.params) === null || _l === void 0 ? void 0 : _l.serviceFeeRate,
+            platformFeeRate: (_m = this.params) === null || _m === void 0 ? void 0 : _m.platformFeeRate,
+            shippingFee: (_o = this.params) === null || _o === void 0 ? void 0 : _o.shippingFee,
+            discountId: (_p = this.params) === null || _p === void 0 ? void 0 : _p.discountId,
+            businessId: (_q = this.params) === null || _q === void 0 ? void 0 : _q.businessId,
+            inlineDiscountType: (_r = this.params) === null || _r === void 0 ? void 0 : _r.inlineDiscountType,
+            inlineDiscountAmount: (_s = this.params) === null || _s === void 0 ? void 0 : _s.inlineDiscountAmount,
+            inlineDiscountName: (_t = this.params) === null || _t === void 0 ? void 0 : _t.inlineDiscountName,
+            businessName: (_u = this.params) === null || _u === void 0 ? void 0 : _u.businessName
         });
     }
 }
@@ -76052,6 +76055,7 @@ class PaymentLink extends FluxType_1.FluxType {
             reauthIntervalHours: this.reauthIntervalHours,
             reauthMaxAttempts: this.reauthMaxAttempts,
             taxRatesId: this.taxRatesId,
+            fixedTaxAmount: this.fixedTaxAmount,
             discountId: this.discountId,
             discountAmount: this.discountAmount,
             discountName: this.discountName,
@@ -76838,6 +76842,8 @@ class Product extends FluxType_1.FluxType {
             hasDynamicPrice: this.hasDynamicPrice,
             installments: this.installments,
             trialDays: this.trialDays,
+            taxRatesId: this.taxRatesId,
+            fixedTaxAmount: this.fixedTaxAmount,
             objectType: "product",
             orderQuantity: this.orderQuantity,
             memo: this.memo,
@@ -77599,12 +77605,14 @@ class TaxRates extends FluxType_1.FluxType {
             metadata: this.metadata,
             uniqueId: this.uniqueId,
             objectType: this.objectType,
-            taxRate: this.taxRate
+            taxRate: this.taxRate,
+            name: this.name
         };
     }
     /** "8.25%". The API sends and returns the rate as a PERCENT (2026-10-21). */
     getDispName() {
-        return this.taxRate === undefined || this.taxRate === null ? "0%" : `${Number(this.taxRate)}%`;
+        const pct = this.taxRate === undefined || this.taxRate === null ? "0%" : `${Number(this.taxRate)}%`;
+        return this.name && String(this.name).trim() ? `${String(this.name).trim()} ${pct}` : pct;
     }
     constructor(taxRatesUserSpecific) {
         super(taxRatesUserSpecific, TaxRates);

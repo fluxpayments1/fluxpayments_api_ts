@@ -25,6 +25,13 @@ export declare class ProductDump extends FluxType implements IProduct {
     discountId: number;
     discountName: string;
     discountValue: number;
+    /** The line's tax as snapshotted on the invoice (2026-10-25): rate id, PERCENT, name, or a fixed amount. */
+    taxRatesId: number;
+    taxRate: number;
+    taxName: string;
+    fixedTaxAmount: number;
+    /** Read-only: the tax on this line. */
+    lineTax: number;
     getInterface(): IProduct;
     constructor(prodDump?: any);
     static createInstanceLazy(acc: Partial<IProduct>): Promise<ProductDump>;

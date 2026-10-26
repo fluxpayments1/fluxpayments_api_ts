@@ -41,6 +41,8 @@ export interface IProduct {
     hasDynamicPrice: boolean,
     installments?: number,
     trialDays?: number, // SUBSCRIPTION only: free-trial days; the first charge runs when the trial ends
+    taxRatesId?: number, // catalog default rate; on an invoice line, an override for that line
+    fixedTaxAmount?: number, // invoice line only: a fixed tax amount instead of a rate (0 = untaxed)
     orderQuantity?: number, //Must be included in a transaction.
     memo?: string, //Custom memo for this product on a payment link
     discountId?: number, //Discount to apply to this product on a payment link

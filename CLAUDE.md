@@ -724,3 +724,7 @@ Interface fields are optional (`?`) because older links / backends carry none. *
 **Not done, deliberately:** `CreatePaymentIntentRequest.ts` is documentation-only and carries no `serviceFeeRate` today (the OTPL body it mirrors never sends one), so no `platformFeeRate` was added there — adding an unmirrored key would be exactly the drift its header warns about. The API-key `createPaymentIntent` accepts `platformFeeRate` in a hand-built body the same way it accepts `serviceFeeRate`.
 
 **Rebuild caveat:** reading the new fields works on the prebuilt `dist_web/lib.js` today (raw-JSON `Object.assign`), but SENDING `platformFeeRate` on `createPaymentLink` / the invoice preview silently drops until the bundle is rebuilt (+ `ng serve` restart).
+
+## Per-product tax fields (2026-10-25 — root CLAUDE.md §10.35)
+
+`Product.serialize()` sends `taxRatesId` + `fixedTaxAmount` (read-only `lineTaxRate/lineTaxName/lineTax` declared); `PaymentLink.serialize()` sends `fixedTaxAmount`, and `PaymentLink`/`GuestPaymentLink` declare read-only `taxLines` (`TaxLine`, incl. `appliesTo` = the products a row taxes when it does not cover every line) + `taxPerLine`; `ProductDump` declares `taxRatesId/taxRate/taxName/fixedTaxAmount/lineTax`; `TaxRates.serialize()` sends `name` and `getDispName()` returns "Sales tax 8.25%"; `InvoicePreviewParams` + `getInvoicePreviewHtml` take per-line `taxRatesId`/`fixedTaxAmount` and a link `fixedTaxAmount`. Reading works on the prebuilt bundle; **sending needs the `dist_web/lib.js` rebuild**.

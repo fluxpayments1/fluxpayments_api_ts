@@ -580,8 +580,12 @@ export declare class FluxComms<A extends SecurityHandler> {
             orderQuantity?: number;
             memo?: string;
             discountId?: number;
+            taxRatesId?: number;
+            fixedTaxAmount?: number;
         }>;
         taxRate?: number;
+        /** A fixed tax amount for the whole invoice instead of a rate. */
+        fixedTaxAmount?: number;
         serviceFeeRate?: number;
         /** Platform fee rate, PERCENT — previewed exactly like serviceFeeRate. */
         platformFeeRate?: number;

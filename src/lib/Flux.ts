@@ -1425,8 +1425,10 @@ export class FluxComms<A extends SecurityHandler> {
         customerPhone?: string;
         dueDate?: string;
         memo?: string;
-        products?: Array<{ id?: number; name?: string; description?: string; price?: number; orderQuantity?: number; memo?: string; discountId?: number }>;
+        products?: Array<{ id?: number; name?: string; description?: string; price?: number; orderQuantity?: number; memo?: string; discountId?: number; taxRatesId?: number; fixedTaxAmount?: number }>;
         taxRate?: number;
+        /** A fixed tax amount for the whole invoice instead of a rate. */
+        fixedTaxAmount?: number;
         serviceFeeRate?: number;
         /** Platform fee rate, PERCENT — previewed exactly like serviceFeeRate. */
         platformFeeRate?: number;

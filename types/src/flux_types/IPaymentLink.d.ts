@@ -17,6 +17,7 @@ export interface IPaymentLink {
     reauthIntervalHours?: number;
     reauthMaxAttempts?: number;
     taxRatesId: number;
+    fixedTaxAmount?: number;
     discountId?: number;
     discountAmount?: number;
     discountName?: string;

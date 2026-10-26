@@ -138,6 +138,12 @@ export class GuestPaymentLink extends FluxType implements IGuestPaymentLink {
     accountEmail: string;
     taxAmount: number;
     taxRatesId: number
+    /** Invoice-wide fixed tax amount, when the merchant set one instead of a rate. */
+    fixedTaxAmount?: number;
+    /** One row per tax rate (read-only), e.g. { label: "Sales tax", ratePercent: "8.25", tax: "1.65" }. */
+    taxLines?: { label?: string; taxRatesId?: number; ratePercent?: string; taxable?: string; tax?: string; appliesTo?: string }[];
+    /** True when the invoice is taxed per product (only the products are taxed). */
+    taxPerLine?: boolean;
     merchant: Merchant
     products: Product[];
     productDumps: ProductDump[];

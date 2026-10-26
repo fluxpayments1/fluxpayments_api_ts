@@ -36,6 +36,8 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
             hasDynamicPrice: boolean;
             installments: number;
             trialDays: number;
+            taxRatesId: number;
+            fixedTaxAmount: number;
             objectType: string;
             orderQuantity: number;
             memo: string;
@@ -58,6 +60,7 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
         reauthIntervalHours: number;
         reauthMaxAttempts: number;
         taxRatesId: number;
+        fixedTaxAmount: number;
         discountId: number;
         discountAmount: number;
         discountName: string;
@@ -130,6 +133,15 @@ export declare class PaymentLink extends FluxType implements IPaymentLink {
     totalPlatformFee: number;
     isReusable: boolean;
     taxRatesId: number;
+    /**
+     * A fixed tax amount for the whole invoice instead of a rate (2026-10-25). Not allowed when
+     * a line carries its own tax, or when the invoice has a subscription line.
+     */
+    fixedTaxAmount: number;
+    /** Read-only: one row per tax rate, e.g. { label: "Sales tax", ratePercent: "8.25", taxable: "20.00", tax: "1.65" }. */
+    taxLines?: TaxLine[];
+    /** Read-only: true when the invoice is taxed per product. */
+    taxPerLine?: boolean;
     discountId: number;
     discountAmount: number;
     discountName: string;
@@ -216,4 +228,15 @@ export interface PaymentLinkChargeResult {
     networkResponse?: {
         [field: string]: string;
     };
+}
+/** One tax row on an invoice (2026-10-25). Amounts and the percent are decimal strings. */
+export interface TaxLine {
+    label?: string;
+    taxRatesId?: number;
+    ratePercent?: string;
+    taxable?: string;
+    tax?: string;
+    /** The products this row taxes ("Widget, Gadget +2 more"); only set when the row does not
+     *  cover every line on the invoice. Plain text. */
+    appliesTo?: string;
 }

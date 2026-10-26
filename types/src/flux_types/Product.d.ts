@@ -23,6 +23,8 @@ export declare class Product extends FluxType implements IProduct {
         hasDynamicPrice: boolean;
         installments: number;
         trialDays: number;
+        taxRatesId: number;
+        fixedTaxAmount: number;
         objectType: string;
         orderQuantity: number;
         memo: string;
@@ -50,6 +52,18 @@ export declare class Product extends FluxType implements IProduct {
     installments: number;
     /** Free-trial length in days on a SUBSCRIPTION plan (0/absent = none): nothing is charged for the line at checkout; the first charge runs when the trial ends. */
     trialDays: number;
+    /**
+     * Tax rate for this product (2026-10-25). On a catalog product: its default rate, applied
+     * on every invoice it appears on. On an invoice line: overrides the catalog default for
+     * that line only. When any line carries tax the invoice can't also have its own tax rate.
+     */
+    taxRatesId: number;
+    /** An invoice line only: a fixed tax amount for the whole line instead of a rate (0 = untaxed). */
+    fixedTaxAmount: number;
+    /** Read-only, set by the server: the line's rate (percent), its name, and the tax on the line. */
+    lineTaxRate?: number;
+    lineTaxName?: string;
+    lineTax?: number;
     memo: string;
     discountId: number;
     /**
