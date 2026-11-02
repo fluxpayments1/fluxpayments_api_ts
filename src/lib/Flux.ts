@@ -611,6 +611,44 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn 3-D Secure on the
+     * payment page on or off for a business (`setMerchantThreeDsEnabled` ->
+     * `setMerchantThreeDsEnabledWeb`). Same act-as targeting as `setMerchantAiEnabled`; turn it
+     * on only after CyberSource has enabled Payer Authentication on that business's account
+     * (root CLAUDE.md section 10.38).
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    public async setMerchantThreeDsEnabled(merchantId: number, threeDsEnabled: boolean): Promise<import("../ajax/Responses/SetMerchantThreeDsEnabledResponse").SetMerchantThreeDsEnabledResult> {
+        const { SetMerchantThreeDsEnabledRequest } = await import("../ajax/Requests/SetMerchantThreeDsEnabledRequest");
+        const { SetMerchantThreeDsEnabledResponse } = await import("../ajax/Responses/SetMerchantThreeDsEnabledResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/SetMerchantThreeDsEnabledResponse").SetMerchantThreeDsEnabledResult, typeof SetMerchantThreeDsEnabledRequest.prototype, typeof SetMerchantThreeDsEnabledResponse.prototype>(
+            SetMerchantThreeDsEnabledRequest, SetMerchantThreeDsEnabledResponse, "setMerchantThreeDsEnabled", "POST", isolatedHandle,
+            merchantId, threeDsEnabled
+        );
+    }
+
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn Apple Pay and/or
+     * Google Pay on the payment page on or off for a business (`setMerchantWallets` ->
+     * `setMerchantWalletsWeb`). Same act-as targeting as `setMerchantAiEnabled`; pass undefined
+     * for the switch you are not changing. Turn a wallet on only after it is set up for that
+     * business in CyberSource's Unified Checkout (root CLAUDE.md section 10.39).
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    public async setMerchantWallets(merchantId: number, applePayEnabled?: boolean, googlePayEnabled?: boolean): Promise<import("../ajax/Responses/SetMerchantWalletsResponse").SetMerchantWalletsResult> {
+        const { SetMerchantWalletsRequest } = await import("../ajax/Requests/SetMerchantWalletsRequest");
+        const { SetMerchantWalletsResponse } = await import("../ajax/Responses/SetMerchantWalletsResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/SetMerchantWalletsResponse").SetMerchantWalletsResult, typeof SetMerchantWalletsRequest.prototype, typeof SetMerchantWalletsResponse.prototype>(
+            SetMerchantWalletsRequest, SetMerchantWalletsResponse, "setMerchantWallets", "POST", isolatedHandle,
+            merchantId, applePayEnabled, googlePayEnabled
+        );
+    }
+
+    /**
      * Platform admins only (server-gated): the Partners panel on the Partner dashboard
      * (`managePartnerAccess` -> `managePartnerAccessWeb`). Lists every partner and the businesses
      * they reach; adds a person to one or more businesses as a partner; changes or removes that

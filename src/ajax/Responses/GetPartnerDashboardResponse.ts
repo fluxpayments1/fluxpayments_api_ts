@@ -9,6 +9,11 @@ export interface PartnerMerchantRow {
     lastActivity: string | number | null;
     /** The business's AI switch (2026-10-19). Absent on an older backend = on. */
     aiEnabled: boolean;
+    /** 3-D Secure on the payment page (2026-10-29). Absent on an older backend = off. */
+    threeDsEnabled: boolean;
+    /** Apple Pay / Google Pay on the payment page (2026-10-30). Absent on an older backend = off. */
+    applePayEnabled: boolean;
+    googlePayEnabled: boolean;
 }
 
 export interface PartnerFeedRow {
@@ -95,7 +100,7 @@ export class GetPartnerDashboardResponse extends ResponseBodyBase {
             totalMerchantCount: p.totalMerchantCount || 0,
             newCustomerCount: p.newCustomerCount || 0,
             pendingAchCount: p.pendingAchCount || 0,
-            merchants: (p.merchants || []).map((r: any) => ({ ...r, aiEnabled: r?.aiEnabled !== false })),
+            merchants: (p.merchants || []).map((r: any) => ({ ...r, aiEnabled: r?.aiEnabled !== false, threeDsEnabled: r?.threeDsEnabled === true, applePayEnabled: r?.applePayEnabled === true, googlePayEnabled: r?.googlePayEnabled === true })),
             recentTransactions: p.recentTransactions || [],
             recentAuths: p.recentAuths || [],
             forthEvents: p.forthEvents || [],

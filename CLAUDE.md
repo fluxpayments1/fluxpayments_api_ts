@@ -728,3 +728,11 @@ Interface fields are optional (`?`) because older links / backends carry none. *
 ## Per-product tax fields (2026-10-25 — root CLAUDE.md §10.35)
 
 `Product.serialize()` sends `taxRatesId` + `fixedTaxAmount` (read-only `lineTaxRate/lineTaxName/lineTax` declared); `PaymentLink.serialize()` sends `fixedTaxAmount`, and `PaymentLink`/`GuestPaymentLink` declare read-only `taxLines` (`TaxLine`, incl. `appliesTo` = the products a row taxes when it does not cover every line) + `taxPerLine`; `ProductDump` declares `taxRatesId/taxRate/taxName/fixedTaxAmount/lineTax`; `TaxRates.serialize()` sends `name` and `getDispName()` returns "Sales tax 8.25%"; `InvoicePreviewParams` + `getInvoicePreviewHtml` take per-line `taxRatesId`/`fixedTaxAmount` and a link `fixedTaxAmount`. Reading works on the prebuilt bundle; **sending needs the `dist_web/lib.js` rebuild**.
+
+## setMerchantThreeDsEnabled (2026-10-29 — root CLAUDE.md §10.38)
+
+`Flux.setMerchantThreeDsEnabled(merchantId, threeDsEnabled)` (endpoint string `setMerchantThreeDsEnabled`, no `Web`) + `SetMerchantThreeDsEnabledRequest/Response`; `PartnerMerchantRow.threeDsEnabled` (absent = off). Needs the `dist_web/lib.js` rebuild + an `ng serve` restart.
+
+## setMerchantWallets (2026-10-30 — root CLAUDE.md §10.39)
+
+`Flux.setMerchantWallets(merchantId, applePayEnabled?, googlePayEnabled?)` (endpoint string `setMerchantWallets`, no `Web`) + `SetMerchantWalletsRequest/Response`; `PartnerMerchantRow.applePayEnabled/googlePayEnabled` (absent = off). The payment page calls `walletSessionWeb` and `createPaymentIntentWeb` with `walletToken` directly through its own comms, not the SDK. Needs the `dist_web/lib.js` rebuild + an `ng serve` restart.

@@ -65252,6 +65252,84 @@ exports.SetMerchantAiEnabledRequest = SetMerchantAiEnabledRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/SetMerchantThreeDsEnabledRequest.ts"
+/*!***************************************************************!*\
+  !*** ./src/ajax/Requests/SetMerchantThreeDsEnabledRequest.ts ***!
+  \***************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SetMerchantThreeDsEnabledRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body of setMerchantThreeDsEnabledWeb (platform admins only, server-gated): turns 3-D Secure
+ * on the payment page on or off for one business. Like the AI switch, the TARGET is the
+ * act-as-resolved merchant of the request and `merchantId` is only a cross-check.
+ */
+class SetMerchantThreeDsEnabledRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(merchantId, threeDsEnabled) {
+        this.merchantId = merchantId;
+        this.threeDsEnabled = threeDsEnabled;
+        return this;
+    }
+    getRequestAsString() {
+        const body = {};
+        if (this.merchantId !== undefined && this.merchantId !== null)
+            body.merchantId = this.merchantId;
+        if (this.threeDsEnabled !== undefined && this.threeDsEnabled !== null)
+            body.threeDsEnabled = this.threeDsEnabled;
+        return JSON.stringify(body);
+    }
+}
+exports.SetMerchantThreeDsEnabledRequest = SetMerchantThreeDsEnabledRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/SetMerchantWalletsRequest.ts"
+/*!********************************************************!*\
+  !*** ./src/ajax/Requests/SetMerchantWalletsRequest.ts ***!
+  \********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SetMerchantWalletsRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body of setMerchantWalletsWeb (platform admins only, server-gated): turns Apple Pay and/or
+ * Google Pay on the payment page on or off for one business. Like the AI switch, the TARGET is
+ * the act-as-resolved merchant of the request and `merchantId` is only a cross-check. Send only
+ * the switch being changed; an absent one is left as it is.
+ */
+class SetMerchantWalletsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() { super(); }
+    loadClientData(merchantId, applePayEnabled, googlePayEnabled) {
+        this.merchantId = merchantId;
+        this.applePayEnabled = applePayEnabled;
+        this.googlePayEnabled = googlePayEnabled;
+        return this;
+    }
+    getRequestAsString() {
+        const body = {};
+        if (this.merchantId !== undefined && this.merchantId !== null)
+            body.merchantId = this.merchantId;
+        if (this.applePayEnabled !== undefined && this.applePayEnabled !== null)
+            body.applePayEnabled = this.applePayEnabled;
+        if (this.googlePayEnabled !== undefined && this.googlePayEnabled !== null)
+            body.googlePayEnabled = this.googlePayEnabled;
+        return JSON.stringify(body);
+    }
+}
+exports.SetMerchantWalletsRequest = SetMerchantWalletsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/SubscriptionRequest.ts"
 /*!**************************************************!*\
   !*** ./src/ajax/Requests/SubscriptionRequest.ts ***!
@@ -67155,7 +67233,7 @@ class GetPartnerDashboardResponse extends ResponseBodyBase_1.ResponseBodyBase {
             totalMerchantCount: p.totalMerchantCount || 0,
             newCustomerCount: p.newCustomerCount || 0,
             pendingAchCount: p.pendingAchCount || 0,
-            merchants: (p.merchants || []).map((r) => (Object.assign(Object.assign({}, r), { aiEnabled: (r === null || r === void 0 ? void 0 : r.aiEnabled) !== false }))),
+            merchants: (p.merchants || []).map((r) => (Object.assign(Object.assign({}, r), { aiEnabled: (r === null || r === void 0 ? void 0 : r.aiEnabled) !== false, threeDsEnabled: (r === null || r === void 0 ? void 0 : r.threeDsEnabled) === true, applePayEnabled: (r === null || r === void 0 ? void 0 : r.applePayEnabled) === true, googlePayEnabled: (r === null || r === void 0 ? void 0 : r.googlePayEnabled) === true }))),
             recentTransactions: p.recentTransactions || [],
             recentAuths: p.recentAuths || [],
             forthEvents: p.forthEvents || [],
@@ -68044,6 +68122,75 @@ class SetMerchantAiEnabledResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.SetMerchantAiEnabledResponse = SetMerchantAiEnabledResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/SetMerchantThreeDsEnabledResponse.ts"
+/*!*****************************************************************!*\
+  !*** ./src/ajax/Responses/SetMerchantThreeDsEnabledResponse.ts ***!
+  \*****************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SetMerchantThreeDsEnabledResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class SetMerchantThreeDsEnabledResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = { ok: false, merchantId: null, threeDsEnabled: false };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            ok: !!p.ok,
+            merchantId: p.merchantId != null ? Number(p.merchantId) : null,
+            threeDsEnabled: p.threeDsEnabled === true,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.SetMerchantThreeDsEnabledResponse = SetMerchantThreeDsEnabledResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/SetMerchantWalletsResponse.ts"
+/*!**********************************************************!*\
+  !*** ./src/ajax/Responses/SetMerchantWalletsResponse.ts ***!
+  \**********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.SetMerchantWalletsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class SetMerchantWalletsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = { ok: false, merchantId: null, applePayEnabled: false, googlePayEnabled: false };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            ok: !!p.ok,
+            merchantId: p.merchantId != null ? Number(p.merchantId) : null,
+            applePayEnabled: p.applePayEnabled === true,
+            googlePayEnabled: p.googlePayEnabled === true,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.SetMerchantWalletsResponse = SetMerchantWalletsResponse;
 
 
 /***/ },
@@ -79608,6 +79755,40 @@ class FluxComms {
             const { SetMerchantAiEnabledResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SetMerchantAiEnabledResponse */ "./src/ajax/Responses/SetMerchantAiEnabledResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(SetMerchantAiEnabledRequest, SetMerchantAiEnabledResponse, "setMerchantAiEnabled", "POST", isolatedHandle, merchantId, aiEnabled);
+        });
+    }
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn 3-D Secure on the
+     * payment page on or off for a business (`setMerchantThreeDsEnabled` ->
+     * `setMerchantThreeDsEnabledWeb`). Same act-as targeting as `setMerchantAiEnabled`; turn it
+     * on only after CyberSource has enabled Payer Authentication on that business's account
+     * (root CLAUDE.md section 10.38).
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    setMerchantThreeDsEnabled(merchantId, threeDsEnabled) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { SetMerchantThreeDsEnabledRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/SetMerchantThreeDsEnabledRequest */ "./src/ajax/Requests/SetMerchantThreeDsEnabledRequest.ts")));
+            const { SetMerchantThreeDsEnabledResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SetMerchantThreeDsEnabledResponse */ "./src/ajax/Responses/SetMerchantThreeDsEnabledResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(SetMerchantThreeDsEnabledRequest, SetMerchantThreeDsEnabledResponse, "setMerchantThreeDsEnabled", "POST", isolatedHandle, merchantId, threeDsEnabled);
+        });
+    }
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn Apple Pay and/or
+     * Google Pay on the payment page on or off for a business (`setMerchantWallets` ->
+     * `setMerchantWalletsWeb`). Same act-as targeting as `setMerchantAiEnabled`; pass undefined
+     * for the switch you are not changing. Turn a wallet on only after it is set up for that
+     * business in CyberSource's Unified Checkout (root CLAUDE.md section 10.39).
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    setMerchantWallets(merchantId, applePayEnabled, googlePayEnabled) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { SetMerchantWalletsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/SetMerchantWalletsRequest */ "./src/ajax/Requests/SetMerchantWalletsRequest.ts")));
+            const { SetMerchantWalletsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SetMerchantWalletsResponse */ "./src/ajax/Responses/SetMerchantWalletsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(SetMerchantWalletsRequest, SetMerchantWalletsResponse, "setMerchantWallets", "POST", isolatedHandle, merchantId, applePayEnabled, googlePayEnabled);
         });
     }
     /**

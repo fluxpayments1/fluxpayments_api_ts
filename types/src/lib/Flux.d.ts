@@ -140,6 +140,26 @@ export declare class FluxComms<A extends SecurityHandler> {
      */
     setMerchantAiEnabled(merchantId: number, aiEnabled: boolean): Promise<import("../ajax/Responses/SetMerchantAiEnabledResponse").SetMerchantAiEnabledResult>;
     /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn 3-D Secure on the
+     * payment page on or off for a business (`setMerchantThreeDsEnabled` ->
+     * `setMerchantThreeDsEnabledWeb`). Same act-as targeting as `setMerchantAiEnabled`; turn it
+     * on only after CyberSource has enabled Payer Authentication on that business's account
+     * (root CLAUDE.md section 10.38).
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    setMerchantThreeDsEnabled(merchantId: number, threeDsEnabled: boolean): Promise<import("../ajax/Responses/SetMerchantThreeDsEnabledResponse").SetMerchantThreeDsEnabledResult>;
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn Apple Pay and/or
+     * Google Pay on the payment page on or off for a business (`setMerchantWallets` ->
+     * `setMerchantWalletsWeb`). Same act-as targeting as `setMerchantAiEnabled`; pass undefined
+     * for the switch you are not changing. Turn a wallet on only after it is set up for that
+     * business in CyberSource's Unified Checkout (root CLAUDE.md section 10.39).
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    setMerchantWallets(merchantId: number, applePayEnabled?: boolean, googlePayEnabled?: boolean): Promise<import("../ajax/Responses/SetMerchantWalletsResponse").SetMerchantWalletsResult>;
+    /**
      * Platform admins only (server-gated): the Partners panel on the Partner dashboard
      * (`managePartnerAccess` -> `managePartnerAccessWeb`). Lists every partner and the businesses
      * they reach; adds a person to one or more businesses as a partner; changes or removes that
