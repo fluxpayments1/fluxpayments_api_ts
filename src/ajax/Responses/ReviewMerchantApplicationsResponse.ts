@@ -56,6 +56,8 @@ export interface ReviewMerchantApplicationsResult {
     confirmRequired: 'ROUNDING' | 'P12_UNVERIFIED' | null;
     /** The question to show, verbatim. */
     confirmMessage: string | null;
+    /** On "invite" / "resend": whether the link email went out. Undefined from an older backend. */
+    inviteEmailSent?: boolean;
 }
 
 export class ReviewMerchantApplicationsResponse extends ResponseBodyBase {
@@ -101,6 +103,7 @@ export class ReviewMerchantApplicationsResponse extends ResponseBodyBase {
             packetDocumentsNotEmbedded: p.packetDocumentsNotEmbedded ?? null,
             confirmRequired: p.confirmRequired ?? null,
             confirmMessage: p.confirmMessage ?? null,
+            inviteEmailSent: p.inviteEmailSent,
         };
         return this;
     }

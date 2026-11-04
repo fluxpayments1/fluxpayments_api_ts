@@ -542,6 +542,10 @@ merchant application review; actions `list` | `get` | `decide` | `packet`.
 
 - Endpoint string is `"reviewMerchantApplications"` with **no `Web` suffix** — `CMMT` appends it
   in the browser (see the naming convention above).
+- `invite` (`opts.email`) creates an application and emails its link; `resend` (`opts.applicationId`)
+  emails the link again (2026-11-04 — applications are by invitation). The result carries
+  `inviteEmailSent` (undefined from an older backend). `email` is on the request WHITELIST, so
+  the portal can send an invite only after the `dist_web/lib.js` rebuild.
 - `packet` returns the whole application as one PDF, **base64 on `packetBase64`**, plus
   `packetFileName` and a `packetDocumentsNotEmbedded` count. It is rendered on demand and never
   stored, so there is no key to sign and no URL to hand out.

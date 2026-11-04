@@ -13,6 +13,8 @@ export interface ReviewMerchantApplicationsOpts {
     notes?: string;
     /** Queue size. Defaults to 100 server-side. */
     limit?: number;
+    /** On "invite": the email address the application link is sent to. */
+    email?: string;
 
     // ── Approval: the same fields tools/cybersource-onboard-merchant.sh asks
     //    for. Rates are PERCENTAGES (2.9 means 2.9%); the server converts each
@@ -45,7 +47,11 @@ export interface ReviewMerchantApplicationsOpts {
  * Admin-only merchant application review
  * (reviewMerchantApplications -> reviewMerchantApplicationsWeb).
  *
- * <p>action: "list" | "get" | "decide" | "approve" | "delete" | "packet".
+ * <p>action: "list" | "get" | "decide" | "approve" | "delete" | "packet" | "invite" | "resend".
+ *
+ * <p>Applications are by invitation only (2026-11-04): "invite" creates one for
+ * {@code email} (or reuses the open one) and emails the link; "resend" emails
+ * the link of an application still being filled in again.
  *
  * <p>NEEDS_INFO is the only decision that reopens an application: it mints a
  * fresh link token, clears any browser session already holding it, and emails
@@ -61,6 +67,7 @@ export class ReviewMerchantApplicationsRequest extends RequestBodyBase {
     private status?: string;
     private notes?: string;
     private limit?: number;
+    private email?: string;
     private csMerchantId?: string;
     private p12Password?: string;
     private p12PasswordConfirm?: string;
@@ -85,6 +92,7 @@ export class ReviewMerchantApplicationsRequest extends RequestBodyBase {
         this.status = opts?.status;
         this.notes = opts?.notes;
         this.limit = opts?.limit;
+        this.email = opts?.email;
         this.csMerchantId = opts?.csMerchantId;
         this.p12Password = opts?.p12Password;
         this.p12PasswordConfirm = opts?.p12PasswordConfirm;
@@ -110,6 +118,7 @@ export class ReviewMerchantApplicationsRequest extends RequestBodyBase {
             status: this.status,
             notes: this.notes,
             limit: this.limit,
+            email: this.email,
             csMerchantId: this.csMerchantId,
             p12Password: this.p12Password,
             p12PasswordConfirm: this.p12PasswordConfirm,
