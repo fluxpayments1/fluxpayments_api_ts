@@ -1294,6 +1294,9 @@ export class FluxComms<A extends SecurityHandler> {
      * enforces the real size, takes the SHA-256, and copies it into the evidence
      * store. A file whose contents disagree with its extension is REJECTED, not
      * corrected.
+     *
+     * The server cannot read a file until the virus scan has tagged it, seconds after the
+     * upload, and answers `scanning: true` until then. This waits it out, up to 90 seconds.
      */
     public async confirmEvidenceAttachment(params: {
         transactionId: number;
@@ -1302,16 +1305,24 @@ export class FluxComms<A extends SecurityHandler> {
         label?: string;
         disputeId?: number;
     }): Promise<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string }> {
-        return this.evidenceAttachmentCall({ ...params, action: "confirm" });
+        const deadline = Date.now() + 90000;
+        for (;;) {
+            const r = await this.evidenceAttachmentCall({ ...params, action: "confirm" });
+            if (!r.scanning) return r;
+            if (Date.now() >= deadline) {
+                throw new Error("We could not confirm this file yet. It may still be in the virus check, so try attaching it again in a minute.");
+            }
+            await new Promise(res => setTimeout(res, Math.max(1000, r.retryAfterMs || 2000)));
+        }
     }
 
-    private async evidenceAttachmentCall(params: any): Promise<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string }> {
+    private async evidenceAttachmentCall(params: any): Promise<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string; scanning?: boolean; retryAfterMs?: number }> {
         const { EvidenceAttachmentRequest } = await import("../ajax/Requests/EvidenceAttachmentRequest");
         const { EvidenceAttachmentResponse } = await import("../ajax/Responses/EvidenceAttachmentResponse");
 
         const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
 
-        return CMMT.fetch<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string }, typeof EvidenceAttachmentRequest.prototype, typeof EvidenceAttachmentResponse.prototype>(
+        return CMMT.fetch<{ uploadUrl?: string; uploadKey?: string; attachment?: any; message: string; scanning?: boolean; retryAfterMs?: number }, typeof EvidenceAttachmentRequest.prototype, typeof EvidenceAttachmentResponse.prototype>(
             EvidenceAttachmentRequest,
             EvidenceAttachmentResponse,
             "uploadEvidenceAttachment",

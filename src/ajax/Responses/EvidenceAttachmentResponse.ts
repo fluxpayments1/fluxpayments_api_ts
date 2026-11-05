@@ -8,6 +8,9 @@ export interface EvidenceAttachmentResult {
     /** confirm: the persisted attachment row. */
     attachment?: any;
     message: string;
+    /** confirm: still being scanned; ask again after retryAfterMs. */
+    scanning?: boolean;
+    retryAfterMs?: number;
 }
 
 export class EvidenceAttachmentResponse extends ResponseBodyBase {
@@ -15,6 +18,8 @@ export class EvidenceAttachmentResponse extends ResponseBodyBase {
     private uploadKey?: string;
     private attachment?: any;
     private message: string;
+    private scanning?: boolean;
+    private retryAfterMs?: number;
 
     constructor() {
         super();
@@ -26,6 +31,8 @@ export class EvidenceAttachmentResponse extends ResponseBodyBase {
         this.uploadKey = parsed.uploadKey || undefined;
         this.attachment = parsed.attachment || undefined;
         this.message = parsed.message || '';
+        this.scanning = parsed.scanning === true;
+        this.retryAfterMs = parsed.retryAfterMs || undefined;
         return this;
     }
 
@@ -34,7 +41,9 @@ export class EvidenceAttachmentResponse extends ResponseBodyBase {
             uploadUrl: this.uploadUrl,
             uploadKey: this.uploadKey,
             attachment: this.attachment,
-            message: this.message
+            message: this.message,
+            scanning: this.scanning,
+            retryAfterMs: this.retryAfterMs
         };
     }
 }

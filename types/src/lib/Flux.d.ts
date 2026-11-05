@@ -488,6 +488,9 @@ export declare class FluxComms<A extends SecurityHandler> {
      * enforces the real size, takes the SHA-256, and copies it into the evidence
      * store. A file whose contents disagree with its extension is REJECTED, not
      * corrected.
+     *
+     * The server cannot read a file until the virus scan has tagged it, seconds after the
+     * upload, and answers `scanning: true` until then. This waits it out, up to 90 seconds.
      */
     confirmEvidenceAttachment(params: {
         transactionId: number;
