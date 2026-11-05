@@ -53,6 +53,15 @@ export enum Subscription {
     REUSABLE_PAYMENT_LINK_UPDATE = "REUSABLE_PAYMENT_LINK.UPDATE"
 }
 
+/**
+ * The server-to-server websocket (fluxSocket with the API key pair) is REMOVED (2026-11-04).
+ * Its sign-in could never succeed on the backend, and the backend now refuses it outright
+ * (HTTP 410 on the upgrade). A server gets live events from webhooks instead. The browser
+ * sockets (the merchant portal's and the payment page's) are unchanged.
+ */
+export const SERVER_SOCKET_REMOVED_MESSAGE =
+    "Live server events are delivered by webhooks. Register an endpoint with POST /v2/webhook-endpoints.";
+
 export interface FluxSocketImpl {
     closeSocketAndListeners();
     subscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
@@ -153,12 +162,20 @@ export class FluxWebsockets extends EventEmitter implements FluxSocketImpl {
         FluxWebsockets.instancePromise = null;
     }
 
-    public static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string) {
-        if (!FluxWebsockets.initializationSecHandler)
-            FluxWebsockets.initializationSecHandler = new MerchantEndpointsSecurityHandle(pk, prk, un, pw);
+    /**
+     * REMOVED: the API-key (key pair) websocket. Always throws - see
+     * {@link SERVER_SOCKET_REMOVED_MESSAGE}. Kept so existing callers fail with a clear message.
+     */
+    public static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string): never {
+        throw new Error(SERVER_SOCKET_REMOVED_MESSAGE);
     }
 
     public static initializeWebSecHandle(x: SecurityHandlerBase) {
+        // The API-key handle signed the removed server websocket in through its handshake
+        // headers; the backend refuses that now, so fail here with the reason instead.
+        if (x instanceof MerchantEndpointsSecurityHandle) {
+            throw new Error(SERVER_SOCKET_REMOVED_MESSAGE);
+        }
         // Only update if not already set - the security handle should remain the same
         // for the duration of the session. If we need a new handle, use clearInstance() first.
         if (!FluxWebsockets.initializationSecHandler) {

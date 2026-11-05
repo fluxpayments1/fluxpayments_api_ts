@@ -12,6 +12,8 @@ export interface ReviewMerchantApplicationsOpts {
     notes?: string;
     /** Queue size. Defaults to 100 server-side. */
     limit?: number;
+    /** On "invite": the email address the application link is sent to. */
+    email?: string;
     csMerchantId?: string;
     p12Password?: string;
     p12PasswordConfirm?: string;
@@ -37,7 +39,11 @@ export interface ReviewMerchantApplicationsOpts {
  * Admin-only merchant application review
  * (reviewMerchantApplications -> reviewMerchantApplicationsWeb).
  *
- * <p>action: "list" | "get" | "decide" | "approve" | "delete" | "packet".
+ * <p>action: "list" | "get" | "decide" | "approve" | "delete" | "packet" | "invite" | "resend".
+ *
+ * <p>Applications are by invitation only (2026-11-04): "invite" creates one for
+ * {@code email} (or reuses the open one) and emails the link; "resend" emails
+ * the link of an application still being filled in again.
  *
  * <p>NEEDS_INFO is the only decision that reopens an application: it mints a
  * fresh link token, clears any browser session already holding it, and emails
@@ -53,6 +59,7 @@ export declare class ReviewMerchantApplicationsRequest extends RequestBodyBase {
     private status?;
     private notes?;
     private limit?;
+    private email?;
     private csMerchantId?;
     private p12Password?;
     private p12PasswordConfirm?;

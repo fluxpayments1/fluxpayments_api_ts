@@ -24,6 +24,13 @@ export declare enum Subscription {
     PAYMENT_LINK_UPDATE = "PAYMENT_LINK.UPDATE",
     REUSABLE_PAYMENT_LINK_UPDATE = "REUSABLE_PAYMENT_LINK.UPDATE"
 }
+/**
+ * The server-to-server websocket (fluxSocket with the API key pair) is REMOVED (2026-11-04).
+ * Its sign-in could never succeed on the backend, and the backend now refuses it outright
+ * (HTTP 410 on the upgrade). A server gets live events from webhooks instead. The browser
+ * sockets (the merchant portal's and the payment page's) are unchanged.
+ */
+export declare const SERVER_SOCKET_REMOVED_MESSAGE = "Live server events are delivered by webhooks. Register an endpoint with POST /v2/webhook-endpoints.";
 export interface FluxSocketImpl {
     closeSocketAndListeners(): any;
     subscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
@@ -42,7 +49,11 @@ export declare class FluxWebsockets extends EventEmitter implements FluxSocketIm
     unSubscribe(subs: Subscription | Subscription[], listener: (emissionData: EmissionData) => void): Promise<this>;
     websocketClosedEvent(listener: (data: any) => void): void;
     closeSocketAndListeners(): Promise<void>;
-    static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string): void;
+    /**
+     * REMOVED: the API-key (key pair) websocket. Always throws - see
+     * {@link SERVER_SOCKET_REMOVED_MESSAGE}. Kept so existing callers fail with a clear message.
+     */
+    static initializeSecurityHandle(pk: string, prk: string, un: string, pw: string): never;
     static initializeWebSecHandle(x: SecurityHandlerBase): void;
     private initializeConnection;
     static getInstance(): Promise<FluxWebsockets>;

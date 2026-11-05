@@ -65038,7 +65038,11 @@ const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/aj
  * Admin-only merchant application review
  * (reviewMerchantApplications -> reviewMerchantApplicationsWeb).
  *
- * <p>action: "list" | "get" | "decide" | "approve" | "delete" | "packet".
+ * <p>action: "list" | "get" | "decide" | "approve" | "delete" | "packet" | "invite" | "resend".
+ *
+ * <p>Applications are by invitation only (2026-11-04): "invite" creates one for
+ * {@code email} (or reuses the open one) and emails the link; "resend" emails
+ * the link of an application still being filled in again.
  *
  * <p>NEEDS_INFO is the only decision that reopens an application: it mints a
  * fresh link token, clears any browser session already holding it, and emails
@@ -65056,6 +65060,7 @@ class ReviewMerchantApplicationsRequest extends RequestBodyBase_1.RequestBodyBas
         this.status = opts === null || opts === void 0 ? void 0 : opts.status;
         this.notes = opts === null || opts === void 0 ? void 0 : opts.notes;
         this.limit = opts === null || opts === void 0 ? void 0 : opts.limit;
+        this.email = opts === null || opts === void 0 ? void 0 : opts.email;
         this.csMerchantId = opts === null || opts === void 0 ? void 0 : opts.csMerchantId;
         this.p12Password = opts === null || opts === void 0 ? void 0 : opts.p12Password;
         this.p12PasswordConfirm = opts === null || opts === void 0 ? void 0 : opts.p12PasswordConfirm;
@@ -65080,6 +65085,7 @@ class ReviewMerchantApplicationsRequest extends RequestBodyBase_1.RequestBodyBas
             status: this.status,
             notes: this.notes,
             limit: this.limit,
+            email: this.email,
             csMerchantId: this.csMerchantId,
             p12Password: this.p12Password,
             p12PasswordConfirm: this.p12PasswordConfirm,
@@ -67895,6 +67901,7 @@ class ReviewMerchantApplicationsResponse extends ResponseBodyBase_1.ResponseBody
             packetDocumentsNotEmbedded: (_e = p.packetDocumentsNotEmbedded) !== null && _e !== void 0 ? _e : null,
             confirmRequired: (_f = p.confirmRequired) !== null && _f !== void 0 ? _f : null,
             confirmMessage: (_g = p.confirmMessage) !== null && _g !== void 0 ? _g : null,
+            inviteEmailSent: p.inviteEmailSent,
         };
         return this;
     }
@@ -80649,30 +80656,20 @@ const Flux_1 = __webpack_require__(/*! ./Flux */ "./src/lib/Flux.ts");
 const FluxSockets_1 = __webpack_require__(/*! ./FluxSockets */ "./src/lib/FluxSockets.ts");
 const GeneralSecurityHandle_1 = __webpack_require__(/*! ../ajax/security/GeneralSecurityHandle */ "./src/ajax/security/GeneralSecurityHandle.ts");
 /**
- * Initializes a connection to the flux websocket.
+ * REMOVED (2026-11-04): the server-to-server websocket with the API key pair.
  *
+ * Its sign-in could never succeed on the backend, which now refuses it outright. A server
+ * gets live events from webhooks: register an endpoint with `POST /v2/webhook-endpoints`
+ * and verify each delivery's signature.
+ * This function is kept only so existing callers fail at once with that message, before any
+ * network call. The browser sockets (`fluxSocketBrowser`, `fluxSocketBrowserSessionBased`)
+ * are unchanged.
  *
- * @param publicKey
- * @param privateKey
- * @param username
- * @param passphrase
- * @returns
+ * @throws always - see {@link SERVER_SOCKET_REMOVED_MESSAGE}
  */
 function fluxSocket(publicKey, privateKey, username, passphrase) {
     return __awaiter(this, void 0, void 0, function* () {
-        return new Promise((resolve, reject) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                let fma = Flux_1.FluxComms.getInstance();
-                let exchangedKey = yield fma.getGeneralAuthorizationAccess(publicKey);
-                passphrase = security_1.SecurityHandlerBase.sha256(passphrase, exchangedKey);
-                FluxSockets_1.FluxWebsockets.initializeSecurityHandle(exchangedKey, privateKey, username, passphrase);
-                let fm = yield FluxSockets_1.FluxWebsockets.getInstance();
-                resolve(fm);
-            }
-            catch (e) {
-                reject(e);
-            }
-        }));
+        throw new Error(FluxSockets_1.SERVER_SOCKET_REMOVED_MESSAGE);
     });
 }
 /**
@@ -81257,7 +81254,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.FluxWebsockets = exports.Subscription = void 0;
+exports.FluxWebsockets = exports.SERVER_SOCKET_REMOVED_MESSAGE = exports.Subscription = void 0;
 const security_1 = __webpack_require__(/*! ../ajax/security */ "./src/ajax/security/index.ts");
 const ws_1 = __webpack_require__(/*! ws */ "./node_modules/ws/browser.js");
 const lib_1 = __webpack_require__(/*! ../ajax/lib */ "./src/ajax/lib/index.ts");
@@ -81290,6 +81287,13 @@ var Subscription;
     Subscription["PAYMENT_LINK_UPDATE"] = "PAYMENT_LINK.UPDATE";
     Subscription["REUSABLE_PAYMENT_LINK_UPDATE"] = "REUSABLE_PAYMENT_LINK.UPDATE";
 })(Subscription || (exports.Subscription = Subscription = {}));
+/**
+ * The server-to-server websocket (fluxSocket with the API key pair) is REMOVED (2026-11-04).
+ * Its sign-in could never succeed on the backend, and the backend now refuses it outright
+ * (HTTP 410 on the upgrade). A server gets live events from webhooks instead. The browser
+ * sockets (the merchant portal's and the payment page's) are unchanged.
+ */
+exports.SERVER_SOCKET_REMOVED_MESSAGE = "Live server events are delivered by webhooks. Register an endpoint with POST /v2/webhook-endpoints.";
 class FluxWebsockets extends events_1.EventEmitter {
     constructor() {
         super();
@@ -81351,11 +81355,19 @@ class FluxWebsockets extends events_1.EventEmitter {
             FluxWebsockets.instancePromise = null;
         });
     }
+    /**
+     * REMOVED: the API-key (key pair) websocket. Always throws - see
+     * {@link SERVER_SOCKET_REMOVED_MESSAGE}. Kept so existing callers fail with a clear message.
+     */
     static initializeSecurityHandle(pk, prk, un, pw) {
-        if (!FluxWebsockets.initializationSecHandler)
-            FluxWebsockets.initializationSecHandler = new security_1.MerchantEndpointsSecurityHandle(pk, prk, un, pw);
+        throw new Error(exports.SERVER_SOCKET_REMOVED_MESSAGE);
     }
     static initializeWebSecHandle(x) {
+        // The API-key handle signed the removed server websocket in through its handshake
+        // headers; the backend refuses that now, so fail here with the reason instead.
+        if (x instanceof security_1.MerchantEndpointsSecurityHandle) {
+            throw new Error(exports.SERVER_SOCKET_REMOVED_MESSAGE);
+        }
         // Only update if not already set - the security handle should remain the same
         // for the duration of the session. If we need a new handle, use clearInstance() first.
         if (!FluxWebsockets.initializationSecHandler) {

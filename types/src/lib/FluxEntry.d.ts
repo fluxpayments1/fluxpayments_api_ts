@@ -4,14 +4,16 @@ import { FluxSocketImpl } from "./FluxSockets";
 import { GeneralSecurityHandle } from "../ajax/security/GeneralSecurityHandle";
 import { AccountDataSecurityHandle } from "../ajax/security/AccountDataSecurityHandle";
 /**
- * Initializes a connection to the flux websocket.
+ * REMOVED (2026-11-04): the server-to-server websocket with the API key pair.
  *
+ * Its sign-in could never succeed on the backend, which now refuses it outright. A server
+ * gets live events from webhooks: register an endpoint with `POST /v2/webhook-endpoints`
+ * and verify each delivery's signature.
+ * This function is kept only so existing callers fail at once with that message, before any
+ * network call. The browser sockets (`fluxSocketBrowser`, `fluxSocketBrowserSessionBased`)
+ * are unchanged.
  *
- * @param publicKey
- * @param privateKey
- * @param username
- * @param passphrase
- * @returns
+ * @throws always - see {@link SERVER_SOCKET_REMOVED_MESSAGE}
  */
 export declare function fluxSocket(publicKey: string, privateKey: string, username: string, passphrase: string): Promise<FluxSocketImpl>;
 /**

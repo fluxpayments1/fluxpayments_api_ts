@@ -30,7 +30,7 @@ src/
 ```typescript
 // Server-side (API keys)
 const api = await flux(publicKey, privateKey, username, passphrase);
-const ws = await fluxSocket(publicKey, privateKey, username, passphrase);
+// fluxSocket(publicKey, ...) throws since 2026-11-04: server events come by webhook (see below)
 
 // Browser merchant portal (cookie/JWT) — uses AuthCache for auto caching
 const api = await fluxBrowser();
@@ -88,7 +88,7 @@ Always snake_case: `"product"`, `"payment_link"`, `"transaction"`. Never PascalC
 
 | Handler | Use Case | Auth Method |
 |---|---|---|
-| `MerchantEndpointsSecurityHandle` | Server-side API calls | RSA-4096 + AES-256-GCM |
+| `MerchantEndpointsSecurityHandle` | Server-side API calls (HTTP only; the backend class and the websocket sign-in were removed 2026-11-04) | RSA-4096 + AES-256-GCM |
 | `WebsiteSecurityHandle` | Merchant portal browser | JWT + cookies + 2FA (only handler with `clone()`) |
 | `SensitiveClientDataSecurityHandle` | Payment forms | Account session token |
 | `ReactNativeSecurityHandle` | Mobile apps (dead) | Expo SecureStore - **the backend no longer serves any React Native endpoint (removed 2026-10-24, §10.34); the SDK functions fail** |
@@ -110,8 +110,10 @@ Always snake_case: `"product"`, `"payment_link"`, `"transaction"`. Never PascalC
 
 **The websocket login carries the global headers (2026-10-18).** `CMMT.initializeWebSocketConnection` builds its auth message from the security handle's headers PLUS `CMMT.globalHeaders` (security headers first, globals after — the HTTP order). The only global is `X-Act-As-Merchant`; without it an admin viewing another merchant got their OWN merchant's live events. Anything added to `globalHeaders` now reaches the websocket login too.
 
+**A server cannot subscribe (2026-11-04, root §10.42).** `fluxSocket(publicKey, ...)` keeps its signature and throws `SERVER_SOCKET_REMOVED_MESSAGE` at once ("Live server events are delivered by webhooks…"): the backend refuses that handshake with 410 and the sign-in never worked. Browser sockets (`fluxSocketBrowserSessionBased`, the payment page) are unchanged. Server integrators get the new error only after the npm/`dist_rn` bundle is rebuilt and published; `dist_web` needs no rebuild.
+
 ```typescript
-const ws = await fluxSocket(publicKey, privateKey, username, passphrase);
+const ws = await fluxSocketBrowserSessionBased();
 await ws.subscribe(Subscription.TRANSACTION_CREATE, (data: EmissionData) => {
   console.log(data.object);  // Transaction object
 });
