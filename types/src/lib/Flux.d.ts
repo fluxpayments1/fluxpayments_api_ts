@@ -262,6 +262,12 @@ export declare class FluxComms<A extends SecurityHandler> {
      */
     sendForthCardIntake(mappingId: number): Promise<import("../ajax/Responses/SendForthCardIntakeResponse").SendForthCardIntakeResult>;
     /**
+     * "Process now" on one Forth debit (chargeId = the ForthScheduledCharge id). Portal only:
+     * endpoint processForthChargeNow, the browser appends Web. A refusal is a normal answer
+     * (outcome REFUSED + message), so show message rather than treating it as an error.
+     */
+    processForthChargeNow(chargeId: number): Promise<import("../ajax/Responses/ProcessForthChargeNowResponse").ProcessForthChargeNowResult>;
+    /**
      * Get the latest changelog entries (platform release notes).
      */
     /** One-call aggregate for the portal Invoices page: money-bar dollars +

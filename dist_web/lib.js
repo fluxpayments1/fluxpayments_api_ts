@@ -64730,6 +64730,33 @@ exports.MembershipRequest = MembershipRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/ProcessForthChargeNowRequest.ts"
+/*!***********************************************************!*\
+  !*** ./src/ajax/Requests/ProcessForthChargeNowRequest.ts ***!
+  \***********************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ProcessForthChargeNowRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+class ProcessForthChargeNowRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData(chargeId) {
+        this.chargeId = chargeId;
+    }
+    getRequestAsString() {
+        return JSON.stringify({ chargeId: this.chargeId });
+    }
+}
+exports.ProcessForthChargeNowRequest = ProcessForthChargeNowRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/PruneClarifyRequest.ts"
 /*!**************************************************!*\
   !*** ./src/ajax/Requests/PruneClarifyRequest.ts ***!
@@ -67580,6 +67607,42 @@ class MarkInvoiceAsPaidResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.MarkInvoiceAsPaidResponse = MarkInvoiceAsPaidResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ProcessForthChargeNowResponse.ts"
+/*!*************************************************************!*\
+  !*** ./src/ajax/Responses/ProcessForthChargeNowResponse.ts ***!
+  \*************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ProcessForthChargeNowResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ProcessForthChargeNowResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() { super(); }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        if (typeof p.status === "number")
+            this.status = p.status;
+        this.errorMsg = p.errorMsg;
+        this.outcome = p.outcome;
+        this.message = p.message;
+        return this;
+    }
+    getClientReturnValue() {
+        return {
+            status: this.status,
+            errorMsg: this.errorMsg,
+            outcome: this.outcome,
+            message: this.message,
+        };
+    }
+}
+exports.ProcessForthChargeNowResponse = ProcessForthChargeNowResponse;
 
 
 /***/ },
@@ -79988,6 +80051,19 @@ class FluxComms {
             const { SendForthCardIntakeResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SendForthCardIntakeResponse */ "./src/ajax/Responses/SendForthCardIntakeResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(ForthMappingActionRequest, SendForthCardIntakeResponse, "sendForthCardIntake", "POST", isolatedHandle, mappingId);
+        });
+    }
+    /**
+     * "Process now" on one Forth debit (chargeId = the ForthScheduledCharge id). Portal only:
+     * endpoint processForthChargeNow, the browser appends Web. A refusal is a normal answer
+     * (outcome REFUSED + message), so show message rather than treating it as an error.
+     */
+    processForthChargeNow(chargeId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ProcessForthChargeNowRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ProcessForthChargeNowRequest */ "./src/ajax/Requests/ProcessForthChargeNowRequest.ts")));
+            const { ProcessForthChargeNowResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ProcessForthChargeNowResponse */ "./src/ajax/Responses/ProcessForthChargeNowResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ProcessForthChargeNowRequest, ProcessForthChargeNowResponse, "processForthChargeNow", "POST", isolatedHandle, chargeId);
         });
     }
     /**

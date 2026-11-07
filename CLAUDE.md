@@ -637,6 +637,8 @@ before the portal can send it.
 
 ## Forth client detail — `getForthClientDetail` + `getForthStatus` includeInactive (2026-10-11)
 
+**`Flux.processForthChargeNow(chargeId)` (2026-11-06)** → `processForthChargeNow` (no `Web` in the string). Returns `{status, errorMsg, outcome, message}`; a refusal is HTTP 200 with `outcome: "REFUSED"`, so callers show `message`. Portal only: the backend has no API-key registration.
+
 `Flux.getForthClientDetail(mappingId)` → `getForthClientDetail` (endpoint string, **no `Web`**;
 reuses `ForthMappingActionRequest`). Returns `ForthClientDetailResult` — mapping, `charges[]`,
 `events[]`, `cardBrand`/`cardLastFour`/`cardAuthStatus`/`cardLastAuthError`,

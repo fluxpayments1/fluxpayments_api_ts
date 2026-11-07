@@ -858,6 +858,21 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * "Process now" on one Forth debit (chargeId = the ForthScheduledCharge id). Portal only:
+     * endpoint processForthChargeNow, the browser appends Web. A refusal is a normal answer
+     * (outcome REFUSED + message), so show message rather than treating it as an error.
+     */
+    public async processForthChargeNow(chargeId: number) {
+        const { ProcessForthChargeNowRequest } = await import("../ajax/Requests/ProcessForthChargeNowRequest");
+        const { ProcessForthChargeNowResponse } = await import("../ajax/Responses/ProcessForthChargeNowResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/ProcessForthChargeNowResponse").ProcessForthChargeNowResult, typeof ProcessForthChargeNowRequest.prototype, typeof ProcessForthChargeNowResponse.prototype>(
+            ProcessForthChargeNowRequest, ProcessForthChargeNowResponse, "processForthChargeNow", "POST", isolatedHandle,
+            chargeId
+        );
+    }
+
+    /**
      * Get the latest changelog entries (platform release notes).
      */
     /** One-call aggregate for the portal Invoices page: money-bar dollars +
