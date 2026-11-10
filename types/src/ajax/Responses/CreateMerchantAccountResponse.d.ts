@@ -14,6 +14,8 @@ export interface CreateMerchantAccountResult {
     confirmRequired: 'ROUNDING' | 'P12_UNVERIFIED' | null;
     /** The question to show, verbatim. */
     confirmMessage: string | null;
+    /** True when the merchant was made on the sandbox (test) CyberSource account. */
+    sandbox: boolean;
 }
 export declare class CreateMerchantAccountResponse extends ResponseBodyBase {
     private result;

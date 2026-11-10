@@ -63235,6 +63235,7 @@ class CreateMerchantAccountRequest extends RequestBodyBase_1.RequestBodyBase {
             icPlus: o.icPlus,
             acceptRounding: o.acceptRounding,
             acceptUnverifiedP12: o.acceptUnverifiedP12,
+            sandbox: o.sandbox,
         });
     }
 }
@@ -66224,7 +66225,7 @@ class CreateMerchantAccountResponse extends ResponseBodyBase_1.ResponseBodyBase 
         super();
         this.result = {
             merchantId: null, macId: null, email: null, businessName: null,
-            inviteEmailSent: false, confirmRequired: null, confirmMessage: null,
+            inviteEmailSent: false, confirmRequired: null, confirmMessage: null, sandbox: false,
         };
     }
     setResponseJSON(jsonString) {
@@ -66238,6 +66239,7 @@ class CreateMerchantAccountResponse extends ResponseBodyBase_1.ResponseBodyBase 
             inviteEmailSent: !!p.inviteEmailSent,
             confirmRequired: (_e = p.confirmRequired) !== null && _e !== void 0 ? _e : null,
             confirmMessage: (_f = p.confirmMessage) !== null && _f !== void 0 ? _f : null,
+            sandbox: !!p.sandbox,
         };
         return this;
     }

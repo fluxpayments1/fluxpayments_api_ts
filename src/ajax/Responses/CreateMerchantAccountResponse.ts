@@ -15,12 +15,14 @@ export interface CreateMerchantAccountResult {
     confirmRequired: 'ROUNDING' | 'P12_UNVERIFIED' | null;
     /** The question to show, verbatim. */
     confirmMessage: string | null;
+    /** True when the merchant was made on the sandbox (test) CyberSource account. */
+    sandbox: boolean;
 }
 
 export class CreateMerchantAccountResponse extends ResponseBodyBase {
     private result: CreateMerchantAccountResult = {
         merchantId: null, macId: null, email: null, businessName: null,
-        inviteEmailSent: false, confirmRequired: null, confirmMessage: null,
+        inviteEmailSent: false, confirmRequired: null, confirmMessage: null, sandbox: false,
     };
 
     constructor() { super(); }
@@ -35,6 +37,7 @@ export class CreateMerchantAccountResponse extends ResponseBodyBase {
             inviteEmailSent: !!p.inviteEmailSent,
             confirmRequired: p.confirmRequired ?? null,
             confirmMessage: p.confirmMessage ?? null,
+            sandbox: !!p.sandbox,
         };
         return this;
     }

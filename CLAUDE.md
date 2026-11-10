@@ -527,6 +527,8 @@ Instance methods, so no `Functions` registration — but the portal runs the pre
 
 ## `createMerchantAccount` (2026-09-24)
 
+`sandbox?: boolean` on the opts and `sandbox` on the result (2026-11-10): a sandbox merchant on Flux's test CyberSource account; the CyberSource fields are ignored.
+
 `Flux.createMerchantAccount(opts)` -> `createMerchantAccountWeb`. Admin-only: creates a
 merchant + owner login + set-your-password invite with no application, through the same
 server writer approving an application uses. Endpoint string `"createMerchantAccount"`, **no

@@ -45,6 +45,9 @@ export interface CreateMerchantAccountOpts {
     acceptRounding?: boolean;
     /** Go ahead although no .p12 could be read to check the password against. */
     acceptUnverifiedP12?: boolean;
+    /** A SANDBOX merchant: the platform's test CyberSource account (IS_PROD_ENV false).
+     *  The csMerchantId and P12 fields are ignored; the server uses its own. */
+    sandbox?: boolean;
 }
 
 /**
@@ -92,6 +95,7 @@ export class CreateMerchantAccountRequest extends RequestBodyBase {
             icPlus: o.icPlus,
             acceptRounding: o.acceptRounding,
             acceptUnverifiedP12: o.acceptUnverifiedP12,
+            sandbox: o.sandbox,
         });
     }
 }
