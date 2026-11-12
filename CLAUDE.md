@@ -746,3 +746,7 @@ Interface fields are optional (`?`) because older links / backends carry none. *
 ## setMerchantWallets (2026-10-30 — root CLAUDE.md §10.39)
 
 `Flux.setMerchantWallets(merchantId, applePayEnabled?, googlePayEnabled?)` (endpoint string `setMerchantWallets`, no `Web`) + `SetMerchantWalletsRequest/Response`; `PartnerMerchantRow.applePayEnabled/googlePayEnabled` (absent = off). The payment page calls `walletSessionWeb` and `createPaymentIntentWeb` with `walletToken` directly through its own comms, not the SDK. Needs the `dist_web/lib.js` rebuild + an `ng serve` restart.
+
+## Errors from `CMMT.fetch` / `fetchGeneric` carry `status` (2026-11-11)
+
+A non-200 reply throws `Error(body)` with `err.status = <HTTP status>` (it had no status before; `fetchStreaming` already set one). Additive: the portal's `isUnauthorizedError` reads only the message. Used by the payment page to tell an expired link (410, backend `PaymentLinkExpiredError`) from every other load failure. Needs the `dist_web/lib.js` rebuild locally; the pipeline builds it from source.

@@ -69140,7 +69140,11 @@ class CMMT {
                     resolve(retVal.getClientReturnValue());
                 }
                 else {
-                    throw new Error(axiosResponse.data);
+                    // Keep the HTTP status on the error so a page can branch on it
+                    // (e.g. 410 = expired payment link) instead of on the message text.
+                    const err = new Error(axiosResponse.data);
+                    err.status = axiosResponse.status;
+                    throw err;
                 }
             }
             catch (error) {
@@ -69176,7 +69180,11 @@ class CMMT {
                     resolve(retVal.getClientReturnValue());
                 }
                 else {
-                    throw new Error(axiosResponse.data);
+                    // Keep the HTTP status on the error so a page can branch on it
+                    // (e.g. 410 = expired payment link) instead of on the message text.
+                    const err = new Error(axiosResponse.data);
+                    err.status = axiosResponse.status;
+                    throw err;
                 }
             }
             catch (error) {
