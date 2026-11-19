@@ -649,6 +649,45 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * The merchant's Flux policy pages (Terms, Refund and Cancellation, Privacy) as any user of
+     * the business sees them (`getMerchantPolicyPages` -> `getMerchantPolicyPagesWeb`, no
+     * parameters, permission-less server-side): whether they are on, their public addresses,
+     * and which checkout policy link currently points at each one. Scope is the act-as-resolved
+     * merchant of the session.
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    public async getMerchantPolicyPages(): Promise<import("../ajax/Responses/GetMerchantPolicyPagesResponse").MerchantPolicyPagesResult> {
+        const { GetMerchantPolicyPagesRequest } = await import("../ajax/Requests/GetMerchantPolicyPagesRequest");
+        const { GetMerchantPolicyPagesResponse } = await import("../ajax/Responses/GetMerchantPolicyPagesResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/GetMerchantPolicyPagesResponse").MerchantPolicyPagesResult, typeof GetMerchantPolicyPagesRequest.prototype, typeof GetMerchantPolicyPagesResponse.prototype>(
+            GetMerchantPolicyPagesRequest, GetMerchantPolicyPagesResponse, "getMerchantPolicyPages", "POST", isolatedHandle
+        );
+    }
+
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`, 403 otherwise): manage a
+     * merchant's Flux policy pages (`manageMerchantPolicyPages` -> `manageMerchantPolicyPagesWeb`).
+     * Actions get / save / enable / disable / linkCheckout / unlinkCheckout / preview / import; every
+     * action answers with the full picture. The target is the act-as-resolved merchant, so the
+     * portal calls it while viewing that merchant; `merchantId` is a cross-check only. A refused
+     * save (unknown name, a section too long, a page that does not render) is a 400 with a plain
+     * message.
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    public async manageMerchantPolicyPages(opts: import("../ajax/Requests/ManageMerchantPolicyPagesRequest").ManageMerchantPolicyPagesOpts): Promise<import("../ajax/Responses/ManageMerchantPolicyPagesResponse").ManageMerchantPolicyPagesResult> {
+        const { ManageMerchantPolicyPagesRequest } = await import("../ajax/Requests/ManageMerchantPolicyPagesRequest");
+        const { ManageMerchantPolicyPagesResponse } = await import("../ajax/Responses/ManageMerchantPolicyPagesResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/ManageMerchantPolicyPagesResponse").ManageMerchantPolicyPagesResult, typeof ManageMerchantPolicyPagesRequest.prototype, typeof ManageMerchantPolicyPagesResponse.prototype>(
+            ManageMerchantPolicyPagesRequest, ManageMerchantPolicyPagesResponse, "manageMerchantPolicyPages", "POST", isolatedHandle,
+            opts
+        );
+    }
+
+    /**
      * Platform admins only (server-gated): the Partners panel on the Partner dashboard
      * (`managePartnerAccess` -> `managePartnerAccessWeb`). Lists every partner and the businesses
      * they reach; adds a person to one or more businesses as a partner; changes or removes that

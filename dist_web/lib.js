@@ -64316,6 +64316,41 @@ exports.GetMacRequest = GetMacRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/GetMerchantPolicyPagesRequest.ts"
+/*!************************************************************!*\
+  !*** ./src/ajax/Requests/GetMerchantPolicyPagesRequest.ts ***!
+  \************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetMerchantPolicyPagesRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * getMerchantPolicyPagesWeb takes NO parameters, deliberately (root CLAUDE.md, ticket #47).
+ *
+ * The answer is about the act-as-resolved merchant of the session: its three Flux policy pages
+ * (Terms, Refund and Cancellation, Privacy), whether they are switched on, and which checkout
+ * policy link currently points at each one. Permission-less server-side, like
+ * getEvidenceCoverageWeb, so a sub-user opening Settings is never signed out by it.
+ */
+class GetMerchantPolicyPagesRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+    }
+    loadClientData() {
+        // No parameters - see the class note.
+    }
+    getRequestAsString() {
+        return JSON.stringify({});
+    }
+}
+exports.GetMerchantPolicyPagesRequest = GetMerchantPolicyPagesRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/GetMetadataRequest.ts"
 /*!*************************************************!*\
   !*** ./src/ajax/Requests/GetMetadataRequest.ts ***!
@@ -64604,6 +64639,54 @@ class LookupCustomerByEmailRequest extends RequestBodyBase_1.RequestBodyBase {
     }
 }
 exports.LookupCustomerByEmailRequest = LookupCustomerByEmailRequest;
+
+
+/***/ },
+
+/***/ "./src/ajax/Requests/ManageMerchantPolicyPagesRequest.ts"
+/*!***************************************************************!*\
+  !*** ./src/ajax/Requests/ManageMerchantPolicyPagesRequest.ts ***!
+  \***************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ManageMerchantPolicyPagesRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body of manageMerchantPolicyPagesWeb - the Flux admin card on Merchant Settings -> Checkout.
+ * Only the keys the caller supplied are sent. A `null` INSIDE `flags` / `fields` is sent as null
+ * on purpose: it is how an override is removed.
+ */
+class ManageMerchantPolicyPagesRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+        this.opts = { action: "get" };
+    }
+    loadClientData(opts) {
+        this.opts = opts || { action: "get" };
+        return this;
+    }
+    getRequestAsString() {
+        const o = this.opts || { action: "get" };
+        const body = { action: o.action || "get" };
+        if (o.flags && typeof o.flags === "object")
+            body.flags = o.flags;
+        if (o.fields && typeof o.fields === "object")
+            body.fields = o.fields;
+        if (o.sections && typeof o.sections === "object")
+            body.sections = o.sections;
+        if (o.doc !== undefined && o.doc !== null)
+            body.doc = o.doc;
+        if (o.json !== undefined && o.json !== null)
+            body.json = o.json;
+        if (o.merchantId !== undefined && o.merchantId !== null)
+            body.merchantId = o.merchantId;
+        return JSON.stringify(body);
+    }
+}
+exports.ManageMerchantPolicyPagesRequest = ManageMerchantPolicyPagesRequest;
 
 
 /***/ },
@@ -67180,6 +67263,67 @@ exports.GetLatestInsightsResponse = GetLatestInsightsResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/GetMerchantPolicyPagesResponse.ts"
+/*!**************************************************************!*\
+  !*** ./src/ajax/Responses/GetMerchantPolicyPagesResponse.ts ***!
+  \**************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.GetMerchantPolicyPagesResponse = void 0;
+exports.readPolicyPageUrls = readPolicyPageUrls;
+exports.readPolicyPageCheckoutUse = readPolicyPageCheckoutUse;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+/** Reads a urls block defensively; null unless all three are non-empty strings. */
+function readPolicyPageUrls(u) {
+    if (!u || typeof u !== "object")
+        return null;
+    const terms = typeof u.terms === "string" ? u.terms : "";
+    const refundPolicy = typeof u.refundPolicy === "string" ? u.refundPolicy : "";
+    const privacyPolicy = typeof u.privacyPolicy === "string" ? u.privacyPolicy : "";
+    if (!terms || !refundPolicy || !privacyPolicy)
+        return null;
+    return { terms, refundPolicy, privacyPolicy };
+}
+/** Reads a checkoutUsesPages block defensively; anything not exactly true is false. */
+function readPolicyPageCheckoutUse(c) {
+    return {
+        terms: !!c && c.terms === true,
+        refundPolicy: !!c && c.refundPolicy === true,
+        privacyPolicy: !!c && c.privacyPolicy === true,
+    };
+}
+class GetMerchantPolicyPagesResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            ok: false,
+            enabled: false,
+            urls: null,
+            checkoutUsesPages: { terms: false, refundPolicy: false, privacyPolicy: false },
+        };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString) || {};
+        this.result = {
+            ok: !!p.ok,
+            enabled: p.enabled === true,
+            urls: readPolicyPageUrls(p.urls),
+            checkoutUsesPages: readPolicyPageCheckoutUse(p.checkoutUsesPages),
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.GetMerchantPolicyPagesResponse = GetMerchantPolicyPagesResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/GetMetadataResponse.ts"
 /*!***************************************************!*\
   !*** ./src/ajax/Responses/GetMetadataResponse.ts ***!
@@ -67539,6 +67683,84 @@ class LookupCustomerByEmailResponse extends ResponseBodyBase_1.ResponseBodyBase 
     }
 }
 exports.LookupCustomerByEmailResponse = LookupCustomerByEmailResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ManageMerchantPolicyPagesResponse.ts"
+/*!*****************************************************************!*\
+  !*** ./src/ajax/Responses/ManageMerchantPolicyPagesResponse.ts ***!
+  \*****************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ManageMerchantPolicyPagesResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+const GetMerchantPolicyPagesResponse_1 = __webpack_require__(/*! ./GetMerchantPolicyPagesResponse */ "./src/ajax/Responses/GetMerchantPolicyPagesResponse.ts");
+function readSections(list) {
+    if (!Array.isArray(list))
+        return [];
+    return list
+        .filter((s) => s && typeof s === "object")
+        .map((s) => ({ title: s.title != null ? String(s.title) : "", body: s.body != null ? String(s.body) : "" }));
+}
+class ManageMerchantPolicyPagesResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            ok: false, message: null, enabled: false, rowExists: false, key: null, urls: null,
+            checkoutUsesPages: { terms: false, refundPolicy: false, privacyPolicy: false },
+            flags: [], fields: [], sections: { terms_extra: [], refund_extra: [], privacy_extra: [] },
+            warnings: [], previewHtml: null,
+        };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString) || {};
+        const s = p.sections && typeof p.sections === "object" ? p.sections : {};
+        this.result = {
+            ok: !!p.ok,
+            message: p.message != null ? String(p.message) : null,
+            enabled: p.enabled === true,
+            rowExists: p.rowExists === true,
+            key: p.key != null ? String(p.key) : null,
+            urls: (0, GetMerchantPolicyPagesResponse_1.readPolicyPageUrls)(p.urls),
+            checkoutUsesPages: (0, GetMerchantPolicyPagesResponse_1.readPolicyPageCheckoutUse)(p.checkoutUsesPages),
+            flags: (Array.isArray(p.flags) ? p.flags : [])
+                .filter((f) => f && f.name != null)
+                .map((f) => ({
+                name: String(f.name),
+                label: f.label != null ? String(f.label) : String(f.name),
+                auto: f.auto === true,
+                override: f.override === true ? true : f.override === false ? false : null,
+                effective: f.effective === true,
+                derived: f.derived === true,
+            })),
+            fields: (Array.isArray(p.fields) ? p.fields : [])
+                .filter((f) => f && f.name != null)
+                .map((f) => ({
+                name: String(f.name),
+                label: f.label != null ? String(f.label) : String(f.name),
+                auto: f.auto != null ? String(f.auto) : "",
+                override: f.override != null ? String(f.override) : null,
+                effective: f.effective != null ? String(f.effective) : "",
+            })),
+            sections: {
+                terms_extra: readSections(s.terms_extra),
+                refund_extra: readSections(s.refund_extra),
+                privacy_extra: readSections(s.privacy_extra),
+            },
+            warnings: (Array.isArray(p.warnings) ? p.warnings : []).filter((w) => w != null).map((w) => String(w)),
+            previewHtml: typeof p.previewHtml === "string" ? p.previewHtml : null,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.ManageMerchantPolicyPagesResponse = ManageMerchantPolicyPagesResponse;
 
 
 /***/ },
@@ -79873,6 +80095,42 @@ class FluxComms {
             const { SetMerchantWalletsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/SetMerchantWalletsResponse */ "./src/ajax/Responses/SetMerchantWalletsResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(SetMerchantWalletsRequest, SetMerchantWalletsResponse, "setMerchantWallets", "POST", isolatedHandle, merchantId, applePayEnabled, googlePayEnabled);
+        });
+    }
+    /**
+     * The merchant's Flux policy pages (Terms, Refund and Cancellation, Privacy) as any user of
+     * the business sees them (`getMerchantPolicyPages` -> `getMerchantPolicyPagesWeb`, no
+     * parameters, permission-less server-side): whether they are on, their public addresses,
+     * and which checkout policy link currently points at each one. Scope is the act-as-resolved
+     * merchant of the session.
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    getMerchantPolicyPages() {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { GetMerchantPolicyPagesRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/GetMerchantPolicyPagesRequest */ "./src/ajax/Requests/GetMerchantPolicyPagesRequest.ts")));
+            const { GetMerchantPolicyPagesResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/GetMerchantPolicyPagesResponse */ "./src/ajax/Responses/GetMerchantPolicyPagesResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(GetMerchantPolicyPagesRequest, GetMerchantPolicyPagesResponse, "getMerchantPolicyPages", "POST", isolatedHandle);
+        });
+    }
+    /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`, 403 otherwise): manage a
+     * merchant's Flux policy pages (`manageMerchantPolicyPages` -> `manageMerchantPolicyPagesWeb`).
+     * Actions get / save / enable / disable / linkCheckout / unlinkCheckout / preview / import; every
+     * action answers with the full picture. The target is the act-as-resolved merchant, so the
+     * portal calls it while viewing that merchant; `merchantId` is a cross-check only. A refused
+     * save (unknown name, a section too long, a page that does not render) is a 400 with a plain
+     * message.
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    manageMerchantPolicyPages(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ManageMerchantPolicyPagesRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ManageMerchantPolicyPagesRequest */ "./src/ajax/Requests/ManageMerchantPolicyPagesRequest.ts")));
+            const { ManageMerchantPolicyPagesResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ManageMerchantPolicyPagesResponse */ "./src/ajax/Responses/ManageMerchantPolicyPagesResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ManageMerchantPolicyPagesRequest, ManageMerchantPolicyPagesResponse, "manageMerchantPolicyPages", "POST", isolatedHandle, opts);
         });
     }
     /**
