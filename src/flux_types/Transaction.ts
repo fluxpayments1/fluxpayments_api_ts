@@ -407,8 +407,9 @@ export class Transaction extends FluxType implements ITransaction {
     // ---- Platform fee (2026-10-22) ----------------------------------------
     // SERVER-WRITTEN at charge time, like serviceFee / serviceFeeRate (which
     // this type never declared — they arrive on the raw JSON). Read-only:
-    // deliberately NOT in serialize(). platformFeeRate is a PERCENT. The
-    // backend also folds platformFee into transactionCost (Flux's charge).
+    // deliberately NOT in serialize(). platformFeeRate is a PERCENT. Since
+    // 2026-11-27 (change ticket #66) platformFee is NOT part of transactionCost
+    // (the card fee only); on charges from 2026-10-22 to 2026-11-27 it is.
     platformFee?: number;
     platformFeeRate?: number;
 

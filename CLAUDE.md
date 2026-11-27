@@ -732,7 +732,7 @@ The action union is `'CANCEL' | 'DEFER' | 'RESCHEDULE' | 'CHANGE_CARD' | 'SEND_C
 
 ## Platform fee fields (2026-10-22)
 
-Flux's own per-charge fee, computed like the service fee (same base: subtotal after discounts + shipping; taxed the same way) and shown to customers as "Platform fee". **The one difference from the service fee: it is Flux's charge, not the merchant's, so the backend also folds it into `transactionCost`.** Rates are PERCENTS (10.4823 = 10.4823%), like `serviceFeeRate`.
+A per-charge fee line, computed like the service fee (same base: subtotal after discounts + shipping; taxed the same way) and shown to customers as "Platform fee". From 2026-10-22 to 2026-11-27 the backend also folded it into `transactionCost`; **since change ticket #66 (2026-11-27) it does not — `transactionCost` is the card fee only**, and the platform fee is recorded beside it (`Transaction.platformFee`). Rates are PERCENTS (10.4823 = 10.4823%), like `serviceFeeRate`.
 
 | Type | Added | In `serialize()`? |
 |---|---|---|
