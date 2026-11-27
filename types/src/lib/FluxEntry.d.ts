@@ -58,7 +58,19 @@ import { UserSecurityHandle } from "../../src/ajax/security/UserSecurityHandle";
  * @param password
  */
 export declare function fluxWebsiteSignInAuthorization(email: any, password: any, token?: string): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
+/**
+ * Asks Flux to email a password link. Resolves true when the server took the request (it
+ * answers the same way whether or not the address has a login, so that is all "true" says).
+ * Rejects with the server's refusal (reCAPTCHA rejected the request, or the link could not be
+ * sent) or any other failure (another status, a network error), so the page can say no link went
+ * out (2026-11-25; it used to resolve true for every failure).
+ */
 export declare function resetPassword(email: string, token: string): Promise<boolean>;
+/**
+ * Sets a new password with the code from an emailed link. Resolves true only when the server
+ * set it (the plain 401 handshake). Rejects with the server's refusal or any other failure
+ * (2026-11-25; see PASSWORD_REQUEST_REFUSED).
+ */
 export declare function updatePassword(email: string, password: string, passwordResetCode: string, token: string): Promise<boolean>;
 export declare function fluxWebsite2fa(number: string, token: string): Promise<FluxTokenBackend<WebsiteSecurityHandle>>;
 /**

@@ -140,6 +140,17 @@ export declare class FluxComms<A extends SecurityHandler> {
      */
     setMerchantAiEnabled(merchantId: number, aiEnabled: boolean): Promise<import("../ajax/Responses/SetMerchantAiEnabledResponse").SetMerchantAiEnabledResult>;
     /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): amendment transactions
+     * (`createAmendment` -> `createAmendmentWeb`, change ticket #55). `action: 'preview'` totals
+     * the card fees booked on the viewed business's card payments between `from` and `to`;
+     * `action: 'create'` writes an AMENDMENT row (total 0, the fee correction in its Transaction
+     * Fee, negative = fee given back) with a required `reason`. The target is the act-as-resolved
+     * merchant; `merchantId` is a cross-check and is required to create.
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    createAmendment(opts: import("../ajax/Requests/CreateAmendmentRequest").CreateAmendmentOpts): Promise<import("../ajax/Responses/CreateAmendmentResponse").CreateAmendmentResult>;
+    /**
      * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn 3-D Secure on the
      * payment page on or off for a business (`setMerchantThreeDsEnabled` ->
      * `setMerchantThreeDsEnabledWeb`). Same act-as targeting as `setMerchantAiEnabled`; turn it
@@ -191,6 +202,18 @@ export declare class FluxComms<A extends SecurityHandler> {
      * until that bundle is rebuilt. Feature-detect it.
      */
     managePartnerAccess(opts: import("../ajax/Requests/ManagePartnerAccessRequest").ManagePartnerAccessOpts): Promise<import("../ajax/Responses/ManagePartnerAccessResponse").PartnerAccessResult>;
+    /**
+     * The business's virtual terminals (`manageVirtualTerminals` -> `manageVirtualTerminalsWeb`,
+     * change ticket #61): list, get (with history and orders), create, update, unlock,
+     * clearCardPause, endSessions, newLink, turnOff, turnOn, delete. The VIRTUAL_TERMINAL
+     * permission is checked in the service, and a refusal comes back as HTTP 200 with
+     * `ok: false` and a `message` to show as written. The password is sent as base64 of its
+     * UTF-8 bytes.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    manageVirtualTerminals(opts: import("../ajax/Requests/ManageVirtualTerminalsRequest").ManageVirtualTerminalsOpts): Promise<import("../ajax/Responses/ManageVirtualTerminalsResponse").ManageVirtualTerminalsResult>;
     /** Does the signed-in merchant still have to accept the Merchant Services Agreement?
      *  Permission-less server-side; scope is the session's merchant. Endpoint string carries
      *  no "Web" suffix — CMMT appends it in the browser. */

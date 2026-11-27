@@ -204,3 +204,8 @@ export { Dispute } from './Dispute'
 export { DisputeQuery } from './DisputeQuery'
 export { IDispute } from './IDispute'
 export { IDisputeQuery } from './IDisputeQuery'
+// Virtual terminals table rows (change ticket #61, 2026-11-26) - read-only.
+export { VirtualTerminal } from './VirtualTerminal'
+export { VirtualTerminalQuery } from './VirtualTerminalQuery'
+export { IVirtualTerminal } from './IVirtualTerminal'
+export { IVirtualTerminalQuery } from './IVirtualTerminalQuery'

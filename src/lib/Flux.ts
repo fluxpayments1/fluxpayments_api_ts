@@ -611,6 +611,26 @@ export class FluxComms<A extends SecurityHandler> {
     }
 
     /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): amendment transactions
+     * (`createAmendment` -> `createAmendmentWeb`, change ticket #55). `action: 'preview'` totals
+     * the card fees booked on the viewed business's card payments between `from` and `to`;
+     * `action: 'create'` writes an AMENDMENT row (total 0, the fee correction in its Transaction
+     * Fee, negative = fee given back) with a required `reason`. The target is the act-as-resolved
+     * merchant; `merchantId` is a cross-check and is required to create.
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    public async createAmendment(opts: import("../ajax/Requests/CreateAmendmentRequest").CreateAmendmentOpts): Promise<import("../ajax/Responses/CreateAmendmentResponse").CreateAmendmentResult> {
+        const { CreateAmendmentRequest } = await import("../ajax/Requests/CreateAmendmentRequest");
+        const { CreateAmendmentResponse } = await import("../ajax/Responses/CreateAmendmentResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/CreateAmendmentResponse").CreateAmendmentResult, typeof CreateAmendmentRequest.prototype, typeof CreateAmendmentResponse.prototype>(
+            CreateAmendmentRequest, CreateAmendmentResponse, "createAmendment", "POST", isolatedHandle,
+            opts
+        );
+    }
+
+    /**
      * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn 3-D Secure on the
      * payment page on or off for a business (`setMerchantThreeDsEnabled` ->
      * `setMerchantThreeDsEnabledWeb`). Same act-as targeting as `setMerchantAiEnabled`; turn it
@@ -702,6 +722,27 @@ export class FluxComms<A extends SecurityHandler> {
         const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
         return CMMT.fetch<import("../ajax/Responses/ManagePartnerAccessResponse").PartnerAccessResult, typeof ManagePartnerAccessRequest.prototype, typeof ManagePartnerAccessResponse.prototype>(
             ManagePartnerAccessRequest, ManagePartnerAccessResponse, "managePartnerAccess", "POST", isolatedHandle,
+            opts
+        );
+    }
+
+    /**
+     * The business's virtual terminals (`manageVirtualTerminals` -> `manageVirtualTerminalsWeb`,
+     * change ticket #61): list, get (with history and orders), create, update, unlock,
+     * clearCardPause, endSessions, newLink, turnOff, turnOn, delete. The VIRTUAL_TERMINAL
+     * permission is checked in the service, and a refusal comes back as HTTP 200 with
+     * `ok: false` and a `message` to show as written. The password is sent as base64 of its
+     * UTF-8 bytes.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    public async manageVirtualTerminals(opts: import("../ajax/Requests/ManageVirtualTerminalsRequest").ManageVirtualTerminalsOpts): Promise<import("../ajax/Responses/ManageVirtualTerminalsResponse").ManageVirtualTerminalsResult> {
+        const { ManageVirtualTerminalsRequest } = await import("../ajax/Requests/ManageVirtualTerminalsRequest");
+        const { ManageVirtualTerminalsResponse } = await import("../ajax/Responses/ManageVirtualTerminalsResponse");
+        const isolatedHandle = (this._securityHandle as any).clone ? (this._securityHandle as any).clone() : this._securityHandle;
+        return CMMT.fetch<import("../ajax/Responses/ManageVirtualTerminalsResponse").ManageVirtualTerminalsResult, typeof ManageVirtualTerminalsRequest.prototype, typeof ManageVirtualTerminalsResponse.prototype>(
+            ManageVirtualTerminalsRequest, ManageVirtualTerminalsResponse, "manageVirtualTerminals", "POST", isolatedHandle,
             opts
         );
     }

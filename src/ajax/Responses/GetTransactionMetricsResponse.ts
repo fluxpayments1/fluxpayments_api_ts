@@ -42,6 +42,11 @@ export interface TransactionMetrics {
     feeCount: number;
     declinedCount: number;
     allCount: number;
+    /** Sum of the fee corrections on AMENDMENT rows in the range (negative = fee given back).
+     *  Undefined from a backend older than 2026-11-19 (change ticket #55). */
+    amendmentFeeTotal?: number;
+    /** FINALIZED AMENDMENT rows in the range. Undefined from an older backend. */
+    amendmentCount?: number;
 }
 
 export class GetTransactionMetricsResponse extends ResponseBodyBase {
@@ -77,6 +82,8 @@ export class GetTransactionMetricsResponse extends ResponseBodyBase {
             feeCount: Number(parsed.feeCount ?? 0),
             declinedCount: Number(parsed.declinedCount ?? 0),
             allCount: Number(parsed.allCount ?? 0),
+            amendmentFeeTotal: parsed.amendmentFeeTotal == null ? undefined : Number(parsed.amendmentFeeTotal),
+            amendmentCount: parsed.amendmentCount == null ? undefined : Number(parsed.amendmentCount),
         };
         return this;
     }

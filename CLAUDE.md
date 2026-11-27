@@ -680,6 +680,18 @@ echoes the resolved `range` + `sinceMillis` lower bound, `null` for `"all"`).
 - Instance method, so no `Functions` registration — but the portal runs the prebuilt
   `dist_web/lib.js`, so **it needs the bundle rebuilt** (and `ng serve` restarted) before a
   browser can call it; the portal should feature-detect `typeof f.getTransactionMetrics`.
+- **2026-11-19:** `amendmentFeeTotal` / `amendmentCount` (optional, passthrough-or-undefined, so an
+  older backend leaves them out and the portal hides the Fee amendments tile).
+
+## `createAmendment(opts)` — fee amendments, Flux admins only (2026-11-19, root CLAUDE.md §10.50)
+
+`Flux.createAmendment({action: 'preview'|'create', merchantId?, from?, to?, feeAdjustment?, reason?})`
+→ `createAmendmentWeb`; endpoint string `"createAmendment"` (no `Web`). Instance method, no
+`Functions` registration. `CreateAmendmentRequest` sends only the keys that are set;
+`CreateAmendmentResult` is a whitelist (ok, action, merchantId, period, the preview totals,
+existing amendments, transactionId, uniqueId, feeAdjustment). `feeAdjustment` is a STRING
+("-45.00" = fees given back). Refusals come back as the server's plain sentence. **Needs the
+`dist_web/lib.js` rebuild**; the portal's amendment panel feature-detects it.
 
 ## `PaymentLink.charge` — the saved-card charge outcome on create (2026-10-15)
 
@@ -751,6 +763,10 @@ Interface fields are optional (`?`) because older links / backends carry none. *
 
 A non-200 reply throws `Error(body)` with `err.status = <HTTP status>` (it had no status before; `fetchStreaming` already set one). Additive: the portal's `isUnauthorizedError` reads only the message. Used by the payment page to tell an expired link (410, backend `PaymentLinkExpiredError`) from every other load failure. Needs the `dist_web/lib.js` rebuild locally; the pipeline builds it from source.
 
+## `resetPassword` / `updatePassword` reject on a refusal (2026-11-25, ticket #60)
+
+Both requests answer 401 by design. They used to resolve `true` for ANY error (`catch → return true`), so a refused set-password request and a network error both read as "the password was set". Now `passwordRequestHandshake(e)` = `e.status === 401` and the body matches none of `PASSWORD_REQUEST_REFUSED` (`/recaptcha|could not send the link|no longer works|could not set your password|could not confirm/i`, the backend's refusal messages; "could not confirm" = the server tried to store the password and the store did not confirm): only that resolves `true`; every other error is re-thrown with the server's text as `message` and `status` kept (a network error or timeout has no numeric status, which the portal reads as "outcome unknown"). A refusal is recognised by its phrase and success never by exact text, so a reworded or translated server message falls back to the old reading. The backend `Spring/Security/PasswordResetAnswersTest` reads this pattern from this file; change it together with the server messages. Callers: the portal's forgot-password and update-password pages (`token_website` / `website_api_ts` carry their own older SDK copy and are unaffected). Needs the `dist_web/lib.js` rebuild locally; the pipeline builds it from source.
+
 ## Merchant policy pages (2026-11-17, ticket #47)
 
 Two instance methods (no `Functions` registration; endpoint strings carry no `Web`):
@@ -759,3 +775,9 @@ Two instance methods (no `Functions` registration; endpoint strings carry no `We
 - `Flux.manageMerchantPolicyPages(opts)` → `manageMerchantPolicyPagesWeb`, platform admins only (403 otherwise). `ManageMerchantPolicyPagesOpts` = `{action: 'get'|'save'|'enable'|'disable'|'linkCheckout'|'unlinkCheckout'|'preview'|'import', flags?, fields?, sections?: {terms_extra?, refund_extra?, privacy_extra?}, doc?: 'terms'|'refund-policy'|'privacy-policy', json?, merchantId?}`. Only supplied keys are sent, but a `null` INSIDE `flags` / `fields` is sent as null on purpose: it removes that override (`""` on a field means "show nothing"). `merchantId` is a cross-check only. `ManageMerchantPolicyPagesResult` whitelists `ok, message, enabled, rowExists, key, urls, checkoutUsesPages, flags[{name,label,auto,override,effective,derived}], fields[{name,label,auto,override,effective}], sections{terms_extra,refund_extra,privacy_extra}[{title,body}], warnings[], previewHtml`. `derived` = the automatic value comes from the account (otherwise it is a fixed "no"); EVERY flag can be overridden. `preview` takes the same `flags` / `fields` / `sections` as `save` (the unsaved edits) and saves nothing. Every write action must carry `merchantId` (the server refuses one without it). `urls` comes back while the pages are off too. `previewHtml` is a whole rendered page: show it only in `<iframe sandbox="">`.
 - A refused save is a non-200, so `CMMT.fetch` throws `Error(body)` with `status`; the portal's comms wrapper turns every non-401 status into `{ok:false, message}` so a 403 never signs an admin out.
 - Needs the `dist_web/lib.js` rebuild (and an `ng serve` restart) before the portal can call either; the portal feature-detects. `npm run compile-src` regenerates `types/` for the new classes.
+
+## `manageVirtualTerminals(opts)` (2026-11-25, change ticket #61 — root CLAUDE.md §10.53)
+
+**`VirtualTerminal` / `VirtualTerminalQuery` FluxTypes (2026-11-26)** — read-only rows for the portal's standard table (`flux_types/VirtualTerminal.ts`, `IVirtualTerminal.ts`, `VirtualTerminalQuery.ts`, `IVirtualTerminalQuery.ts`, exported from `flux_types/index.ts`). `obName` "VirtualTerminal" names the endpoint (`getObjects` → `getVirtualTerminal` → `getVirtualTerminalWeb`), `objectType` "virtual_terminal". Fields id, name, status, codeEmail, paymentLimit (text), lastSignInAt, createdAt (from FluxType); `serialize()` sends the id only — there is no create/update/delete behind the type. The portal registers both in `CommsService.loadModules`; **needs the `dist_web/lib.js` rebuild** (+ `npm run compile-src` for `types/`), and the portal page shows an update message until then.
+
+Instance method (no `Functions` registration), endpoint string `manageVirtualTerminals` (no `Web`) → `manageVirtualTerminalsWeb`. `ManageVirtualTerminalsOpts` = `{action, terminalId?, name?, codeEmail?, password?, singlePaymentLimit?, noLimit?, sendReceiptDefault?}`; only supplied keys are sent, `noLimit` only when true, `sendReceiptDefault` only when a boolean. **The password is sent as `passwordB64` (base64 of its UTF-8 bytes, `utf8Base64`), never as `password`** — the portal's request sanitizer escapes `& < > '`, which would change it; the backend's `VirtualTerminalServicesTest` reads this file and fails if `body.password =` comes back. `ManageVirtualTerminalsResult` whitelists `ok, reason, message, terminals[], terminal, history[], orders[], canCreate, canUpdate, canDelete, maxTerminals` (rows: `VirtualTerminalRow` — carries the terminal's `url` —, `VirtualTerminalAuditRow`, `VirtualTerminalOrderRow`). The server answers its refusals as 200 `{ok:false}`; other errors throw from `CMMT.fetch` with `status`, which the portal's wrapper turns into `{ok:false}` (401 excepted). The payments-site terminal page does NOT use the SDK (plain fetch, `one_time_payment_link/CLAUDE.md`). Needs the `dist_web/lib.js` rebuild + an `ng serve` restart.

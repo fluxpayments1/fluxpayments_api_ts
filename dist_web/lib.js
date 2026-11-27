@@ -63127,6 +63127,46 @@ exports.ConnectForthRequest = ConnectForthRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/CreateAmendmentRequest.ts"
+/*!*****************************************************!*\
+  !*** ./src/ajax/Requests/CreateAmendmentRequest.ts ***!
+  \*****************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateAmendmentRequest = void 0;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/**
+ * Body of createAmendmentWeb (2026-11-19, change ticket #55). Only the keys the caller set
+ * are sent. The target business is the act-as-resolved merchant of the request.
+ */
+class CreateAmendmentRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+        this.opts = { action: 'preview' };
+    }
+    loadClientData(opts) {
+        if (opts)
+            this.opts = opts;
+        return this;
+    }
+    getRequestAsString() {
+        const body = {};
+        const o = this.opts;
+        for (const k of ['action', 'merchantId', 'from', 'to', 'feeAdjustment', 'reason']) {
+            if (o[k] !== undefined && o[k] !== null)
+                body[k] = o[k];
+        }
+        return JSON.stringify(body);
+    }
+}
+exports.CreateAmendmentRequest = CreateAmendmentRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/CreateCardCaptureFormRequest.ts"
 /*!***********************************************************!*\
   !*** ./src/ajax/Requests/CreateCardCaptureFormRequest.ts ***!
@@ -64736,6 +64776,69 @@ exports.ManagePartnerAccessRequest = ManagePartnerAccessRequest;
 
 /***/ },
 
+/***/ "./src/ajax/Requests/ManageVirtualTerminalsRequest.ts"
+/*!************************************************************!*\
+  !*** ./src/ajax/Requests/ManageVirtualTerminalsRequest.ts ***!
+  \************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+/* provided dependency */ var Buffer = __webpack_require__(/*! buffer */ "./node_modules/buffer/index.js")["Buffer"];
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ManageVirtualTerminalsRequest = void 0;
+exports.utf8Base64 = utf8Base64;
+const RequestBodyBase_1 = __webpack_require__(/*! ./RequestBodyBase */ "./src/ajax/Requests/RequestBodyBase.ts");
+/** Base64 of the UTF-8 bytes of `s`, in a browser or in Node. */
+function utf8Base64(s) {
+    if (typeof TextEncoder !== "undefined" && typeof btoa === "function") {
+        const bytes = new TextEncoder().encode(s);
+        let bin = "";
+        for (let i = 0; i < bytes.length; i++)
+            bin += String.fromCharCode(bytes[i]);
+        return btoa(bin);
+    }
+    return Buffer.from(s, "utf-8").toString("base64");
+}
+/**
+ * Body of manageVirtualTerminalsWeb. Only the keys the caller supplied are sent. The password
+ * never goes out in plain form, and this class never logs it.
+ */
+class ManageVirtualTerminalsRequest extends RequestBodyBase_1.RequestBodyBase {
+    constructor() {
+        super();
+        this.opts = { action: "list" };
+    }
+    loadClientData(opts) {
+        this.opts = opts || { action: "list" };
+        return this;
+    }
+    getRequestAsString() {
+        const o = this.opts || { action: "list" };
+        const body = { action: o.action || "list" };
+        if (o.terminalId !== undefined && o.terminalId !== null)
+            body.terminalId = o.terminalId;
+        if (o.name !== undefined && o.name !== null)
+            body.name = o.name;
+        if (o.codeEmail !== undefined && o.codeEmail !== null)
+            body.codeEmail = o.codeEmail;
+        if (typeof o.password === "string" && o.password.length > 0)
+            body.passwordB64 = utf8Base64(o.password);
+        if (o.singlePaymentLimit !== undefined && o.singlePaymentLimit !== null && o.singlePaymentLimit !== "") {
+            body.singlePaymentLimit = o.singlePaymentLimit;
+        }
+        if (o.noLimit === true)
+            body.noLimit = true;
+        if (typeof o.sendReceiptDefault === "boolean")
+            body.sendReceiptDefault = o.sendReceiptDefault;
+        return JSON.stringify(body);
+    }
+}
+exports.ManageVirtualTerminalsRequest = ManageVirtualTerminalsRequest;
+
+
+/***/ },
+
 /***/ "./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts"
 /*!*******************************************************!*\
   !*** ./src/ajax/Requests/MarkInvoiceAsPaidRequest.ts ***!
@@ -66247,6 +66350,59 @@ exports.ConnectForthResponse = ConnectForthResponse;
 
 /***/ },
 
+/***/ "./src/ajax/Responses/CreateAmendmentResponse.ts"
+/*!*******************************************************!*\
+  !*** ./src/ajax/Responses/CreateAmendmentResponse.ts ***!
+  \*******************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.CreateAmendmentResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class CreateAmendmentResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            ok: false, action: '', merchantId: null, periodFrom: null, periodTo: null,
+            absorbedCount: 0, absorbedCardFees: 0, passthroughCount: 0, passthroughCardFees: 0,
+            platformFees: 0, existingAmendmentCount: 0, existingAmendmentFeeTotal: 0,
+            transactionId: null, uniqueId: null, feeAdjustment: null,
+        };
+    }
+    setResponseJSON(jsonString) {
+        var _a, _b, _c, _d;
+        const p = JSON.parse(jsonString);
+        const num = (v) => (v == null ? 0 : Number(v));
+        this.result = {
+            ok: !!p.ok,
+            action: String((_a = p.action) !== null && _a !== void 0 ? _a : ''),
+            merchantId: p.merchantId != null ? Number(p.merchantId) : null,
+            periodFrom: (_b = p.periodFrom) !== null && _b !== void 0 ? _b : null,
+            periodTo: (_c = p.periodTo) !== null && _c !== void 0 ? _c : null,
+            absorbedCount: num(p.absorbedCount),
+            absorbedCardFees: num(p.absorbedCardFees),
+            passthroughCount: num(p.passthroughCount),
+            passthroughCardFees: num(p.passthroughCardFees),
+            platformFees: num(p.platformFees),
+            existingAmendmentCount: num(p.existingAmendmentCount),
+            existingAmendmentFeeTotal: num(p.existingAmendmentFeeTotal),
+            transactionId: p.transactionId != null ? Number(p.transactionId) : null,
+            uniqueId: (_d = p.uniqueId) !== null && _d !== void 0 ? _d : null,
+            feeAdjustment: p.feeAdjustment != null ? Number(p.feeAdjustment) : null,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.CreateAmendmentResponse = CreateAmendmentResponse;
+
+
+/***/ },
+
 /***/ "./src/ajax/Responses/CreateCardCaptureFormResponse.ts"
 /*!*************************************************************!*\
   !*** ./src/ajax/Responses/CreateCardCaptureFormResponse.ts ***!
@@ -67516,6 +67672,8 @@ class GetTransactionMetricsResponse extends ResponseBodyBase_1.ResponseBodyBase 
             feeCount: Number((_q = parsed.feeCount) !== null && _q !== void 0 ? _q : 0),
             declinedCount: Number((_r = parsed.declinedCount) !== null && _r !== void 0 ? _r : 0),
             allCount: Number((_s = parsed.allCount) !== null && _s !== void 0 ? _s : 0),
+            amendmentFeeTotal: parsed.amendmentFeeTotal == null ? undefined : Number(parsed.amendmentFeeTotal),
+            amendmentCount: parsed.amendmentCount == null ? undefined : Number(parsed.amendmentCount),
         };
         return this;
     }
@@ -67798,6 +67956,51 @@ class ManagePartnerAccessResponse extends ResponseBodyBase_1.ResponseBodyBase {
     }
 }
 exports.ManagePartnerAccessResponse = ManagePartnerAccessResponse;
+
+
+/***/ },
+
+/***/ "./src/ajax/Responses/ManageVirtualTerminalsResponse.ts"
+/*!**************************************************************!*\
+  !*** ./src/ajax/Responses/ManageVirtualTerminalsResponse.ts ***!
+  \**************************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.ManageVirtualTerminalsResponse = void 0;
+const ResponseBodyBase_1 = __webpack_require__(/*! ./ResponseBodyBase */ "./src/ajax/Responses/ResponseBodyBase.ts");
+class ManageVirtualTerminalsResponse extends ResponseBodyBase_1.ResponseBodyBase {
+    constructor() {
+        super();
+        this.result = {
+            ok: false, reason: null, message: null, terminals: [], terminal: null, history: [], orders: [],
+            canCreate: false, canUpdate: false, canDelete: false, maxTerminals: 0,
+        };
+    }
+    setResponseJSON(jsonString) {
+        const p = JSON.parse(jsonString);
+        this.result = {
+            ok: p.ok === true,
+            reason: p.reason != null ? String(p.reason) : null,
+            message: p.message != null ? String(p.message) : null,
+            terminals: Array.isArray(p.terminals) ? p.terminals : [],
+            terminal: p.terminal && typeof p.terminal === "object" ? p.terminal : null,
+            history: Array.isArray(p.history) ? p.history : [],
+            orders: Array.isArray(p.orders) ? p.orders : [],
+            canCreate: p.canCreate === true,
+            canUpdate: p.canUpdate === true,
+            canDelete: p.canDelete === true,
+            maxTerminals: typeof p.maxTerminals === "number" ? p.maxTerminals : 0,
+        };
+        return this;
+    }
+    getClientReturnValue() {
+        return this.result;
+    }
+}
+exports.ManageVirtualTerminalsResponse = ManageVirtualTerminalsResponse;
 
 
 /***/ },
@@ -79257,6 +79460,86 @@ exports.UserQuery = UserQuery;
 
 /***/ },
 
+/***/ "./src/flux_types/VirtualTerminal.ts"
+/*!*******************************************!*\
+  !*** ./src/flux_types/VirtualTerminal.ts ***!
+  \*******************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.VirtualTerminal = void 0;
+const FluxType_1 = __webpack_require__(/*! ./FluxType */ "./src/flux_types/FluxType.ts");
+/**
+ * A row of the portal's Virtual Terminals table (change ticket #61, 2026-11-26).
+ *
+ * Exists so the standard table (`app-editable-table`, objectType "VirtualTerminal") can list
+ * terminals: `getObjects` reaches the backend's `getVirtualTerminalWeb` through `obName`.
+ * Read-only - `serialize()` returns only the id, and there is no create, update or delete
+ * endpoint behind this type (terminals are managed with Flux.manageVirtualTerminals).
+ */
+class VirtualTerminal extends FluxType_1.FluxType {
+    getDispName() {
+        return this.name || ("Terminal " + this.id);
+    }
+    serialize() {
+        return {
+            id: this.id,
+            objectType: this.objectType
+        };
+    }
+    constructor(data) {
+        super(data, VirtualTerminal);
+        this.obName = "VirtualTerminal";
+        // createdAt is declared on FluxType (epoch millis), which this row fills.
+        this.objectType = "virtual_terminal";
+        Object.assign(this, data);
+    }
+}
+exports.VirtualTerminal = VirtualTerminal;
+
+
+/***/ },
+
+/***/ "./src/flux_types/VirtualTerminalQuery.ts"
+/*!************************************************!*\
+  !*** ./src/flux_types/VirtualTerminalQuery.ts ***!
+  \************************************************/
+(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+exports.VirtualTerminalQuery = void 0;
+const BaseQuery_1 = __webpack_require__(/*! ./BaseQuery */ "./src/flux_types/BaseQuery.ts");
+const VirtualTerminal_1 = __webpack_require__(/*! ./VirtualTerminal */ "./src/flux_types/VirtualTerminal.ts");
+/**
+ * Query for the portal's Virtual Terminals table (change ticket #61, 2026-11-26). The server
+ * lists every terminal of the signed-in business; the query only carries the table's paging
+ * and sort, which BaseQuery adds.
+ */
+class VirtualTerminalQuery extends BaseQuery_1.BaseQuery {
+    serialize() {
+        return {
+            id: this.id,
+            objectType: this.objectType,
+        };
+    }
+    constructor(query) {
+        super(VirtualTerminal_1.VirtualTerminal);
+        this.objectType = "virtual_terminal";
+        Object.assign(this, query);
+    }
+    static createQuery(q) {
+        return new VirtualTerminalQuery(q);
+    }
+}
+exports.VirtualTerminalQuery = VirtualTerminalQuery;
+
+
+/***/ },
+
 /***/ "./src/flux_types/Wallet.ts"
 /*!**********************************!*\
   !*** ./src/flux_types/Wallet.ts ***!
@@ -79412,7 +79695,7 @@ exports.WalletQuery = WalletQuery;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.RecurringTransactionQuery = exports.RecurringTransaction = exports.InstallmentTransactionQuery = exports.InstallmentTransaction = exports.Product = exports.Transaction = exports.ProductQuery = exports.TransactionQuery = exports.PaymentMethodQuery = exports.AddressQuery = exports.AccountQuery = exports.PaymentMethod = exports.Address = exports.Account = exports.FluxIdentifier = exports.FluxType = exports.BaseQuery = exports.TransactionTotalsDailyQuery = exports.TransactionTotalsDaily = exports.AccountBusinessQuery = exports.AccountBusiness = exports.BusinessQuery = exports.Business = exports.DiscountQuery = exports.Discount = exports.TaxRatesQuery = exports.TaxRates = exports.TaxNexusTotalsQuery = exports.TaxNexusTotals = exports.OneTimePaymentLinkTransaction = exports.ObjectCountsQuery = exports.ObjectCounts = exports.NotificationQuery = exports.Notification = exports.QuickBooksIntegrationInformationQuery = exports.QuickBooksIntegrationInformation = exports.QuickBooksAuthUrlQuery = exports.QuickBooksAuthUrl = exports.MerchantQuery = exports.MerchantNetworkCountsQuery = exports.MerchantNetworkCounts = exports.MerchantAccessCredentialsQuery = exports.MerchantAccessCredentials = exports.Merchant = exports.GuestPaymentLinkQuery = exports.GuestPaymentLink = exports.EnabledStatesTaxQuery = exports.EnabledStatesTax = exports.EmailConfirmationQuery = exports.EmailConfirmation = void 0;
 exports.Conversation = exports.Card = exports.BankAccountQuery = exports.BankAccount = exports.UserQuery = exports.User = exports.PermissionsQuery = exports.Permissions = exports.AccountWithAddress = exports.AccountWithCustomerWallet = exports.AccountWithAddressQuery = exports.AccountWithCustomerWalletQuery = exports.EmissionData = exports.CustomerSensitiveData = exports.CustomerAddressDataQuery = exports.CustomerAddressData = exports.CustomerAccountDataQuery = exports.CustomerAccountData = exports.AddressDump = exports.ProductDump = exports.CustomerWalletQuery = exports.CustomerWallet = exports.CurrencyQuery = exports.Currency = exports.WalletQuery = exports.Wallet = exports.AccountAddressQuery = exports.AccountAddress = exports.TokenQuery = exports.Token = exports.ForthActivityEventQuery = exports.ForthActivityEvent = exports.ForthScheduledChargeQuery = exports.ForthScheduledCharge = exports.ForthClientMappingQuery = exports.ForthClientMapping = exports.MerchantForthCredentialsQuery = exports.MerchantForthCredentials = exports.CardCaptureFormQuery = exports.TransferQuery = exports.Transfer = exports.CardCaptureForm = exports.PaymentMethodOnFileQuery = exports.PaymentMethodOnFile = exports.ReusableLinkQuery = exports.ReusableLink = exports.InvoiceQuery = exports.Invoice = exports.PaymentLinkQuery = exports.PaymentLink = void 0;
-exports.DisputeQuery = exports.Dispute = exports.EmailLogQuery = exports.EmailLog = exports.EvidenceAttachmentQuery = exports.EvidenceAttachment = exports.EvidenceAddendumQuery = exports.EvidenceAddendum = exports.TransactionEvidenceQuery = exports.TransactionEvidence = exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = void 0;
+exports.VirtualTerminalQuery = exports.VirtualTerminal = exports.DisputeQuery = exports.Dispute = exports.EmailLogQuery = exports.EmailLog = exports.EvidenceAttachmentQuery = exports.EvidenceAttachment = exports.EvidenceAddendumQuery = exports.EvidenceAddendum = exports.TransactionEvidenceQuery = exports.TransactionEvidence = exports.TransactionProductQuery = exports.TransactionProduct = exports.AdditionalSearchOptions = exports.Subscription = exports.CustomerSensitiveDataQuery = exports.MessageQuery = exports.Message = exports.DailyReportQuery = exports.DailyReport = exports.ConversationQuery = void 0;
 var EmailConfirmation_1 = __webpack_require__(/*! ./EmailConfirmation */ "./src/flux_types/EmailConfirmation.ts");
 Object.defineProperty(exports, "EmailConfirmation", ({ enumerable: true, get: function () { return EmailConfirmation_1.EmailConfirmation; } }));
 var EmailConfirmationQuery_1 = __webpack_require__(/*! ./EmailConfirmationQuery */ "./src/flux_types/EmailConfirmationQuery.ts");
@@ -79654,6 +79937,11 @@ var Dispute_1 = __webpack_require__(/*! ./Dispute */ "./src/flux_types/Dispute.t
 Object.defineProperty(exports, "Dispute", ({ enumerable: true, get: function () { return Dispute_1.Dispute; } }));
 var DisputeQuery_1 = __webpack_require__(/*! ./DisputeQuery */ "./src/flux_types/DisputeQuery.ts");
 Object.defineProperty(exports, "DisputeQuery", ({ enumerable: true, get: function () { return DisputeQuery_1.DisputeQuery; } }));
+// Virtual terminals table rows (change ticket #61, 2026-11-26) - read-only.
+var VirtualTerminal_1 = __webpack_require__(/*! ./VirtualTerminal */ "./src/flux_types/VirtualTerminal.ts");
+Object.defineProperty(exports, "VirtualTerminal", ({ enumerable: true, get: function () { return VirtualTerminal_1.VirtualTerminal; } }));
+var VirtualTerminalQuery_1 = __webpack_require__(/*! ./VirtualTerminalQuery */ "./src/flux_types/VirtualTerminalQuery.ts");
+Object.defineProperty(exports, "VirtualTerminalQuery", ({ enumerable: true, get: function () { return VirtualTerminalQuery_1.VirtualTerminalQuery; } }));
 
 
 /***/ },
@@ -80064,6 +80352,24 @@ class FluxComms {
         });
     }
     /**
+     * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): amendment transactions
+     * (`createAmendment` -> `createAmendmentWeb`, change ticket #55). `action: 'preview'` totals
+     * the card fees booked on the viewed business's card payments between `from` and `to`;
+     * `action: 'create'` writes an AMENDMENT row (total 0, the fee correction in its Transaction
+     * Fee, negative = fee given back) with a required `reason`. The target is the act-as-resolved
+     * merchant; `merchantId` is a cross-check and is required to create.
+     *
+     * GOTCHA: needs the dist_web/lib.js rebuild before the portal can call it. Feature-detect it.
+     */
+    createAmendment(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { CreateAmendmentRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/CreateAmendmentRequest */ "./src/ajax/Requests/CreateAmendmentRequest.ts")));
+            const { CreateAmendmentResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/CreateAmendmentResponse */ "./src/ajax/Responses/CreateAmendmentResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(CreateAmendmentRequest, CreateAmendmentResponse, "createAmendment", "POST", isolatedHandle, opts);
+        });
+    }
+    /**
      * PLATFORM ADMINS ONLY (server-gated, `PartnerAccessGate.isAdmin`): turn 3-D Secure on the
      * payment page on or off for a business (`setMerchantThreeDsEnabled` ->
      * `setMerchantThreeDsEnabledWeb`). Same act-as targeting as `setMerchantAiEnabled`; turn it
@@ -80148,6 +80454,25 @@ class FluxComms {
             const { ManagePartnerAccessResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ManagePartnerAccessResponse */ "./src/ajax/Responses/ManagePartnerAccessResponse.ts")));
             const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
             return lib_1.CMMT.fetch(ManagePartnerAccessRequest, ManagePartnerAccessResponse, "managePartnerAccess", "POST", isolatedHandle, opts);
+        });
+    }
+    /**
+     * The business's virtual terminals (`manageVirtualTerminals` -> `manageVirtualTerminalsWeb`,
+     * change ticket #61): list, get (with history and orders), create, update, unlock,
+     * clearCardPause, endSessions, newLink, turnOff, turnOn, delete. The VIRTUAL_TERMINAL
+     * permission is checked in the service, and a refusal comes back as HTTP 200 with
+     * `ok: false` and a `message` to show as written. The password is sent as base64 of its
+     * UTF-8 bytes.
+     *
+     * GOTCHA: the portal runs the prebuilt dist_web/lib.js, so this does not exist at runtime
+     * until that bundle is rebuilt. Feature-detect it.
+     */
+    manageVirtualTerminals(opts) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { ManageVirtualTerminalsRequest } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Requests/ManageVirtualTerminalsRequest */ "./src/ajax/Requests/ManageVirtualTerminalsRequest.ts")));
+            const { ManageVirtualTerminalsResponse } = yield Promise.resolve().then(() => __importStar(__webpack_require__(/*! ../ajax/Responses/ManageVirtualTerminalsResponse */ "./src/ajax/Responses/ManageVirtualTerminalsResponse.ts")));
+            const isolatedHandle = this._securityHandle.clone ? this._securityHandle.clone() : this._securityHandle;
+            return lib_1.CMMT.fetch(ManageVirtualTerminalsRequest, ManageVirtualTerminalsResponse, "manageVirtualTerminals", "POST", isolatedHandle, opts);
         });
     }
     /** Does the signed-in merchant still have to accept the Merchant Services Agreement?
@@ -81155,6 +81480,31 @@ function fluxWebsiteSignInAuthorization(email, password, token) {
         }));
     });
 }
+/**
+ * The password-reset and set-password requests answer 401 by design: they never sign the
+ * browser in, and a PLAIN 401 is the handshake (the link was sent, the password was set).
+ * Since 2026-11-25 every refusal names itself in the 401's body (backend
+ * WebsiteSecurityHandle, PASSWORD_RECAPTCHA_REJECTED_MESSAGE and the messages beside it):
+ * reCAPTCHA rejected the request, the link could not be sent, the link no longer works, the
+ * password could not be set, or the new password could not be confirmed as saved. A refusal is
+ * recognised by these phrases, and success is never recognised by an exact text, so a reworded or
+ * translated message falls back to the old reading instead of showing a password that was set as
+ * a failure. The backend test PasswordResetAnswersTest reads this pattern and fails when the two
+ * drift.
+ */
+const PASSWORD_REQUEST_REFUSED = /recaptcha|could not send the link|no longer works|could not set your password|could not confirm/i;
+/** True for the handshake: a 401 whose body names no refusal. */
+function passwordRequestHandshake(e) {
+    var _a;
+    return !!e && e.status === 401 && !PASSWORD_REQUEST_REFUSED.test(String((_a = e.message) !== null && _a !== void 0 ? _a : ''));
+}
+/**
+ * Asks Flux to email a password link. Resolves true when the server took the request (it
+ * answers the same way whether or not the address has a login, so that is all "true" says).
+ * Rejects with the server's refusal (reCAPTCHA rejected the request, or the link could not be
+ * sent) or any other failure (another status, a network error), so the page can say no link went
+ * out (2026-11-25; it used to resolve true for every failure).
+ */
 function resetPassword(email, token) {
     return __awaiter(this, void 0, void 0, function* () {
         let fma = FluxTokenBackend_1.FluxTokenBackend.getFluxTokebBackendInstance();
@@ -81167,12 +81517,19 @@ function resetPassword(email, token) {
             yield fma.authorizeWebsiteUser();
         }
         catch (e) {
-            //Should error out with 401 unauthorized.
-            return true;
+            // The plain 401 is the handshake; anything else is a refusal or a failure.
+            if (passwordRequestHandshake(e))
+                return true;
+            throw e;
         }
         return false;
     });
 }
+/**
+ * Sets a new password with the code from an emailed link. Resolves true only when the server
+ * set it (the plain 401 handshake). Rejects with the server's refusal or any other failure
+ * (2026-11-25; see PASSWORD_REQUEST_REFUSED).
+ */
 function updatePassword(email, password, passwordResetCode, token) {
     return __awaiter(this, void 0, void 0, function* () {
         let fma = FluxTokenBackend_1.FluxTokenBackend.getFluxTokebBackendInstance();
@@ -81189,8 +81546,13 @@ function updatePassword(email, password, passwordResetCode, token) {
             yield fma.authorizeWebsiteUser();
         }
         catch (e) {
-            //Should error out with 401 unauthorized.
-            return true;
+            // The plain 401 is the handshake (the password was set). A named refusal (reCAPTCHA
+            // rejected the request, the link expired or was already used, the password could not be
+            // set) and any other failure are re-thrown, so the page never says a password was set when
+            // it was not (2026-11-25; it used to resolve true for every failure).
+            if (passwordRequestHandshake(e))
+                return true;
+            throw e;
         }
         return false;
     });

@@ -235,6 +235,32 @@ export async function fluxWebsiteSignInAuthorization(
   );
 }
 
+/**
+ * The password-reset and set-password requests answer 401 by design: they never sign the
+ * browser in, and a PLAIN 401 is the handshake (the link was sent, the password was set).
+ * Since 2026-11-25 every refusal names itself in the 401's body (backend
+ * WebsiteSecurityHandle, PASSWORD_RECAPTCHA_REJECTED_MESSAGE and the messages beside it):
+ * reCAPTCHA rejected the request, the link could not be sent, the link no longer works, the
+ * password could not be set, or the new password could not be confirmed as saved. A refusal is
+ * recognised by these phrases, and success is never recognised by an exact text, so a reworded or
+ * translated message falls back to the old reading instead of showing a password that was set as
+ * a failure. The backend test PasswordResetAnswersTest reads this pattern and fails when the two
+ * drift.
+ */
+const PASSWORD_REQUEST_REFUSED = /recaptcha|could not send the link|no longer works|could not set your password|could not confirm/i;
+
+/** True for the handshake: a 401 whose body names no refusal. */
+function passwordRequestHandshake(e: any): boolean {
+  return !!e && e.status === 401 && !PASSWORD_REQUEST_REFUSED.test(String(e.message ?? ''));
+}
+
+/**
+ * Asks Flux to email a password link. Resolves true when the server took the request (it
+ * answers the same way whether or not the address has a login, so that is all "true" says).
+ * Rejects with the server's refusal (reCAPTCHA rejected the request, or the link could not be
+ * sent) or any other failure (another status, a network error), so the page can say no link went
+ * out (2026-11-25; it used to resolve true for every failure).
+ */
 export async function resetPassword(
   email: string,
   token: string
@@ -257,14 +283,19 @@ export async function resetPassword(
   try {
     await fma.authorizeWebsiteUser();
   } catch (e) {
-    //Should error out with 401 unauthorized.
-
-    return true;
+    // The plain 401 is the handshake; anything else is a refusal or a failure.
+    if (passwordRequestHandshake(e)) return true;
+    throw e;
   }
 
   return false;
 }
 
+/**
+ * Sets a new password with the code from an emailed link. Resolves true only when the server
+ * set it (the plain 401 handshake). Rejects with the server's refusal or any other failure
+ * (2026-11-25; see PASSWORD_REQUEST_REFUSED).
+ */
 export async function updatePassword(
   email: string,
   password: string,
@@ -296,9 +327,12 @@ export async function updatePassword(
   try {
     await fma.authorizeWebsiteUser();
   } catch (e) {
-    //Should error out with 401 unauthorized.
-
-    return true;
+    // The plain 401 is the handshake (the password was set). A named refusal (reCAPTCHA
+    // rejected the request, the link expired or was already used, the password could not be
+    // set) and any other failure are re-thrown, so the page never says a password was set when
+    // it was not (2026-11-25; it used to resolve true for every failure).
+    if (passwordRequestHandshake(e)) return true;
+    throw e;
   }
 
   return false;
